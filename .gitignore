@@ -1,0 +1,41 @@
+# AutoDL runtime and local editor state
+.autodl/
+.Trash-0/
+.vscode/
+
+# Datasets and downloaded model weights
+data/
+src/models--*/
+src/.locks/
+src/fashionblip_cache/
+src/siglip2_weights/
+
+# Python/Jupyter caches
+**/__pycache__/
+**/*.py[cod]
+**/.ipynb_checkpoints/
+
+# Training outputs and model checkpoints
+src/checkpoints/
+**/*.pt
+**/*.pth
+**/*.pth.tar
+**/*.ckpt
+**/*.safetensors
+**/*.log
+
+# Generated experiment artifacts
+src/*.png
+src/*.jpg
+src/*.jpeg
+src/*.json
+
+# Scripts currently containing a plaintext API key
+src/generateModify.py
+src/generatetext.py
+src/generatetextbyimg.py
+
+# Miscellaneous
+*.tmp
+*.swp
+.DS_Store
