@@ -46,51 +46,6 @@ Rules:
 6. Return one JSON object only. Do not use Markdown or explanatory prose.
 """
 
-SCHEMA_EXAMPLE = {
-    "retain": [
-        {
-            "attribute": "long coat",
-            "category": "shape",
-            "region": "main garment",
-            "evidence": "reference_image",
-        }
-    ],
-    "remove": [
-        {
-            "attribute": "pink",
-            "category": "color",
-            "region": "main garment",
-            "evidence": "modification_text",
-        }
-    ],
-    "add": [
-        {
-            "attribute": "blue",
-            "category": "color",
-            "region": "main garment",
-            "evidence": "modification_text",
-        }
-    ],
-    "relations": [
-        {
-            "subject": "blue",
-            "relation": "replaces",
-            "object": "pink",
-        }
-    ],
-    "target_description": "a long blue coat",
-    "complexity": {
-        "level": "simple",
-        "score": 0.2,
-        "reason": "one color replacement",
-    },
-    "confidence": {
-        "score": 0.95,
-        "ambiguities": [],
-    },
-}
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate structured FashionIQ edit JSON with Qwen3-VL."
@@ -217,20 +172,47 @@ def load_fashioniq_queries(
 
 
 def build_user_prompt(modification_text: str) -> str:
-    schema = json.dumps(SCHEMA_EXAMPLE, ensure_ascii=False, indent=2)
     return f"""Inspect the reference image and parse this modification instruction:
 
 {modification_text}
 
-Return JSON with exactly this structure:
-{schema}
+Return a JSON object with these seven required top-level fields:
+- "retain": list of visible source properties that remain valid in the target.
+- "remove": list of source properties explicitly removed or replaced.
+- "add": list of desired target properties introduced by the instruction.
+- "relations": list of semantic relations such as replaces, less_than, more_than,
+  above, below, without, or instead_of.
+- "target_description": a non-empty, concise description of the resulting target.
+- "complexity": object with level, score, and reason.
+- "confidence": object with score and ambiguities.
+
+Every item in retain/remove/add must contain:
+{{"attribute": "specific phrase", "category": "allowed category",
+  "region": "affected garment region", "evidence": "reference_image or modification_text"}}
+
+Every relation must contain:
+{{"subject": "specific phrase", "relation": "specific relation",
+  "object": "specific phrase"}}
+
+Complexity must contain:
+{{"level": "simple, moderate, or complex", "score": 0.0, "reason": "specific reason"}}
+
+Confidence must contain:
+{{"score": 0.0, "ambiguities": ["specific unresolved issue"]}}
 
 Allowed category values:
 {", ".join(sorted(ATTRIBUTE_CATEGORIES))}
 
-The complexity score and confidence score must be numbers between 0 and 1.
-The evidence field must be either "reference_image" or "modification_text".
-If a list has no supported items, return an empty list.
+Mandatory requirements:
+1. Inspect the image and identify the main garment or object.
+2. At least one of "add" or "remove" must be non-empty.
+3. "target_description" must be non-empty and reflect every requested change.
+4. For comparative words such as longer, lighter, or less revealing, preserve the
+   comparison even if an exact absolute value cannot be inferred.
+5. Do not return placeholder values such as "string", "attribute", or empty text.
+6. If uncertain, record the issue in confidence.ambiguities instead of returning
+   an empty edit program.
+7. Return JSON only.
 """
 
 
@@ -328,6 +310,15 @@ def validate_edit_program(program: Any) -> list[str]:
         "target_description"
     ].strip():
         errors.append("target_description must be a non-empty string")
+    add_values = program.get("add")
+    remove_values = program.get("remove")
+    if (
+        isinstance(add_values, list)
+        and isinstance(remove_values, list)
+        and not add_values
+        and not remove_values
+    ):
+        errors.append("at least one of add or remove must be non-empty")
 
     complexity = program.get("complexity")
     if not isinstance(complexity, dict):
@@ -424,7 +415,7 @@ def load_qwen(args: argparse.Namespace) -> tuple[Any, Any, Any]:
     dtype = choose_dtype(torch)
     model = Qwen3VLForConditionalGeneration.from_pretrained(
         args.model,
-        torch_dtype=dtype,
+        dtype=dtype,
         device_map="auto",
         attn_implementation=args.attn_implementation,
         local_files_only=args.offline,
@@ -449,6 +440,7 @@ def generate_response(
     model: Any,
     input_device: Any,
     max_new_tokens: int,
+    correction: str | None = None,
 ) -> str:
     import torch
     from PIL import Image
@@ -458,6 +450,12 @@ def generate_response(
         raise FileNotFoundError(f"Reference image not found: {image_path}")
     image = Image.open(image_path).convert("RGB")
     messages = build_messages(record)
+    if correction:
+        messages[-1]["content"][-1]["text"] += (
+            "\n\nYour previous response failed validation:\n"
+            f"{correction}\n"
+            "Regenerate the entire JSON object from scratch and fix every listed error."
+        )
     text_input = processor.apply_chat_template(
         messages,
         tokenize=False,
@@ -566,6 +564,7 @@ def run_generation(args: argparse.Namespace) -> int:
         raw_response: str | None = None
         structured_edit: dict[str, Any] | None = None
         errors: list[str] = []
+        correction: str | None = None
 
         for attempt in range(args.max_retries + 1):
             try:
@@ -575,6 +574,7 @@ def run_generation(args: argparse.Namespace) -> int:
                     model,
                     input_device,
                     args.max_new_tokens,
+                    correction,
                 )
                 structured_edit = extract_json_object(raw_response)
                 errors = validate_edit_program(structured_edit)
@@ -582,6 +582,7 @@ def run_generation(args: argparse.Namespace) -> int:
                     break
             except Exception as exc:
                 errors = [f"{type(exc).__name__}: {exc}"]
+            correction = "; ".join(errors)
             if attempt < args.max_retries:
                 print(
                     f"retry query={record['query_id']} "
