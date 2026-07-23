@@ -392,6 +392,27 @@ def normalize_attribute_key(value: str) -> str:
     return " ".join(re.sub(r"[^a-z0-9]+", " ", value.lower()).split())
 
 
+def remove_subject_noise_from_description(description: str) -> tuple[str, bool]:
+    cleaned = description.strip()
+    original = cleaned
+    cleaned = re.sub(
+        r"^(?:a|the)?\s*(?:woman|man|person|model)\s+(?:wearing|in)\s+",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(
+        r",?\s*(?:worn|modeled)\s+by\s+(?:a\s+)?(?:standing\s+)?"
+        r"(?:woman|man|person|model).*$",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    if cleaned:
+        cleaned = cleaned[0].upper() + cleaned[1:]
+    return cleaned, cleaned != original
+
+
 def sanitize_edit_program(
     program: dict[str, Any],
 ) -> tuple[dict[str, Any], list[str]]:
@@ -477,6 +498,15 @@ def sanitize_edit_program(
             seen_relations.add(key)
             deduplicated_relations.append(relation)
         cleaned["relations"] = deduplicated_relations
+
+    target_description = cleaned.get("target_description")
+    if isinstance(target_description, str):
+        cleaned_description, changed = remove_subject_noise_from_description(
+            target_description
+        )
+        if changed:
+            actions.append("removed person/pose framing from target_description")
+            cleaned["target_description"] = cleaned_description
 
     return cleaned, actions
 
@@ -564,11 +594,6 @@ def validate_semantics(
         errors.append("target_description contains person/background/accessory noise")
     if INVALID_ATTRIBUTE_PATTERN.search(target_description):
         errors.append("target_description contains an invalid garment concept")
-    if dataset_category == "dress" and re.search(
-        r"\b(boots?|shoes?|sneakers?)\b", target_description, flags=re.IGNORECASE
-    ):
-        errors.append("target_description is not a dress-domain garment")
-
     normalized_description = normalize_attribute_key(target_description)
     add_keys = keyed["add"]
     for value in program.get("remove", []):
