@@ -58,7 +58,31 @@ python generate_structured_edits.py `
   --validate-only
 ```
 
-## 4. Recommended feasibility evaluation
+Validation reports schema errors and semantic errors separately. Semantic checks
+cover duplicate attributes, cross-field conflicts, irrelevant person/background
+details, incompatible target properties, and removed attributes that remain in
+the target description.
+
+## 4. Sanitize and repair an existing output
+
+Back up the JSON first, then run:
+
+```powershell
+python generate_structured_edits.py `
+  --fashioniq-root ../data/FashionIQ `
+  --category dress `
+  --split train `
+  --model Qwen/Qwen3-VL-8B-Instruct `
+  --repair-existing `
+  --limit 0
+```
+
+All selected samples receive deterministic deduplication and cleanup. Qwen is
+loaded only when semantic errors remain after cleanup, and receives only the
+reference image, modification text, previous JSON, and validation errors. The
+target image and target identifier remain excluded.
+
+## 5. Recommended feasibility evaluation
 
 Generate 50-100 samples spanning dresses, shirts, and tops/tees. Manually score:
 

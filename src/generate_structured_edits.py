@@ -32,6 +32,21 @@ ATTRIBUTE_CATEGORIES = {
     "other",
 }
 COMPLEXITY_LEVELS = {"simple", "moderate", "complex"}
+ATTRIBUTE_FIELDS = ("retain", "remove", "add")
+IRRELEVANT_RETAIN_PATTERN = re.compile(
+    r"\b(woman|man|person|model|standing|posing|pose|hair|heels?|footwear|"
+    r"shoes?|clutch|handbag|background|holding)\b",
+    flags=re.IGNORECASE,
+)
+IRRELEVANT_DESCRIPTION_PATTERN = re.compile(
+    r"\b(woman|man|person|model|standing|posing|hair|heels?|footwear|"
+    r"clutch|handbag|background|holding)\b",
+    flags=re.IGNORECASE,
+)
+INVALID_ATTRIBUTE_PATTERN = re.compile(
+    r"\b(not clothing|not a garment)\b",
+    flags=re.IGNORECASE,
+)
 
 SYSTEM_PROMPT = """You are a visual edit parser for composed image retrieval.
 Given ONLY a reference image and a natural-language modification instruction,
@@ -102,6 +117,20 @@ def parse_args() -> argparse.Namespace:
         "--validate-only",
         action="store_true",
         help="Validate an existing output file without loading Qwen.",
+    )
+    parser.add_argument(
+        "--repair-existing",
+        action="store_true",
+        help=(
+            "Sanitize and semantically validate an existing output, then use Qwen "
+            "only to repair samples that still contain semantic errors."
+        ),
+    )
+    parser.add_argument(
+        "--semantic-repair-retries",
+        type=int,
+        default=2,
+        help="Maximum Qwen repair attempts for each semantically invalid sample.",
     )
     parser.add_argument(
         "--omit-raw-response",
@@ -215,7 +244,12 @@ Mandatory requirements:
 5. Do not return placeholder values such as "string", "attribute", or empty text.
 6. If uncertain, record the issue in confidence.ambiguities instead of returning
    an empty edit program.
-7. Return JSON only.
+7. Focus only on the queried garment. Exclude people, poses, hair, background,
+   footwear, handbags, and other unrelated objects.
+8. The same attribute must not appear in more than one of retain/remove/add.
+9. If the instruction contains incompatible target properties, choose the most
+   specific consistent interpretation and record the conflict in ambiguities.
+10. Return JSON only.
 """
 
 
@@ -354,6 +388,206 @@ def validate_edit_program(program: Any) -> list[str]:
     return errors
 
 
+def normalize_attribute_key(value: str) -> str:
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", value.lower()).split())
+
+
+def sanitize_edit_program(
+    program: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    """Apply conservative deterministic cleanup without inventing attributes."""
+    cleaned = json.loads(json.dumps(program, ensure_ascii=False))
+    actions: list[str] = []
+
+    for field in ATTRIBUTE_FIELDS:
+        values = cleaned.get(field)
+        if not isinstance(values, list):
+            continue
+        deduplicated: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for value in values:
+            if not isinstance(value, dict):
+                deduplicated.append(value)
+                continue
+            key = normalize_attribute_key(str(value.get("attribute", "")))
+            if key and key in seen:
+                actions.append(f"removed duplicate {field}: {value.get('attribute')}")
+                continue
+            if key:
+                seen.add(key)
+            deduplicated.append(value)
+        cleaned[field] = deduplicated
+
+    retain_values = cleaned.get("retain")
+    if isinstance(retain_values, list):
+        filtered_retain = []
+        for value in retain_values:
+            attribute = str(value.get("attribute", "")) if isinstance(value, dict) else ""
+            if IRRELEVANT_RETAIN_PATTERN.search(attribute):
+                actions.append(f"removed irrelevant retain: {attribute}")
+                continue
+            filtered_retain.append(value)
+        cleaned["retain"] = filtered_retain
+
+    keyed: dict[str, dict[str, dict[str, Any]]] = {}
+    for field in ATTRIBUTE_FIELDS:
+        keyed[field] = {
+            normalize_attribute_key(str(value.get("attribute", ""))): value
+            for value in cleaned.get(field, [])
+            if isinstance(value, dict) and value.get("attribute")
+        }
+
+    retain_remove = set(keyed["retain"]) & set(keyed["remove"])
+    if retain_remove:
+        cleaned["retain"] = [
+            value
+            for value in cleaned["retain"]
+            if normalize_attribute_key(str(value.get("attribute", "")))
+            not in retain_remove
+        ]
+        for key in sorted(retain_remove):
+            actions.append(f"removed retain/remove overlap from retain: {key}")
+
+    retain_add = set(keyed["retain"]) & set(keyed["add"])
+    if retain_add:
+        cleaned["add"] = [
+            value
+            for value in cleaned["add"]
+            if normalize_attribute_key(str(value.get("attribute", "")))
+            not in retain_add
+        ]
+        for key in sorted(retain_add):
+            actions.append(f"removed redundant retain/add overlap from add: {key}")
+
+    relations = cleaned.get("relations")
+    if isinstance(relations, list):
+        deduplicated_relations: list[dict[str, Any]] = []
+        seen_relations: set[tuple[str, str, str]] = set()
+        for relation in relations:
+            if not isinstance(relation, dict):
+                deduplicated_relations.append(relation)
+                continue
+            key = tuple(
+                normalize_attribute_key(str(relation.get(name, "")))
+                for name in ("subject", "relation", "object")
+            )
+            if key in seen_relations:
+                actions.append(f"removed duplicate relation: {key}")
+                continue
+            seen_relations.add(key)
+            deduplicated_relations.append(relation)
+        cleaned["relations"] = deduplicated_relations
+
+    return cleaned, actions
+
+
+def detect_target_attribute_conflicts(program: dict[str, Any]) -> list[str]:
+    add_values = [
+        value for value in program.get("add", []) if isinstance(value, dict)
+    ]
+    add_text = " | ".join(
+        str(value.get("attribute", "")).lower()
+        for value in add_values
+    )
+    length_text = " | ".join(
+        str(value.get("attribute", "")).lower()
+        for value in add_values
+        if value.get("category") == "length"
+    )
+    errors: list[str] = []
+
+    sleeve_states = {
+        "sleeveless": bool(re.search(r"\b(sleeveless|no sleeves?)\b", add_text)),
+        "short sleeves": bool(re.search(r"\bshort sleeves?\b", add_text)),
+        "three-quarter sleeves": bool(
+            re.search(r"\b(3/4|three[- ]quarter) sleeves?\b", add_text)
+        ),
+        "long sleeves": bool(re.search(r"\blong sleeves?\b", add_text)),
+    }
+    active_sleeves = [name for name, active in sleeve_states.items() if active]
+    if len(active_sleeves) > 1:
+        errors.append(
+            "incompatible target sleeve attributes: " + ", ".join(active_sleeves)
+        )
+
+    has_strapless = bool(re.search(r"\bstrapless\b", add_text))
+    has_straps = bool(
+        re.search(r"\b(spaghetti|shoulder|thin|thick)?\s*straps?\b", add_text)
+    )
+    if has_strapless and has_straps:
+        errors.append("incompatible target attributes: strapless and straps")
+
+    length_states = {
+        "short/mini": bool(re.search(r"\b(short|shorter|mini)\b", length_text)),
+        "long/maxi/floor-length": bool(
+            re.search(r"\b(long|longer|maxi|floor[- ]length)\b", length_text)
+        ),
+    }
+    active_lengths = [name for name, active in length_states.items() if active]
+    if len(active_lengths) > 1:
+        errors.append(
+            "incompatible target length attributes: " + ", ".join(active_lengths)
+        )
+    return errors
+
+
+def validate_semantics(
+    program: dict[str, Any], dataset_category: str
+) -> list[str]:
+    errors: list[str] = []
+    keyed: dict[str, set[str]] = {}
+    for field in ATTRIBUTE_FIELDS:
+        keyed[field] = {
+            normalize_attribute_key(str(value.get("attribute", "")))
+            for value in program.get(field, [])
+            if isinstance(value, dict) and value.get("attribute")
+        }
+
+    for left, right in (("retain", "remove"), ("retain", "add"), ("remove", "add")):
+        overlap = sorted(keyed[left] & keyed[right])
+        if overlap:
+            errors.append(f"{left}/{right} overlap: {', '.join(overlap)}")
+
+    for field in ATTRIBUTE_FIELDS:
+        for value in program.get(field, []):
+            if not isinstance(value, dict):
+                continue
+            attribute = str(value.get("attribute", ""))
+            if INVALID_ATTRIBUTE_PATTERN.search(attribute):
+                errors.append(f"invalid garment attribute in {field}: {attribute}")
+            if field == "retain" and IRRELEVANT_RETAIN_PATTERN.search(attribute):
+                errors.append(f"irrelevant retain attribute: {attribute}")
+
+    target_description = str(program.get("target_description", ""))
+    if IRRELEVANT_DESCRIPTION_PATTERN.search(target_description):
+        errors.append("target_description contains person/background/accessory noise")
+    if INVALID_ATTRIBUTE_PATTERN.search(target_description):
+        errors.append("target_description contains an invalid garment concept")
+    if dataset_category == "dress" and re.search(
+        r"\b(boots?|shoes?|sneakers?)\b", target_description, flags=re.IGNORECASE
+    ):
+        errors.append("target_description is not a dress-domain garment")
+
+    normalized_description = normalize_attribute_key(target_description)
+    add_keys = keyed["add"]
+    for value in program.get("remove", []):
+        if not isinstance(value, dict):
+            continue
+        attribute = normalize_attribute_key(str(value.get("attribute", "")))
+        if (
+            len(attribute.split()) >= 2
+            and attribute
+            and attribute in normalized_description
+            and attribute not in add_keys
+        ):
+            errors.append(
+                f"target_description still contains removed attribute: {attribute}"
+            )
+
+    errors.extend(detect_target_attribute_conflicts(program))
+    return errors
+
+
 def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary_path = path.with_suffix(path.suffix + ".tmp")
@@ -387,6 +621,7 @@ def validate_output_file(path: Path) -> int:
     total = len(payload["samples"])
     invalid = 0
     failed = 0
+    semantic_invalid = 0
     for sample in payload["samples"]:
         if sample.get("status") != "ok":
             failed += 1
@@ -395,8 +630,21 @@ def validate_output_file(path: Path) -> int:
         if errors:
             invalid += 1
             print(f"{sample.get('query_id')}: {'; '.join(errors)}")
-    print(f"validated={total} valid={total-invalid-failed} invalid={invalid} failed={failed}")
-    return 1 if invalid else 0
+            continue
+        semantic_errors = validate_semantics(
+            sample["structured_edit"], str(sample.get("category", ""))
+        )
+        if semantic_errors:
+            semantic_invalid += 1
+            print(
+                f"{sample.get('query_id')} semantic: "
+                f"{'; '.join(semantic_errors)}"
+            )
+    print(
+        f"validated={total} schema_valid={total-invalid-failed} "
+        f"schema_invalid={invalid} semantic_invalid={semantic_invalid} failed={failed}"
+    )
+    return 1 if invalid or semantic_invalid or failed else 0
 
 
 def choose_dtype(torch_module: Any) -> Any:
@@ -444,6 +692,7 @@ def generate_response(
     input_device: Any,
     max_new_tokens: int,
     correction: str | None = None,
+    previous_program: dict[str, Any] | None = None,
 ) -> str:
     import torch
     from PIL import Image
@@ -454,10 +703,18 @@ def generate_response(
     image = Image.open(image_path).convert("RGB")
     messages = build_messages(record)
     if correction:
+        previous_json = (
+            "\n\nPrevious JSON to repair:\n"
+            + json.dumps(previous_program, ensure_ascii=False, indent=2)
+            if previous_program is not None
+            else ""
+        )
         messages[-1]["content"][-1]["text"] += (
             "\n\nYour previous response failed validation:\n"
             f"{correction}\n"
-            "Regenerate the entire JSON object from scratch and fix every listed error."
+            f"{previous_json}\n"
+            "Regenerate the entire JSON object from scratch and fix every listed error. "
+            "Do not copy a conflicting or irrelevant field from the previous JSON."
         )
     text_input = processor.apply_chat_template(
         messages,
@@ -486,6 +743,62 @@ def generate_response(
         skip_special_tokens=True,
         clean_up_tokenization_spaces=False,
     )[0].strip()
+
+
+def process_semantics(
+    record: dict[str, Any],
+    structured_edit: dict[str, Any],
+    args: argparse.Namespace,
+    processor: Any | None = None,
+    model: Any | None = None,
+    input_device: Any | None = None,
+) -> tuple[dict[str, Any], dict[str, Any], str | None]:
+    """Sanitize a program and optionally repair remaining semantic errors."""
+    current, actions = sanitize_edit_program(structured_edit)
+    errors = validate_semantics(current, record["category"])
+    repair_response: str | None = None
+    repair_attempts = 0
+
+    while (
+        errors
+        and processor is not None
+        and model is not None
+        and repair_attempts < args.semantic_repair_retries
+    ):
+        repair_attempts += 1
+        repair_response = generate_response(
+            record,
+            processor,
+            model,
+            input_device,
+            args.max_new_tokens,
+            correction="; ".join(errors),
+            previous_program=current,
+        )
+        try:
+            repaired = extract_json_object(repair_response)
+            schema_errors = validate_edit_program(repaired)
+            if schema_errors:
+                errors = [f"repair schema error: {error}" for error in schema_errors]
+                continue
+            current, repair_actions = sanitize_edit_program(repaired)
+            actions.extend(
+                f"repair attempt {repair_attempts}: {action}"
+                for action in repair_actions
+            )
+            errors = validate_semantics(current, record["category"])
+        except Exception as exc:
+            errors = [f"repair {type(exc).__name__}: {exc}"]
+
+    semantic_validation = {
+        "valid": not errors,
+        "errors": errors,
+        "sanitization_actions": actions,
+        "repair_attempts": repair_attempts,
+        "repaired": repair_attempts > 0 and not errors,
+        "target_was_provided_to_model": False,
+    }
+    return current, semantic_validation, repair_response
 
 
 def make_output_sample(
@@ -568,6 +881,8 @@ def run_generation(args: argparse.Namespace) -> int:
         structured_edit: dict[str, Any] | None = None
         errors: list[str] = []
         correction: str | None = None
+        semantic_validation: dict[str, Any] | None = None
+        repair_response: str | None = None
 
         for attempt in range(args.max_retries + 1):
             try:
@@ -593,6 +908,16 @@ def run_generation(args: argparse.Namespace) -> int:
                     file=sys.stderr,
                 )
 
+        if structured_edit is not None and not errors:
+            structured_edit, semantic_validation, repair_response = process_semantics(
+                record,
+                structured_edit,
+                args,
+                processor,
+                model,
+                input_device,
+            )
+
         sample = make_output_sample(
             record,
             structured_edit,
@@ -600,6 +925,14 @@ def run_generation(args: argparse.Namespace) -> int:
             errors,
             args.omit_raw_response,
         )
+        if semantic_validation is not None:
+            sample["semantic_validation"] = semantic_validation
+        if repair_response is not None and (
+            semantic_validation is None
+            or not semantic_validation["valid"]
+            or not args.omit_raw_response
+        ):
+            sample["semantic_repair_response"] = repair_response
         existing_by_id[record["query_id"]] = sample
         processed += 1
         print(
@@ -625,6 +958,91 @@ def run_generation(args: argparse.Namespace) -> int:
     return validate_output_file(output)
 
 
+def run_repair_existing(args: argparse.Namespace, output: Path) -> int:
+    payload = load_existing_output(output)
+    samples = payload["samples"]
+    selected = [
+        sample
+        for sample in samples
+        if sample.get("status") == "ok"
+        and sample.get("source_index", -1) >= args.start_index
+    ]
+    if args.limit > 0:
+        selected = selected[: args.limit]
+    if not selected:
+        print(f"No successful samples selected for semantic repair: {output}")
+        return validate_output_file(output)
+
+    flagged: list[dict[str, Any]] = []
+    for sample in selected:
+        schema_errors = validate_edit_program(sample.get("structured_edit"))
+        if schema_errors:
+            sample["semantic_validation"] = {
+                "valid": False,
+                "errors": [f"schema error: {error}" for error in schema_errors],
+                "sanitization_actions": [],
+                "repair_attempts": 0,
+                "repaired": False,
+                "target_was_provided_to_model": False,
+            }
+            continue
+        cleaned, semantic_validation, _ = process_semantics(
+            sample,
+            sample["structured_edit"],
+            args,
+        )
+        sample["structured_edit"] = cleaned
+        sample["semantic_validation"] = semantic_validation
+        if not semantic_validation["valid"]:
+            flagged.append(sample)
+
+    print(
+        f"semantic audit selected={len(selected)} "
+        f"flagged_for_qwen_repair={len(flagged)}"
+    )
+    atomic_write_json(output, payload)
+
+    if not flagged or args.semantic_repair_retries == 0:
+        return validate_output_file(output)
+
+    processor, model, input_device = load_qwen(args)
+    for index, sample in enumerate(flagged, start=1):
+        before_repair = json.loads(
+            json.dumps(sample["structured_edit"], ensure_ascii=False)
+        )
+        repaired, semantic_validation, repair_response = process_semantics(
+            sample,
+            sample["structured_edit"],
+            args,
+            processor,
+            model,
+            input_device,
+        )
+        sample["structured_edit_before_semantic_repair"] = before_repair
+        sample["structured_edit"] = repaired
+        sample["semantic_validation"] = semantic_validation
+        if repair_response is not None and (
+            not semantic_validation["valid"] or not args.omit_raw_response
+        ):
+            sample["semantic_repair_response"] = repair_response
+        print(
+            f"[{index}/{len(flagged)}] repair {sample['query_id']} "
+            f"valid={semantic_validation['valid']} "
+            f"attempts={semantic_validation['repair_attempts']}"
+        )
+        if index % args.checkpoint_every == 0 or index == len(flagged):
+            payload["generator"]["semantic_repair"] = {
+                "model": args.model,
+                "query_only_generation": True,
+                "selected": len(selected),
+                "flagged": len(flagged),
+            }
+            atomic_write_json(output, payload)
+            print(f"repair checkpoint: {output}")
+
+    return validate_output_file(output)
+
+
 def main() -> int:
     args = parse_args()
     if args.limit < 0:
@@ -635,6 +1053,8 @@ def main() -> int:
         raise ValueError("--checkpoint-every must be positive")
     if args.max_retries < 0:
         raise ValueError("--max-retries must be zero or positive")
+    if args.semantic_repair_retries < 0:
+        raise ValueError("--semantic-repair-retries must be zero or positive")
 
     output = (
         args.output.resolve()
@@ -645,6 +1065,8 @@ def main() -> int:
     )
     if args.validate_only:
         return validate_output_file(output)
+    if args.repair_existing:
+        return run_repair_existing(args, output)
     return run_generation(args)
 
 
