@@ -493,6 +493,7 @@ def detect_target_attribute_conflicts(program: dict[str, Any]) -> list[str]:
         str(value.get("attribute", "")).lower()
         for value in add_values
         if value.get("category") == "length"
+        and not re.search(r"\bsleeves?\b", str(value.get("attribute", "")), re.I)
     )
     errors: list[str] = []
 
@@ -579,6 +580,8 @@ def validate_semantics(
             and attribute
             and attribute in normalized_description
             and attribute not in add_keys
+            and f"no {attribute}" not in normalized_description
+            and f"without {attribute}" not in normalized_description
         ):
             errors.append(
                 f"target_description still contains removed attribute: {attribute}"
