@@ -81,7 +81,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--start-index", type=int, default=0)
     parser.add_argument("--checkpoint-every", type=int, default=5)
-    parser.add_argument("--max-new-tokens", type=int, default=768)
+    parser.add_argument("--max-new-tokens", type=int, default=1024)
     parser.add_argument("--max-retries", type=int, default=2)
     parser.add_argument(
         "--attn-implementation",
@@ -194,11 +194,14 @@ Every relation must contain:
 {{"subject": "specific phrase", "relation": "specific relation",
   "object": "specific phrase"}}
 
-Complexity must contain:
-{{"level": "simple, moderate, or complex", "score": 0.0, "reason": "specific reason"}}
+The "complexity" object must contain:
+- "level": one of simple, moderate, or complex;
+- "score": a calibrated number between 0 and 1, where larger means more complex;
+- "reason": a specific explanation.
 
-Confidence must contain:
-{{"score": 0.0, "ambiguities": ["specific unresolved issue"]}}
+The "confidence" object must contain:
+- "score": a calibrated number between 0 and 1, where larger means more certain;
+- "ambiguities": a list of specific unresolved issues, or an empty list.
 
 Allowed category values:
 {", ".join(sorted(ATTRIBUTE_CATEGORIES))}
