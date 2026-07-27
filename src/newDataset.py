@@ -429,10 +429,10 @@ class FashionIQ(torch.utils.data.Dataset):
         return output
 
     @staticmethod
-    def _attributes(items, limit=5):
+    def _attributes(items, limit):
         values = []
         for item in items or []:
-            attribute = str(item.get("attribute", "")).strip()
+            attribute = str(item.get("attribute", "")).strip()[:40]
             if attribute and attribute not in values:
                 values.append(attribute)
             if len(values) >= limit:
@@ -441,20 +441,24 @@ class FashionIQ(torch.utils.data.Dataset):
 
     @classmethod
     def _linearize_structured_edit(cls, structured_edit):
-        """Convert JSON slots to concise natural text suitable for CLIP."""
-        description = str(structured_edit.get("target_description", "")).strip()
-        additions = cls._attributes(structured_edit.get("add"))
-        removals = cls._attributes(structured_edit.get("remove"))
-        retained = cls._attributes(structured_edit.get("retain"), limit=3)
+        """Convert JSON slots to natural text that fits CLIP's 77 tokens.
+
+        Explicit changes are placed first so they cannot be lost if a future
+        generator emits an unusually verbose target description.
+        """
+        description = str(
+            structured_edit.get("target_description", "")
+        ).strip().rstrip(".")
+        description = " ".join(description.split()[:20])
+        additions = cls._attributes(structured_edit.get("add"), limit=2)
+        removals = cls._attributes(structured_edit.get("remove"), limit=1)
         clauses = []
-        if description:
-            clauses.append(f"Target garment: {description}")
         if additions:
-            clauses.append("Required additions: " + ", ".join(additions))
+            clauses.append("Add: " + ", ".join(additions))
         if removals:
-            clauses.append("Required removals: " + ", ".join(removals))
-        if retained:
-            clauses.append("Keep: " + ", ".join(retained))
+            clauses.append("Remove: " + ", ".join(removals))
+        if description:
+            clauses.append(f"Target: {description}")
         return ". ".join(clauses)
 
     def correct_text(self, text):
