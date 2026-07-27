@@ -33,12 +33,12 @@ class StructuredAdapter(nn.Module):
 
 
 class StructuredGate(nn.Module):
-    """Small gate based on agreement, edit magnitude, and Qwen confidence."""
+    """Predict whether structured text is useful for this image-query pair."""
 
     def __init__(self) -> None:
         super().__init__()
         self.network = nn.Sequential(
-            nn.Linear(3, 32),
+            nn.Linear(5, 32),
             nn.GELU(),
             nn.Linear(32, 1),
             nn.Sigmoid(),
@@ -50,11 +50,24 @@ class StructuredGate(nn.Module):
         self,
         baseline: torch.Tensor,
         structured: torch.Tensor,
+        image: torch.Tensor,
         confidence: torch.Tensor,
     ) -> torch.Tensor:
-        similarity = (baseline * structured).sum(dim=-1, keepdim=True)
+        text_similarity = (baseline * structured).sum(dim=-1, keepdim=True)
+        baseline_image = (baseline * image).sum(dim=-1, keepdim=True)
+        structured_image = (structured * image).sum(dim=-1, keepdim=True)
         distance = (structured - baseline).pow(2).mean(dim=-1, keepdim=True).sqrt()
-        return self.network(torch.cat([similarity, distance, confidence], dim=-1))
+        features = torch.cat(
+            [
+                text_similarity,
+                baseline_image,
+                structured_image,
+                distance,
+                confidence,
+            ],
+            dim=-1,
+        )
+        return self.network(features)
 
 
 class DQU_CIR(nn.Module):
@@ -196,7 +209,7 @@ class DQU_CIR(nn.Module):
         ).clamp(0.0, 1.0)
 
         predicted_gate = self.structured_gate(
-            baseline, structured, confidence
+            baseline, structured, image, confidence
         )
         structured_weight = (
             self.max_structured_weight * predicted_gate * confidence * mask
@@ -222,7 +235,11 @@ class DQU_CIR(nn.Module):
                 1.0 - (adapted_text * baseline).sum(dim=-1)
             ).clamp_min(0.0).detach(),
             "baseline_text": baseline,
+            "structured_text": structured,
+            "image_feature": image,
             "adapted_text": adapted_text,
+            "predicted_gate_for_loss": predicted_gate,
+            "mask_for_loss": mask,
         }
         return query, diagnostics
 
@@ -238,6 +255,8 @@ class DQU_CIR(nn.Module):
         structured_mask=None,
         structured_confidence=None,
         preservation_weight: float = 1.0,
+        gate_supervision_weight: float = 0.2,
+        gate_teacher_temperature: float = 0.1,
     ) -> dict[str, torch.Tensor]:
         query, diagnostics = self.extract_query(
             textual_query,
@@ -250,15 +269,69 @@ class DQU_CIR(nn.Module):
         target = self.extract_target(target_img)
         ranking = self.ranking_nce_loss(query, target)
         baseline_text = diagnostics.pop("baseline_text").detach()
+        structured_text = diagnostics.pop("structured_text").detach()
+        image_feature = diagnostics.pop("image_feature").detach()
         adapted_text = diagnostics.pop("adapted_text")
+        predicted_gate = diagnostics.pop("predicted_gate_for_loss")
+        valid_mask = diagnostics.pop("mask_for_loss")
         preservation = (
             1.0 - (adapted_text * baseline_text).sum(dim=-1)
         ).clamp_min(0.0).mean()
-        total = ranking + preservation_weight * preservation
+
+        # A detached per-sample teacher asks a concrete retrieval question:
+        # would replacing the raw modification with Qwen structured text lower
+        # this sample's in-batch NCE loss?  This prevents the gate from simply
+        # increasing on every sample as the adapter overfits.
+        with torch.no_grad():
+            text_weight = diagnostics["dqu_text_weight"].reshape(-1, 1)
+            baseline_query = F.normalize(
+                text_weight * baseline_text
+                + (1.0 - text_weight) * image_feature,
+                dim=-1,
+            )
+            structured_query = F.normalize(
+                text_weight * structured_text
+                + (1.0 - text_weight) * image_feature,
+                dim=-1,
+            )
+            labels = torch.arange(target.shape[0], device=target.device)
+            baseline_loss = F.cross_entropy(
+                self.loss_weight.detach() * (baseline_query @ target.t()),
+                labels,
+                reduction="none",
+            )
+            structured_loss = F.cross_entropy(
+                self.loss_weight.detach() * (structured_query @ target.t()),
+                labels,
+                reduction="none",
+            )
+            teacher_gate = torch.sigmoid(
+                (baseline_loss - structured_loss)
+                / max(float(gate_teacher_temperature), 1e-6)
+            ).reshape(-1, 1)
+
+        gate_bce = F.binary_cross_entropy(
+            predicted_gate.clamp(1e-6, 1.0 - 1e-6),
+            teacher_gate,
+            reduction="none",
+        )
+        gate_supervision = (gate_bce * valid_mask).sum() / valid_mask.sum().clamp_min(1.0)
+        total = (
+            ranking
+            + preservation_weight * preservation
+            + gate_supervision_weight * gate_supervision
+        )
         return {
             "loss": total,
             "ranking": ranking,
             "preservation": preservation,
+            "gate_supervision": gate_supervision,
+            "teacher_gate": (teacher_gate * valid_mask).sum()
+            / valid_mask.sum().clamp_min(1.0),
+            "teacher_helpful_rate": (
+                (teacher_gate >= 0.5).to(valid_mask.dtype) * valid_mask
+            ).sum()
+            / valid_mask.sum().clamp_min(1.0),
             **{name: value.mean() for name, value in diagnostics.items()},
         }
 

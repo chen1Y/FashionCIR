@@ -72,6 +72,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--adapter-rank", type=int, default=256)
     parser.add_argument("--max-structured-weight", type=float, default=0.25)
     parser.add_argument("--preservation-weight", type=float, default=1.0)
+    parser.add_argument("--gate-supervision-weight", type=float, default=0.2)
+    parser.add_argument("--gate-teacher-temperature", type=float, default=0.1)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--num-epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=1e-4)
@@ -273,6 +275,8 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
                 mask,
                 confidence,
                 preservation_weight=args.preservation_weight,
+                gate_supervision_weight=args.gate_supervision_weight,
+                gate_teacher_temperature=args.gate_teacher_temperature,
             )
             loss = losses["loss"]
         scaler.scale(loss).backward()
@@ -284,6 +288,8 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
             loss=f"{running_loss / steps:.4f}",
             rank=f"{float(losses['ranking'].detach()):.4f}",
             preserve=f"{float(losses['preservation'].detach()):.5f}",
+            gate=f"{float(losses['predicted_structured_gate'].detach()):.3f}",
+            teacher=f"{float(losses['teacher_gate'].detach()):.3f}",
             residual=f"{float(losses['adapter_residual_norm'].detach()):.4f}",
             dqu_text=f"{float(losses['dqu_text_weight'].detach()):.3f}",
         )
