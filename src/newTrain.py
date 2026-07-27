@@ -282,10 +282,10 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
         steps += 1
         progress.set_postfix(
             loss=f"{running_loss / steps:.4f}",
-            rank=f"{float(losses['ranking']):.4f}",
-            preserve=f"{float(losses['preservation']):.5f}",
-            residual=f"{float(losses['adapter_residual_norm']):.4f}",
-            dqu_text=f"{float(losses['dqu_text_weight']):.3f}",
+            rank=f"{float(losses['ranking'].detach()):.4f}",
+            preserve=f"{float(losses['preservation'].detach()):.5f}",
+            residual=f"{float(losses['adapter_residual_norm'].detach()):.4f}",
+            dqu_text=f"{float(losses['dqu_text_weight'].detach()):.3f}",
         )
     if not steps:
         raise RuntimeError("No training batches were processed")

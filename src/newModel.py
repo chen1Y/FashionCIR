@@ -220,7 +220,7 @@ class DQU_CIR(nn.Module):
             / mask.sum().clamp_min(1.0),
             "text_drift": (
                 1.0 - (adapted_text * baseline).sum(dim=-1)
-            ).detach(),
+            ).clamp_min(0.0).detach(),
             "baseline_text": baseline,
             "adapted_text": adapted_text,
         }
@@ -253,7 +253,7 @@ class DQU_CIR(nn.Module):
         adapted_text = diagnostics.pop("adapted_text")
         preservation = (
             1.0 - (adapted_text * baseline_text).sum(dim=-1)
-        ).mean()
+        ).clamp_min(0.0).mean()
         total = ranking + preservation_weight * preservation
         return {
             "loss": total,
