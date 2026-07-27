@@ -1,82 +1,144 @@
+"""FashionIQ retrieval evaluation for the structured-description model."""
+
+from __future__ import annotations
+
+from contextlib import nullcontext
+
 import numpy as np
 import torch
-from tqdm import tqdm as tqdm
-import torch.nn.functional as F
-from torch.cuda.amp import autocast
+from tqdm import tqdm
+
+
+def _autocast(device: torch.device):
+    if device.type == "cuda":
+        return torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+    return nullcontext()
+
+
+def _show_progress(params) -> bool:
+    return getattr(params, "local_rank", -1) in (-1, 0)
+
+
+def _batched(items, batch_size):
+    for start in range(0, len(items), batch_size):
+        yield items[start : start + batch_size]
+
 
 def test(params, model, testset, category):
-    # 切换到eval模式
+    """Compute FashionIQ R@1/R@10/R@50 over the configured gallery.
+
+    The source image is removed from each ranking.  Query and gallery features
+    are L2-normalized by the model, so their matrix product is cosine
+    similarity.  ``fashioniq_split=original-split`` uses the official full
+    validation gallery; ``val-split`` is only a smaller debugging gallery.
+    """
+
     model.eval()
-    (test_queries, test_targets, name) = (testset.test_queries, testset.test_targets, category)
-    with torch.no_grad():
-        all_queries = []
-        all_imgs = []
-        if test_queries:
-            # compute test query features
-            visual_query = []
-            textual_query = []
-            # 提取查询特征
-            for t in tqdm(test_queries, disable=False if params.local_rank == 0 else True):
-                visual_query += [t['visual_query']]
-                textual_query += [t['textual_query']]
-                
-                if len(visual_query) >= params.batch_size or t is test_queries[-1]:
-                    visual_query = torch.stack(visual_query).float().cuda()
-                    with autocast():
-                        f = model.extract_query(textual_query, visual_query)
-                    f = f.data.cpu().numpy()
-                    all_queries += [f]
+    device = next(model.parameters()).device
+    queries = testset.test_queries
+    eval_limit = int(getattr(params, "eval_limit", 0) or 0)
+    if eval_limit > 0:
+        queries = queries[:eval_limit]
+    targets = testset.test_targets
+    if not queries:
+        raise ValueError("No FashionIQ evaluation queries are available")
+    if not targets:
+        raise ValueError("No FashionIQ gallery images are available")
 
-                    visual_query = []
-                    textual_query = []
+    query_batches = []
+    target_weights = []
+    image_weights = []
+    with torch.inference_mode():
+        for batch in tqdm(
+            list(_batched(queries, params.batch_size)),
+            desc="query features",
+            disable=not _show_progress(params),
+        ):
+            images = torch.stack([item["visual_query"] for item in batch]).to(device)
+            raw_text = [item["textual_query"] for item in batch]
+            target_text = [item["target_description"] for item in batch]
+            mask = torch.tensor(
+                [item["has_target_description"] for item in batch],
+                device=device,
+                dtype=torch.bool,
+            )
+            if getattr(params, "disable_target_description", False):
+                mask.zero_()
+            with _autocast(device):
+                features, diagnostics = model.extract_query(
+                    raw_text,
+                    target_text,
+                    images,
+                    mask,
+                    return_diagnostics=True,
+                )
+            query_batches.append(features.float().cpu())
+            target_weights.append(diagnostics["target_weight"].float().cpu())
+            image_weights.append(diagnostics["image_weight"].float().cpu())
 
-            all_queries = np.concatenate(all_queries)
+        gallery_batches = []
+        for batch in tqdm(
+            list(_batched(targets, params.batch_size)),
+            desc="gallery features",
+            disable=not _show_progress(params),
+        ):
+            images = torch.stack([item["target_img_data"] for item in batch]).to(device)
+            with _autocast(device):
+                gallery_batches.append(model.extract_target(images).float().cpu())
 
-            # compute all image features
-            imgs = []
-            logits = []
-            # 提取目标图像特征
-            for t in tqdm(test_targets, disable=False if params.local_rank == 0 else True):
-                imgs += [t['target_img_data']]
-                if len(imgs) >= params.batch_size or t is test_targets[-1]:
-                    if 'torch' not in str(type(imgs[0])):
-                        imgs = [torch.from_numpy(d).float() for d in imgs]
-                    imgs = torch.stack(imgs).float().cuda()
-                    with autocast():
-                        imgs = model.extract_target(imgs)
-                    imgs = imgs.data.cpu().numpy()
-                    all_imgs += [imgs]
-                    imgs = []
-            all_imgs = np.concatenate(all_imgs)
+    query_features = torch.cat(query_batches)
+    gallery_features = torch.cat(gallery_batches)
+    similarities = query_features @ gallery_features.t()
 
-    # feature normalization
-    for i in range(all_queries.shape[0]):
-        all_queries[i, :] /= np.linalg.norm(all_queries[i, :])
-    for i in range(all_imgs.shape[0]):
-        all_imgs[i, :] /= np.linalg.norm(all_imgs[i, :])
-    
-    # match test queries to target images, get nearest neighbors
-    sims = all_queries.dot(all_imgs.T)
-    
-    test_targets_id = []
-    for i in test_targets:
-        test_targets_id.append(i['target_img_id'])
-    
-    if name != 'birds':
-        for i, t in enumerate(test_queries):
-            sims[i, test_targets_id.index(t['source_img_id'])] = -10e10
+    gallery_index = {}
+    for index, item in enumerate(targets):
+        image_id = item["target_img_id"]
+        if image_id in gallery_index:
+            raise ValueError(f"Duplicate gallery id: {image_id}")
+        gallery_index[image_id] = index
 
-    nn_result = [np.argsort(-sims[i, :])[:50] for i in range(sims.shape[0])]
+    target_positions = []
+    ranks = []
+    for row, query in enumerate(queries):
+        source_id = query["source_img_id"]
+        target_id = query["target_img_id"]
+        if source_id not in gallery_index or target_id not in gallery_index:
+            raise KeyError(
+                f"Query references an id outside the gallery: source={source_id}, "
+                f"target={target_id}"
+            )
+        similarities[row, gallery_index[source_id]] = -torch.inf
+        order = torch.argsort(similarities[row], descending=True)
+        target_position = gallery_index[target_id]
+        rank = int(torch.nonzero(order == target_position, as_tuple=False)[0, 0]) + 1
+        target_positions.append(target_position)
+        ranks.append(rank)
 
-    # compute recalls
-    # 计算召回率
-    out = []
-    for k in [1, 10, 50]:
-        r = 0.0
-        for i, nns in enumerate(nn_result):
-            if test_targets_id.index(test_queries[i]['target_img_id']) in nns[:k]:
-                r += 1
-        r = 100 * r / len(nn_result)
-        out += [('{}_r{}'.format(name, k), r)]
-
+    ranks_array = np.asarray(ranks)
+    out = [
+        (f"{category}_r{k}", float(np.mean(ranks_array <= k) * 100.0))
+        for k in (1, 10, 50)
+    ]
+    out.extend(
+        [
+            (f"{category}_median_rank", float(np.median(ranks_array))),
+            (f"{category}_mean_rank", float(np.mean(ranks_array))),
+            (
+                f"{category}_target_gate",
+                float(torch.cat(target_weights).mean().item()),
+            ),
+            (
+                f"{category}_image_gate",
+                float(torch.cat(image_weights).mean().item()),
+            ),
+            (
+                f"{category}_structured_coverage",
+                float(
+                    np.mean(
+                        [item["has_target_description"] for item in queries]
+                    )
+                ),
+            ),
+        ]
+    )
     return out

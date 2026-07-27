@@ -1,270 +1,302 @@
-import os 
-import argparse
-import logging
-import warnings 
-import random
+"""Train the structured-description FashionIQ retrieval gates."""
 
-import numpy as np 
-import torch 
-import torch.optim as optim 
-from torch.autograd import Variable
-from torch.utils.data import dataloader
+from __future__ import annotations
+
+import argparse
+import json
+import logging
+import os
+import random
+from contextlib import nullcontext
+from pathlib import Path
+
+import numpy as np
+import torch
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-import open_clip 
-import utils
-import datasets
 import newDataset
 import newModel
-import test
-
-from torch.cuda.amp import autocast as autocast, GradScaler
-
-import torch.distributed as dist
-import torch.multiprocessing as mp
-from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.utils.data.distributed import DistributedSampler
-from transformers import Qwen3VLForConditionalGeneration, AutoProcessor
-
-os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
-warnings.filterwarnings("ignore")
-torch.set_num_threads(2)
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--local_rank', default=os.getenv('LOCAL_RANK', -1), type=int)
-parser.add_argument('--dataset', default = 'dress', help = "data set type")
-parser.add_argument('--fashioniq_split', default = 'original-split')
-parser.add_argument('--fashioniq_path', default = '../data/FashionIQ')
-parser.add_argument('--shoes_path', default = '../data/Shoes')
-parser.add_argument('--fashion200k_path', default = '../data/Fashion200K')
-parser.add_argument('--cirr_path', default = '../data/CIRR')
-
-parser.add_argument('--optimizer', default = 'adamw')
-parser.add_argument('--batch_size', type=int, default=16)
-parser.add_argument('--num_epochs', type=int, default=100)
-parser.add_argument('--eps', type=float, default=1e-8)
-parser.add_argument('--weight_decay', type=float, default=1e-2)
-parser.add_argument('--dropout_rate', type=float, default=0.5)
-parser.add_argument('--hidden_dim', type=int, default=1024)
-
-parser.add_argument('--seed', type=int, default=42)   
-parser.add_argument('--lr', type=float, default=1e-4) 
-parser.add_argument('--clip_lr', type=float, default=1e-6) 
-
-parser.add_argument('--backbone', type=str, default='ViT-H-14')
-
-parser.add_argument('--lr_decay', type=int, default=8)
-parser.add_argument('--lr_div', type=float, default=0.1)  
-parser.add_argument('--max_decay_epoch', type=int, default=10)  
-parser.add_argument('--tolerance_epoch', type=int, default=5)
-
- 
-parser.add_argument('--model_dir', default='./checkpoints',
-                    help="Directory containing params.json")
-
-parser.add_argument('--save_summary_steps', type=int, default=5)
-parser.add_argument('--num_workers', type=int, default=8)
-parser.add_argument('--i', type=str, default='0')
-
-args = parser.parse_args()
+import newTest
 
 
-# 加载数据集
-def load_dataset():
-    # _, preprocess_train, preprocess_val = open_clip.create_model_and_transforms('ViT-H-14', pretrained=os.path.join('../models/laionCLIP-ViT-H-14-laion2B-s32B-b79K', 'open_clip_pytorch_model.bin'))
-    # 在加载数据时，用于将图片转化为向量的CLIP
-    _, preprocess_train, preprocess_val = open_clip.create_model_and_transforms('ViT-H-14', pretrained='laion2B-s32B-b79K')
-    # 加载Fashion-IQ数据集，返回一个只含一个元素的列表
-    if args.dataset in ['dress', 'shirt', 'toptee']:
-        print('Loading FashionIQ-{} dataset'.format(args.dataset))
-        fashioniq_dataset = newDataset.FashionIQ(path = args.fashioniq_path, category = args.dataset, transform = [preprocess_train, preprocess_val], split = args.fashioniq_split)
-        return [fashioniq_dataset]
-    elif args.dataset == 'shoes':
-        print('Reading shoes')
-        shoes_dataset = newDataset.Shoes(path = args.shoes_path, transform = [preprocess_train, preprocess_val])
-        return [shoes_dataset]
-    elif args.dataset == 'cirr':
-        print('Reading cirr')
-        cirr_dataset = newDataset.CIRR(path = args.cirr_path, transform = [preprocess_train, preprocess_val])
-        return [cirr_dataset]
-    elif args.dataset == 'fashion200k':
-        print('Reading fashion200k')
-        fashion200k_dataset = newDataset.Fashion200k(path = args.fashion200k_path, split = 'train', transform = [preprocess_train, preprocess_val])
-        fashion200k_testset = newDataset.Fashion200k(path = args.fashion200k_path, split = 'test', transform = [preprocess_train, preprocess_val])
-        return [fashion200k_dataset, fashion200k_testset]
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--local_rank", default=int(os.getenv("LOCAL_RANK", -1)), type=int)
+    parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee"))
+    parser.add_argument(
+        "--fashioniq_split",
+        default="original-split",
+        choices=("original-split", "val-split"),
+        help="Use original-split for reported metrics; val-split is only for debugging.",
+    )
+    parser.add_argument("--fashioniq_path", default="../data/FashionIQ")
+    parser.add_argument("--structured-train-path")
+    parser.add_argument("--structured-val-path")
+    parser.add_argument(
+        "--structured-only",
+        action="store_true",
+        help="Keep only queries that have a validated structured target description.",
+    )
+    parser.add_argument(
+        "--use-written-image",
+        action="store_true",
+        help="Reproduce the raw-data text-on-image baseline. Off by default.",
+    )
+
+    parser.add_argument("--clip-model", default="ViT-H-14")
+    parser.add_argument("--clip-pretrained", default="laion2B-s32B-b79K")
+    parser.add_argument(
+        "--clip-checkpoint",
+        help="Local OpenCLIP checkpoint. When set, no CLIP download is attempted.",
+    )
+    parser.add_argument("--clip-cache-dir", default="../model_cache")
+    parser.add_argument(
+        "--freeze-clip",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Freeze both OpenCLIP towers; recommended for the gate feasibility test.",
+    )
+    parser.add_argument("--initial-target-weight", type=float, default=0.25)
+    parser.add_argument("--initial-image-weight", type=float, default=0.25)
+    parser.add_argument(
+        "--disable-target-description",
+        action="store_true",
+        help="Ablation: force the structured-description gate to zero.",
+    )
+
+    parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument("--num-epochs", type=int, default=20)
+    parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--weight-decay", type=float, default=1e-2)
+    parser.add_argument("--dropout-rate", type=float, default=0.1)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--num-workers", type=int, default=4)
+    parser.add_argument("--patience", type=int, default=5)
+    parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--max-train-batches", type=int, default=0)
+    parser.add_argument("--eval-limit", type=int, default=0)
+    parser.add_argument("--model-dir", default="./checkpoints")
+    parser.add_argument("--run-name", default="structured_gate")
+    parser.add_argument("--resume", help="Load a gate checkpoint before training/evaluation.")
+    parser.add_argument("--eval-only", action="store_true")
+    return parser.parse_args()
 
 
-
-def set_bn_eval(m): 
-    classname = m.__class__.__name__ 
-    if classname.find('BatchNorm2d') != -1: 
-        m.eval() 
-
-# 创建模型及优化器
-def create_model_and_optimizer():
-    DQU_CIR_model = newModel.DQU_CIR(args.hidden_dim, args.dropout_rate)
-    DQU_CIR_model.cuda()
-
-    params = list(DQU_CIR_model.named_parameters())
-    param_group = [
-        {'params': [p for n, p in params if any(nd in n for nd in ['clip'])], 'lr': args.clip_lr},
-        {'params': [p for n, p in params if not any(nd in n for nd in ['clip'])], 'lr': args.lr},
-    ]
-    optimizer = torch.optim.AdamW(param_group, lr=args.lr, weight_decay = args.weight_decay)
-    return DQU_CIR_model, optimizer
+def set_seed(seed: int) -> None:
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
 
 
-# datalod
-def train(model, optimizer, dataloader, scaler):
+def autocast_context(device: torch.device):
+    if device.type == "cuda":
+        return torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+    return nullcontext()
+
+
+def default_structured_path(args: argparse.Namespace, split: str) -> str:
+    caption_dir = Path(args.fashioniq_path) / "captions"
+    canonical = caption_dir / f"structured_edits_{args.dataset}_{split}.json"
+    if canonical.exists() or split != "val":
+        return str(canonical)
+    limited = caption_dir / f"structured_edits_{args.dataset}_val_50.json"
+    return str(limited)
+
+
+def load_dataset(args: argparse.Namespace, transforms):
+    preprocess_train, preprocess_val = transforms
+    train_path = args.structured_train_path or default_structured_path(args, "train")
+    val_path = args.structured_val_path or default_structured_path(args, "val")
+    dataset = newDataset.FashionIQ(
+        path=args.fashioniq_path,
+        category=args.dataset,
+        transform=(preprocess_train, preprocess_val),
+        split=args.fashioniq_split,
+        structured_train_path=train_path,
+        structured_val_path=val_path,
+        structured_only=args.structured_only,
+        use_written_image=args.use_written_image,
+    )
+    logging.info(
+        "FashionIQ train=%d val_queries=%d gallery=%d train_structured=%.3f "
+        "val_structured=%.3f",
+        len(dataset),
+        len(dataset.test_queries),
+        len(dataset.test_targets),
+        dataset.train_structured_coverage,
+        dataset.val_structured_coverage,
+    )
+    return dataset
+
+
+def create_model_and_optimizer(args: argparse.Namespace, device: torch.device):
+    model = newModel.DQU_CIR(
+        dropout=args.dropout_rate,
+        clip_model=args.clip_model,
+        clip_pretrained=args.clip_pretrained,
+        clip_checkpoint=args.clip_checkpoint,
+        clip_cache_dir=args.clip_cache_dir,
+        freeze_clip=args.freeze_clip,
+        initial_target_weight=args.initial_target_weight,
+        initial_image_weight=args.initial_image_weight,
+    ).to(device)
+    trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    if not trainable:
+        raise RuntimeError("The model has no trainable parameters")
+    optimizer = torch.optim.AdamW(
+        trainable,
+        lr=args.lr,
+        weight_decay=args.weight_decay,
+    )
+    logging.info(
+        "trainable_parameters=%d total_parameters=%d",
+        sum(parameter.numel() for parameter in trainable),
+        sum(parameter.numel() for parameter in model.parameters()),
+    )
+    return model, optimizer
+
+
+def train_one_epoch(args, model, optimizer, loader, device, epoch):
     model.train()
-    model.apply(set_bn_eval)
-    summ = []
-    loss_avg = utils.RunningAverage()
-    with tqdm(total=len(dataloader)) as t:
-        for i, data in enumerate(dataloader):
-            # if i >= 10:
-            #     break
-
-            target_img = data['target_img_data'].cuda()
-            textual_query = data['textual_query']
-            visual_query = data['visual_query'].cuda() 
-            visual_query_raw = data['visual_query_raw'].cuda()  # 获取原始图像
-            original_text = data['original_text']  # 获取原始文本
-            # print("visual_query shape: ", visual_query.shape)
-            optimizer.zero_grad()
-            with autocast(dtype=torch.bfloat16):  # 这里暂时禁用混合精度训练
-                loss = model.compute_loss(textual_query, visual_query, target_img, original_text, visual_query_raw)  # 将原始文本传递给compute_loss
-                total_loss = loss['ranking']
-
-            total_loss.backward()
-            optimizer.step()    
-
-            if i % args.save_summary_steps == 0:
-                summary_batch = {}
-                summary_batch['total_loss'] = total_loss.item()
-                summ.append(summary_batch)
-            loss_avg.update(total_loss.item())
-            t.set_postfix(loss='{:05.3f}'.format(loss_avg()))
-            t.update()
-
-
-# 训练及评估
-def train_and_evaluate(model, optimizer, dataset_list):
-    if args.dataset == 'fashion200k':
-        fashion200k_testset = dataset_list.pop(-1)
-    trainloader = dataloader.DataLoader(dataset_list[0],
-                                batch_size = args.batch_size,
-                                shuffle = True,
-                                num_workers=args.num_workers)
-
-
-    best_score = float('-inf')
-    tolerance = 0
-    scaler = GradScaler(enabled=False)  # 这里暂时禁用混合精度训练
-    epoches = args.num_epochs
-
-    for epoch in range(epoches):
-
-        tolerance = tolerance + 1
-        if epoch != 0 and (epoch+1) % args.lr_decay == 0 and epoch < args.max_decay_epoch:
-            for g in optimizer.param_groups:
-                g['lr'] *= args.lr_div
-
-        logging.info("Epoch {}/{}".format(epoch + 1, epoches))
-        train(model, optimizer, trainloader, scaler)
-
-        current_score = 0
-        if tolerance < args.tolerance_epoch:
-            # 测试FashionIQ上
-            if args.dataset in ['dress', 'shirt', 'toptee', 'shoes']:
-                with torch.no_grad():
-                    t = test.test(args, model, dataset_list[0], args.dataset)
-                logging.info(t)
-                current_score = current_score + t[1][1] + t[2][1]
-
-            
-            elif args.dataset in ['fashion200k']:
-                t = test.test_fashion200k_dataset(args, model, fashion200k_testset)
-                logging.info(t)
-                current_score = current_score + t[0][1] + t[1][1] + t[2][1]
-            
-            elif args.dataset in ['cirr']:
-                t = test.test_cirr_valset(args, model, dataset_list[0])
-                logging.info(t)
-                current_score = current_score + t[0][1] + t[1][1] + t[2][1] + t[3][1] + t[4][1] + t[5][1] + t[6][1] # mean best
-            
-            if current_score > best_score:
-                best_score = current_score
-                tolerance = 0
-                best_json_path = os.path.join(
-                    args.model_dir, "{}_{}_metrics_best.json".format(args.dataset, args.i))
-                test_metrics = {}
-                for metric_name, metric_value in t:
-                    test_metrics[metric_name] = metric_value
-
-                utils.save_dict_to_json(test_metrics, best_json_path)
-                # save model
-                if args.dataset == 'cirr':
-                    torch.save(model, os.path.join(args.model_dir, "{}_{}_best_model.pt".format(args.dataset, args.i)))
-        else:
+    running_loss = 0.0
+    steps = 0
+    progress = tqdm(loader, desc=f"train epoch {epoch}")
+    for batch_index, data in enumerate(progress):
+        if args.max_train_batches > 0 and batch_index >= args.max_train_batches:
             break
+        target_img = data["target_img_data"].to(device, non_blocking=True)
+        visual_query = data["visual_query"].to(device, non_blocking=True)
+        description_mask = data["has_target_description"].to(device)
+        if args.disable_target_description:
+            description_mask = torch.zeros_like(description_mask)
+
+        optimizer.zero_grad(set_to_none=True)
+        with autocast_context(device):
+            losses = model.compute_loss(
+                data["textual_query"],
+                data["target_description"],
+                visual_query,
+                target_img,
+                description_mask,
+            )
+            loss = losses["ranking"]
+        loss.backward()
+        optimizer.step()
+
+        steps += 1
+        running_loss += float(loss.detach())
+        progress.set_postfix(
+            loss=f"{running_loss / steps:.4f}",
+            target_gate=f"{float(losses['target_weight']):.3f}",
+            image_gate=f"{float(losses['image_weight']):.3f}",
+        )
+    if steps == 0:
+        raise RuntimeError("No training batches were processed")
+    return running_loss / steps
 
 
-if __name__ == '__main__':
-
-    # Load the parameters from json file
-
-    print('Arguments:')
-    for k in args.__dict__.keys():
-        print('    ', k, ':', str(args.__dict__[k]))
-
-    # seed = args.seed
-    # random.seed(seed)
-    # torch.manual_seed(seed)
-    # torch.cuda.manual_seed(seed)
-    # torch.cuda.manual_seed_all(seed)  
-    # np.random.seed(seed)  # Numpy module.
-    # torch.backends.cudnn.benchmark = False
-    # torch.backends.cudnn.deterministic = True
-    if not os.path.exists(args.model_dir):
-        os.makedirs(args.model_dir)
-
-    utils.set_logger(os.path.join(args.model_dir, '{}_{}_train.log'.format(args.dataset, args.i)))
-    logging.info('Loading the datasets and model...')
-    # fetch dataloaders
-
-    # 加载数据集
-    dataset_list = load_dataset()
-    # print(dataset_list[0])
-
-    trainloader = dataloader.DataLoader(dataset_list[0],
-                                batch_size = args.batch_size,
-                                shuffle = True,
-                                num_workers=args.num_workers)
-    # batch = next(iter(trainloader))  # 获取第一个批次
-    # print(batch)
-    # qwen_processor = AutoProcessor.from_pretrained("Qwen/Qwen3-VL-8B-Instruct")
-    # with tqdm(total=len(trainloader)) as t:
-    #     for i, data in enumerate(trainloader):
-    #         target_img = data['target_img_data'].cuda()
-    #         textual_query = data['textual_query']
-    #         visual_query = data['visual_query']
-    #         img_path = data['source_img_path']
-    #         # print("img_path: ", img_path)
-    #         visual_query = visual_query.squeeze(0)
-    #         # print("visual_query shape: ", visual_query.shape)
-    #         # print("visual_query: ", visual_query)
-    #         test_qwen = qwen_processor(
-    #             text=["describe this image"],  # 示例文本输入
-    #             images=visual_query,
-    #             return_tensors="pt",
-    #             padding=True,
-    #             truncation=True
-    #         )
-    #         print("test_qwen: ", test_qwen)
-    #         break
+def save_checkpoint(args, model, optimizer, epoch, metrics):
+    model_dir = Path(args.model_dir)
+    model_dir.mkdir(parents=True, exist_ok=True)
+    if args.freeze_clip:
+        model_state = {
+            name: tensor.detach().cpu()
+            for name, tensor in model.state_dict().items()
+            if not name.startswith("clip.")
+        }
+    else:
+        model_state = {name: tensor.detach().cpu() for name, tensor in model.state_dict().items()}
+    checkpoint = {
+        "epoch": epoch,
+        "model_state": model_state,
+        "optimizer_state": optimizer.state_dict(),
+        "metrics": dict(metrics),
+        "config": vars(args),
+        "clip_weights_included": not args.freeze_clip,
+    }
+    path = model_dir / f"{args.dataset}_{args.run_name}_best.pt"
+    torch.save(checkpoint, path)
+    with (model_dir / f"{args.dataset}_{args.run_name}_best.json").open(
+        "w", encoding="utf-8"
+    ) as handle:
+        json.dump(dict(metrics), handle, indent=2)
+    return path
 
 
-    model, optimizer = create_model_and_optimizer()
-    logging.info("Starting train for {} epoch(s)".format(args.num_epochs))
-    train_and_evaluate(model, optimizer, dataset_list)
+def load_checkpoint(path, model, optimizer=None):
+    checkpoint = torch.load(path, map_location="cpu")
+    model_state = checkpoint.get("model_state", checkpoint)
+    incompatible = model.load_state_dict(model_state, strict=False)
+    unexpected = list(incompatible.unexpected_keys)
+    missing_non_clip = [
+        key for key in incompatible.missing_keys if not key.startswith("clip.")
+    ]
+    if unexpected or missing_non_clip:
+        raise RuntimeError(
+            f"Checkpoint mismatch: missing={missing_non_clip}, unexpected={unexpected}"
+        )
+    if optimizer is not None and "optimizer_state" in checkpoint:
+        optimizer.load_state_dict(checkpoint["optimizer_state"])
+    return checkpoint
+
+
+def train_and_evaluate(args, model, optimizer, dataset, device):
+    loader = DataLoader(
+        dataset,
+        batch_size=args.batch_size,
+        shuffle=True,
+        num_workers=args.num_workers,
+        pin_memory=device.type == "cuda",
+        drop_last=len(dataset) >= args.batch_size,
+    )
+    best_score = float("-inf")
+    stale_epochs = 0
+    for epoch in range(1, args.num_epochs + 1):
+        loss = train_one_epoch(args, model, optimizer, loader, device, epoch)
+        logging.info("epoch=%d train_loss=%.6f", epoch, loss)
+        if epoch % args.eval_every != 0:
+            continue
+
+        metrics = newTest.test(args, model, dataset, args.dataset)
+        metric_dict = dict(metrics)
+        logging.info("epoch=%d metrics=%s", epoch, metric_dict)
+        score = metric_dict[f"{args.dataset}_r10"] + metric_dict[f"{args.dataset}_r50"]
+        if score > best_score:
+            best_score = score
+            stale_epochs = 0
+            path = save_checkpoint(args, model, optimizer, epoch, metrics)
+            logging.info("saved_best=%s score=%.4f", path, score)
+        else:
+            stale_epochs += 1
+            if stale_epochs >= args.patience:
+                logging.info("early_stop epoch=%d best_score=%.4f", epoch, best_score)
+                break
+
+
+def main() -> None:
+    args = parse_args()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+    )
+    set_seed(args.seed)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    logging.info("arguments=%s", vars(args))
+    logging.info("device=%s", device)
+    model, optimizer = create_model_and_optimizer(args, device)
+    dataset = load_dataset(args, (model.preprocess_train, model.preprocess_val))
+    if args.resume:
+        checkpoint = load_checkpoint(args.resume, model, None if args.eval_only else optimizer)
+        logging.info("loaded_checkpoint=%s epoch=%s", args.resume, checkpoint.get("epoch"))
+    if args.eval_only:
+        metrics = newTest.test(args, model, dataset, args.dataset)
+        logging.info("eval_metrics=%s", dict(metrics))
+        print(json.dumps(dict(metrics), indent=2))
+        return
+    train_and_evaluate(args, model, optimizer, dataset, device)
+
+
+if __name__ == "__main__":
+    main()

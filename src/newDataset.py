@@ -12,6 +12,7 @@ import pathlib
 import random
 import cv2
 import base64
+from PIL import Image
 
 # 对象序列化
 def save_obj(obj, path):
@@ -71,7 +72,7 @@ def draw_text_line(img, point, text_line: str, drawType="custom"):
     return img
     
 #FashionIQ数据集，transform为CLIP
-class FashionIQ(torch.utils.data.Dataset):
+class LegacyFashionIQ(torch.utils.data.Dataset):
     def __init__(self, path, category, transform=None, split='val-split'):
         super().__init__()
 
@@ -305,6 +306,260 @@ class FashionIQ(torch.utils.data.Dataset):
                 test_targets.append(out)
         return test_queries, test_targets
 
+
+
+class FashionIQ(torch.utils.data.Dataset):
+    """FashionIQ loader with optional offline Qwen target descriptions.
+
+    Unlike ``LegacyFashionIQ``, this loader uses the same modification text in
+    training and validation, uses the unmodified reference image by default,
+    and identifies images by their FashionIQ string ids instead of repeated
+    ``list.index`` lookups.
+    """
+
+    def __init__(
+        self,
+        path,
+        category,
+        transform=None,
+        split="original-split",
+        structured_train_path=None,
+        structured_val_path=None,
+        structured_only=False,
+        use_written_image=False,
+    ):
+        super().__init__()
+        if split not in ("original-split", "val-split"):
+            raise ValueError("split must be 'original-split' or 'val-split'")
+        if transform is None or len(transform) != 2:
+            raise ValueError("transform must contain train and validation transforms")
+
+        self.path = os.path.abspath(path)
+        self.category = category
+        self.image_dir = os.path.join(self.path, "resized_image")
+        self.split_dir = os.path.join(self.path, "image_splits")
+        self.caption_dir = os.path.join(self.path, "captions")
+        self.transform = transform
+        self.split = split
+        self.structured_only = structured_only
+        self.use_written_image = use_written_image
+        self.correction_dict = self._load_json(
+            os.path.join(self.caption_dir, f"correction_dict_{category}.json"),
+            default={},
+        )
+        self.key_words = (
+            self._load_json(
+                os.path.join(self.caption_dir, f"keywords_in_mods_{category}.json"),
+                default={},
+            )
+            if use_written_image
+            else {}
+        )
+
+        self.structured_train = self._load_structured(structured_train_path, "train")
+        self.structured_val = self._load_structured(structured_val_path, "val")
+        self.train_data = self._load_queries("train")
+        train_count_before_filter = len(self.train_data)
+        train_structured_count = sum(
+            (item["candidate"], item["target"]) in self.structured_train
+            for item in self.train_data
+        )
+        self.train_structured_coverage = (
+            train_structured_count / train_count_before_filter
+            if train_count_before_filter
+            else 0.0
+        )
+        if structured_only:
+            self.train_data = [
+                item
+                for item in self.train_data
+                if (item["candidate"], item["target"]) in self.structured_train
+            ]
+        self.test_queries, self.test_targets = self.get_test_data()
+
+    @staticmethod
+    def _load_json(path, default=None):
+        if not path or not os.path.exists(path):
+            return default
+        with open(path, "r", encoding="utf-8") as handle:
+            return json.load(handle)
+
+    def _load_structured(self, path, expected_split):
+        payload = self._load_json(path, default={})
+        samples = payload.get("samples", []) if isinstance(payload, dict) else payload
+        output = {}
+        for sample in samples or []:
+            if sample.get("category") != self.category:
+                continue
+            if sample.get("split") != expected_split:
+                continue
+            if sample.get("status") != "ok":
+                continue
+            if not sample.get("validation", {}).get("valid", False):
+                continue
+            if not sample.get("semantic_validation", {}).get("valid", False):
+                continue
+            description = str(
+                sample.get("structured_edit", {}).get("target_description", "")
+            ).strip()
+            if not description:
+                continue
+            key = (sample["candidate"], sample["target"])
+            if key in output:
+                raise ValueError(f"Duplicate structured edit for {key}")
+            output[key] = description
+        return output
+
+    def correct_text(self, text):
+        translation = str.maketrans({key: " " for key in string.punctuation})
+        tokens = str(text).lower().translate(translation).strip().split()
+        return " ".join(self.correction_dict.get(token, token) for token in tokens)
+
+    def concat_text(self, captions):
+        return " and ".join(self.correct_text(caption) for caption in captions)
+
+    def _load_queries(self, split):
+        path = os.path.join(self.caption_dir, f"cap.{self.category}.{split}.json")
+        payload = self._load_json(path, default=[])
+        return [
+            {
+                "candidate": item["candidate"],
+                "target": item["target"],
+                "modification_text": self.concat_text(item["captions"]),
+                "source_index": index,
+            }
+            for index, item in enumerate(payload)
+        ]
+
+    def __len__(self):
+        return len(self.train_data)
+
+    def _description_for(self, candidate, target, split, fallback):
+        mapping = self.structured_train if split == "train" else self.structured_val
+        description = mapping.get((candidate, target))
+        return (description or fallback), description is not None
+
+    def __getitem__(self, index):
+        item = self.train_data[index]
+        candidate = item["candidate"]
+        target = item["target"]
+        modification = item["modification_text"]
+        description, has_description = self._description_for(
+            candidate, target, "train", modification
+        )
+        target_image, target_path = self.get_img(target, stage=0)
+        source_image, source_path = self.get_query_img(candidate, target, stage=0)
+        return {
+            "target_img_data": target_image,
+            "target_img_path": target_path,
+            "visual_query": source_image,
+            "source_img_path": source_path,
+            "textual_query": modification,
+            "target_description": description,
+            "has_target_description": has_description,
+            "candidate": candidate,
+            "target": target,
+            "mod": {"str": modification},
+        }
+
+    def _image_id(self, image_name):
+        prefix = f"{self.category}_"
+        return image_name[len(prefix) :] if image_name.startswith(prefix) else image_name
+
+    def get_img(self, image_name, stage=0):
+        image_id = self._image_id(image_name)
+        image_path = os.path.join(self.image_dir, f"{image_id}.jpg")
+        with Image.open(image_path) as image:
+            image = image.convert("RGB")
+            tensor = self.transform[stage](image)
+        return tensor, image_path
+
+    def get_query_img(self, candidate, target, stage=0):
+        if not self.use_written_image:
+            return self.get_img(candidate, stage=stage)
+        return self.get_written_img(candidate, target, stage=stage)
+
+    def get_written_img(self, candidate, target, stage=0):
+        candidate_id = self._image_id(candidate)
+        target_id = self._image_id(target)
+        image_path = os.path.join(self.image_dir, f"{candidate_id}.jpg")
+        keyword_entry = self.key_words.get(f"{candidate_id}_{target_id}", [])
+        if not keyword_entry:
+            return self.get_img(candidate_id, stage=stage)
+        keyword = keyword_entry[-1]
+        candidate_image = cv2.imread(image_path)
+        if candidate_image is None:
+            raise FileNotFoundError(image_path)
+        candidate_image = cv2.resize(candidate_image, (512, 512))
+        written_image = draw_text_line(candidate_image, (15, 15), keyword)
+        written_image = cv2.cvtColor(written_image, cv2.COLOR_BGR2RGB).astype(np.uint8)
+        tensor = self.transform[stage](Image.fromarray(written_image))
+        return tensor, image_path
+
+    def get_test_data(self):
+        images = self._load_json(
+            os.path.join(self.split_dir, f"split.{self.category}.val.json"),
+            default=[],
+        )
+        validation_data = self._load_queries("val")
+        original_query_count = len(validation_data)
+        structured_count = sum(
+            (item["candidate"], item["target"]) in self.structured_val
+            for item in validation_data
+        )
+        self.val_structured_coverage = (
+            structured_count / original_query_count if original_query_count else 0.0
+        )
+        if self.structured_only:
+            validation_data = [
+                item
+                for item in validation_data
+                if (item["candidate"], item["target"]) in self.structured_val
+            ]
+
+        queries = []
+        for item in validation_data:
+            candidate = item["candidate"]
+            target = item["target"]
+            modification = item["modification_text"]
+            description, has_description = self._description_for(
+                candidate, target, "val", modification
+            )
+            source_image, source_path = self.get_query_img(candidate, target, stage=1)
+            queries.append(
+                {
+                    "visual_query": source_image,
+                    "source_img_path": source_path,
+                    "source_img_id": candidate,
+                    "target_img_id": target,
+                    "textual_query": modification,
+                    "target_description": description,
+                    "has_target_description": has_description,
+                    "mod": {"str": modification},
+                }
+            )
+
+        if self.split == "original-split":
+            gallery_ids = images
+        else:
+            gallery_ids = sorted(
+                {
+                    image_id
+                    for query in queries
+                    for image_id in (query["source_img_id"], query["target_img_id"])
+                }
+            )
+        targets = []
+        for image_id in gallery_ids:
+            image, image_path = self.get_img(image_id, stage=1)
+            targets.append(
+                {
+                    "target_img_id": image_id,
+                    "target_img_data": image,
+                    "target_img_path": image_path,
+                }
+            )
+        return queries, targets
 
 
 class Shoes(torch.utils.data.Dataset):

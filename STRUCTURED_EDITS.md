@@ -134,3 +134,56 @@ This script is a frozen-encoder diagnostic rather than a replacement for the
 project's trained retrieval evaluation. A positive result should subsequently
 be verified with the same trained checkpoint and the official full validation
 split.
+
+## 7. Trainable structured-description gate
+
+`newTrain.py` now uses `newDataset.FashionIQ`, `newModel.DQU_CIR`, and
+`newTest.test` as one consistent path. Qwen is not loaded during retrieval
+training. The model encodes:
+
+1. the original FashionIQ modification;
+2. the offline Qwen `target_description`;
+3. the unmodified reference image.
+
+A learned text gate mixes (1) and (2), then a learned image gate mixes the
+result with (3). Both gates start at 0.25, based on the frozen-encoder
+diagnostic. Samples without a validated structured description automatically
+fall back to the original text.
+
+Example using a local ViT-H/14 checkpoint:
+
+```bash
+python newTrain.py \
+  --fashioniq_path ../data/FashionIQ \
+  --dataset dress \
+  --fashioniq_split original-split \
+  --structured-train-path ../data/FashionIQ/captions/structured_edits_dress_train.json \
+  --structured-val-path ../data/FashionIQ/captions/structured_edits_dress_val.json \
+  --clip-model ViT-H-14 \
+  --clip-checkpoint /path/to/open_clip_pytorch_model.bin \
+  --batch-size 16 \
+  --num-epochs 20
+```
+
+Use `--structured-only` for a small feasibility subset. Do not report that
+subset as the official FashionIQ result. Without this flag, missing structured
+descriptions fall back safely to the original text and the logged coverage
+shows how much data actually trains the structured branch.
+
+Useful checks:
+
+```bash
+# Evaluate the structured branch without training.
+python newTrain.py ... --structured-only --eval-only
+
+# Exact same evaluation with the target-description branch disabled.
+python newTrain.py ... --structured-only --eval-only --disable-target-description
+
+# Reproduce the text-written-on-image raw-data baseline explicitly.
+python newTrain.py ... --use-written-image
+```
+
+`newTrain.py` intentionally imports `newTest`, not the legacy `test.py`.
+Reported runs should use `original-split`, which ranks against the full
+FashionIQ validation gallery and removes the reference image before computing
+R@1, R@10, and R@50.
