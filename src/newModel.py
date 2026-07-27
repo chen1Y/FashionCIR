@@ -310,12 +310,10 @@ class DQU_CIR(nn.Module):
                 / max(float(gate_teacher_temperature), 1e-6)
             ).reshape(-1, 1)
 
-        gate_bce = F.binary_cross_entropy(
-            predicted_gate.clamp(1e-6, 1.0 - 1e-6),
-            teacher_gate,
-            reduction="none",
-        )
-        gate_supervision = (gate_bce * valid_mask).sum() / valid_mask.sum().clamp_min(1.0)
+        # Probability-space regression supports the teacher's soft targets and
+        # is safe inside CUDA autocast (unlike sigmoid followed by BCE).
+        gate_error = (predicted_gate - teacher_gate).pow(2)
+        gate_supervision = (gate_error * valid_mask).sum() / valid_mask.sum().clamp_min(1.0)
         total = (
             ranking
             + preservation_weight * preservation
