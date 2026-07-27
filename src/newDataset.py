@@ -309,12 +309,11 @@ class LegacyFashionIQ(torch.utils.data.Dataset):
 
 
 class FashionIQ(torch.utils.data.Dataset):
-    """FashionIQ loader with optional offline Qwen target descriptions.
+    """DQU-CIR FashionIQ inputs plus an offline Qwen structured-text branch.
 
-    Unlike ``LegacyFashionIQ``, this loader uses the same modification text in
-    training and validation, uses the unmodified reference image by default,
-    and identifies images by their FashionIQ string ids instead of repeated
-    ``list.index`` lookups.
+    The baseline input is deliberately identical to DQU-CIR: BLIP-2 reference
+    caption + corrected modification text, and the keyword-written reference
+    image. Qwen data adds a validated, confidence-weighted text view only.
     """
 
     def __init__(
@@ -326,7 +325,7 @@ class FashionIQ(torch.utils.data.Dataset):
         structured_train_path=None,
         structured_val_path=None,
         structured_only=False,
-        use_written_image=False,
+        use_written_image=True,
     ):
         super().__init__()
         if split not in ("original-split", "val-split"):
@@ -354,6 +353,18 @@ class FashionIQ(torch.utils.data.Dataset):
             )
             if use_written_image
             else {}
+        )
+        self.train_captions = self._load_json(
+            os.path.join(
+                self.caption_dir, f"image_captions_{category}_train.json"
+            ),
+            default={},
+        )
+        self.val_captions = self._load_json(
+            os.path.join(
+                self.caption_dir, f"image_captions_{category}_val.json"
+            ),
+            default={},
         )
 
         self.structured_train = self._load_structured(structured_train_path, "train")
@@ -399,16 +410,52 @@ class FashionIQ(torch.utils.data.Dataset):
                 continue
             if not sample.get("semantic_validation", {}).get("valid", False):
                 continue
-            description = str(
-                sample.get("structured_edit", {}).get("target_description", "")
-            ).strip()
-            if not description:
+            structured_edit = sample.get("structured_edit", {})
+            structured_text = self._linearize_structured_edit(structured_edit)
+            if not structured_text:
                 continue
+            confidence = structured_edit.get("confidence", {}).get("score", 0.0)
+            try:
+                confidence = min(max(float(confidence), 0.0), 1.0)
+            except (TypeError, ValueError):
+                confidence = 0.0
             key = (sample["candidate"], sample["target"])
             if key in output:
                 raise ValueError(f"Duplicate structured edit for {key}")
-            output[key] = description
+            output[key] = {
+                "text": structured_text,
+                "confidence": confidence,
+            }
         return output
+
+    @staticmethod
+    def _attributes(items, limit=5):
+        values = []
+        for item in items or []:
+            attribute = str(item.get("attribute", "")).strip()
+            if attribute and attribute not in values:
+                values.append(attribute)
+            if len(values) >= limit:
+                break
+        return values
+
+    @classmethod
+    def _linearize_structured_edit(cls, structured_edit):
+        """Convert JSON slots to concise natural text suitable for CLIP."""
+        description = str(structured_edit.get("target_description", "")).strip()
+        additions = cls._attributes(structured_edit.get("add"))
+        removals = cls._attributes(structured_edit.get("remove"))
+        retained = cls._attributes(structured_edit.get("retain"), limit=3)
+        clauses = []
+        if description:
+            clauses.append(f"Target garment: {description}")
+        if additions:
+            clauses.append("Required additions: " + ", ".join(additions))
+        if removals:
+            clauses.append("Required removals: " + ", ".join(removals))
+        if retained:
+            clauses.append("Keep: " + ", ".join(retained))
+        return ". ".join(clauses)
 
     def correct_text(self, text):
         translation = str.maketrans({key: " " for key in string.punctuation})
@@ -434,18 +481,27 @@ class FashionIQ(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.train_data)
 
-    def _description_for(self, candidate, target, split, fallback):
+    def _structured_for(self, candidate, target, split, fallback):
         mapping = self.structured_train if split == "train" else self.structured_val
-        description = mapping.get((candidate, target))
-        return (description or fallback), description is not None
+        record = mapping.get((candidate, target))
+        if record is None:
+            return fallback, False, 0.0
+        return record["text"], True, record["confidence"]
+
+    def _baseline_text(self, candidate, modification, split):
+        captions = self.train_captions if split == "train" else self.val_captions
+        if candidate not in captions:
+            raise KeyError(f"Missing BLIP-2 caption for {split} image {candidate}")
+        return captions[candidate] + ", but " + modification
 
     def __getitem__(self, index):
         item = self.train_data[index]
         candidate = item["candidate"]
         target = item["target"]
         modification = item["modification_text"]
-        description, has_description = self._description_for(
-            candidate, target, "train", modification
+        baseline_text = self._baseline_text(candidate, modification, "train")
+        structured_text, has_structured, confidence = self._structured_for(
+            candidate, target, "train", baseline_text
         )
         target_image, target_path = self.get_img(target, stage=0)
         source_image, source_path = self.get_query_img(candidate, target, stage=0)
@@ -454,9 +510,10 @@ class FashionIQ(torch.utils.data.Dataset):
             "target_img_path": target_path,
             "visual_query": source_image,
             "source_img_path": source_path,
-            "textual_query": modification,
-            "target_description": description,
-            "has_target_description": has_description,
+            "textual_query": baseline_text,
+            "structured_text": structured_text,
+            "has_structured_text": has_structured,
+            "structured_confidence": confidence,
             "candidate": candidate,
             "target": target,
             "mod": {"str": modification},
@@ -522,8 +579,9 @@ class FashionIQ(torch.utils.data.Dataset):
             candidate = item["candidate"]
             target = item["target"]
             modification = item["modification_text"]
-            description, has_description = self._description_for(
-                candidate, target, "val", modification
+            baseline_text = self._baseline_text(candidate, modification, "val")
+            structured_text, has_structured, confidence = self._structured_for(
+                candidate, target, "val", baseline_text
             )
             source_image, source_path = self.get_query_img(candidate, target, stage=1)
             queries.append(
@@ -532,9 +590,10 @@ class FashionIQ(torch.utils.data.Dataset):
                     "source_img_path": source_path,
                     "source_img_id": candidate,
                     "target_img_id": target,
-                    "textual_query": modification,
-                    "target_description": description,
-                    "has_target_description": has_description,
+                    "textual_query": baseline_text,
+                    "structured_text": structured_text,
+                    "has_structured_text": has_structured,
+                    "structured_confidence": confidence,
                     "mod": {"str": modification},
                 }
             )

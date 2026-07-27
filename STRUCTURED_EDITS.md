@@ -135,55 +135,59 @@ project's trained retrieval evaluation. A positive result should subsequently
 be verified with the same trained checkpoint and the official full validation
 split.
 
-## 7. Trainable structured-description gate
+## 7. DQU-CIR + Qwen structured text
 
-`newTrain.py` now uses `newDataset.FashionIQ`, `newModel.DQU_CIR`, and
-`newTest.test` as one consistent path. Qwen is not loaded during retrieval
-training. The model encodes:
+`newTrain.py`, `newDataset.FashionIQ`, `newModel.DQU_CIR`, and `newTest.test`
+implement the structured-text experiment without modifying the isolated
+`dqu*` baseline. The baseline branch retains:
 
-1. the original FashionIQ modification;
-2. the offline Qwen `target_description`;
-3. the unmodified reference image.
+1. BLIP-2 reference caption + corrected FashionIQ modification;
+2. the reference image with the DQU target keyword written onto it;
+3. ViT-H/14 fine-tuning, one-way batch NCE, and DQU's optimizer settings.
 
-A learned text gate mixes (1) and (2), then a learned image gate mixes the
-result with (3). Both gates start at 0.25, based on the frozen-encoder
-diagnostic. Samples without a validated structured description automatically
-fall back to the original text.
+Validated Qwen JSON is rendered as concise natural language containing the
+target description and explicit add/remove/retain attributes. Its CLIP text
+feature is added as a confidence-weighted residual. The residual strength is
+initialized to exactly zero, so the initial retrieval query is DQU-CIR.
+Invalid or failed JSON receives a hard zero mask; Qwen's self-reported
+confidence is only a soft multiplier.
 
-Example using a local ViT-H/14 checkpoint:
+Example using the complete online-Qwen files and local ViT-H/14 weights:
 
 ```bash
 python newTrain.py \
-  --fashioniq_path ../data/FashionIQ \
+  --fashioniq-path ../data/FashionIQ \
   --dataset dress \
-  --fashioniq_split original-split \
-  --structured-train-path ../data/FashionIQ/captions/structured_edits_dress_train.json \
-  --structured-val-path ../data/FashionIQ/captions/structured_edits_dress_val.json \
+  --fashioniq-split original-split \
+  --structured-train-path ../data/FashionIQ/captions/structured_edits_dress_train_qwen37flash.json \
+  --structured-val-path ../data/FashionIQ/captions/structured_edits_dress_val_qwen37flash.json \
   --clip-model ViT-H-14 \
   --clip-checkpoint /path/to/open_clip_pytorch_model.bin \
   --batch-size 16 \
-  --num-epochs 20
+  --num-epochs 100 \
+  --seed 42
 ```
 
-Use `--structured-only` for a small feasibility subset. Do not report that
-subset as the official FashionIQ result. Without this flag, missing structured
-descriptions fall back safely to the original text and the logged coverage
-shows how much data actually trains the structured branch.
-
-Useful checks:
+The Qwen3.7 Flash filenames above are selected automatically when present.
+Optionally initialize all shared modules from a verified baseline checkpoint:
 
 ```bash
-# Evaluate the structured branch without training.
-python newTrain.py ... --structured-only --eval-only
+python newTrain.py ... \
+  --dqu-checkpoint ../checkpoints/dress_dqu_official_original_seed42_best.pt
+```
 
-# Exact same evaluation with the target-description branch disabled.
-python newTrain.py ... --structured-only --eval-only --disable-target-description
+Useful ablations:
 
-# Reproduce the text-written-on-image raw-data baseline explicitly.
-python newTrain.py ... --use-written-image
+```bash
+# Hard-disable Qwen while retaining both official DQU query inputs.
+python newTrain.py ... --disable-structured-text
+
+# Remove DQU's written-image input only as an explicitly named ablation.
+python newTrain.py ... --no-use-written-image
 ```
 
 `newTrain.py` intentionally imports `newTest`, not the legacy `test.py`.
 Reported runs should use `original-split`, which ranks against the full
 FashionIQ validation gallery and removes the reference image before computing
-R@1, R@10, and R@50.
+R@1, R@10, and R@50. `--structured-only` changes the evaluated query set and
+must not be reported as an official FashionIQ comparison.

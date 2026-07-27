@@ -1,4 +1,4 @@
-"""Train the structured-description FashionIQ retrieval gates."""
+"""Train DQU-CIR with an offline Qwen structured-text residual."""
 
 from __future__ import annotations
 
@@ -22,54 +22,56 @@ import newTest
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--local_rank", default=int(os.getenv("LOCAL_RANK", -1)), type=int)
+    parser.add_argument("--local-rank", "--local_rank", default=int(os.getenv("LOCAL_RANK", -1)), type=int)
     parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee"))
     parser.add_argument(
+        "--fashioniq-split",
         "--fashioniq_split",
         default="original-split",
         choices=("original-split", "val-split"),
-        help="Use original-split for reported metrics; val-split is only for debugging.",
     )
-    parser.add_argument("--fashioniq_path", default="../data/FashionIQ")
+    parser.add_argument("--fashioniq-path", "--fashioniq_path", default="../data/FashionIQ")
     parser.add_argument("--structured-train-path")
     parser.add_argument("--structured-val-path")
-    parser.add_argument(
-        "--structured-only",
-        action="store_true",
-        help="Keep only queries that have a validated structured target description.",
-    )
+    parser.add_argument("--structured-only", action="store_true")
     parser.add_argument(
         "--use-written-image",
-        action="store_true",
-        help="Reproduce the raw-data text-on-image baseline. Off by default.",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Keep enabled for DQU-CIR; --no-use-written-image is an ablation.",
     )
 
     parser.add_argument("--clip-model", default="ViT-H-14")
     parser.add_argument("--clip-pretrained", default="laion2B-s32B-b79K")
-    parser.add_argument(
-        "--clip-checkpoint",
-        help="Local OpenCLIP checkpoint. When set, no CLIP download is attempted.",
-    )
+    parser.add_argument("--clip-checkpoint")
     parser.add_argument("--clip-cache-dir", default="../model_cache")
     parser.add_argument(
         "--freeze-clip",
         action=argparse.BooleanOptionalAction,
-        default=True,
-        help="Freeze both OpenCLIP towers; recommended for the gate feasibility test.",
+        default=False,
+        help="DQU-CIR fine-tunes CLIP; freezing is only an ablation.",
     )
-    parser.add_argument("--initial-target-weight", type=float, default=0.25)
-    parser.add_argument("--initial-image-weight", type=float, default=0.25)
     parser.add_argument(
+        "--dqu-checkpoint",
+        help="Optionally initialize shared modules from a trained dquTrain.py checkpoint.",
+    )
+    parser.add_argument(
+        "--disable-structured-text",
         "--disable-target-description",
         action="store_true",
-        help="Ablation: force the structured-description gate to zero.",
+        help="Hard-disable the Qwen residual while retaining the DQU-CIR inputs.",
     )
 
+    parser.add_argument("--hidden-dim", type=int, default=1024)
     parser.add_argument("--batch-size", type=int, default=16)
-    parser.add_argument("--num-epochs", type=int, default=20)
+    parser.add_argument("--num-epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--clip-lr", type=float, default=1e-6)
     parser.add_argument("--weight-decay", type=float, default=1e-2)
-    parser.add_argument("--dropout-rate", type=float, default=0.1)
+    parser.add_argument("--dropout-rate", type=float, default=0.5)
+    parser.add_argument("--lr-decay", type=int, default=8)
+    parser.add_argument("--lr-div", type=float, default=0.1)
+    parser.add_argument("--max-decay-epoch", type=int, default=10)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--patience", type=int, default=5)
@@ -77,8 +79,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-train-batches", type=int, default=0)
     parser.add_argument("--eval-limit", type=int, default=0)
     parser.add_argument("--model-dir", default="./checkpoints")
-    parser.add_argument("--run-name", default="structured_gate")
-    parser.add_argument("--resume", help="Load a gate checkpoint before training/evaluation.")
+    parser.add_argument("--run-name", default="dqu_qwen_structured_text")
+    parser.add_argument("--resume")
     parser.add_argument("--eval-only", action="store_true")
     return parser.parse_args()
 
@@ -88,31 +90,36 @@ def set_seed(seed: int) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
 
 
 def autocast_context(device: torch.device):
     if device.type == "cuda":
-        return torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+        return torch.autocast(device_type="cuda", dtype=torch.float16)
     return nullcontext()
 
 
 def default_structured_path(args: argparse.Namespace, split: str) -> str:
     caption_dir = Path(args.fashioniq_path) / "captions"
-    canonical = caption_dir / f"structured_edits_{args.dataset}_{split}.json"
-    if canonical.exists() or split != "val":
-        return str(canonical)
-    limited = caption_dir / f"structured_edits_{args.dataset}_val_50.json"
-    return str(limited)
+    candidates = (
+        caption_dir / f"structured_edits_{args.dataset}_{split}_qwen37flash.json",
+        caption_dir / f"structured_edits_{args.dataset}_{split}.json",
+        caption_dir / f"structured_edits_{args.dataset}_{split}_50.json",
+    )
+    for candidate in candidates:
+        if candidate.exists():
+            return str(candidate)
+    return str(candidates[0])
 
 
 def load_dataset(args: argparse.Namespace, transforms):
-    preprocess_train, preprocess_val = transforms
     train_path = args.structured_train_path or default_structured_path(args, "train")
     val_path = args.structured_val_path or default_structured_path(args, "val")
     dataset = newDataset.FashionIQ(
         path=args.fashioniq_path,
         category=args.dataset,
-        transform=(preprocess_train, preprocess_val),
+        transform=transforms,
         split=args.fashioniq_split,
         structured_train_path=train_path,
         structured_val_path=val_path,
@@ -120,158 +127,194 @@ def load_dataset(args: argparse.Namespace, transforms):
         use_written_image=args.use_written_image,
     )
     logging.info(
-        "FashionIQ train=%d val_queries=%d gallery=%d train_structured=%.3f "
-        "val_structured=%.3f",
+        "FashionIQ train=%d queries=%d gallery=%d train_structured=%.4f "
+        "val_structured=%.4f written_image=%s train_json=%s val_json=%s",
         len(dataset),
         len(dataset.test_queries),
         len(dataset.test_targets),
         dataset.train_structured_coverage,
         dataset.val_structured_coverage,
+        args.use_written_image,
+        train_path,
+        val_path,
     )
     return dataset
 
 
-def create_model_and_optimizer(args: argparse.Namespace, device: torch.device):
+def create_model_and_optimizer(args, device):
     model = newModel.DQU_CIR(
+        hidden_dim=args.hidden_dim,
         dropout=args.dropout_rate,
         clip_model=args.clip_model,
         clip_pretrained=args.clip_pretrained,
         clip_checkpoint=args.clip_checkpoint,
         clip_cache_dir=args.clip_cache_dir,
         freeze_clip=args.freeze_clip,
-        initial_target_weight=args.initial_target_weight,
-        initial_image_weight=args.initial_image_weight,
     ).to(device)
-    trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
-    if not trainable:
-        raise RuntimeError("The model has no trainable parameters")
+    parameters = list(model.named_parameters())
+    clip_parameters = [
+        parameter
+        for name, parameter in parameters
+        if name.startswith("clip.") and parameter.requires_grad
+    ]
+    other_parameters = [
+        parameter
+        for name, parameter in parameters
+        if not name.startswith("clip.") and parameter.requires_grad
+    ]
+    parameter_groups = []
+    if clip_parameters:
+        parameter_groups.append({"params": clip_parameters, "lr": args.clip_lr})
+    if other_parameters:
+        parameter_groups.append({"params": other_parameters, "lr": args.lr})
     optimizer = torch.optim.AdamW(
-        trainable,
-        lr=args.lr,
+        parameter_groups,
         weight_decay=args.weight_decay,
     )
     logging.info(
         "trainable_parameters=%d total_parameters=%d",
-        sum(parameter.numel() for parameter in trainable),
-        sum(parameter.numel() for parameter in model.parameters()),
+        sum(p.numel() for p in model.parameters() if p.requires_grad),
+        sum(p.numel() for p in model.parameters()),
     )
     return model, optimizer
 
 
-def train_one_epoch(args, model, optimizer, loader, device, epoch):
+def load_dqu_checkpoint(path, model):
+    checkpoint = torch.load(path, map_location="cpu")
+    state = checkpoint.get("model_state", checkpoint)
+    incompatible = model.load_state_dict(state, strict=False)
+    allowed_missing = {
+        name
+        for name in model.state_dict()
+        if name.startswith("structured_gate.") or name == "structured_strength"
+    }
+    missing = set(incompatible.missing_keys)
+    if incompatible.unexpected_keys or missing != allowed_missing:
+        raise RuntimeError(
+            "DQU checkpoint mismatch: "
+            f"missing={sorted(missing)}, unexpected={incompatible.unexpected_keys}"
+        )
+    logging.info(
+        "initialized_from_dqu=%s epoch=%s metrics=%s",
+        path,
+        checkpoint.get("epoch"),
+        checkpoint.get("metrics"),
+    )
+
+
+def load_checkpoint(path, model):
+    checkpoint = torch.load(path, map_location="cpu")
+    model.load_state_dict(checkpoint.get("model_state", checkpoint), strict=True)
+    return checkpoint
+
+
+def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
     model.train()
+    for module in model.modules():
+        if isinstance(module, torch.nn.BatchNorm2d):
+            module.eval()
     running_loss = 0.0
     steps = 0
-    progress = tqdm(loader, desc=f"train epoch {epoch}")
+    progress = tqdm(loader, desc=f"DQU+Qwen train epoch {epoch}")
     for batch_index, data in enumerate(progress):
-        if args.max_train_batches > 0 and batch_index >= args.max_train_batches:
+        if args.max_train_batches and batch_index >= args.max_train_batches:
             break
-        target_img = data["target_img_data"].to(device, non_blocking=True)
-        visual_query = data["visual_query"].to(device, non_blocking=True)
-        description_mask = data["has_target_description"].to(device)
-        if args.disable_target_description:
-            description_mask = torch.zeros_like(description_mask)
+        target = data["target_img_data"].to(device, non_blocking=True)
+        visual = data["visual_query"].to(device, non_blocking=True)
+        mask = data["has_structured_text"].to(device)
+        confidence = data["structured_confidence"].to(device)
+        if args.disable_structured_text:
+            mask = torch.zeros_like(mask)
 
         optimizer.zero_grad(set_to_none=True)
         with autocast_context(device):
             losses = model.compute_loss(
                 data["textual_query"],
-                data["target_description"],
-                visual_query,
-                target_img,
-                description_mask,
+                data["structured_text"],
+                visual,
+                target,
+                mask,
+                confidence,
             )
             loss = losses["ranking"]
-        loss.backward()
-        optimizer.step()
-
-        steps += 1
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
         running_loss += float(loss.detach())
+        steps += 1
         progress.set_postfix(
             loss=f"{running_loss / steps:.4f}",
-            target_gate=f"{float(losses['target_weight']):.3f}",
-            image_gate=f"{float(losses['image_weight']):.3f}",
+            residual=f"{float(losses['structured_strength']):.4f}",
+            qwen_weight=f"{float(losses['structured_weight']):.4f}",
+            dqu_text=f"{float(losses['dqu_text_weight']):.3f}",
         )
-    if steps == 0:
+    if not steps:
         raise RuntimeError("No training batches were processed")
     return running_loss / steps
 
 
-def save_checkpoint(args, model, optimizer, epoch, metrics):
+def save_checkpoint(args, model, epoch, metrics):
     model_dir = Path(args.model_dir)
     model_dir.mkdir(parents=True, exist_ok=True)
-    if args.freeze_clip:
-        model_state = {
-            name: tensor.detach().cpu()
-            for name, tensor in model.state_dict().items()
-            if not name.startswith("clip.")
-        }
-    else:
-        model_state = {name: tensor.detach().cpu() for name, tensor in model.state_dict().items()}
-    checkpoint = {
-        "epoch": epoch,
-        "model_state": model_state,
-        "optimizer_state": optimizer.state_dict(),
-        "metrics": dict(metrics),
-        "config": vars(args),
-        "clip_weights_included": not args.freeze_clip,
-    }
-    path = model_dir / f"{args.dataset}_{args.run_name}_best.pt"
-    torch.save(checkpoint, path)
-    with (model_dir / f"{args.dataset}_{args.run_name}_best.json").open(
-        "w", encoding="utf-8"
-    ) as handle:
-        json.dump(dict(metrics), handle, indent=2)
+    path = model_dir / f"{args.dataset}_{args.run_name}_seed{args.seed}_best.pt"
+    torch.save(
+        {
+            "epoch": epoch,
+            "model_state": model.state_dict(),
+            "metrics": dict(metrics),
+            "config": vars(args),
+        },
+        path,
+    )
+    path.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "epoch": epoch,
+                "selection_metric": "R@10 + R@50",
+                **dict(metrics),
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     return path
 
 
-def load_checkpoint(path, model, optimizer=None):
-    checkpoint = torch.load(path, map_location="cpu")
-    model_state = checkpoint.get("model_state", checkpoint)
-    incompatible = model.load_state_dict(model_state, strict=False)
-    unexpected = list(incompatible.unexpected_keys)
-    missing_non_clip = [
-        key for key in incompatible.missing_keys if not key.startswith("clip.")
-    ]
-    if unexpected or missing_non_clip:
-        raise RuntimeError(
-            f"Checkpoint mismatch: missing={missing_non_clip}, unexpected={unexpected}"
-        )
-    if optimizer is not None and "optimizer_state" in checkpoint:
-        optimizer.load_state_dict(checkpoint["optimizer_state"])
-    return checkpoint
-
-
 def train_and_evaluate(args, model, optimizer, dataset, device):
+    generator = torch.Generator().manual_seed(args.seed)
     loader = DataLoader(
         dataset,
         batch_size=args.batch_size,
         shuffle=True,
         num_workers=args.num_workers,
-        pin_memory=device.type == "cuda",
-        drop_last=len(dataset) >= args.batch_size,
+        pin_memory=True,
+        generator=generator,
     )
+    scaler = torch.cuda.amp.GradScaler()
     best_score = float("-inf")
     stale_epochs = 0
     for epoch in range(1, args.num_epochs + 1):
-        loss = train_one_epoch(args, model, optimizer, loader, device, epoch)
+        if epoch > 1 and epoch % args.lr_decay == 0 and epoch <= args.max_decay_epoch:
+            for group in optimizer.param_groups:
+                group["lr"] *= args.lr_div
+        loss = train_one_epoch(args, model, optimizer, loader, device, scaler, epoch)
         logging.info("epoch=%d train_loss=%.6f", epoch, loss)
-        if epoch % args.eval_every != 0:
+        if epoch % args.eval_every:
             continue
 
         metrics = newTest.test(args, model, dataset, args.dataset)
         metric_dict = dict(metrics)
-        logging.info("epoch=%d metrics=%s", epoch, metric_dict)
         score = metric_dict[f"{args.dataset}_r10"] + metric_dict[f"{args.dataset}_r50"]
+        logging.info("epoch=%d metrics=%s score=%.6f", epoch, metric_dict, score)
         if score > best_score:
             best_score = score
             stale_epochs = 0
-            path = save_checkpoint(args, model, optimizer, epoch, metrics)
-            logging.info("saved_best=%s score=%.4f", path, score)
+            path = save_checkpoint(args, model, epoch, metrics)
+            logging.info("saved_best=%s", path)
         else:
             stale_epochs += 1
             if stale_epochs >= args.patience:
-                logging.info("early_stop epoch=%d best_score=%.4f", epoch, best_score)
+                logging.info("early_stop epoch=%d best_score=%.6f", epoch, best_score)
                 break
 
 
@@ -281,18 +324,22 @@ def main() -> None:
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s",
     )
+    if not torch.cuda.is_available():
+        raise RuntimeError("ViT-H/14 training requires a CUDA GPU")
     set_seed(args.seed)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda")
     logging.info("arguments=%s", vars(args))
-    logging.info("device=%s", device)
     model, optimizer = create_model_and_optimizer(args, device)
-    dataset = load_dataset(args, (model.preprocess_train, model.preprocess_val))
     if args.resume:
-        checkpoint = load_checkpoint(args.resume, model, None if args.eval_only else optimizer)
+        checkpoint = load_checkpoint(args.resume, model)
         logging.info("loaded_checkpoint=%s epoch=%s", args.resume, checkpoint.get("epoch"))
+    elif args.dqu_checkpoint:
+        load_dqu_checkpoint(args.dqu_checkpoint, model)
+    dataset = load_dataset(
+        args, (model.preprocess_train, model.preprocess_val)
+    )
     if args.eval_only:
         metrics = newTest.test(args, model, dataset, args.dataset)
-        logging.info("eval_metrics=%s", dict(metrics))
         print(json.dumps(dict(metrics), indent=2))
         return
     train_and_evaluate(args, model, optimizer, dataset, device)

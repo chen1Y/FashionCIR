@@ -1,4 +1,4 @@
-"""FashionIQ retrieval evaluation for the structured-description model."""
+"""FashionIQ evaluation for DQU-CIR + Qwen structured text."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 def _autocast(device: torch.device):
     if device.type == "cuda":
-        return torch.autocast(device_type="cuda", dtype=torch.bfloat16)
+        return torch.autocast(device_type="cuda", dtype=torch.float16)
     return nullcontext()
 
 
@@ -46,8 +46,10 @@ def test(params, model, testset, category):
         raise ValueError("No FashionIQ gallery images are available")
 
     query_batches = []
-    target_weights = []
-    image_weights = []
+    structured_weights = []
+    predicted_gates = []
+    dqu_text_weights = []
+    strengths = []
     with torch.inference_mode():
         for batch in tqdm(
             list(_batched(queries, params.batch_size)),
@@ -56,25 +58,41 @@ def test(params, model, testset, category):
         ):
             images = torch.stack([item["visual_query"] for item in batch]).to(device)
             raw_text = [item["textual_query"] for item in batch]
-            target_text = [item["target_description"] for item in batch]
+            structured_text = [item["structured_text"] for item in batch]
             mask = torch.tensor(
-                [item["has_target_description"] for item in batch],
+                [item["has_structured_text"] for item in batch],
                 device=device,
                 dtype=torch.bool,
             )
-            if getattr(params, "disable_target_description", False):
+            confidence = torch.tensor(
+                [item["structured_confidence"] for item in batch],
+                device=device,
+                dtype=torch.float32,
+            )
+            if getattr(params, "disable_structured_text", False):
                 mask.zero_()
             with _autocast(device):
                 features, diagnostics = model.extract_query(
                     raw_text,
-                    target_text,
+                    structured_text,
                     images,
                     mask,
+                    confidence,
                     return_diagnostics=True,
                 )
             query_batches.append(features.float().cpu())
-            target_weights.append(diagnostics["target_weight"].float().cpu())
-            image_weights.append(diagnostics["image_weight"].float().cpu())
+            structured_weights.append(
+                diagnostics["structured_weight"].float().cpu()
+            )
+            predicted_gates.append(
+                diagnostics["predicted_structured_gate"].float().cpu()
+            )
+            dqu_text_weights.append(
+                diagnostics["dqu_text_weight"].float().cpu()
+            )
+            strengths.append(
+                diagnostics["structured_strength"].reshape(1).float().cpu()
+            )
 
         gallery_batches = []
         for batch in tqdm(
@@ -115,6 +133,11 @@ def test(params, model, testset, category):
         ranks.append(rank)
 
     ranks_array = np.asarray(ranks)
+    valid_confidences = [
+        item["structured_confidence"]
+        for item in queries
+        if item["has_structured_text"]
+    ]
     out = [
         (f"{category}_r{k}", float(np.mean(ranks_array <= k) * 100.0))
         for k in (1, 10, 50)
@@ -124,18 +147,30 @@ def test(params, model, testset, category):
             (f"{category}_median_rank", float(np.median(ranks_array))),
             (f"{category}_mean_rank", float(np.mean(ranks_array))),
             (
-                f"{category}_target_gate",
-                float(torch.cat(target_weights).mean().item()),
+                f"{category}_structured_weight",
+                float(torch.cat(structured_weights).mean().item()),
             ),
             (
-                f"{category}_image_gate",
-                float(torch.cat(image_weights).mean().item()),
+                f"{category}_predicted_structured_gate",
+                float(torch.cat(predicted_gates).mean().item()),
+            ),
+            (
+                f"{category}_structured_strength",
+                float(torch.cat(strengths).mean().item()),
+            ),
+            (
+                f"{category}_dqu_text_weight",
+                float(torch.cat(dqu_text_weights).mean().item()),
+            ),
+            (
+                f"{category}_mean_qwen_confidence",
+                float(np.mean(valid_confidences)) if valid_confidences else 0.0,
             ),
             (
                 f"{category}_structured_coverage",
                 float(
                     np.mean(
-                        [item["has_target_description"] for item in queries]
+                        [item["has_structured_text"] for item in queries]
                     )
                 ),
             ),
