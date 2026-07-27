@@ -5,6 +5,7 @@
 
 # Datasets and downloaded model weights
 data/
+model_cache/
 src/models--*/
 src/.locks/
 src/fashionblip_cache/
