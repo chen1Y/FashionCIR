@@ -169,10 +169,33 @@ def process_record(
                 previous_program=structured_edit,
             )
             structured_edit = extract_json_object(raw_response)
+            evidence_actions: list[str] = []
+            for field in ("retain", "remove", "add"):
+                values = structured_edit.get(field)
+                if not isinstance(values, list):
+                    continue
+                expected_evidence = (
+                    "reference_image" if field == "retain" else "modification_text"
+                )
+                for index, value in enumerate(values):
+                    if (
+                        isinstance(value, dict)
+                        and value.get("evidence")
+                        not in {"reference_image", "modification_text"}
+                    ):
+                        value["evidence"] = expected_evidence
+                        evidence_actions.append(
+                            f"normalized {field}[{index}].evidence to "
+                            f"{expected_evidence}"
+                        )
             errors = validate_edit_program(structured_edit)
             if not errors:
                 structured_edit, semantic_validation, _ = process_semantics(
                     record, structured_edit, args
+                )
+                semantic_validation["sanitization_actions"] = (
+                    evidence_actions
+                    + semantic_validation.get("sanitization_actions", [])
                 )
                 errors = list(semantic_validation["errors"])
                 if not errors:
