@@ -56,6 +56,12 @@ def parse_args() -> argparse.Namespace:
         help="Optionally initialize shared modules from a trained dquTrain.py checkpoint.",
     )
     parser.add_argument(
+        "--freeze-dqu-backbone",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Protect the verified DQU checkpoint and optimize only Qwen modules.",
+    )
+    parser.add_argument(
         "--disable-structured-text",
         "--disable-target-description",
         action="store_true",
@@ -63,6 +69,9 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument("--hidden-dim", type=int, default=1024)
+    parser.add_argument("--adapter-rank", type=int, default=256)
+    parser.add_argument("--max-structured-weight", type=float, default=0.25)
+    parser.add_argument("--preservation-weight", type=float, default=1.0)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--num-epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=1e-4)
@@ -82,6 +91,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-name", default="dqu_qwen_structured_text")
     parser.add_argument("--resume")
     parser.add_argument("--eval-only", action="store_true")
+    parser.add_argument(
+        "--eval-before-train",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Record epoch-0 DQU metrics as the non-degradation checkpoint.",
+    )
     return parser.parse_args()
 
 
@@ -141,7 +156,7 @@ def load_dataset(args: argparse.Namespace, transforms):
     return dataset
 
 
-def create_model_and_optimizer(args, device):
+def create_model(args, device):
     model = newModel.DQU_CIR(
         hidden_dim=args.hidden_dim,
         dropout=args.dropout_rate,
@@ -150,7 +165,13 @@ def create_model_and_optimizer(args, device):
         clip_checkpoint=args.clip_checkpoint,
         clip_cache_dir=args.clip_cache_dir,
         freeze_clip=args.freeze_clip,
+        adapter_rank=args.adapter_rank,
+        max_structured_weight=args.max_structured_weight,
     ).to(device)
+    return model
+
+
+def create_optimizer(args, model):
     parameters = list(model.named_parameters())
     clip_parameters = [
         parameter
@@ -172,11 +193,12 @@ def create_model_and_optimizer(args, device):
         weight_decay=args.weight_decay,
     )
     logging.info(
-        "trainable_parameters=%d total_parameters=%d",
+        "trainable_parameters=%d total_parameters=%d parameter_groups=%d",
         sum(p.numel() for p in model.parameters() if p.requires_grad),
         sum(p.numel() for p in model.parameters()),
+        len(parameter_groups),
     )
-    return model, optimizer
+    return optimizer
 
 
 def load_dqu_checkpoint(path, model):
@@ -186,7 +208,7 @@ def load_dqu_checkpoint(path, model):
     allowed_missing = {
         name
         for name in model.state_dict()
-        if name.startswith("structured_gate.") or name == "structured_strength"
+        if name.startswith("structured_")
     }
     missing = set(incompatible.missing_keys)
     if incompatible.unexpected_keys or missing != allowed_missing:
@@ -204,7 +226,22 @@ def load_dqu_checkpoint(path, model):
 
 def load_checkpoint(path, model):
     checkpoint = torch.load(path, map_location="cpu")
-    model.load_state_dict(checkpoint.get("model_state", checkpoint), strict=True)
+    state = checkpoint.get("model_state", checkpoint)
+    if checkpoint.get("adapter_only", False):
+        incompatible = model.load_state_dict(state, strict=False)
+        unexpected = list(incompatible.unexpected_keys)
+        missing_structured = [
+            name
+            for name in incompatible.missing_keys
+            if name.startswith("structured_")
+        ]
+        if unexpected or missing_structured:
+            raise RuntimeError(
+                f"Adapter checkpoint mismatch: missing={missing_structured}, "
+                f"unexpected={unexpected}"
+            )
+    else:
+        model.load_state_dict(state, strict=True)
     return checkpoint
 
 
@@ -235,8 +272,9 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
                 target,
                 mask,
                 confidence,
+                preservation_weight=args.preservation_weight,
             )
-            loss = losses["ranking"]
+            loss = losses["loss"]
         scaler.scale(loss).backward()
         scaler.step(optimizer)
         scaler.update()
@@ -244,8 +282,9 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
         steps += 1
         progress.set_postfix(
             loss=f"{running_loss / steps:.4f}",
-            residual=f"{float(losses['structured_strength']):.4f}",
-            qwen_weight=f"{float(losses['structured_weight']):.4f}",
+            rank=f"{float(losses['ranking']):.4f}",
+            preserve=f"{float(losses['preservation']):.5f}",
+            residual=f"{float(losses['adapter_residual_norm']):.4f}",
             dqu_text=f"{float(losses['dqu_text_weight']):.3f}",
         )
     if not steps:
@@ -257,12 +296,22 @@ def save_checkpoint(args, model, epoch, metrics):
     model_dir = Path(args.model_dir)
     model_dir.mkdir(parents=True, exist_ok=True)
     path = model_dir / f"{args.dataset}_{args.run_name}_seed{args.seed}_best.pt"
+    adapter_only = bool(args.freeze_dqu_backbone and args.dqu_checkpoint)
+    state = model.state_dict()
+    if adapter_only:
+        state = {
+            name: tensor.detach().cpu()
+            for name, tensor in state.items()
+            if name.startswith("structured_")
+        }
     torch.save(
         {
             "epoch": epoch,
-            "model_state": model.state_dict(),
+            "model_state": state,
             "metrics": dict(metrics),
             "config": vars(args),
+            "adapter_only": adapter_only,
+            "base_checkpoint": args.dqu_checkpoint,
         },
         path,
     )
@@ -293,6 +342,20 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
     scaler = torch.cuda.amp.GradScaler()
     best_score = float("-inf")
     stale_epochs = 0
+    if args.eval_before_train:
+        metrics = newTest.test(args, model, dataset, args.dataset)
+        metric_dict = dict(metrics)
+        best_score = (
+            metric_dict[f"{args.dataset}_r10"]
+            + metric_dict[f"{args.dataset}_r50"]
+        )
+        path = save_checkpoint(args, model, 0, metrics)
+        logging.info(
+            "epoch=0 protected_metrics=%s score=%.6f saved=%s",
+            metric_dict,
+            best_score,
+            path,
+        )
     for epoch in range(1, args.num_epochs + 1):
         if epoch > 1 and epoch % args.lr_decay == 0 and epoch <= args.max_decay_epoch:
             for group in optimizer.param_groups:
@@ -329,12 +392,19 @@ def main() -> None:
     set_seed(args.seed)
     device = torch.device("cuda")
     logging.info("arguments=%s", vars(args))
-    model, optimizer = create_model_and_optimizer(args, device)
+    model = create_model(args, device)
+    if args.dqu_checkpoint:
+        load_dqu_checkpoint(args.dqu_checkpoint, model)
+    if args.freeze_dqu_backbone:
+        if not args.dqu_checkpoint:
+            raise ValueError("--freeze-dqu-backbone requires --dqu-checkpoint")
+        model.freeze_dqu_backbone()
     if args.resume:
         checkpoint = load_checkpoint(args.resume, model)
-        logging.info("loaded_checkpoint=%s epoch=%s", args.resume, checkpoint.get("epoch"))
-    elif args.dqu_checkpoint:
-        load_dqu_checkpoint(args.dqu_checkpoint, model)
+        logging.info(
+            "loaded_checkpoint=%s epoch=%s", args.resume, checkpoint.get("epoch")
+        )
+    optimizer = create_optimizer(args, model)
     dataset = load_dataset(
         args, (model.preprocess_train, model.preprocess_val)
     )

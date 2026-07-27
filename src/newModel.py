@@ -1,4 +1,4 @@
-"""DQU-CIR with a confidence-aware Qwen structured-text residual."""
+"""A protected DQU-CIR backbone with a Qwen structured-text adapter."""
 
 from __future__ import annotations
 
@@ -10,45 +10,55 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class StructuredGate(nn.Module):
-    """Predict sample-specific residual weights from two CLIP text views."""
+class StructuredAdapter(nn.Module):
+    """Learn a signed residual instead of directly trusting CLIP text geometry."""
 
-    def __init__(self, feature_dim: int, dropout: float) -> None:
+    def __init__(self, feature_dim: int, rank: int) -> None:
         super().__init__()
-        del dropout  # Avoid advancing DQU-CIR's dropout RNG at zero residual.
-        hidden_dim = max(feature_dim // 2, 128)
         self.network = nn.Sequential(
-            nn.Linear(feature_dim * 4, hidden_dim),
-            nn.LayerNorm(hidden_dim),
+            nn.LayerNorm(feature_dim),
+            nn.Linear(feature_dim, rank),
             nn.GELU(),
-            nn.Linear(hidden_dim, 1),
+            nn.Linear(rank, feature_dim),
         )
-        # Begin with a neutral 0.5 gate. The global residual strength below is
-        # exactly zero, so the complete model initially reproduces DQU-CIR.
+        # Exact DQU-CIR at initialization, while the final layer still receives
+        # gradients on the first step.
         nn.init.zeros_(self.network[-1].weight)
         nn.init.zeros_(self.network[-1].bias)
 
-    def forward(self, baseline: torch.Tensor, structured: torch.Tensor) -> torch.Tensor:
-        features = torch.cat(
-            [
-                baseline,
-                structured,
-                torch.abs(baseline - structured),
-                baseline * structured,
-            ],
-            dim=-1,
+    def forward(
+        self, baseline: torch.Tensor, structured: torch.Tensor
+    ) -> torch.Tensor:
+        return self.network(structured - baseline)
+
+
+class StructuredGate(nn.Module):
+    """Small gate based on agreement, edit magnitude, and Qwen confidence."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(3, 32),
+            nn.GELU(),
+            nn.Linear(32, 1),
+            nn.Sigmoid(),
         )
-        return torch.sigmoid(self.network(features))
+        nn.init.zeros_(self.network[-2].weight)
+        nn.init.zeros_(self.network[-2].bias)
+
+    def forward(
+        self,
+        baseline: torch.Tensor,
+        structured: torch.Tensor,
+        confidence: torch.Tensor,
+    ) -> torch.Tensor:
+        similarity = (baseline * structured).sum(dim=-1, keepdim=True)
+        distance = (structured - baseline).pow(2).mean(dim=-1, keepdim=True).sqrt()
+        return self.network(torch.cat([similarity, distance, confidence], dim=-1))
 
 
 class DQU_CIR(nn.Module):
-    """Official DQU-CIR query fusion plus an additive structured text branch.
-
-    Qwen runs offline. During retrieval this module encodes both the official
-    DQU textual query and a controlled natural-language rendering of Qwen JSON.
-    A zero-initialized residual strength makes the initial query exactly equal
-    to DQU-CIR, while validation masks and Qwen confidence bound the new branch.
-    """
+    """DQU-CIR plus a bounded, confidence-aware structured feature adapter."""
 
     def __init__(
         self,
@@ -60,8 +70,14 @@ class DQU_CIR(nn.Module):
         clip_checkpoint: str | None = None,
         clip_cache_dir: str | None = None,
         freeze_clip: bool = False,
+        adapter_rank: int = 256,
+        max_structured_weight: float = 0.25,
     ) -> None:
         super().__init__()
+        if adapter_rank <= 0:
+            raise ValueError("adapter_rank must be positive")
+        if not 0.0 < max_structured_weight <= 1.0:
+            raise ValueError("max_structured_weight must be in (0, 1]")
         pretrained = clip_checkpoint or clip_pretrained
         self.clip, self.preprocess_train, self.preprocess_val = (
             open_clip.create_model_and_transforms(
@@ -83,8 +99,7 @@ class DQU_CIR(nn.Module):
                 f"output dimension {feature_dim}"
             )
 
-        # Names and initialization match dquModel.py so an official DQU
-        # checkpoint can be loaded directly into the shared baseline modules.
+        # These names and initializations match dquModel.py.
         self.loss_weight = nn.Parameter(torch.tensor([10.0]))
         self.combiner_fc = nn.Sequential(
             nn.Linear(hidden_dim * 2, hidden_dim),
@@ -99,8 +114,9 @@ class DQU_CIR(nn.Module):
             nn.Sigmoid(),
         )
 
-        self.structured_gate = StructuredGate(feature_dim, dropout)
-        self.structured_strength = nn.Parameter(torch.tensor(0.0))
+        self.structured_adapter = StructuredAdapter(feature_dim, adapter_rank)
+        self.structured_gate = StructuredGate()
+        self.max_structured_weight = float(max_structured_weight)
 
     def _feature_dim(self) -> int:
         projection = getattr(self.clip, "text_projection", None)
@@ -114,6 +130,13 @@ class DQU_CIR(nn.Module):
     @property
     def device(self) -> torch.device:
         return next(self.parameters()).device
+
+    def freeze_dqu_backbone(self) -> None:
+        """Freeze the verified retrieval model and train only Qwen modules."""
+        for name, parameter in self.named_parameters():
+            parameter.requires_grad_(name.startswith("structured_"))
+        self.freeze_clip = True
+        self.clip.eval()
 
     def train(self, mode: bool = True):
         super().train(mode)
@@ -133,13 +156,19 @@ class DQU_CIR(nn.Module):
             return self.clip.encode_text(tokens)
 
     @staticmethod
-    def _column(
-        values,
-        batch_size: int,
-        device: torch.device,
-        dtype: torch.dtype,
-    ) -> torch.Tensor:
-        return torch.as_tensor(values, device=device, dtype=dtype).reshape(batch_size, 1)
+    def _column(values, batch_size, device, dtype) -> torch.Tensor:
+        return torch.as_tensor(values, device=device, dtype=dtype).reshape(
+            batch_size, 1
+        )
+
+    def _dqu_fusion(self, text, image):
+        combined = self.combiner_fc(torch.cat([text, image], dim=-1))
+        text_weight = self.scaler_fc(self.dropout(combined))
+        query = F.normalize(
+            text_weight * text + (1.0 - text_weight) * image,
+            dim=-1,
+        )
+        return query, text_weight
 
     def extract_query(
         self,
@@ -155,7 +184,6 @@ class DQU_CIR(nn.Module):
         structured = F.normalize(self.extract_text_fea(structured_text), dim=-1)
         image = F.normalize(self.extract_img_fea(visual_query), dim=-1)
         batch_size = len(textual_query)
-
         if structured_mask is None:
             structured_mask = torch.ones(batch_size, device=image.device)
         if structured_confidence is None:
@@ -166,30 +194,35 @@ class DQU_CIR(nn.Module):
         confidence = self._column(
             structured_confidence, batch_size, image.device, baseline.dtype
         ).clamp(0.0, 1.0)
-        predicted_gate = self.structured_gate(baseline, structured)
-        global_strength = torch.tanh(self.structured_strength)
-        structured_weight = global_strength * predicted_gate * confidence * mask
-        text = F.normalize(
-            baseline + structured_weight * (structured - baseline),
-            dim=-1,
-        )
 
-        combined = self.combiner_fc(torch.cat([text, image], dim=-1))
-        dqu_text_weight = self.scaler_fc(self.dropout(combined))
-        query = F.normalize(
-            dqu_text_weight * text + (1.0 - dqu_text_weight) * image,
+        predicted_gate = self.structured_gate(
+            baseline, structured, confidence
+        )
+        structured_weight = (
+            self.max_structured_weight * predicted_gate * confidence * mask
+        )
+        residual = self.structured_adapter(baseline, structured)
+        adapted_text = F.normalize(
+            baseline + structured_weight * residual,
             dim=-1,
         )
+        query, dqu_text_weight = self._dqu_fusion(adapted_text, image)
+
         if not return_diagnostics:
             return query
         diagnostics = {
             "structured_weight": structured_weight.detach(),
             "predicted_structured_gate": predicted_gate.detach(),
-            "structured_strength": global_strength.detach(),
+            "adapter_residual_norm": residual.norm(dim=-1).detach(),
             "dqu_text_weight": dqu_text_weight.detach(),
             "structured_coverage": mask.mean().detach(),
             "mean_confidence": (confidence * mask).sum().detach()
             / mask.sum().clamp_min(1.0),
+            "text_drift": (
+                1.0 - (adapted_text * baseline).sum(dim=-1)
+            ).detach(),
+            "baseline_text": baseline,
+            "adapted_text": adapted_text,
         }
         return query, diagnostics
 
@@ -204,6 +237,7 @@ class DQU_CIR(nn.Module):
         target_img: torch.Tensor,
         structured_mask=None,
         structured_confidence=None,
+        preservation_weight: float = 1.0,
     ) -> dict[str, torch.Tensor]:
         query, diagnostics = self.extract_query(
             textual_query,
@@ -214,8 +248,17 @@ class DQU_CIR(nn.Module):
             return_diagnostics=True,
         )
         target = self.extract_target(target_img)
+        ranking = self.ranking_nce_loss(query, target)
+        baseline_text = diagnostics.pop("baseline_text").detach()
+        adapted_text = diagnostics.pop("adapted_text")
+        preservation = (
+            1.0 - (adapted_text * baseline_text).sum(dim=-1)
+        ).mean()
+        total = ranking + preservation_weight * preservation
         return {
-            "ranking": self.ranking_nce_loss(query, target),
+            "loss": total,
+            "ranking": ranking,
+            "preservation": preservation,
             **{name: value.mean() for name, value in diagnostics.items()},
         }
 
@@ -224,5 +267,4 @@ class DQU_CIR(nn.Module):
     ) -> torch.Tensor:
         logits = self.loss_weight * (query @ target.t())
         labels = torch.arange(logits.shape[0], device=logits.device)
-        # Preserve DQU-CIR's one-way batch classification objective.
         return F.cross_entropy(logits, labels)

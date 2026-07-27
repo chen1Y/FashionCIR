@@ -49,7 +49,8 @@ def test(params, model, testset, category):
     structured_weights = []
     predicted_gates = []
     dqu_text_weights = []
-    strengths = []
+    residual_norms = []
+    text_drifts = []
     with torch.inference_mode():
         for batch in tqdm(
             list(_batched(queries, params.batch_size)),
@@ -90,8 +91,11 @@ def test(params, model, testset, category):
             dqu_text_weights.append(
                 diagnostics["dqu_text_weight"].float().cpu()
             )
-            strengths.append(
-                diagnostics["structured_strength"].reshape(1).float().cpu()
+            residual_norms.append(
+                diagnostics["adapter_residual_norm"].float().cpu()
+            )
+            text_drifts.append(
+                diagnostics["text_drift"].float().cpu()
             )
 
         gallery_batches = []
@@ -155,8 +159,12 @@ def test(params, model, testset, category):
                 float(torch.cat(predicted_gates).mean().item()),
             ),
             (
-                f"{category}_structured_strength",
-                float(torch.cat(strengths).mean().item()),
+                f"{category}_adapter_residual_norm",
+                float(torch.cat(residual_norms).mean().item()),
+            ),
+            (
+                f"{category}_text_drift",
+                float(torch.cat(text_drifts).mean().item()),
             ),
             (
                 f"{category}_dqu_text_weight",

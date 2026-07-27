@@ -146,11 +146,11 @@ implement the structured-text experiment without modifying the isolated
 3. ViT-H/14 fine-tuning, one-way batch NCE, and DQU's optimizer settings.
 
 Validated Qwen JSON is rendered as concise natural language containing the
-target description and explicit add/remove/retain attributes. Its CLIP text
-feature is added as a confidence-weighted residual. The residual strength is
-initialized to exactly zero, so the initial retrieval query is DQU-CIR.
-Invalid or failed JSON receives a hard zero mask; Qwen's self-reported
-confidence is only a soft multiplier.
+target description and explicit add/remove attributes. A low-rank adapter
+learns a signed feature correction from the structured and baseline text
+features. Its final layer is initialized to exactly zero, so the initial
+retrieval query is DQU-CIR. Invalid or failed JSON receives a hard zero mask;
+Qwen's self-reported confidence is only a soft multiplier.
 
 Example using the complete online-Qwen files and local ViT-H/14 weights:
 
@@ -176,11 +176,21 @@ python newTrain.py ... \
   --dqu-checkpoint ../checkpoints/dress_dqu_official_original_seed42_best.pt
 ```
 
+This is the recommended mode. The verified DQU backbone is frozen by default,
+only the small `structured_adapter` and `structured_gate` are optimized, and
+epoch 0 is evaluated and saved as a non-degradation checkpoint. A cosine
+trust-region loss limits how far the adapted text can move from the DQU text.
+Adapter-only checkpoints reference the separate DQU checkpoint and therefore
+consume megabytes rather than duplicating the 3.7 GB backbone.
+
 Useful ablations:
 
 ```bash
 # Hard-disable Qwen while retaining both official DQU query inputs.
 python newTrain.py ... --disable-structured-text
+
+# Jointly fine-tune the DQU backbone only as an explicit ablation.
+python newTrain.py ... --no-freeze-dqu-backbone
 
 # Remove DQU's written-image input only as an explicitly named ablation.
 python newTrain.py ... --no-use-written-image
