@@ -94,3 +94,43 @@ Generate 50-100 samples spanning dresses, shirts, and tops/tees. Manually score:
 
 Do not use target images during this review. They may be inspected only in a
 separate downstream retrieval evaluation.
+
+## 6. Frozen-CLIP A/B retrieval diagnostic
+
+`evaluate_structured_edits.py` compares several representations while keeping
+the OpenCLIP encoder, gallery, queries, and fusion weights fixed:
+
+- the original FashionIQ modification text;
+- Qwen's short `target_description`;
+- a serialized structured template;
+- separately encoded structured fields;
+- raw/target text-feature hybrids;
+- target-description residuals added to the original image-text query.
+
+Example using a full FashionIQ validation gallery:
+
+```bash
+python evaluate_structured_edits.py \
+  --fashioniq-root ../data/FashionIQ \
+  --structured-json ../data/FashionIQ/captions/structured_edits_dress_val_50.json \
+  --category dress \
+  --split val \
+  --gallery split \
+  --model ViT-B-32 \
+  --pretrained openai \
+  --cache-dir ../model_cache \
+  --image-weights 0.25,0.5,0.75 \
+  --target-weights 0.25,0.5,0.75 \
+  --bootstrap-samples 5000
+```
+
+The output contains R@1/R@10/R@50, mean and median target rank, paired
+bootstrap confidence intervals against the matching raw-text baseline, and
+per-query ranks. Choose fusion weights on a training/development subset and
+report the corresponding validation result; selecting the best validation
+weight would bias the estimate.
+
+This script is a frozen-encoder diagnostic rather than a replacement for the
+project's trained retrieval evaluation. A positive result should subsequently
+be verified with the same trained checkpoint and the official full validation
+split.
