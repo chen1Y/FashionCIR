@@ -1,0 +1,36 @@
+{
+  "baseline": "DQU-CIR",
+  "dataset": "FashionIQ",
+  "category": "dress",
+  "protocol": "original-split",
+  "seed": 42,
+  "selection_metric": "R@10 + R@50",
+  "best_epoch": 3,
+  "metrics": {
+    "R@1": 21.66584035696579,
+    "R@10": 52.15666831928607,
+    "R@50": 74.91323748140803,
+    "median_rank": 9.0,
+    "mean_rank": 99.37134357957362,
+    "mean_text_weight": 0.5583488941192627
+  },
+  "paper_five_seed_mean": {
+    "R@10": 51.9,
+    "R@50": 74.37
+  },
+  "training": {
+    "backbone": "ViT-H-14",
+    "pretrained": "laion2B-s32B-b79K",
+    "batch_size": 16,
+    "clip_learning_rate": 1e-06,
+    "fusion_learning_rate": 0.0001,
+    "dropout": 0.5,
+    "early_stopping_patience": 5,
+    "stopped_after_epoch": 8
+  },
+  "hardware": "NVIDIA GeForce RTX 4080 SUPER, 32230 MiB",
+  "code_commit": "6b8e565",
+  "checkpoint": "/root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt",
+  "log": "/root/autodl-tmp/logs/dqu_official_original_seed42.log",
+  "verified_by_checkpoint_reload": true
+}

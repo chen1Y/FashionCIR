@@ -43,3 +43,17 @@ optimizer states to avoid consuming several additional gigabytes.
 For the smaller paper-specific validation gallery, change the split to
 `val-split`. Paper values are five-seed means, so a strict reproduction should
 run both protocols with five seeds and report mean and standard deviation.
+
+## Verified Dress result
+
+The first restored run used seed 42 and the full `original-split` gallery. It
+stopped after epoch 8, with epoch 3 selected by `R@10 + R@50`:
+
+- R@1: 21.6658
+- R@10: 52.1567
+- R@50: 74.9132
+
+Reloading the saved checkpoint reproduced the metrics exactly. The machine-
+readable run record is in
+`results/dress_dqu_official_original_seed42.json`. This is a single-seed
+verification; it should not be compared as though it were a five-seed mean.
