@@ -95,6 +95,12 @@ def parse_args() -> argparse.Namespace:
         help="Maximum new samples to process. Use 0 for all samples.",
     )
     parser.add_argument("--start-index", type=int, default=0)
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=1,
+        help="Number of queries generated together. Increase only after a GPU memory smoke test.",
+    )
     parser.add_argument("--checkpoint-every", type=int, default=5)
     parser.add_argument("--max-new-tokens", type=int, default=1024)
     parser.add_argument("--max-retries", type=int, default=2)
@@ -703,6 +709,8 @@ def load_qwen(args: argparse.Namespace) -> tuple[Any, Any, Any]:
         args.model,
         local_files_only=args.offline,
     )
+    if hasattr(processor, "tokenizer"):
+        processor.tokenizer.padding_side = "left"
     model.eval()
 
     input_device = next(
@@ -713,48 +721,67 @@ def load_qwen(args: argparse.Namespace) -> tuple[Any, Any, Any]:
     return processor, model, input_device
 
 
-def generate_response(
-    record: dict[str, Any],
+def generate_responses(
+    records: list[dict[str, Any]],
     processor: Any,
     model: Any,
     input_device: Any,
     max_new_tokens: int,
-    correction: str | None = None,
-    previous_program: dict[str, Any] | None = None,
-) -> str:
+    corrections: list[str | None] | None = None,
+    previous_programs: list[dict[str, Any] | None] | None = None,
+) -> list[str]:
     import torch
     from PIL import Image
 
-    image_path = Path(record["reference_image"])
-    if not image_path.is_file():
-        raise FileNotFoundError(f"Reference image not found: {image_path}")
-    image = Image.open(image_path).convert("RGB")
-    messages = build_messages(record)
-    if correction:
-        previous_json = (
-            "\n\nPrevious JSON to repair:\n"
-            + json.dumps(previous_program, ensure_ascii=False, indent=2)
-            if previous_program is not None
-            else ""
+    if not records:
+        return []
+    corrections = corrections or [None] * len(records)
+    previous_programs = previous_programs or [None] * len(records)
+    if len(corrections) != len(records) or len(previous_programs) != len(records):
+        raise ValueError("Batch repair metadata must match the number of records")
+
+    images = []
+    text_inputs = []
+    for record, correction, previous_program in zip(
+        records, corrections, previous_programs
+    ):
+        image_path = Path(record["reference_image"])
+        if not image_path.is_file():
+            raise FileNotFoundError(f"Reference image not found: {image_path}")
+        images.append(Image.open(image_path).convert("RGB"))
+        messages = build_messages(record)
+        if correction:
+            previous_json = (
+                "\n\nPrevious JSON to repair:\n"
+                + json.dumps(previous_program, ensure_ascii=False, indent=2)
+                if previous_program is not None
+                else ""
+            )
+            messages[-1]["content"][-1]["text"] += (
+                "\n\nYour previous response failed validation:\n"
+                f"{correction}\n"
+                f"{previous_json}\n"
+                "Regenerate the entire JSON object from scratch and fix every listed error. "
+                "Do not copy a conflicting or irrelevant field from the previous JSON."
+            )
+        text_inputs.append(
+            processor.apply_chat_template(
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+            )
         )
-        messages[-1]["content"][-1]["text"] += (
-            "\n\nYour previous response failed validation:\n"
-            f"{correction}\n"
-            f"{previous_json}\n"
-            "Regenerate the entire JSON object from scratch and fix every listed error. "
-            "Do not copy a conflicting or irrelevant field from the previous JSON."
-        )
-    text_input = processor.apply_chat_template(
-        messages,
-        tokenize=False,
-        add_generation_prompt=True,
-    )
-    inputs = processor(
-        text=[text_input],
-        images=[image],
-        padding=True,
-        return_tensors="pt",
-    ).to(input_device)
+
+    try:
+        inputs = processor(
+            text=text_inputs,
+            images=images,
+            padding=True,
+            return_tensors="pt",
+        ).to(input_device)
+    finally:
+        for image in images:
+            image.close()
 
     with torch.inference_mode():
         generated_ids = model.generate(
@@ -766,11 +793,34 @@ def generate_response(
         output_ids[len(input_ids) :]
         for input_ids, output_ids in zip(inputs.input_ids, generated_ids)
     ]
-    return processor.batch_decode(
+    return [
+        response.strip()
+        for response in processor.batch_decode(
         trimmed,
         skip_special_tokens=True,
         clean_up_tokenization_spaces=False,
-    )[0].strip()
+        )
+    ]
+
+
+def generate_response(
+    record: dict[str, Any],
+    processor: Any,
+    model: Any,
+    input_device: Any,
+    max_new_tokens: int,
+    correction: str | None = None,
+    previous_program: dict[str, Any] | None = None,
+) -> str:
+    return generate_responses(
+        [record],
+        processor,
+        model,
+        input_device,
+        max_new_tokens,
+        [correction],
+        [previous_program],
+    )[0]
 
 
 def process_semantics(
@@ -904,84 +954,117 @@ def run_generation(args: argparse.Namespace) -> int:
 
     processor, model, input_device = load_qwen(args)
     processed = 0
-    for record in pending:
-        raw_response: str | None = None
-        structured_edit: dict[str, Any] | None = None
-        errors: list[str] = []
-        correction: str | None = None
-        semantic_validation: dict[str, Any] | None = None
-        repair_response: str | None = None
-
-        for attempt in range(args.max_retries + 1):
-            try:
-                raw_response = generate_response(
-                    record,
+    for batch_start in range(0, len(pending), args.batch_size):
+        record_batch = pending[batch_start : batch_start + args.batch_size]
+        batch_responses: list[str | None]
+        try:
+            batch_responses = list(
+                generate_responses(
+                    record_batch,
                     processor,
                     model,
                     input_device,
                     args.max_new_tokens,
-                    correction,
                 )
-                structured_edit = extract_json_object(raw_response)
-                errors = validate_edit_program(structured_edit)
-                if not errors:
+            )
+        except Exception as exc:
+            print(
+                f"batch generation failed; falling back to single-query generation: "
+                f"{type(exc).__name__}: {exc}",
+                file=sys.stderr,
+            )
+            batch_responses = [None] * len(record_batch)
+
+        for record, initial_response in zip(record_batch, batch_responses):
+            raw_response: str | None = initial_response
+            structured_edit: dict[str, Any] | None = None
+            errors: list[str] = []
+            correction: str | None = None
+            semantic_validation: dict[str, Any] | None = None
+            repair_response: str | None = None
+
+            attempts_used = 0
+            if raw_response is not None:
+                attempts_used = 1
+                try:
+                    structured_edit = extract_json_object(raw_response)
+                    errors = validate_edit_program(structured_edit)
+                except Exception as exc:
+                    errors = [f"{type(exc).__name__}: {exc}"]
+
+            while structured_edit is None or errors:
+                if attempts_used >= args.max_retries + 1:
                     break
-            except Exception as exc:
-                errors = [f"{type(exc).__name__}: {exc}"]
-            correction = "; ".join(errors)
-            if attempt < args.max_retries:
-                print(
-                    f"retry query={record['query_id']} "
-                    f"attempt={attempt + 2} errors={errors}",
-                    file=sys.stderr,
+                correction = "; ".join(errors) if errors else None
+                attempts_used += 1
+                if attempts_used > 1:
+                    print(
+                        f"retry query={record['query_id']} "
+                        f"attempt={attempts_used} errors={errors}",
+                        file=sys.stderr,
+                    )
+                try:
+                    raw_response = generate_response(
+                        record,
+                        processor,
+                        model,
+                        input_device,
+                        args.max_new_tokens,
+                        correction,
+                    )
+                    structured_edit = extract_json_object(raw_response)
+                    errors = validate_edit_program(structured_edit)
+                except Exception as exc:
+                    structured_edit = None
+                    errors = [f"{type(exc).__name__}: {exc}"]
+
+            if structured_edit is not None and not errors:
+                structured_edit, semantic_validation, repair_response = process_semantics(
+                    record,
+                    structured_edit,
+                    args,
+                    processor,
+                    model,
+                    input_device,
                 )
 
-        if structured_edit is not None and not errors:
-            structured_edit, semantic_validation, repair_response = process_semantics(
+            sample = make_output_sample(
                 record,
                 structured_edit,
-                args,
-                processor,
-                model,
-                input_device,
+                raw_response,
+                errors,
+                args.omit_raw_response,
+            )
+            if semantic_validation is not None:
+                sample["semantic_validation"] = semantic_validation
+            if repair_response is not None and (
+                semantic_validation is None
+                or not semantic_validation["valid"]
+                or not args.omit_raw_response
+            ):
+                sample["semantic_repair_response"] = repair_response
+            existing_by_id[record["query_id"]] = sample
+            processed += 1
+            print(
+                f"[{processed}/{len(pending)}] {record['query_id']} "
+                f"status={sample['status']}"
             )
 
-        sample = make_output_sample(
-            record,
-            structured_edit,
-            raw_response,
-            errors,
-            args.omit_raw_response,
-        )
-        if semantic_validation is not None:
-            sample["semantic_validation"] = semantic_validation
-        if repair_response is not None and (
-            semantic_validation is None
-            or not semantic_validation["valid"]
-            or not args.omit_raw_response
-        ):
-            sample["semantic_repair_response"] = repair_response
-        existing_by_id[record["query_id"]] = sample
-        processed += 1
-        print(
-            f"[{processed}/{len(pending)}] {record['query_id']} "
-            f"status={sample['status']}"
-        )
-
-        if processed % args.checkpoint_every == 0 or processed == len(pending):
-            existing["generator"] = {
-                "model": args.model,
-                "dataset": "fashioniq",
-                "category": args.category,
-                "split": args.split,
-                "query_only_generation": True,
-            }
-            existing["samples"] = sorted(
-                existing_by_id.values(),
-                key=lambda item: item.get("source_index", -1),
-            )
-            atomic_write_json(output, existing)
-            print(f"checkpoint: {output}")
+            if processed % args.checkpoint_every == 0 or processed == len(pending):
+                existing["generator"] = {
+                    "model": args.model,
+                    "dataset": "fashioniq",
+                    "category": args.category,
+                    "split": args.split,
+                    "query_only_generation": True,
+                    "batch_size": args.batch_size,
+                }
+                existing["samples"] = sorted(
+                    existing_by_id.values(),
+                    key=lambda item: item.get("source_index", -1),
+                )
+                atomic_write_json(output, existing)
+                print(f"checkpoint: {output}")
 
     return validate_output_file(output)
 
@@ -1075,6 +1158,8 @@ def main() -> int:
     args = parse_args()
     if args.limit < 0:
         raise ValueError("--limit must be zero or positive")
+    if args.batch_size <= 0:
+        raise ValueError("--batch-size must be positive")
     if args.start_index < 0:
         raise ValueError("--start-index must be zero or positive")
     if args.checkpoint_every <= 0:
