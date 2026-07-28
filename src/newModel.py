@@ -162,6 +162,16 @@ class DQU_CIR(nn.Module):
         self.freeze_clip = True
         self.clip.eval()
 
+    def set_structured_training_phase(self, phase: str) -> None:
+        """Select gate warmup, adapter fitting, or legacy joint fitting."""
+        if phase not in {"gate", "adapter", "joint"}:
+            raise ValueError(f"Unknown structured training phase: {phase}")
+        for name, parameter in self.named_parameters():
+            if name.startswith("structured_gate."):
+                parameter.requires_grad_(phase in {"gate", "joint"})
+            elif name.startswith("structured_adapter."):
+                parameter.requires_grad_(phase in {"adapter", "joint"})
+
     def train(self, mode: bool = True):
         super().train(mode)
         if self.freeze_clip:

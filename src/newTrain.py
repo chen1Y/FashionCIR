@@ -76,6 +76,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--effective-residual-weight", type=float, default=1.0)
     parser.add_argument("--gate-supervision-weight", type=float, default=0.2)
     parser.add_argument("--gate-teacher-temperature", type=float, default=0.1)
+    parser.add_argument(
+        "--gate-warmup-epochs",
+        type=int,
+        default=2,
+        help="Train only the supervised gate first, then freeze it and fit the adapter.",
+    )
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--num-epochs", type=int, default=100)
     parser.add_argument("--lr", type=float, default=5e-5)
@@ -250,14 +256,16 @@ def load_checkpoint(path, model):
     return checkpoint
 
 
-def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
+def train_one_epoch(
+    args, model, optimizer, loader, device, scaler, epoch, phase
+):
     model.train()
     for module in model.modules():
         if isinstance(module, torch.nn.BatchNorm2d):
             module.eval()
     running_loss = 0.0
     steps = 0
-    progress = tqdm(loader, desc=f"DQU+Qwen train epoch {epoch}")
+    progress = tqdm(loader, desc=f"DQU+Qwen {phase} epoch {epoch}")
     for batch_index, data in enumerate(progress):
         if args.max_train_batches and batch_index >= args.max_train_batches:
             break
@@ -368,11 +376,23 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
             path,
         )
     for epoch in range(1, args.num_epochs + 1):
+        if args.gate_warmup_epochs > 0:
+            phase = "gate" if epoch <= args.gate_warmup_epochs else "adapter"
+        else:
+            phase = "joint"
+        model.set_structured_training_phase(phase)
+        if epoch == args.gate_warmup_epochs + 1 and phase == "adapter":
+            stale_epochs = 0
+            logging.info("phase_transition epoch=%d phase=adapter", epoch)
         if epoch > 1 and epoch % args.lr_decay == 0 and epoch <= args.max_decay_epoch:
             for group in optimizer.param_groups:
                 group["lr"] *= args.lr_div
-        loss = train_one_epoch(args, model, optimizer, loader, device, scaler, epoch)
-        logging.info("epoch=%d train_loss=%.6f", epoch, loss)
+        loss = train_one_epoch(
+            args, model, optimizer, loader, device, scaler, epoch, phase
+        )
+        logging.info(
+            "epoch=%d phase=%s train_loss=%.6f", epoch, phase, loss
+        )
         if epoch % args.eval_every:
             continue
 
