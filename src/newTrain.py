@@ -285,6 +285,8 @@ def train_one_epoch(
                 target,
                 mask,
                 confidence,
+                structured_fields=data["structured_fields"],
+                structured_field_mask=data["structured_field_mask"],
                 preservation_weight=args.preservation_weight,
                 gate_supervision_weight=args.gate_supervision_weight,
                 gate_teacher_temperature=args.gate_teacher_temperature,

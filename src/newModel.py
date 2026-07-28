@@ -78,6 +78,55 @@ class StructuredGate(nn.Module):
         return self.network(features)
 
 
+class StructuredFieldAggregator(nn.Module):
+    """Attend over short JSON-derived natural-language fields."""
+
+    def __init__(self, field_count: int = 4) -> None:
+        super().__init__()
+        self.field_count = int(field_count)
+        self.scorer = nn.Sequential(
+            nn.Linear(2, 16),
+            nn.GELU(),
+            nn.Linear(16, 1),
+        )
+        self.field_bias = nn.Parameter(torch.zeros(self.field_count))
+
+    def forward(
+        self,
+        baseline: torch.Tensor,
+        image: torch.Tensor,
+        fields: torch.Tensor,
+        field_mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        if fields.shape[1] != self.field_count:
+            raise ValueError(
+                f"Expected {self.field_count} fields, got {fields.shape[1]}"
+            )
+        baseline_similarity = (
+            fields * baseline.unsqueeze(1)
+        ).sum(dim=-1, keepdim=True)
+        image_similarity = (
+            fields * image.unsqueeze(1)
+        ).sum(dim=-1, keepdim=True)
+        scores = self.scorer(
+            torch.cat([baseline_similarity, image_similarity], dim=-1)
+        ).squeeze(-1)
+        scores = scores + self.field_bias
+        valid = field_mask.bool()
+        # Every valid structured record contains at least target/add/remove.
+        # The fallback protects malformed external data without introducing NaN.
+        no_valid_field = ~valid.any(dim=1)
+        if no_valid_field.any():
+            valid = valid.clone()
+            valid[no_valid_field, 0] = True
+        scores = scores.masked_fill(~valid, -torch.inf)
+        weights = torch.softmax(scores, dim=-1)
+        aggregate = F.normalize(
+            (weights.unsqueeze(-1) * fields).sum(dim=1), dim=-1
+        )
+        return aggregate, weights
+
+
 class DQU_CIR(nn.Module):
     """DQU-CIR plus a bounded, confidence-aware structured feature adapter."""
 
@@ -139,6 +188,7 @@ class DQU_CIR(nn.Module):
         self.structured_adapter = StructuredAdapter(
             feature_dim, adapter_rank, max_residual_norm
         )
+        self.structured_field_aggregator = StructuredFieldAggregator()
         self.structured_gate = StructuredGate()
         self.max_structured_weight = float(max_structured_weight)
 
@@ -169,7 +219,9 @@ class DQU_CIR(nn.Module):
         for name, parameter in self.named_parameters():
             if name.startswith("structured_gate."):
                 parameter.requires_grad_(phase in {"gate", "joint"})
-            elif name.startswith("structured_adapter."):
+            elif name.startswith(
+                ("structured_adapter.", "structured_field_aggregator.")
+            ):
                 parameter.requires_grad_(phase in {"adapter", "joint"})
 
     def train(self, mode: bool = True):
@@ -211,13 +263,49 @@ class DQU_CIR(nn.Module):
         visual_query: torch.Tensor,
         structured_mask=None,
         structured_confidence=None,
+        structured_fields=None,
+        structured_field_mask=None,
         *,
         return_diagnostics: bool = False,
     ):
         baseline = F.normalize(self.extract_text_fea(textual_query), dim=-1)
-        structured = F.normalize(self.extract_text_fea(structured_text), dim=-1)
         image = F.normalize(self.extract_img_fea(visual_query), dim=-1)
         batch_size = len(textual_query)
+        if structured_fields is None:
+            structured = F.normalize(
+                self.extract_text_fea(structured_text), dim=-1
+            )
+            field_weights = torch.ones(
+                batch_size, 1, device=image.device, dtype=baseline.dtype
+            )
+        else:
+            field_count = len(structured_fields)
+            flat_fields = [
+                text
+                for field_texts in structured_fields
+                for text in field_texts
+            ]
+            encoded_fields = F.normalize(
+                self.extract_text_fea(flat_fields), dim=-1
+            )
+            encoded_fields = encoded_fields.reshape(
+                field_count, batch_size, -1
+            ).transpose(0, 1)
+            if isinstance(structured_field_mask, (list, tuple)):
+                field_mask = torch.stack(
+                    [
+                        torch.as_tensor(values, device=image.device)
+                        for values in structured_field_mask
+                    ],
+                    dim=1,
+                )
+            else:
+                field_mask = torch.as_tensor(
+                    structured_field_mask, device=image.device
+                )
+            structured, field_weights = self.structured_field_aggregator(
+                baseline, image, encoded_fields, field_mask
+            )
         if structured_mask is None:
             structured_mask = torch.ones(batch_size, device=image.device)
         if structured_confidence is None:
@@ -257,6 +345,10 @@ class DQU_CIR(nn.Module):
             "text_drift": (
                 1.0 - (adapted_text * baseline).sum(dim=-1)
             ).clamp_min(0.0).detach(),
+            "field_attention_entropy": (
+                -(field_weights.clamp_min(1e-8).log() * field_weights)
+                .sum(dim=-1)
+            ).detach(),
             "baseline_text": baseline,
             "structured_text": structured,
             "image_feature": image,
@@ -278,6 +370,8 @@ class DQU_CIR(nn.Module):
         target_img: torch.Tensor,
         structured_mask=None,
         structured_confidence=None,
+        structured_fields=None,
+        structured_field_mask=None,
         preservation_weight: float = 1.0,
         gate_supervision_weight: float = 0.2,
         gate_teacher_temperature: float = 0.1,
@@ -289,6 +383,8 @@ class DQU_CIR(nn.Module):
             visual_query,
             structured_mask,
             structured_confidence,
+            structured_fields,
+            structured_field_mask,
             return_diagnostics=True,
         )
         target = self.extract_target(target_img)

@@ -412,6 +412,9 @@ class FashionIQ(torch.utils.data.Dataset):
                 continue
             structured_edit = sample.get("structured_edit", {})
             structured_text = self._linearize_structured_edit(structured_edit)
+            structured_fields, structured_field_mask = (
+                self._linearize_structured_fields(structured_edit)
+            )
             if not structured_text:
                 continue
             confidence = structured_edit.get("confidence", {}).get("score", 0.0)
@@ -424,6 +427,8 @@ class FashionIQ(torch.utils.data.Dataset):
                 raise ValueError(f"Duplicate structured edit for {key}")
             output[key] = {
                 "text": structured_text,
+                "fields": structured_fields,
+                "field_mask": structured_field_mask,
                 "confidence": confidence,
             }
         return output
@@ -461,6 +466,38 @@ class FashionIQ(torch.utils.data.Dataset):
             clauses.append(f"Target: {description}")
         return ". ".join(clauses)
 
+    @classmethod
+    def _linearize_structured_fields(cls, structured_edit):
+        """Return fixed, short natural-language fields for CLIP encoding."""
+        additions = cls._attributes(structured_edit.get("add"), limit=4)
+        removals = cls._attributes(structured_edit.get("remove"), limit=3)
+        relations = []
+        for item in structured_edit.get("relations") or []:
+            subject = str(item.get("subject", "")).strip()[:30]
+            relation = str(item.get("relation", "")).strip()[:20]
+            obj = str(item.get("object", "")).strip()[:30]
+            if subject and relation and obj:
+                relations.append(f"{subject} {relation} {obj}")
+            if len(relations) >= 3:
+                break
+        description = " ".join(
+            str(structured_edit.get("target_description", ""))
+            .strip()
+            .rstrip(".")
+            .split()[:24]
+        )
+        values = (
+            "Add " + ", ".join(additions) if additions else "",
+            "Remove " + ", ".join(removals) if removals else "",
+            "Relations: " + "; ".join(relations) if relations else "",
+            "Target garment: " + description if description else "",
+        )
+        # Empty slots are replaced with a neutral sentence only to make the
+        # default collator rectangular; the mask excludes them in the model.
+        mask = tuple(bool(value) for value in values)
+        fields = tuple(value or "No specified attribute change" for value in values)
+        return fields, mask
+
     def correct_text(self, text):
         translation = str.maketrans({key: " " for key in string.punctuation})
         tokens = str(text).lower().translate(translation).strip().split()
@@ -489,8 +526,20 @@ class FashionIQ(torch.utils.data.Dataset):
         mapping = self.structured_train if split == "train" else self.structured_val
         record = mapping.get((candidate, target))
         if record is None:
-            return fallback, False, 0.0
-        return record["text"], True, record["confidence"]
+            return (
+                fallback,
+                (fallback,) * 4,
+                (False,) * 4,
+                False,
+                0.0,
+            )
+        return (
+            record["text"],
+            record["fields"],
+            record["field_mask"],
+            True,
+            record["confidence"],
+        )
 
     def _baseline_text(self, candidate, modification, split):
         captions = self.train_captions if split == "train" else self.val_captions
@@ -504,7 +553,13 @@ class FashionIQ(torch.utils.data.Dataset):
         target = item["target"]
         modification = item["modification_text"]
         baseline_text = self._baseline_text(candidate, modification, "train")
-        structured_text, has_structured, confidence = self._structured_for(
+        (
+            structured_text,
+            structured_fields,
+            structured_field_mask,
+            has_structured,
+            confidence,
+        ) = self._structured_for(
             candidate, target, "train", baseline_text
         )
         target_image, target_path = self.get_img(target, stage=0)
@@ -516,6 +571,8 @@ class FashionIQ(torch.utils.data.Dataset):
             "source_img_path": source_path,
             "textual_query": baseline_text,
             "structured_text": structured_text,
+            "structured_fields": structured_fields,
+            "structured_field_mask": structured_field_mask,
             "has_structured_text": has_structured,
             "structured_confidence": confidence,
             "candidate": candidate,
@@ -584,7 +641,13 @@ class FashionIQ(torch.utils.data.Dataset):
             target = item["target"]
             modification = item["modification_text"]
             baseline_text = self._baseline_text(candidate, modification, "val")
-            structured_text, has_structured, confidence = self._structured_for(
+            (
+                structured_text,
+                structured_fields,
+                structured_field_mask,
+                has_structured,
+                confidence,
+            ) = self._structured_for(
                 candidate, target, "val", baseline_text
             )
             source_image, source_path = self.get_query_img(candidate, target, stage=1)
@@ -596,6 +659,8 @@ class FashionIQ(torch.utils.data.Dataset):
                     "target_img_id": target,
                     "textual_query": baseline_text,
                     "structured_text": structured_text,
+                    "structured_fields": structured_fields,
+                    "structured_field_mask": structured_field_mask,
                     "has_structured_text": has_structured,
                     "structured_confidence": confidence,
                     "mod": {"str": modification},

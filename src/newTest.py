@@ -52,6 +52,7 @@ def test(params, model, testset, category):
     residual_norms = []
     effective_residual_norms = []
     text_drifts = []
+    field_entropies = []
     with torch.inference_mode():
         for batch in tqdm(
             list(_batched(queries, params.batch_size)),
@@ -74,12 +75,22 @@ def test(params, model, testset, category):
             if getattr(params, "disable_structured_text", False):
                 mask.zero_()
             with _autocast(device):
+                structured_fields = list(
+                    zip(*[item["structured_fields"] for item in batch])
+                )
+                structured_field_mask = torch.tensor(
+                    [item["structured_field_mask"] for item in batch],
+                    device=device,
+                    dtype=torch.bool,
+                )
                 features, diagnostics = model.extract_query(
                     raw_text,
                     structured_text,
                     images,
                     mask,
                     confidence,
+                    structured_fields=structured_fields,
+                    structured_field_mask=structured_field_mask,
                     return_diagnostics=True,
                 )
             query_batches.append(features.float().cpu())
@@ -100,6 +111,9 @@ def test(params, model, testset, category):
             )
             text_drifts.append(
                 diagnostics["text_drift"].float().cpu()
+            )
+            field_entropies.append(
+                diagnostics["field_attention_entropy"].float().cpu()
             )
 
         gallery_batches = []
@@ -173,6 +187,10 @@ def test(params, model, testset, category):
             (
                 f"{category}_text_drift",
                 float(torch.cat(text_drifts).mean().item()),
+            ),
+            (
+                f"{category}_field_attention_entropy",
+                float(torch.cat(field_entropies).mean().item()),
             ),
             (
                 f"{category}_dqu_text_weight",
