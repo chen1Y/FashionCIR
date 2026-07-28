@@ -303,6 +303,25 @@ def train_one_epoch(
             )
         scaler.scale(loss).backward()
         scaler.unscale_(optimizer)
+        nonfinite_gradients = []
+        for name, parameter in model.named_parameters():
+            if (
+                parameter.requires_grad
+                and parameter.grad is not None
+                and not torch.isfinite(parameter.grad).all()
+            ):
+                finite = parameter.grad[torch.isfinite(parameter.grad)]
+                finite_max = (
+                    float(finite.abs().max()) if finite.numel() else None
+                )
+                nonfinite_gradients.append(
+                    f"{name}(finite_max={finite_max})"
+                )
+        if nonfinite_gradients:
+            raise FloatingPointError(
+                f"Non-finite gradients at epoch={epoch} batch={batch_index}: "
+                + ", ".join(nonfinite_gradients)
+            )
         torch.nn.utils.clip_grad_norm_(
             [p for p in model.parameters() if p.requires_grad],
             args.grad_clip_norm,
