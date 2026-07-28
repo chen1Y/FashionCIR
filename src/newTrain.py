@@ -123,7 +123,12 @@ def set_seed(seed: int) -> None:
 
 def autocast_context(device: torch.device):
     if device.type == "cuda":
-        return torch.autocast(device_type="cuda", dtype=torch.float16)
+        dtype = (
+            torch.bfloat16
+            if torch.cuda.is_bf16_supported()
+            else torch.float16
+        )
+        return torch.autocast(device_type="cuda", dtype=dtype)
     return nullcontext()
 
 
@@ -393,7 +398,12 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
         pin_memory=True,
         generator=generator,
     )
-    scaler = torch.cuda.amp.GradScaler()
+    # BF16 has FP32-like exponent range and does not need loss scaling.  Keep
+    # GradScaler only for older CUDA devices that must fall back to FP16.
+    use_fp16_scaling = (
+        device.type == "cuda" and not torch.cuda.is_bf16_supported()
+    )
+    scaler = torch.cuda.amp.GradScaler(enabled=use_fp16_scaling)
     best_score = float("-inf")
     stale_epochs = 0
     if args.eval_before_train:
