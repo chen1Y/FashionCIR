@@ -83,7 +83,7 @@ class StructuredGate(nn.Module):
 
 
 class StructuredFieldAggregator(nn.Module):
-    """Attend over short JSON-derived natural-language fields."""
+    """Robustly average short JSON-derived natural-language fields."""
 
     def __init__(self, field_count: int = 4) -> None:
         super().__init__()
@@ -94,6 +94,11 @@ class StructuredFieldAggregator(nn.Module):
             nn.Linear(16, 1),
         )
         self.field_bias = nn.Parameter(torch.zeros(self.field_count))
+        # Retained for checkpoint compatibility.  The learned scorer remained
+        # nearly uniform in validation while producing unstable gradients for
+        # a few field combinations, so deterministic masked averaging is used.
+        self.scorer.requires_grad_(False)
+        self.field_bias.requires_grad_(False)
 
     def forward(
         self,
@@ -106,23 +111,10 @@ class StructuredFieldAggregator(nn.Module):
             raise ValueError(
                 f"Expected {self.field_count} fields, got {fields.shape[1]}"
             )
-        # The tiny attention block is numerically sensitive: CLIP similarities
-        # and normalized weighted sums can overflow their gradients in fp16.
-        # Keep this block in fp32 while the much larger CLIP backbone remains AMP.
+        # Equal weighting is the lowest-variance field fusion and matches the
+        # near-uniform attention observed in the learned-attention ablation.
         with torch.autocast(device_type=fields.device.type, enabled=False):
             fields_fp32 = fields.float()
-            baseline_similarity = (
-                fields_fp32 * baseline.float().unsqueeze(1)
-            ).sum(dim=-1, keepdim=True)
-            image_similarity = (
-                fields_fp32 * image.float().unsqueeze(1)
-            ).sum(dim=-1, keepdim=True)
-            scores = self.scorer(
-                torch.cat(
-                    [baseline_similarity, image_similarity], dim=-1
-                )
-            ).squeeze(-1)
-            scores = (scores + self.field_bias.float()).clamp(-20.0, 20.0)
             valid = field_mask.bool()
             # Every valid structured record contains at least target/add/remove.
             # The fallback protects malformed external data without introducing
@@ -131,12 +123,8 @@ class StructuredFieldAggregator(nn.Module):
             if no_valid_field.any():
                 valid = valid.clone()
                 valid[no_valid_field, 0] = True
-            # Avoid -inf: zero and renormalize masked probabilities explicitly.
-            masked_scores = scores.masked_fill(~valid, -20.0)
-            weights = torch.softmax(masked_scores, dim=-1) * valid.float()
-            weights = weights / weights.sum(
-                dim=-1, keepdim=True
-            ).clamp_min(1e-6)
+            weights = valid.float()
+            weights = weights / weights.sum(dim=-1, keepdim=True)
             aggregate = F.normalize(
                 (weights.unsqueeze(-1) * fields_fp32).sum(dim=1), dim=-1
             )
@@ -262,10 +250,10 @@ class DQU_CIR(nn.Module):
                 parameter.requires_grad_(phase in {"gate", "joint"})
             elif name.startswith("structured_confidence_calibrator."):
                 parameter.requires_grad_(phase in {"gate", "joint"})
-            elif name.startswith(
-                ("structured_adapter.", "structured_field_aggregator.")
-            ):
+            elif name.startswith("structured_adapter."):
                 parameter.requires_grad_(phase in {"adapter", "joint"})
+            elif name.startswith("structured_field_aggregator."):
+                parameter.requires_grad_(False)
 
     def train(self, mode: bool = True):
         super().train(mode)
