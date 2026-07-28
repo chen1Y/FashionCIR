@@ -53,6 +53,7 @@ def test(params, model, testset, category):
     effective_residual_norms = []
     text_drifts = []
     field_entropies = []
+    calibrated_confidences = []
     with torch.inference_mode():
         for batch in tqdm(
             list(_batched(queries, params.batch_size)),
@@ -83,6 +84,11 @@ def test(params, model, testset, category):
                     device=device,
                     dtype=torch.bool,
                 )
+                quality_features = torch.tensor(
+                    [item["structured_quality_features"] for item in batch],
+                    device=device,
+                    dtype=torch.float32,
+                )
                 features, diagnostics = model.extract_query(
                     raw_text,
                     structured_text,
@@ -91,6 +97,7 @@ def test(params, model, testset, category):
                     confidence,
                     structured_fields=structured_fields,
                     structured_field_mask=structured_field_mask,
+                    structured_quality_features=quality_features,
                     return_diagnostics=True,
                 )
             query_batches.append(features.float().cpu())
@@ -114,6 +121,9 @@ def test(params, model, testset, category):
             )
             field_entropies.append(
                 diagnostics["field_attention_entropy"].float().cpu()
+            )
+            calibrated_confidences.append(
+                diagnostics["calibrated_confidence"].float().cpu()
             )
 
         gallery_batches = []
@@ -191,6 +201,10 @@ def test(params, model, testset, category):
             (
                 f"{category}_field_attention_entropy",
                 float(torch.cat(field_entropies).mean().item()),
+            ),
+            (
+                f"{category}_calibrated_confidence",
+                float(torch.cat(calibrated_confidences).mean().item()),
             ),
             (
                 f"{category}_dqu_text_weight",

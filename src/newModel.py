@@ -110,8 +110,8 @@ class StructuredFieldAggregator(nn.Module):
         ).sum(dim=-1, keepdim=True)
         scores = self.scorer(
             torch.cat([baseline_similarity, image_similarity], dim=-1)
-        ).squeeze(-1)
-        scores = scores + self.field_bias
+        ).squeeze(-1).float()
+        scores = (scores + self.field_bias.float()).clamp(-20.0, 20.0)
         valid = field_mask.bool()
         # Every valid structured record contains at least target/add/remove.
         # The fallback protects malformed external data without introducing NaN.
@@ -120,11 +120,33 @@ class StructuredFieldAggregator(nn.Module):
             valid = valid.clone()
             valid[no_valid_field, 0] = True
         scores = scores.masked_fill(~valid, -torch.inf)
-        weights = torch.softmax(scores, dim=-1)
+        weights = torch.softmax(scores, dim=-1).to(fields.dtype)
         aggregate = F.normalize(
             (weights.unsqueeze(-1) * fields).sum(dim=1), dim=-1
         )
         return aggregate, weights
+
+
+class StructuredConfidenceCalibrator(nn.Module):
+    """Calibrate Qwen self-confidence using observable quality signals."""
+
+    def __init__(self, feature_count: int = 5) -> None:
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(feature_count, 16),
+            nn.GELU(),
+            nn.Linear(16, 1),
+        )
+        nn.init.zeros_(self.network[-1].weight)
+        nn.init.zeros_(self.network[-1].bias)
+
+    def forward(
+        self, self_confidence: torch.Tensor, quality_features: torch.Tensor
+    ) -> torch.Tensor:
+        base = self_confidence.clamp(1e-4, 1.0 - 1e-4)
+        base_logit = torch.logit(base)
+        adjustment = self.network(quality_features)
+        return torch.sigmoid(base_logit + adjustment)
 
 
 class DQU_CIR(nn.Module):
@@ -189,6 +211,9 @@ class DQU_CIR(nn.Module):
             feature_dim, adapter_rank, max_residual_norm
         )
         self.structured_field_aggregator = StructuredFieldAggregator()
+        self.structured_confidence_calibrator = (
+            StructuredConfidenceCalibrator()
+        )
         self.structured_gate = StructuredGate()
         self.max_structured_weight = float(max_structured_weight)
 
@@ -218,6 +243,8 @@ class DQU_CIR(nn.Module):
             raise ValueError(f"Unknown structured training phase: {phase}")
         for name, parameter in self.named_parameters():
             if name.startswith("structured_gate."):
+                parameter.requires_grad_(phase in {"gate", "joint"})
+            elif name.startswith("structured_confidence_calibrator."):
                 parameter.requires_grad_(phase in {"gate", "joint"})
             elif name.startswith(
                 ("structured_adapter.", "structured_field_aggregator.")
@@ -265,6 +292,7 @@ class DQU_CIR(nn.Module):
         structured_confidence=None,
         structured_fields=None,
         structured_field_mask=None,
+        structured_quality_features=None,
         *,
         return_diagnostics: bool = False,
     ):
@@ -316,12 +344,50 @@ class DQU_CIR(nn.Module):
         confidence = self._column(
             structured_confidence, batch_size, image.device, baseline.dtype
         ).clamp(0.0, 1.0)
+        if structured_quality_features is None:
+            quality_features = torch.cat(
+                [
+                    confidence,
+                    torch.zeros(
+                        batch_size,
+                        4,
+                        device=image.device,
+                        dtype=baseline.dtype,
+                    ),
+                ],
+                dim=1,
+            )
+        else:
+            if isinstance(structured_quality_features, (list, tuple)):
+                quality_features = torch.stack(
+                    [
+                        torch.as_tensor(
+                            values,
+                            device=image.device,
+                            dtype=baseline.dtype,
+                        )
+                        for values in structured_quality_features
+                    ],
+                    dim=1,
+                )
+            else:
+                quality_features = torch.as_tensor(
+                    structured_quality_features,
+                    device=image.device,
+                    dtype=baseline.dtype,
+                )
+        calibrated_confidence = self.structured_confidence_calibrator(
+            confidence, quality_features
+        )
 
         predicted_gate = self.structured_gate(
-            baseline, structured, image, confidence
+            baseline, structured, image, calibrated_confidence
         )
         structured_weight = (
-            self.max_structured_weight * predicted_gate * confidence * mask
+            self.max_structured_weight
+            * predicted_gate
+            * calibrated_confidence
+            * mask
         )
         residual = self.structured_adapter(baseline, structured)
         effective_residual = structured_weight * residual
@@ -342,6 +408,7 @@ class DQU_CIR(nn.Module):
             "structured_coverage": mask.mean().detach(),
             "mean_confidence": (confidence * mask).sum().detach()
             / mask.sum().clamp_min(1.0),
+            "calibrated_confidence": calibrated_confidence.detach(),
             "text_drift": (
                 1.0 - (adapted_text * baseline).sum(dim=-1)
             ).clamp_min(0.0).detach(),
@@ -355,6 +422,7 @@ class DQU_CIR(nn.Module):
             "adapted_text": adapted_text,
             "predicted_gate_for_loss": predicted_gate,
             "mask_for_loss": mask,
+            "calibrated_confidence_for_loss": calibrated_confidence,
             "effective_residual_for_loss": effective_residual,
         }
         return query, diagnostics
@@ -372,10 +440,12 @@ class DQU_CIR(nn.Module):
         structured_confidence=None,
         structured_fields=None,
         structured_field_mask=None,
+        structured_quality_features=None,
         preservation_weight: float = 1.0,
         gate_supervision_weight: float = 0.2,
         gate_teacher_temperature: float = 0.1,
         effective_residual_weight: float = 1.0,
+        confidence_calibration_weight: float = 0.2,
     ) -> dict[str, torch.Tensor]:
         query, diagnostics = self.extract_query(
             textual_query,
@@ -385,6 +455,7 @@ class DQU_CIR(nn.Module):
             structured_confidence,
             structured_fields,
             structured_field_mask,
+            structured_quality_features,
             return_diagnostics=True,
         )
         target = self.extract_target(target_img)
@@ -395,6 +466,9 @@ class DQU_CIR(nn.Module):
         adapted_text = diagnostics.pop("adapted_text")
         predicted_gate = diagnostics.pop("predicted_gate_for_loss")
         valid_mask = diagnostics.pop("mask_for_loss")
+        calibrated_confidence = diagnostics.pop(
+            "calibrated_confidence_for_loss"
+        )
         effective_residual = diagnostics.pop("effective_residual_for_loss")
         preservation = (
             1.0 - (adapted_text * baseline_text).sum(dim=-1)
@@ -437,11 +511,15 @@ class DQU_CIR(nn.Module):
         gate_error = (predicted_gate - teacher_gate).pow(2)
         gate_supervision = (gate_error * valid_mask).sum() / valid_mask.sum().clamp_min(1.0)
         effective_residual_penalty = effective_residual.pow(2).sum(dim=-1).mean()
+        confidence_calibration = (
+            (calibrated_confidence - teacher_gate).pow(2) * valid_mask
+        ).sum() / valid_mask.sum().clamp_min(1.0)
         total = (
             ranking
             + preservation_weight * preservation
             + gate_supervision_weight * gate_supervision
             + effective_residual_weight * effective_residual_penalty
+            + confidence_calibration_weight * confidence_calibration
         )
         return {
             "loss": total,
@@ -449,6 +527,7 @@ class DQU_CIR(nn.Module):
             "preservation": preservation,
             "gate_supervision": gate_supervision,
             "effective_residual_penalty": effective_residual_penalty,
+            "confidence_calibration": confidence_calibration,
             "teacher_gate": (teacher_gate * valid_mask).sum()
             / valid_mask.sum().clamp_min(1.0),
             "teacher_helpful_rate": (

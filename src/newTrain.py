@@ -74,6 +74,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-residual-norm", type=float, default=1.0)
     parser.add_argument("--preservation-weight", type=float, default=1.0)
     parser.add_argument("--effective-residual-weight", type=float, default=1.0)
+    parser.add_argument("--confidence-calibration-weight", type=float, default=0.2)
     parser.add_argument("--gate-supervision-weight", type=float, default=0.2)
     parser.add_argument("--gate-teacher-temperature", type=float, default=0.1)
     parser.add_argument(
@@ -87,6 +88,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lr", type=float, default=5e-5)
     parser.add_argument("--clip-lr", type=float, default=1e-6)
     parser.add_argument("--weight-decay", type=float, default=1e-2)
+    parser.add_argument("--grad-clip-norm", type=float, default=1.0)
     parser.add_argument("--dropout-rate", type=float, default=0.5)
     parser.add_argument("--lr-decay", type=int, default=8)
     parser.add_argument("--lr-div", type=float, default=0.1)
@@ -287,13 +289,25 @@ def train_one_epoch(
                 confidence,
                 structured_fields=data["structured_fields"],
                 structured_field_mask=data["structured_field_mask"],
+                structured_quality_features=data["structured_quality_features"],
                 preservation_weight=args.preservation_weight,
                 gate_supervision_weight=args.gate_supervision_weight,
                 gate_teacher_temperature=args.gate_teacher_temperature,
                 effective_residual_weight=args.effective_residual_weight,
+                confidence_calibration_weight=args.confidence_calibration_weight,
             )
             loss = losses["loss"]
+        if not torch.isfinite(loss):
+            raise FloatingPointError(
+                f"Non-finite loss at epoch={epoch} batch={batch_index}"
+            )
         scaler.scale(loss).backward()
+        scaler.unscale_(optimizer)
+        torch.nn.utils.clip_grad_norm_(
+            [p for p in model.parameters() if p.requires_grad],
+            args.grad_clip_norm,
+            error_if_nonfinite=True,
+        )
         scaler.step(optimizer)
         scaler.update()
         running_loss += float(loss.detach())

@@ -422,6 +422,22 @@ class FashionIQ(torch.utils.data.Dataset):
                 confidence = min(max(float(confidence), 0.0), 1.0)
             except (TypeError, ValueError):
                 confidence = 0.0
+            complexity = structured_edit.get("complexity", {}).get("score", 0.5)
+            try:
+                complexity = min(max(float(complexity), 0.0), 1.0)
+            except (TypeError, ValueError):
+                complexity = 0.5
+            ambiguity_count = len(
+                structured_edit.get("confidence", {}).get("ambiguities", []) or []
+            )
+            semantic = sample.get("semantic_validation", {})
+            quality_features = (
+                confidence,
+                1.0 - complexity,
+                1.0 / (1.0 + ambiguity_count),
+                0.0 if semantic.get("repaired", False) else 1.0,
+                sum(structured_field_mask) / len(structured_field_mask),
+            )
             key = (sample["candidate"], sample["target"])
             if key in output:
                 raise ValueError(f"Duplicate structured edit for {key}")
@@ -430,6 +446,7 @@ class FashionIQ(torch.utils.data.Dataset):
                 "fields": structured_fields,
                 "field_mask": structured_field_mask,
                 "confidence": confidence,
+                "quality_features": quality_features,
             }
         return output
 
@@ -532,6 +549,7 @@ class FashionIQ(torch.utils.data.Dataset):
                 (False,) * 4,
                 False,
                 0.0,
+                (0.0,) * 5,
             )
         return (
             record["text"],
@@ -539,6 +557,7 @@ class FashionIQ(torch.utils.data.Dataset):
             record["field_mask"],
             True,
             record["confidence"],
+            record["quality_features"],
         )
 
     def _baseline_text(self, candidate, modification, split):
@@ -559,6 +578,7 @@ class FashionIQ(torch.utils.data.Dataset):
             structured_field_mask,
             has_structured,
             confidence,
+            quality_features,
         ) = self._structured_for(
             candidate, target, "train", baseline_text
         )
@@ -575,6 +595,7 @@ class FashionIQ(torch.utils.data.Dataset):
             "structured_field_mask": structured_field_mask,
             "has_structured_text": has_structured,
             "structured_confidence": confidence,
+            "structured_quality_features": quality_features,
             "candidate": candidate,
             "target": target,
             "mod": {"str": modification},
@@ -647,6 +668,7 @@ class FashionIQ(torch.utils.data.Dataset):
                 structured_field_mask,
                 has_structured,
                 confidence,
+                quality_features,
             ) = self._structured_for(
                 candidate, target, "val", baseline_text
             )
@@ -663,6 +685,7 @@ class FashionIQ(torch.utils.data.Dataset):
                     "structured_field_mask": structured_field_mask,
                     "has_structured_text": has_structured,
                     "structured_confidence": confidence,
+                    "structured_quality_features": quality_features,
                     "mod": {"str": modification},
                 }
             )
