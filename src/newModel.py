@@ -106,33 +106,41 @@ class StructuredFieldAggregator(nn.Module):
             raise ValueError(
                 f"Expected {self.field_count} fields, got {fields.shape[1]}"
             )
-        baseline_similarity = (
-            fields * baseline.unsqueeze(1)
-        ).sum(dim=-1, keepdim=True)
-        image_similarity = (
-            fields * image.unsqueeze(1)
-        ).sum(dim=-1, keepdim=True)
-        scores = self.scorer(
-            torch.cat([baseline_similarity, image_similarity], dim=-1)
-        ).squeeze(-1).float()
-        scores = (scores + self.field_bias.float()).clamp(-20.0, 20.0)
-        valid = field_mask.bool()
-        # Every valid structured record contains at least target/add/remove.
-        # The fallback protects malformed external data without introducing NaN.
-        no_valid_field = ~valid.any(dim=1)
-        if no_valid_field.any():
-            valid = valid.clone()
-            valid[no_valid_field, 0] = True
-        # Avoid -inf under mixed precision: explicitly zero and renormalize
-        # masked probabilities so both forward values and gradients stay finite.
-        masked_scores = scores.masked_fill(~valid, -20.0)
-        weights = torch.softmax(masked_scores, dim=-1) * valid.float()
-        weights = weights / weights.sum(dim=-1, keepdim=True).clamp_min(1e-6)
-        weights = weights.to(fields.dtype)
-        aggregate = F.normalize(
-            (weights.unsqueeze(-1) * fields).sum(dim=1), dim=-1
-        )
-        return aggregate, weights
+        # The tiny attention block is numerically sensitive: CLIP similarities
+        # and normalized weighted sums can overflow their gradients in fp16.
+        # Keep this block in fp32 while the much larger CLIP backbone remains AMP.
+        with torch.autocast(device_type=fields.device.type, enabled=False):
+            fields_fp32 = fields.float()
+            baseline_similarity = (
+                fields_fp32 * baseline.float().unsqueeze(1)
+            ).sum(dim=-1, keepdim=True)
+            image_similarity = (
+                fields_fp32 * image.float().unsqueeze(1)
+            ).sum(dim=-1, keepdim=True)
+            scores = self.scorer(
+                torch.cat(
+                    [baseline_similarity, image_similarity], dim=-1
+                )
+            ).squeeze(-1)
+            scores = (scores + self.field_bias.float()).clamp(-20.0, 20.0)
+            valid = field_mask.bool()
+            # Every valid structured record contains at least target/add/remove.
+            # The fallback protects malformed external data without introducing
+            # NaN.
+            no_valid_field = ~valid.any(dim=1)
+            if no_valid_field.any():
+                valid = valid.clone()
+                valid[no_valid_field, 0] = True
+            # Avoid -inf: zero and renormalize masked probabilities explicitly.
+            masked_scores = scores.masked_fill(~valid, -20.0)
+            weights = torch.softmax(masked_scores, dim=-1) * valid.float()
+            weights = weights / weights.sum(
+                dim=-1, keepdim=True
+            ).clamp_min(1e-6)
+            aggregate = F.normalize(
+                (weights.unsqueeze(-1) * fields_fp32).sum(dim=1), dim=-1
+            )
+        return aggregate.to(fields.dtype), weights.to(fields.dtype)
 
 
 class StructuredConfidenceCalibrator(nn.Module):
