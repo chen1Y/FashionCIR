@@ -35,7 +35,11 @@ class StructuredAdapter(nn.Module):
         self, baseline: torch.Tensor, structured: torch.Tensor
     ) -> torch.Tensor:
         residual = self.network(structured - baseline)
-        norm = residual.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+        # Adding epsilon inside sqrt keeps the derivative finite at the exact
+        # zero initialization of the adapter's final layer.
+        norm = torch.sqrt(
+            residual.pow(2).sum(dim=-1, keepdim=True) + 1e-12
+        )
         scale = (self.max_residual_norm / norm).clamp(max=1.0)
         return residual * scale
 
@@ -119,8 +123,12 @@ class StructuredFieldAggregator(nn.Module):
         if no_valid_field.any():
             valid = valid.clone()
             valid[no_valid_field, 0] = True
-        scores = scores.masked_fill(~valid, -torch.inf)
-        weights = torch.softmax(scores, dim=-1).to(fields.dtype)
+        # Avoid -inf under mixed precision: explicitly zero and renormalize
+        # masked probabilities so both forward values and gradients stay finite.
+        masked_scores = scores.masked_fill(~valid, -20.0)
+        weights = torch.softmax(masked_scores, dim=-1) * valid.float()
+        weights = weights / weights.sum(dim=-1, keepdim=True).clamp_min(1e-6)
+        weights = weights.to(fields.dtype)
         aggregate = F.normalize(
             (weights.unsqueeze(-1) * fields).sum(dim=1), dim=-1
         )
