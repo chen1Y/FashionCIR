@@ -13,8 +13,13 @@ import torch.nn.functional as F
 class StructuredAdapter(nn.Module):
     """Learn a signed residual instead of directly trusting CLIP text geometry."""
 
-    def __init__(self, feature_dim: int, rank: int) -> None:
+    def __init__(
+        self, feature_dim: int, rank: int, max_residual_norm: float
+    ) -> None:
         super().__init__()
+        if max_residual_norm <= 0:
+            raise ValueError("max_residual_norm must be positive")
+        self.max_residual_norm = float(max_residual_norm)
         self.network = nn.Sequential(
             nn.LayerNorm(feature_dim),
             nn.Linear(feature_dim, rank),
@@ -29,7 +34,10 @@ class StructuredAdapter(nn.Module):
     def forward(
         self, baseline: torch.Tensor, structured: torch.Tensor
     ) -> torch.Tensor:
-        return self.network(structured - baseline)
+        residual = self.network(structured - baseline)
+        norm = residual.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+        scale = (self.max_residual_norm / norm).clamp(max=1.0)
+        return residual * scale
 
 
 class StructuredGate(nn.Module):
@@ -85,6 +93,7 @@ class DQU_CIR(nn.Module):
         freeze_clip: bool = False,
         adapter_rank: int = 256,
         max_structured_weight: float = 0.25,
+        max_residual_norm: float = 1.0,
     ) -> None:
         super().__init__()
         if adapter_rank <= 0:
@@ -127,7 +136,9 @@ class DQU_CIR(nn.Module):
             nn.Sigmoid(),
         )
 
-        self.structured_adapter = StructuredAdapter(feature_dim, adapter_rank)
+        self.structured_adapter = StructuredAdapter(
+            feature_dim, adapter_rank, max_residual_norm
+        )
         self.structured_gate = StructuredGate()
         self.max_structured_weight = float(max_structured_weight)
 
@@ -215,8 +226,9 @@ class DQU_CIR(nn.Module):
             self.max_structured_weight * predicted_gate * confidence * mask
         )
         residual = self.structured_adapter(baseline, structured)
+        effective_residual = structured_weight * residual
         adapted_text = F.normalize(
-            baseline + structured_weight * residual,
+            baseline + effective_residual,
             dim=-1,
         )
         query, dqu_text_weight = self._dqu_fusion(adapted_text, image)
@@ -227,6 +239,7 @@ class DQU_CIR(nn.Module):
             "structured_weight": structured_weight.detach(),
             "predicted_structured_gate": predicted_gate.detach(),
             "adapter_residual_norm": residual.norm(dim=-1).detach(),
+            "effective_residual_norm": effective_residual.norm(dim=-1).detach(),
             "dqu_text_weight": dqu_text_weight.detach(),
             "structured_coverage": mask.mean().detach(),
             "mean_confidence": (confidence * mask).sum().detach()
@@ -240,6 +253,7 @@ class DQU_CIR(nn.Module):
             "adapted_text": adapted_text,
             "predicted_gate_for_loss": predicted_gate,
             "mask_for_loss": mask,
+            "effective_residual_for_loss": effective_residual,
         }
         return query, diagnostics
 
@@ -257,6 +271,7 @@ class DQU_CIR(nn.Module):
         preservation_weight: float = 1.0,
         gate_supervision_weight: float = 0.2,
         gate_teacher_temperature: float = 0.1,
+        effective_residual_weight: float = 1.0,
     ) -> dict[str, torch.Tensor]:
         query, diagnostics = self.extract_query(
             textual_query,
@@ -274,6 +289,7 @@ class DQU_CIR(nn.Module):
         adapted_text = diagnostics.pop("adapted_text")
         predicted_gate = diagnostics.pop("predicted_gate_for_loss")
         valid_mask = diagnostics.pop("mask_for_loss")
+        effective_residual = diagnostics.pop("effective_residual_for_loss")
         preservation = (
             1.0 - (adapted_text * baseline_text).sum(dim=-1)
         ).clamp_min(0.0).mean()
@@ -314,16 +330,19 @@ class DQU_CIR(nn.Module):
         # is safe inside CUDA autocast (unlike sigmoid followed by BCE).
         gate_error = (predicted_gate - teacher_gate).pow(2)
         gate_supervision = (gate_error * valid_mask).sum() / valid_mask.sum().clamp_min(1.0)
+        effective_residual_penalty = effective_residual.pow(2).sum(dim=-1).mean()
         total = (
             ranking
             + preservation_weight * preservation
             + gate_supervision_weight * gate_supervision
+            + effective_residual_weight * effective_residual_penalty
         )
         return {
             "loss": total,
             "ranking": ranking,
             "preservation": preservation,
             "gate_supervision": gate_supervision,
+            "effective_residual_penalty": effective_residual_penalty,
             "teacher_gate": (teacher_gate * valid_mask).sum()
             / valid_mask.sum().clamp_min(1.0),
             "teacher_helpful_rate": (

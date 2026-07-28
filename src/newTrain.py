@@ -70,13 +70,15 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument("--hidden-dim", type=int, default=1024)
     parser.add_argument("--adapter-rank", type=int, default=256)
-    parser.add_argument("--max-structured-weight", type=float, default=0.25)
+    parser.add_argument("--max-structured-weight", type=float, default=0.15)
+    parser.add_argument("--max-residual-norm", type=float, default=1.0)
     parser.add_argument("--preservation-weight", type=float, default=1.0)
+    parser.add_argument("--effective-residual-weight", type=float, default=1.0)
     parser.add_argument("--gate-supervision-weight", type=float, default=0.2)
     parser.add_argument("--gate-teacher-temperature", type=float, default=0.1)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--num-epochs", type=int, default=100)
-    parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--lr", type=float, default=5e-5)
     parser.add_argument("--clip-lr", type=float, default=1e-6)
     parser.add_argument("--weight-decay", type=float, default=1e-2)
     parser.add_argument("--dropout-rate", type=float, default=0.5)
@@ -169,6 +171,7 @@ def create_model(args, device):
         freeze_clip=args.freeze_clip,
         adapter_rank=args.adapter_rank,
         max_structured_weight=args.max_structured_weight,
+        max_residual_norm=args.max_residual_norm,
     ).to(device)
     return model
 
@@ -277,6 +280,7 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
                 preservation_weight=args.preservation_weight,
                 gate_supervision_weight=args.gate_supervision_weight,
                 gate_teacher_temperature=args.gate_teacher_temperature,
+                effective_residual_weight=args.effective_residual_weight,
             )
             loss = losses["loss"]
         scaler.scale(loss).backward()
@@ -291,6 +295,7 @@ def train_one_epoch(args, model, optimizer, loader, device, scaler, epoch):
             gate=f"{float(losses['predicted_structured_gate'].detach()):.3f}",
             teacher=f"{float(losses['teacher_gate'].detach()):.3f}",
             residual=f"{float(losses['adapter_residual_norm'].detach()):.4f}",
+            effective=f"{float(losses['effective_residual_norm'].detach()):.4f}",
             dqu_text=f"{float(losses['dqu_text_weight'].detach()):.3f}",
         )
     if not steps:

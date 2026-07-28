@@ -50,6 +50,7 @@ def test(params, model, testset, category):
     predicted_gates = []
     dqu_text_weights = []
     residual_norms = []
+    effective_residual_norms = []
     text_drifts = []
     with torch.inference_mode():
         for batch in tqdm(
@@ -93,6 +94,9 @@ def test(params, model, testset, category):
             )
             residual_norms.append(
                 diagnostics["adapter_residual_norm"].float().cpu()
+            )
+            effective_residual_norms.append(
+                diagnostics["effective_residual_norm"].float().cpu()
             )
             text_drifts.append(
                 diagnostics["text_drift"].float().cpu()
@@ -161,6 +165,10 @@ def test(params, model, testset, category):
             (
                 f"{category}_adapter_residual_norm",
                 float(torch.cat(residual_norms).mean().item()),
+            ),
+            (
+                f"{category}_effective_residual_norm",
+                float(torch.cat(effective_residual_norms).mean().item()),
             ),
             (
                 f"{category}_text_drift",
