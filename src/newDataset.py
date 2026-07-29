@@ -326,6 +326,7 @@ class FashionIQ(torch.utils.data.Dataset):
         structured_val_path=None,
         structured_only=False,
         use_written_image=True,
+        written_keyword_source="dqu",
     ):
         super().__init__()
         if split not in ("original-split", "val-split"):
@@ -342,6 +343,11 @@ class FashionIQ(torch.utils.data.Dataset):
         self.split = split
         self.structured_only = structured_only
         self.use_written_image = use_written_image
+        if written_keyword_source not in ("dqu", "qwen-add", "hybrid"):
+            raise ValueError(
+                "written_keyword_source must be 'dqu', 'qwen-add', or 'hybrid'"
+            )
+        self.written_keyword_source = written_keyword_source
         self.correction_dict = self._load_json(
             os.path.join(self.caption_dir, f"correction_dict_{category}.json"),
             default={},
@@ -445,6 +451,9 @@ class FashionIQ(torch.utils.data.Dataset):
                 "text": structured_text,
                 "fields": structured_fields,
                 "field_mask": structured_field_mask,
+                "image_keywords": tuple(
+                    self._attributes(structured_edit.get("add"), limit=4)
+                ),
                 "confidence": confidence,
                 "quality_features": quality_features,
             }
@@ -618,19 +627,57 @@ class FashionIQ(torch.utils.data.Dataset):
             return self.get_img(candidate, stage=stage)
         return self.get_written_img(candidate, target, stage=stage)
 
-    def get_written_img(self, candidate, target, stage=0):
+    @staticmethod
+    def _deduplicate_keywords(values, limit=4):
+        output = []
+        seen = set()
+        for value in values:
+            value = " ".join(str(value).strip().split())
+            normalized = value.lower()
+            if value and normalized not in seen:
+                output.append(value)
+                seen.add(normalized)
+            if len(output) >= limit:
+                break
+        return output
+
+    def _written_keyword_text(self, candidate, target, stage):
         candidate_id = self._image_id(candidate)
         target_id = self._image_id(target)
+        legacy_entry = self.key_words.get(f"{candidate_id}_{target_id}", [])
+        legacy_text = str(legacy_entry[-1]) if legacy_entry else ""
+
+        mapping = self.structured_train if stage == 0 else self.structured_val
+        record = mapping.get((candidate, target))
+        qwen = list(record.get("image_keywords", ())) if record else []
+
+        if self.written_keyword_source == "dqu":
+            # Preserve the official DQU rendering byte-for-byte so this mode
+            # remains an exact control, including its comma formatting.
+            return legacy_text
+        if self.written_keyword_source == "qwen-add":
+            if not qwen:
+                return legacy_text
+            selected = qwen
+        elif self.written_keyword_source == "hybrid":
+            # Put explicit positive changes first. CLIP's image encoder sees
+            # the most discriminative Qwen attributes before legacy terms.
+            selected = qwen + legacy_text.split(", ")
+        else:
+            selected = []
+        return ", ".join(self._deduplicate_keywords(selected))
+
+    def get_written_img(self, candidate, target, stage=0):
+        candidate_id = self._image_id(candidate)
         image_path = os.path.join(self.image_dir, f"{candidate_id}.jpg")
-        keyword_entry = self.key_words.get(f"{candidate_id}_{target_id}", [])
-        if not keyword_entry:
+        keyword_text = self._written_keyword_text(candidate, target, stage)
+        if not keyword_text:
             return self.get_img(candidate_id, stage=stage)
-        keyword = keyword_entry[-1]
         candidate_image = cv2.imread(image_path)
         if candidate_image is None:
             raise FileNotFoundError(image_path)
         candidate_image = cv2.resize(candidate_image, (512, 512))
-        written_image = draw_text_line(candidate_image, (15, 15), keyword)
+        written_image = draw_text_line(candidate_image, (15, 15), keyword_text)
         written_image = cv2.cvtColor(written_image, cv2.COLOR_BGR2RGB).astype(np.uint8)
         tensor = self.transform[stage](Image.fromarray(written_image))
         return tensor, image_path

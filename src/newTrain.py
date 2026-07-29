@@ -40,6 +40,15 @@ def parse_args() -> argparse.Namespace:
         default=True,
         help="Keep enabled for DQU-CIR; --no-use-written-image is an ablation.",
     )
+    parser.add_argument(
+        "--written-keyword-source",
+        choices=("dqu", "qwen-add", "hybrid"),
+        default="dqu",
+        help=(
+            "Text rendered onto the reference image: original DQU keywords, "
+            "positive Qwen add-fields, or their deduplicated union."
+        ),
+    )
 
     parser.add_argument("--clip-model", default="ViT-H-14")
     parser.add_argument("--clip-pretrained", default="laion2B-s32B-b79K")
@@ -175,16 +184,19 @@ def load_dataset(args: argparse.Namespace, transforms):
         structured_val_path=val_path,
         structured_only=args.structured_only,
         use_written_image=args.use_written_image,
+        written_keyword_source=args.written_keyword_source,
     )
     logging.info(
         "FashionIQ train=%d queries=%d gallery=%d train_structured=%.4f "
-        "val_structured=%.4f written_image=%s train_json=%s val_json=%s",
+        "val_structured=%.4f written_image=%s keyword_source=%s "
+        "train_json=%s val_json=%s",
         len(dataset),
         len(dataset.test_queries),
         len(dataset.test_targets),
         dataset.train_structured_coverage,
         dataset.val_structured_coverage,
         args.use_written_image,
+        args.written_keyword_source,
         train_path,
         val_path,
     )
