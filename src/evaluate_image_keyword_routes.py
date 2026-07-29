@@ -14,7 +14,7 @@ from tqdm import tqdm
 
 import newDataset
 import newModel
-from newTrain import default_structured_path, load_dqu_checkpoint
+from newTrain import default_structured_path, load_checkpoint, load_dqu_checkpoint
 
 
 def parse_args():
@@ -29,6 +29,13 @@ def parse_args():
     parser.add_argument("--clip-checkpoint", required=True)
     parser.add_argument("--clip-cache-dir", default="../model_cache")
     parser.add_argument("--dqu-checkpoint", required=True)
+    parser.add_argument(
+        "--adapter-checkpoint",
+        help=(
+            "Optional structured-text adapter checkpoint. When supplied, "
+            "blend the two complete query views after DQU+adapter encoding."
+        ),
+    )
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument(
         "--alphas",
@@ -128,6 +135,47 @@ def encode_gallery(model, targets, batch_size, device):
     return torch.cat(features)
 
 
+def encode_complete_queries(model, queries, batch_size, device):
+    features = []
+    with torch.inference_mode():
+        for batch in tqdm(list(batches(queries, batch_size)), desc="full queries"):
+            images = torch.stack([item["visual_query"] for item in batch]).to(device)
+            mask = torch.tensor(
+                [item["has_structured_text"] for item in batch],
+                device=device,
+                dtype=torch.bool,
+            )
+            confidence = torch.tensor(
+                [item["structured_confidence"] for item in batch],
+                device=device,
+                dtype=torch.float32,
+            )
+            field_mask = torch.tensor(
+                [item["structured_field_mask"] for item in batch],
+                device=device,
+                dtype=torch.bool,
+            )
+            quality = torch.tensor(
+                [item["structured_quality_features"] for item in batch],
+                device=device,
+                dtype=torch.float32,
+            )
+            fields = list(zip(*[item["structured_fields"] for item in batch]))
+            with autocast(device):
+                query = model.extract_query(
+                    [item["textual_query"] for item in batch],
+                    [item["structured_text"] for item in batch],
+                    images,
+                    mask,
+                    confidence,
+                    structured_fields=fields,
+                    structured_field_mask=field_mask,
+                    structured_quality_features=quality,
+                )
+            features.append(query.float().cpu())
+    return torch.cat(features)
+
+
 def recalls(query_features, gallery_features, queries, targets):
     similarities = query_features @ gallery_features.t()
     gallery_index = {
@@ -162,39 +210,55 @@ def main():
         freeze_clip=True,
     ).to(device)
     load_dqu_checkpoint(args.dqu_checkpoint, model)
+    if args.adapter_checkpoint:
+        load_checkpoint(args.adapter_checkpoint, model)
     model.freeze_dqu_backbone()
     model.eval()
 
     dqu_dataset = make_dataset(args, model, "dqu")
     qwen_dataset = make_dataset(args, model, "qwen-add")
-    text, dqu_image, qwen_image = encode_queries(
-        model,
-        dqu_dataset.test_queries,
-        qwen_dataset.test_queries,
-        args.batch_size,
-        device,
-    )
     gallery = encode_gallery(
         model, dqu_dataset.test_targets, args.batch_size, device
     )
+    if args.adapter_checkpoint:
+        dqu_query = encode_complete_queries(
+            model, dqu_dataset.test_queries, args.batch_size, device
+        )
+        qwen_query = encode_complete_queries(
+            model, qwen_dataset.test_queries, args.batch_size, device
+        )
+    else:
+        text, dqu_image, qwen_image = encode_queries(
+            model,
+            dqu_dataset.test_queries,
+            qwen_dataset.test_queries,
+            args.batch_size,
+            device,
+        )
 
     alphas = [float(value) for value in args.alphas.split(",")]
     results = []
     with torch.inference_mode():
         for alpha in alphas:
-            image = F.normalize(
-                (1.0 - alpha) * dqu_image + alpha * qwen_image, dim=-1
-            ).to(device)
-            query_batches = []
-            for start in range(0, len(text), args.batch_size):
-                with autocast(device):
-                    query, _ = model._dqu_fusion(
-                        text[start : start + args.batch_size].to(device),
-                        image[start : start + args.batch_size],
-                    )
-                query_batches.append(query.float().cpu())
+            if args.adapter_checkpoint:
+                query_features = F.normalize(
+                    (1.0 - alpha) * dqu_query + alpha * qwen_query, dim=-1
+                )
+            else:
+                image = F.normalize(
+                    (1.0 - alpha) * dqu_image + alpha * qwen_image, dim=-1
+                ).to(device)
+                query_batches = []
+                for start in range(0, len(text), args.batch_size):
+                    with autocast(device):
+                        query, _ = model._dqu_fusion(
+                            text[start : start + args.batch_size].to(device),
+                            image[start : start + args.batch_size],
+                        )
+                    query_batches.append(query.float().cpu())
+                query_features = torch.cat(query_batches)
             metrics = recalls(
-                torch.cat(query_batches),
+                query_features,
                 gallery,
                 dqu_dataset.test_queries,
                 dqu_dataset.test_targets,
@@ -204,8 +268,12 @@ def main():
             results.append(metrics)
             print(json.dumps(metrics, sort_keys=True))
 
+    blend_level = "complete query" if args.adapter_checkpoint else "image feature"
     payload = {
-        "description": "alpha=0 DQU-written image; alpha=1 Qwen-add-written image",
+        "description": (
+            f"{blend_level} blend: alpha=0 DQU-written image; "
+            "alpha=1 Qwen-add-written image"
+        ),
         "results": results,
     }
     if args.output:
