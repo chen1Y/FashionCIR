@@ -11,12 +11,10 @@ from tqdm import tqdm
 
 def _autocast(device: torch.device):
     if device.type == "cuda":
-        dtype = (
-            torch.bfloat16
-            if torch.cuda.is_bf16_supported()
-            else torch.float16
-        )
-        return torch.autocast(device_type="cuda", dtype=dtype)
+        # Preserve the original DQU-CIR evaluation protocol.  Training uses
+        # BF16 for stable gradients, but changing evaluation precision shifts
+        # borderline gallery ranks and makes historical recalls incomparable.
+        return torch.autocast(device_type="cuda", dtype=torch.float16)
     return nullcontext()
 
 
