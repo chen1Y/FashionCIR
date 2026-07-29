@@ -11,7 +11,12 @@ from tqdm import tqdm
 
 def _autocast(device: torch.device):
     if device.type == "cuda":
-        return torch.autocast(device_type="cuda", dtype=torch.float16)
+        dtype = (
+            torch.bfloat16
+            if torch.cuda.is_bf16_supported()
+            else torch.float16
+        )
+        return torch.autocast(device_type="cuda", dtype=dtype)
     return nullcontext()
 
 
@@ -22,6 +27,21 @@ def _show_progress(params) -> bool:
 def _batched(items, batch_size):
     for start in range(0, len(items), batch_size):
         yield items[start : start + batch_size]
+
+
+def _group_metrics(category, name, ranks, selected):
+    """Return recall diagnostics for a reproducible query subgroup."""
+    group_ranks = ranks[np.asarray(selected, dtype=bool)]
+    prefix = f"{category}_group_{name}"
+    if not group_ranks.size:
+        return [(f"{prefix}_n", 0.0)]
+    metrics = [(f"{prefix}_n", float(group_ranks.size))]
+    metrics.extend(
+        (f"{prefix}_r{k}", float(np.mean(group_ranks <= k) * 100.0))
+        for k in (1, 10, 50)
+    )
+    metrics.append((f"{prefix}_mean_rank", float(np.mean(group_ranks))))
+    return metrics
 
 
 def test(params, model, testset, category):
@@ -224,4 +244,39 @@ def test(params, model, testset, category):
             ),
         ]
     )
+    # These groups expose where structured JSON helps or hurts.  They are
+    # intentionally derived from stored fields/quality signals, not predictions,
+    # so enabled and --disable-structured-text evaluations are directly
+    # comparable.
+    field_masks = [
+        tuple(bool(value) for value in item["structured_field_mask"])
+        for item in queries
+    ]
+    quality = [
+        tuple(float(value) for value in item["structured_quality_features"])
+        for item in queries
+    ]
+    groups = {
+        "has_relation": [mask[2] for mask in field_masks],
+        "no_relation": [not mask[2] for mask in field_masks],
+        "add_and_remove": [
+            mask[0] and mask[1] for mask in field_masks
+        ],
+        "add_only": [
+            mask[0] and not mask[1] for mask in field_masks
+        ],
+        "high_confidence": [
+            item["structured_confidence"] >= 0.9 for item in queries
+        ],
+        "lower_confidence": [
+            item["structured_confidence"] < 0.9 for item in queries
+        ],
+        # quality[1] stores 1 - complexity.
+        "complex": [features[1] < 0.5 for features in quality],
+        "simple": [features[1] >= 0.5 for features in quality],
+    }
+    for group_name, selected in groups.items():
+        out.extend(
+            _group_metrics(category, group_name, ranks_array, selected)
+        )
     return out
