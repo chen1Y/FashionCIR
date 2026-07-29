@@ -63,17 +63,41 @@ query/gallery encoding and evaluation precision.
 The no-relation and add-only groups contain only 12 and 19 queries,
 respectively, so their recalls are too noisy for conclusions.
 
+## v8 residual-only hard-negative margin loss
+
+The v8 objective mines the top five in-batch negatives using the frozen DQU
+query. It requires the structured residual to improve the positive-versus-hard
+negative gap over the frozen DQU gap by a margin of 0.01. The DQU text branch,
+image branch, targets, structured gate, and negative selection are detached in
+this term, so its gradients can update only the bounded structured adapter
+residual.
+
+| Configuration (seed 42) | Best epoch | R@1 | R@10 | R@50 | R@10+R@50 | Mean rank |
+|---|---:|---:|---:|---:|---:|---:|
+| v7, no margin loss | 6 | 21.6163 | 52.7516 | 75.1116 | **127.8632** | 98.3520 |
+| v8, weight 0.20, k=5, margin=0.01 | 6 | 21.6658 | 52.6525 | 75.1116 | 127.7640 | 98.3818 |
+| v8, weight 0.05, k=5, margin=0.01 | 6 | 21.6658 | 52.6525 | 75.1116 | 127.7640 | 98.3767 |
+
+Both v8 runs stopped at epoch 11. In the weight-0.20 run, the margin violation
+rate fell from 0.9880 at the first adapter epoch to 0.7441 at early stopping.
+For weight 0.05 it fell from 0.9910 to 0.7570. The loss therefore learns the
+intended residual ranking constraint, but neither weight improves the
+selection metric over v7. Relative to v7 seed 42, v8 trades +0.0496 R@1 for
+-0.0992 R@10, with unchanged R@50. Lowering only the loss weight does not
+change that trade-off.
+
 ## Conclusions and next priorities
 
 1. Structured JSON is useful as a small, protected correction to DQU, not as a
    replacement for the natural-language modification.
-2. The reproducible gain is concentrated in R@10/R@50 and mean rank. R@1 is
-   essentially unchanged, so the next loss should explicitly target hard
-   top-ranked negatives.
+2. The residual-only hard-negative objective is technically effective: its
+   loss and violation rate decrease without modifying the protected DQU path.
+   However, the tested objective does not improve R@10+R@50 over v7.
 3. Confidence should remain soft. A hard 0.9 threshold would discard the
    lower-confidence group's useful R@50 and mean-rank gains.
-4. The next highest-value model experiment is a top-k hard-negative or
-   margin-ranking objective applied only to the bounded structured residual.
-5. After that, test field dropout during adapter training to reduce dependence
-   on Qwen field completeness. More complex learned field attention is lower
-   priority unless it is regularized and proven stable.
+4. Merely lowering the hard-negative loss weight is not sufficient. If this
+   route is continued, mine negatives from the global gallery (or a memory
+   bank), and use confidence/field-validity weighting so that uncertain JSON
+   cannot force a margin.
+5. The next independent experiment remains field dropout during adapter
+   training, which directly tests robustness to incomplete Qwen fields.
