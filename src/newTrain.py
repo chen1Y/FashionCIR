@@ -289,6 +289,8 @@ def train_one_epoch(
         if isinstance(module, torch.nn.BatchNorm2d):
             module.eval()
     running_loss = 0.0
+    running_hard_negative = 0.0
+    running_hard_violation_rate = 0.0
     steps = 0
     progress = tqdm(loader, desc=f"DQU+Qwen {phase} epoch {epoch}")
     for batch_index, data in enumerate(progress):
@@ -356,6 +358,10 @@ def train_one_epoch(
         scaler.step(optimizer)
         scaler.update()
         running_loss += float(loss.detach())
+        running_hard_negative += float(losses["hard_negative"].detach())
+        running_hard_violation_rate += float(
+            losses["hard_negative_violation_rate"].detach()
+        )
         steps += 1
         progress.set_postfix(
             loss=f"{running_loss / steps:.4f}",
@@ -370,6 +376,14 @@ def train_one_epoch(
         )
     if not steps:
         raise RuntimeError("No training batches were processed")
+    logging.info(
+        "epoch=%d phase=%s hard_negative=%.6f "
+        "hard_negative_violation_rate=%.6f",
+        epoch,
+        phase,
+        running_hard_negative / steps,
+        running_hard_violation_rate / steps,
+    )
     return running_loss / steps
 
 
