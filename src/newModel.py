@@ -428,6 +428,8 @@ class DQU_CIR(nn.Module):
             "mask_for_loss": mask,
             "calibrated_confidence_for_loss": calibrated_confidence,
             "effective_residual_for_loss": effective_residual,
+            "adapter_residual_for_loss": residual,
+            "structured_weight_for_loss": structured_weight,
         }
         return query, diagnostics
 
@@ -450,6 +452,9 @@ class DQU_CIR(nn.Module):
         gate_teacher_temperature: float = 0.1,
         effective_residual_weight: float = 1.0,
         confidence_calibration_weight: float = 0.2,
+        hard_negative_weight: float = 0.2,
+        hard_negative_k: int = 5,
+        hard_negative_margin: float = 0.01,
     ) -> dict[str, torch.Tensor]:
         query, diagnostics = self.extract_query(
             textual_query,
@@ -474,6 +479,8 @@ class DQU_CIR(nn.Module):
             "calibrated_confidence_for_loss"
         )
         effective_residual = diagnostics.pop("effective_residual_for_loss")
+        adapter_residual = diagnostics.pop("adapter_residual_for_loss")
+        structured_weight = diagnostics.pop("structured_weight_for_loss")
         preservation = (
             1.0 - (adapted_text * baseline_text).sum(dim=-1)
         ).clamp_min(0.0).mean()
@@ -510,6 +517,66 @@ class DQU_CIR(nn.Module):
                 / max(float(gate_teacher_temperature), 1e-6)
             ).reshape(-1, 1)
 
+        # Residual-only hard-negative objective.  Select negatives with the
+        # frozen DQU query, then require the bounded structured residual to
+        # improve DQU's positive-negative gap by ``hard_negative_margin``.
+        # Detaching the gate/quality weight and DQU fusion weight guarantees
+        # that this term updates only StructuredAdapter parameters.
+        if target.shape[0] > 1 and hard_negative_k > 0:
+            margin_text = F.normalize(
+                baseline_text
+                + structured_weight.detach() * adapter_residual,
+                dim=-1,
+            )
+            detached_text_weight = diagnostics[
+                "dqu_text_weight"
+            ].reshape(-1, 1)
+            margin_query = F.normalize(
+                detached_text_weight * margin_text
+                + (1.0 - detached_text_weight) * image_feature,
+                dim=-1,
+            )
+            with torch.no_grad():
+                baseline_similarities = baseline_query @ target.detach().t()
+                diagonal = torch.eye(
+                    target.shape[0],
+                    device=target.device,
+                    dtype=torch.bool,
+                )
+                negative_similarities = baseline_similarities.masked_fill(
+                    diagonal, -torch.inf
+                )
+                top_k = min(int(hard_negative_k), target.shape[0] - 1)
+                hard_indices = negative_similarities.topk(
+                    top_k, dim=1
+                ).indices
+                baseline_positive = baseline_similarities.diag().unsqueeze(1)
+                baseline_negative = baseline_similarities.gather(
+                    1, hard_indices
+                )
+                baseline_gap = baseline_positive - baseline_negative
+            adapted_similarities = margin_query @ target.detach().t()
+            adapted_positive = adapted_similarities.diag().unsqueeze(1)
+            adapted_negative = adapted_similarities.gather(1, hard_indices)
+            adapted_gap = adapted_positive - adapted_negative
+            margin_violations = F.relu(
+                float(hard_negative_margin) + baseline_gap - adapted_gap
+            )
+            per_sample_hard_negative = margin_violations.mean(dim=1)
+            flat_valid_mask = valid_mask.reshape(-1)
+            hard_negative = (
+                per_sample_hard_negative * flat_valid_mask
+            ).sum() / flat_valid_mask.sum().clamp_min(1.0)
+            hard_negative_violation_rate = (
+                (margin_violations > 0).to(flat_valid_mask.dtype)
+                * flat_valid_mask.unsqueeze(1)
+            ).sum() / (
+                flat_valid_mask.sum().clamp_min(1.0) * top_k
+            )
+        else:
+            hard_negative = ranking.new_zeros(())
+            hard_negative_violation_rate = ranking.new_zeros(())
+
         # Probability-space regression supports the teacher's soft targets and
         # is safe inside CUDA autocast (unlike sigmoid followed by BCE).
         gate_error = (predicted_gate - teacher_gate).pow(2)
@@ -524,6 +591,7 @@ class DQU_CIR(nn.Module):
             + gate_supervision_weight * gate_supervision
             + effective_residual_weight * effective_residual_penalty
             + confidence_calibration_weight * confidence_calibration
+            + hard_negative_weight * hard_negative
         )
         return {
             "loss": total,
@@ -532,6 +600,8 @@ class DQU_CIR(nn.Module):
             "gate_supervision": gate_supervision,
             "effective_residual_penalty": effective_residual_penalty,
             "confidence_calibration": confidence_calibration,
+            "hard_negative": hard_negative,
+            "hard_negative_violation_rate": hard_negative_violation_rate,
             "teacher_gate": (teacher_gate * valid_mask).sum()
             / valid_mask.sum().clamp_min(1.0),
             "teacher_helpful_rate": (

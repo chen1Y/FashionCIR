@@ -78,6 +78,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--gate-supervision-weight", type=float, default=0.2)
     parser.add_argument("--gate-teacher-temperature", type=float, default=0.1)
     parser.add_argument(
+        "--hard-negative-weight",
+        type=float,
+        default=0.2,
+        help="Weight of the residual-only top-k margin improvement loss.",
+    )
+    parser.add_argument(
+        "--hard-negative-k",
+        type=int,
+        default=5,
+        help="Number of hardest frozen-DQU in-batch negatives per query.",
+    )
+    parser.add_argument(
+        "--hard-negative-margin",
+        type=float,
+        default=0.01,
+        help="Required adapted gap improvement over the frozen DQU gap.",
+    )
+    parser.add_argument(
         "--gate-warmup-epochs",
         type=int,
         default=2,
@@ -300,6 +318,9 @@ def train_one_epoch(
                 gate_teacher_temperature=args.gate_teacher_temperature,
                 effective_residual_weight=args.effective_residual_weight,
                 confidence_calibration_weight=args.confidence_calibration_weight,
+                hard_negative_weight=args.hard_negative_weight,
+                hard_negative_k=args.hard_negative_k,
+                hard_negative_margin=args.hard_negative_margin,
             )
             loss = losses["loss"]
         if not torch.isfinite(loss):
@@ -344,6 +365,7 @@ def train_one_epoch(
             teacher=f"{float(losses['teacher_gate'].detach()):.3f}",
             residual=f"{float(losses['adapter_residual_norm'].detach()):.4f}",
             effective=f"{float(losses['effective_residual_norm'].detach()):.4f}",
+            hard=f"{float(losses['hard_negative'].detach()):.4f}",
             dqu_text=f"{float(losses['dqu_text_weight'].detach()):.3f}",
         )
     if not steps:
