@@ -97,7 +97,7 @@ def qwen_prompt(edit):
         if item.get("attribute")
     )
     prompt = (
-        "Edit only the masked garment region in this ecommerce image. "
+        "Edit only the garment in this ecommerce image. "
         f"The final garment should be: {target}. Add or change: {additions}. "
     )
     if removals:

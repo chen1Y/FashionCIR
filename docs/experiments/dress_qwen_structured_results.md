@@ -291,3 +291,61 @@ on these same 20 queries with fixed weights and the same shuffled control.
 Only a configuration whose matched view beats both the frozen baseline and the
 shuffled control should proceed to 120 queries. A learned reliability gate
 must be trained on FashionIQ train only rather than selected on validation.
+
+## Qwen mask ablation: none versus fixed versus CLIPSeg
+
+Date: 2026-07-30. The fixed rectangular composite mask is not appropriate for
+every FashionIQ image. A controlled 20-query ablation therefore compares:
+
+- `none`: use the complete Qwen output without compositing;
+- `fixed`: composite with the existing region-dependent rounded rectangle;
+- `clipseg`: segment the garment from the source with
+  `CIDAS/clipseg-rd64-refined`, dilate the mask by 4% of image width to permit
+  shape changes, feather its edge, and composite only that region.
+
+All three routes use the same raw Qwen image for every query. Thus their
+differences are caused only by masking, not by random generation. The revised
+Qwen prompt says to edit the garment rather than referring to a mask that the
+global editor does not receive.
+
+Nineteen of 20 CLIPSeg masks were accepted. Before dilation, accepted garment
+coverage ranged from 11.28% to 43.70% (mean 23.87%). One empty segmentation
+fell back to the fixed mask. Visual inspection shows that CLIPSeg follows the
+dress silhouette and protects faces/backgrounds much better than a fixed
+rectangle. It cannot remove mosaic artifacts within the generated garment.
+
+The table reports selected-query mean-rank change; lower is better. Every
+matched route is also compared with its shuffled generated-view control.
+
+| Fusion | Weight | No mask matched/shuffled | Fixed matched/shuffled | CLIPSeg matched/shuffled |
+|---|---:|---:|---:|---:|
+| residual | 0.025 | **+0.15 / -0.70** | +1.30 / -0.65 | +0.80 / 0.00 |
+| residual | 0.050 | **+0.85 / -1.25** | +2.45 / -1.20 | +2.00 / +0.05 |
+| residual | 0.100 | **+1.65 / -1.85** | +4.85 / -2.20 | +4.25 / +0.90 |
+| residual | 0.200 | **+7.30 / -0.95** | +12.85 / -1.85 | +14.10 / +5.85 |
+| direct | 0.025 | **+0.20 / -1.60** | +0.70 / -1.85 | +0.65 / -1.20 |
+| direct | 0.050 | **+0.40 / -3.55** | +2.05 / -3.75 | +1.75 / -2.00 |
+| direct | 0.100 | **+1.05 / -5.85** | +3.70 / -5.35 | +2.90 / -2.65 |
+| direct | 0.200 | **+2.45 / -6.35** | +7.55 / -2.75 | +8.00 / +1.25 |
+
+No matched configuration improves full-split R@10 or R@50. Their score remains
+128.4085, except CLIPSeg residual at weight 0.20, which reduces R@50 from
+75.4090 to 75.3594 and score to 128.3589. The unmasked route is consistently
+the least damaging, but even its smallest tested weight worsens selected mean
+rank and loses to the shuffled control.
+
+### Mask-ablation decision
+
+The fixed-mask concern is valid, and CLIPSeg is a clear visual improvement over
+the rectangular mask. However, masking is not the primary cause of the failed
+retrieval route. The underlying NF4 Qwen output changes pose, scale, texture,
+and background too strongly. Removing the mask avoids hard composite seams
+and performs best of the three, but still supplies no useful matched semantic
+signal.
+
+Do not add any of these three generated views to `newModel.py` and do not scale
+this base Qwen configuration beyond the 20-query stopping gate. Keep CLIPSeg as
+the preferred mask implementation for a future higher-fidelity editor, because
+it solves the geometric mask mismatch even though it cannot rescue the current
+generator. A future editor must first beat both the unmasked result and the
+shuffled control on this exact sample set.

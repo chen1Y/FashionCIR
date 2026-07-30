@@ -1,0 +1,595 @@
+{
+  "description": "Fixed-alpha dual written-image query plus either a confidence-gated generated residual or direct third-view interpolation; shuffled generated views are the negative control.",
+  "baseline": {
+    "all": {
+      "r1": 21.963311849281112,
+      "r10": 52.999504214179474,
+      "r50": 75.40902330193356,
+      "mean_rank": 97.3708477937531
+    },
+    "selected": {
+      "r1": 20.0,
+      "r10": 45.0,
+      "r50": 65.0,
+      "mean_rank": 112.65
+    }
+  },
+  "results": [
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.0,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3708477937531,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 112.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 0,
+      "rank_ties": 20,
+      "rank_losses": 0,
+      "mean_rank_delta": 0.0
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.0,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3708477937531,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 112.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 0,
+      "rank_ties": 20,
+      "rank_losses": 0,
+      "mean_rank_delta": 0.0
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.025,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3787803668815,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 113.45,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 12,
+      "rank_losses": 4,
+      "mean_rank_delta": 0.8
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.025,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3708477937531,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 112.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 13,
+      "rank_losses": 3,
+      "mean_rank_delta": 0.0
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.05,
+      "control": "generated",
+      "all": {
+        "r1": 22.012890431333666,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.39067922657412,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 25.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 114.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 5,
+      "rank_ties": 10,
+      "rank_losses": 5,
+      "mean_rank_delta": 2.0
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.05,
+      "control": "shuffled",
+      "all": {
+        "r1": 22.012890431333666,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.37134357957362,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 25.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 112.7,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 6,
+      "rank_ties": 9,
+      "rank_losses": 5,
+      "mean_rank_delta": 0.05
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.1,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.41298958849777,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 116.9,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 8,
+      "rank_losses": 8,
+      "mean_rank_delta": 4.25
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.1,
+      "control": "shuffled",
+      "all": {
+        "r1": 22.062469013386217,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.37977193852255,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 30.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 113.55,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 8,
+      "rank_ties": 8,
+      "rank_losses": 4,
+      "mean_rank_delta": 0.9
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.15,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.45364402578086,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 121.0,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 5,
+      "rank_ties": 8,
+      "rank_losses": 7,
+      "mean_rank_delta": 8.35
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.15,
+      "control": "shuffled",
+      "all": {
+        "r1": 22.012890431333666,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.40654437283094,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 25.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 116.25,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 8,
+      "rank_ties": 8,
+      "rank_losses": 4,
+      "mean_rank_delta": 3.6
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.2,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.35944471988101,
+        "mean_rank": 97.5106593951413,
+        "score": 128.3589489340605
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 60.0,
+        "mean_rank": 126.75,
+        "score": 105.0
+      },
+      "selected_count": 20,
+      "rank_wins": 5,
+      "rank_ties": 9,
+      "rank_losses": 6,
+      "mean_rank_delta": 14.1
+    },
+    {
+      "fusion_mode": "residual",
+      "lambda": 0.2,
+      "control": "shuffled",
+      "all": {
+        "r1": 22.062469013386217,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.42885473475458,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 30.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 118.5,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 8,
+      "rank_ties": 7,
+      "rank_losses": 5,
+      "mean_rank_delta": 5.85
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.0,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3708477937531,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 112.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 0,
+      "rank_ties": 20,
+      "rank_losses": 0,
+      "mean_rank_delta": 0.0
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.0,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3708477937531,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 112.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 0,
+      "rank_ties": 20,
+      "rank_losses": 0,
+      "mean_rank_delta": 0.0
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.025,
+      "control": "generated",
+      "all": {
+        "r1": 22.012890431333666,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.37729300941993,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 25.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 113.3,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 12,
+      "rank_losses": 4,
+      "mean_rank_delta": 0.65
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.025,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.35894893406049,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 111.45,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 5,
+      "rank_ties": 11,
+      "rank_losses": 4,
+      "mean_rank_delta": -1.2
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.05,
+      "control": "generated",
+      "all": {
+        "r1": 22.012890431333666,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.3882002974715,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 25.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 114.4,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 10,
+      "rank_losses": 6,
+      "mean_rank_delta": 1.75
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.05,
+      "control": "shuffled",
+      "all": {
+        "r1": 22.012890431333666,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.35101636093208,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 25.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 110.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 7,
+      "rank_ties": 10,
+      "rank_losses": 3,
+      "mean_rank_delta": -2.0
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.1,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.39960337134357,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 115.55,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 9,
+      "rank_losses": 7,
+      "mean_rank_delta": 2.9
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.1,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 53.04908279623203,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.34457114526525,
+        "score": 128.4581060981656
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 50.0,
+        "r50": 65.0,
+        "mean_rank": 110.0,
+        "score": 115.0
+      },
+      "selected_count": 20,
+      "rank_wins": 9,
+      "rank_ties": 8,
+      "rank_losses": 3,
+      "mean_rank_delta": -2.65
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.15,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.42191373326723,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 117.8,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 4,
+      "rank_ties": 9,
+      "rank_losses": 7,
+      "mean_rank_delta": 5.15
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.15,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 53.09866137828458,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.35647000495786,
+        "score": 128.50768468021815
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 55.00000000000001,
+        "r50": 65.0,
+        "mean_rank": 111.2,
+        "score": 120.0
+      },
+      "selected_count": 20,
+      "rank_wins": 9,
+      "rank_ties": 8,
+      "rank_losses": 3,
+      "mean_rank_delta": -1.45
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.2,
+      "control": "generated",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 52.999504214179474,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.45017352503719,
+        "score": 128.40852751611303
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 45.0,
+        "r50": 65.0,
+        "mean_rank": 120.65,
+        "score": 110.0
+      },
+      "selected_count": 20,
+      "rank_wins": 5,
+      "rank_ties": 8,
+      "rank_losses": 7,
+      "mean_rank_delta": 8.0
+    },
+    {
+      "fusion_mode": "direct",
+      "lambda": 0.2,
+      "control": "shuffled",
+      "all": {
+        "r1": 21.963311849281112,
+        "r10": 53.09866137828458,
+        "r50": 75.40902330193356,
+        "mean_rank": 97.38324243926624,
+        "score": 128.50768468021815
+      },
+      "selected": {
+        "r1": 20.0,
+        "r10": 55.00000000000001,
+        "r50": 65.0,
+        "mean_rank": 113.9,
+        "score": 120.0
+      },
+      "selected_count": 20,
+      "rank_wins": 10,
+      "rank_ties": 7,
+      "rank_losses": 3,
+      "mean_rank_delta": 1.25
+    }
+  ]
+}
