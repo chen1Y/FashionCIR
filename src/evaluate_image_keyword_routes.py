@@ -36,6 +36,14 @@ def parse_args():
             "blend the two complete query views after DQU+adapter encoding."
         ),
     )
+    parser.add_argument(
+        "--max-structured-weight",
+        type=float,
+        help=(
+            "Override the adapter checkpoint value. By default this is read "
+            "from checkpoint config so evaluation reproduces newTrain.py."
+        ),
+    )
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument(
         "--alphas",
@@ -202,12 +210,24 @@ def main():
     if not torch.cuda.is_available():
         raise RuntimeError("ViT-H/14 evaluation requires CUDA")
     device = torch.device("cuda")
+    adapter_config = {}
+    if args.adapter_checkpoint:
+        adapter_payload = torch.load(args.adapter_checkpoint, map_location="cpu")
+        adapter_config = adapter_payload.get("config", {})
+    max_structured_weight = args.max_structured_weight
+    if max_structured_weight is None:
+        max_structured_weight = float(
+            adapter_config.get("max_structured_weight", 0.25)
+        )
     model = newModel.DQU_CIR(
         clip_model=args.clip_model,
         clip_pretrained=args.clip_pretrained,
         clip_checkpoint=args.clip_checkpoint,
         clip_cache_dir=args.clip_cache_dir,
         freeze_clip=True,
+        adapter_rank=int(adapter_config.get("adapter_rank", 256)),
+        max_structured_weight=max_structured_weight,
+        max_residual_norm=float(adapter_config.get("max_residual_norm", 1.0)),
     ).to(device)
     load_dqu_checkpoint(args.dqu_checkpoint, model)
     if args.adapter_checkpoint:
