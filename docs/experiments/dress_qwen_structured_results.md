@@ -86,18 +86,63 @@ selection metric over v7. Relative to v7 seed 42, v8 trades +0.0496 R@1 for
 -0.0992 R@10, with unchanged R@50. Lowering only the loss weight does not
 change that trade-off.
 
+## Structured keyword-written image route
+
+The official DQU image route writes extracted target keywords onto the
+reference image. The structured variant writes only Qwen `add` attributes:
+`remove` attributes are deliberately excluded because rendering an unwanted
+concept may strengthen it in CLIP image space. The original DQU rendering is
+kept byte-for-byte as the control.
+
+Frozen-DQU, zero-training seed-42 ablations:
+
+| Image input | R@1 | R@10 | R@50 | R@10+R@50 | Mean rank |
+|---|---:|---:|---:|---:|---:|
+| Original DQU-written image | 21.6658 | 52.1567 | 74.9132 | 127.0699 | 99.3713 |
+| Qwen-add replaces DQU keywords | 21.5171 | 52.0575 | 75.1611 | 127.2186 | 98.5930 |
+| Qwen-add and DQU words on one image | 21.3684 | 51.7105 | 75.0124 | 126.7229 | 98.7412 |
+| Feature blend, Qwen alpha=0.6 | 21.8642 | 52.4541 | 75.4090 | **127.8632** | 98.5007 |
+
+Pixel-level word concatenation hurts, while separately encoding the two written
+images and blending their normalized CLIP image features is complementary.
+The image-only alpha sweep reproduces DQU exactly at alpha=0 and Qwen
+replacement exactly at alpha=1.
+
+The best combination uses the v7 structured-text adapter and blends complete
+DQU-written and Qwen-written query views with fixed alpha=0.5. Alpha was chosen
+on seed 42, then held fixed for seeds 43 and 44.
+
+| Seed | R@1 | R@10 | R@50 | R@10+R@50 | Mean rank | Delta score vs v7 |
+|---:|---:|---:|---:|---:|---:|---:|
+| 42 | 21.9633 | 52.9995 | 75.4090 | 128.4085 | 97.3708 | +0.5454 |
+| 43 | 21.9633 | 52.7020 | 75.2603 | 127.9623 | 97.9380 | +0.3966 |
+| 44 | 22.1120 | 52.7516 | 75.1611 | 127.9127 | 97.8389 | +0.5454 |
+
+| Metric | Three-seed mean | Sample standard deviation | v7 mean | Mean delta |
+|---|---:|---:|---:|---:|
+| R@1 | 22.0129 | 0.0859 | 21.7154 | +0.2975 |
+| R@10 | 52.8177 | 0.1594 | 52.5368 | +0.2809 |
+| R@50 | 75.2768 | 0.1248 | 75.0620 | +0.2148 |
+| R@10+R@50 | 128.0945 | 0.2731 | 127.5987 | +0.4958 |
+| Mean rank | 97.7159 | 0.3029 | 98.6882 | -0.9722 |
+
+All three seeds improve every reported recall metric in the mean. FashionIQ
+does not provide a separate public validation set for this tuning protocol, so
+alpha=0.5 should remain fixed in subsequent category experiments rather than
+being retuned on each evaluation set.
+
 ## Conclusions and next priorities
 
 1. Structured JSON is useful as a small, protected correction to DQU, not as a
    replacement for the natural-language modification.
-2. The residual-only hard-negative objective is technically effective: its
-   loss and violation rate decrease without modifying the protected DQU path.
-   However, the tested objective does not improve R@10+R@50 over v7.
+2. The dual written-image view is the strongest tested next step. It improves
+   all three recalls and mean rank across the three v7 seeds, without changing
+   DQU weights or retraining CLIP.
 3. Confidence should remain soft. A hard 0.9 threshold would discard the
    lower-confidence group's useful R@50 and mean-rank gains.
-4. Merely lowering the hard-negative loss weight is not sufficient. If this
-   route is continued, mine negatives from the global gallery (or a memory
-   bank), and use confidence/field-validity weighting so that uncertain JSON
-   cannot force a margin.
-5. The next independent experiment remains field dropout during adapter
-   training, which directly tests robustness to incomplete Qwen fields.
+4. Do not concatenate both keyword sets on one image. Preserve two visual
+   views and fuse their features or final normalized queries.
+5. The next model change should replace the fixed alpha with a bounded,
+   confidence-aware image residual gate initialized to the fixed 0.5 solution.
+   It should be regularized toward DQU and evaluated on shirt/toptee with alpha
+   fixed before any further dress tuning.
