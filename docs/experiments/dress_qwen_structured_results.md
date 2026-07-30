@@ -146,3 +146,64 @@ being retuned on each evaluation set.
    confidence-aware image residual gate initialized to the fixed 0.5 solution.
    It should be regularized toward DQU and evaluated on shirt/toptee with alpha
    fixed before any further dress tuning.
+
+## Local generative-edit view pilot
+
+Date: 2026-07-30. A leakage-free pilot tested whether a generated image view
+can improve the best seed-42 dual written-image query. The generator receives
+only the reference image and the Qwen structured edit; the target image is
+never opened. `stable-diffusion-v1-5/stable-diffusion-inpainting` locally
+repaints a coarse region derived from the structured `region` fields. The
+generated complete-query residual is:
+
+`q = normalize(q_dual + lambda * confidence * (q_generated - q_plain))`
+
+The pilot uses 120 validation queries selected round-robin by the primary
+structured edit category. The retrieval gallery and all 2,017 validation
+queries remain unchanged. A fixed random permutation of generated residuals is
+the negative control.
+
+### V1: initial regional masks
+
+Visual QA found that upper/full masks could modify a model's face. This version
+is therefore diagnostic only.
+
+| lambda | R@1 | R@10 | R@50 | R@10+R@50 | Mean rank | Selected wins/ties/losses |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.00 | 21.9633 | 52.9995 | 75.4090 | **128.4085** | 97.3708 | 0/120/0 |
+| 0.05 | 21.9633 | 52.9995 | 75.4090 | **128.4085** | 97.3738 | 23/76/21 |
+| 0.10 | 21.9633 | 52.9499 | 75.4090 | 128.3589 | **97.3694** | 28/68/24 |
+| 0.15 | 21.9633 | 52.9499 | 75.3594 | 128.3094 | 97.3823 | 32/61/27 |
+| 0.20 | 21.9633 | 52.9499 | 75.3099 | 128.2598 | 97.3798 | 34/55/31 |
+
+The true residual is less damaging to mean rank than the shuffled residual
+(for example, +0.15 versus +3.02 selected mean-rank change at lambda 0.20),
+which indicates weak semantic signal. It does not improve recall.
+
+### V2: face-protected masks and invalid-image guard
+
+The upper mask begins at normalized y=0.20 and the full mask at y=0.18, keeping
+faces and hair outside the generated region. Black or near-constant safety
+outputs are treated as missing views and contribute zero residual. Five of 120
+outputs were excluded by this guard; one was explicitly reported by the
+Diffusers safety checker.
+
+| lambda | R@1 | R@10 | R@50 | R@10+R@50 | Mean rank | Selected wins/ties/losses |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.00 | 21.9633 | 52.9995 | 75.4090 | **128.4085** | **97.3708** | 0/115/0 |
+| 0.05 | 21.9633 | 52.9995 | 75.4090 | **128.4085** | 97.3743 | 21/76/18 |
+| 0.10 | 21.9633 | 52.9499 | 75.4090 | 128.3589 | 97.3783 | 25/65/25 |
+| 0.15 | 21.9633 | 52.9499 | 75.4090 | 128.3589 | 97.3798 | 25/65/25 |
+| 0.20 | 21.9633 | 52.9499 | 75.4090 | 128.3589 | 97.3773 | 27/59/29 |
+
+### Decision
+
+Do not expand this SD1.5 coarse-inpainting route to the complete validation or
+training set. It changes visible garment details but does not beat the frozen
+dual-view baseline, and mask cleanup alone does not recover a gain. Keep the
+integration and controls for future generators. A stronger reference-
+conditioned editor should first pass the same 120-query protocol, including
+the shuffled-residual control, before any full-data generation. The most
+useful next variant is a garment-segmentation mask plus an appearance-
+preserving editor, with its reliability gate trained on train only and all
+dress validation hyperparameters fixed.
