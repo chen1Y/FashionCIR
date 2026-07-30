@@ -37,6 +37,14 @@ def parse_args():
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--dual-alpha", type=float, default=0.5)
     parser.add_argument("--lambdas", default="0,0.05,0.1,0.15,0.2")
+    parser.add_argument(
+        "--fusion-modes",
+        default="residual,direct",
+        help=(
+            "residual adds generated-minus-plain query; direct interpolates "
+            "the complete generated query as a third view."
+        ),
+    )
     parser.add_argument("--shuffle-seed", type=int, default=20260730)
     parser.add_argument("--output", required=True)
     return parser.parse_args()
@@ -153,43 +161,70 @@ def main():
         dual, gallery, dqu.test_queries, dqu.test_targets
     )
     results = []
-    for lam in [float(value) for value in args.lambdas.split(",")]:
-        for control, residual in (
-            ("generated", delta),
-            ("shuffled", delta[permutation]),
-        ):
-            query = dual.clone()
-            query[selected] = F.normalize(
-                dual[selected] + lam * residual, dim=-1
-            )
-            current_ranks = ranks(
-                query, gallery, dqu.test_queries, dqu.test_targets
-            )
-            selected_before = baseline_ranks[selected]
-            selected_after = current_ranks[selected]
-            row = {
-                "lambda": lam,
-                "control": control,
-                "all": metrics(current_ranks),
-                "selected": metrics(selected_after),
-                "selected_count": int(len(selected)),
-                "rank_wins": int(np.sum(selected_after < selected_before)),
-                "rank_ties": int(np.sum(selected_after == selected_before)),
-                "rank_losses": int(np.sum(selected_after > selected_before)),
-                "mean_rank_delta": float(
-                    np.mean(selected_after - selected_before)
-                ),
-            }
-            row["all"]["score"] = row["all"]["r10"] + row["all"]["r50"]
-            row["selected"]["score"] = (
-                row["selected"]["r10"] + row["selected"]["r50"]
-            )
-            results.append(row)
-            print(json.dumps(row, sort_keys=True))
+    fusion_modes = [
+        value.strip() for value in args.fusion_modes.split(",") if value.strip()
+    ]
+    invalid_modes = set(fusion_modes) - {"residual", "direct"}
+    if invalid_modes:
+        raise ValueError(f"Unknown fusion modes: {sorted(invalid_modes)}")
+    for mode in fusion_modes:
+        for lam in [float(value) for value in args.lambdas.split(",")]:
+            for control, order in (
+                ("generated", torch.arange(len(selected))),
+                ("shuffled", permutation),
+            ):
+                query = dual.clone()
+                if mode == "residual":
+                    update = delta[order]
+                    query[selected] = F.normalize(
+                        dual[selected] + lam * update, dim=-1
+                    )
+                else:
+                    weight = (
+                        lam * confidence[order].clamp(0, 1)
+                    )[:, None]
+                    generated_view = generated_query[order]
+                    query[selected] = F.normalize(
+                        (1.0 - weight) * dual[selected]
+                        + weight * generated_view,
+                        dim=-1,
+                    )
+                current_ranks = ranks(
+                    query, gallery, dqu.test_queries, dqu.test_targets
+                )
+                selected_before = baseline_ranks[selected]
+                selected_after = current_ranks[selected]
+                row = {
+                    "fusion_mode": mode,
+                    "lambda": lam,
+                    "control": control,
+                    "all": metrics(current_ranks),
+                    "selected": metrics(selected_after),
+                    "selected_count": int(len(selected)),
+                    "rank_wins": int(np.sum(selected_after < selected_before)),
+                    "rank_ties": int(
+                        np.sum(selected_after == selected_before)
+                    ),
+                    "rank_losses": int(
+                        np.sum(selected_after > selected_before)
+                    ),
+                    "mean_rank_delta": float(
+                        np.mean(selected_after - selected_before)
+                    ),
+                }
+                row["all"]["score"] = (
+                    row["all"]["r10"] + row["all"]["r50"]
+                )
+                row["selected"]["score"] = (
+                    row["selected"]["r10"] + row["selected"]["r50"]
+                )
+                results.append(row)
+                print(json.dumps(row, sort_keys=True))
     output = {
         "description": (
-            "Fixed-alpha dual written-image query plus confidence-gated "
-            "generated-query residual; shuffled residual is the negative control."
+            "Fixed-alpha dual written-image query plus either a confidence-"
+            "gated generated residual or direct third-view interpolation; "
+            "shuffled generated views are the negative control."
         ),
         "baseline": {
             "all": metrics(baseline_ranks),

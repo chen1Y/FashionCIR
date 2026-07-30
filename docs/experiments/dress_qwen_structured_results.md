@@ -207,3 +207,87 @@ the shuffled-residual control, before any full-data generation. The most
 useful next variant is a garment-segmentation mask plus an appearance-
 preserving editor, with its reliability gate trained on train only and all
 dress validation hyperparameters fixed.
+
+## Qwen-Image-Edit generated-view pilot
+
+Date: 2026-07-30. The official base `Qwen/Qwen-Image-Edit` checkpoint was
+tested as a stronger reference-conditioned editor. The checkpoint was obtained
+from its official ModelScope mirror because the Hugging Face transfer repeatedly
+timed out. The target image is still used only as the retrieval label and is
+never passed to the generator.
+
+The final pilot configuration was NF4 transformer/text-encoder quantization,
+512 x 512 output, 20 inference steps, batch size 1, and global semantic editing
+followed by compositing the source pixels back outside the structured garment
+region. All 20 deterministically selected validation queries generated a valid
+file. This is an intentionally small stopping-gate run, not a result on the
+complete validation split.
+
+### Deployment and smoke-test observations
+
+| Configuration | Approx. time/image | Peak/runtime GPU memory | Observation |
+|---|---:|---:|---|
+| NF4, 512, 20 steps, batch 1 | 51-62 s | about 16.1-16.5 GiB | Best tested semantic compliance; severe mosaic/watercolor artifacts remained |
+| NF4, 512, 10 steps, batch 1 | about 33 s | about 16 GiB | Faster, but artifacts and missing details increased |
+| NF4, 512, 10 steps, batch 2/4 | about 29/28 s | up to about 17.5 GiB | Little throughput gain; batch 4 changed outputs and visibly reduced quality |
+| NF4, 768, 10 steps, batch 1 | about 37 s | about 16 GiB | Sharper, but some requested geometry edits were missed |
+| INT8, 512, 20 steps, batch 1 | about 102 s | about 30.4 GiB runtime | Cleaner, but slower and still missed requested geometry edits |
+
+For example, the global editor could change a red long gown to a black short
+gown, but it also changed body pose and introduced blocky texture. Inpainting
+preserved more of the source, but frequently failed to perform the requested
+length change. Therefore generation validity alone is not treated as evidence
+that the view is useful for retrieval.
+
+### Retrieval protocol
+
+The frozen best seed-42 dual written-image query remains the baseline:
+R@1=21.9633, R@10=52.9995, R@50=75.4090, R@10+R@50=128.4085, and mean
+rank=97.3708. The 20 selected queries have baseline R@1=20, R@10=45,
+R@50=65, and mean rank=112.65.
+
+Two fusion rules were evaluated:
+
+- `residual`: add the confidence-weighted difference between the generated
+  complete-query view and the plain DQU complete-query view;
+- `direct`: interpolate the confidence-weighted generated complete-query view
+  as a third query view.
+
+For each rule, the exact generated view is compared with a fixed shuffled-view
+negative control. A lower selected mean-rank delta is better.
+
+| Fusion | lambda | Matched selected mean-rank delta | Shuffled delta | Matched full score |
+|---|---:|---:|---:|---:|
+| residual | 0.025 | +0.85 | -0.95 | 128.4085 |
+| residual | 0.050 | +1.45 | -1.60 | 128.4085 |
+| residual | 0.100 | +3.40 | -3.35 | 128.4085 |
+| residual | 0.150 | +4.60 | -4.00 | 128.4085 |
+| residual | 0.200 | +8.05 | -5.00 | 128.3589 |
+| direct | 0.025 | +0.50 | -1.55 | 128.4085 |
+| direct | 0.050 | +1.10 | -4.50 | 128.4085 |
+| direct | 0.100 | +1.85 | -7.40 | 128.4085 |
+| direct | 0.150 | +2.95 | -8.90 | 128.4085 |
+| direct | 0.200 | +3.80 | -7.50 | 128.4085 |
+
+The matched generated views do not improve R@10 or R@50 at any tested direct
+weight. At residual lambda=0.20, full-split R@50 decreases from 75.4090 to
+75.3594. The small full-score increases seen for shuffled direct views
+(128.4581 at lambda=0.10 and 128.5077 at lambda=0.15/0.20) are explicitly not
+model gains: they come from unrelated generated images and therefore expose
+random or nonspecific feature perturbation.
+
+### Decision
+
+Do not expand this base Qwen-Image-Edit NF4 route from 20 to 120 or to the full
+split, and do not add these generated views to `newModel.py`. Both matched
+fusion rules fail the shuffled negative control, while visual inspection shows
+loss of identity, garment detail, and texture. The experiment validates the
+pipeline and establishes a reusable early stopping protocol, but it rejects
+the current generator/configuration as a retrieval improvement.
+
+If image generation is revisited, first test a higher-fidelity editor such as
+Qwen-Image-Edit-2511, or a reliable pre-quantized higher-precision checkpoint,
+on these same 20 queries with fixed weights and the same shuffled control.
+Only a configuration whose matched view beats both the frozen baseline and the
+shuffled control should proceed to 120 queries. A learned reliability gate
+must be trained on FashionIQ train only rather than selected on validation.
