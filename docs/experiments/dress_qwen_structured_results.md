@@ -349,3 +349,74 @@ the preferred mask implementation for a future higher-fidelity editor, because
 it solves the geometric mask mismatch even though it cannot rescue the current
 generator. A future editor must first beat both the unmasked result and the
 shuffled control on this exact sample set.
+
+## Qwen-Image text-to-image target hypotheses
+
+Date: 2026-07-30. This route removes image editing entirely. The official
+`Qwen/Qwen-Image` text-to-image model receives only the Qwen structured
+`target_description` and added attributes. Neither the FashionIQ reference
+image nor target image is opened by the generator. The output is treated as a
+standalone visual hypothesis of the target rather than as a new reference image
+to which the relative caption is applied again.
+
+To fit the 150 GiB data disk, only the Qwen-Image generation transformer was
+downloaded. Its text encoder, tokenizer, and VAE are shared by symbolic links
+with the existing Qwen-Image-Edit checkpoint. The added transformer occupies
+about 39 GiB. Generation uses NF4 quantization, 512 x 512 resolution, 20 steps,
+and a fixed ecommerce-catalog prompt. It takes about 10 seconds per image and
+uses about 16.1-17.0 GiB GPU memory, substantially faster than the base
+Qwen-Image-Edit experiment.
+
+The generated target feature is fused only by direct interpolation:
+
+`q = normalize((1 - lambda * confidence) * q_dual + lambda * confidence * g)`
+
+where `g` is the normalized CLIP image feature of the text-generated target
+hypothesis. A fixed shuffled assignment of generated hypotheses is the negative
+control.
+
+### 20-query stopping gate
+
+The first 20 queries showed a small high-weight recall signal, but the selected
+mean rank degraded. At lambda=0.40, R@1 increased from 21.9633 to 22.0625 and
+R@50 from 75.4090 to 75.4586, while selected mean-rank change was +13.55.
+This was insufficient by itself, but generation was fast enough to justify the
+predefined 120-query confirmation.
+
+### 120-query confirmation
+
+The selected-query baseline is R@1=18.3333, R@10=51.6667, R@50=68.3333,
+and mean rank=125.2167.
+
+| lambda | R@1 | R@10 | R@50 | R@10+R@50 | Full mean rank | Selected rank delta | Shuffled rank delta |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0.000 | 21.9633 | 52.9995 | 75.4090 | 128.4085 | 97.3708 | 0.000 | 0.000 |
+| 0.025 | **22.0129** | 52.9995 | 75.4090 | 128.4085 | 97.3426 | -0.475 | -0.050 |
+| 0.050 | 21.9633 | 52.9499 | 75.4090 | 128.3589 | 97.3223 | -0.817 | +0.200 |
+| 0.075 | **22.0129** | 52.9499 | 75.4090 | 128.3589 | 97.2876 | -1.400 | +0.808 |
+| 0.100 | 21.9137 | **52.9995** | **75.5082** | **128.5077** | **97.2623** | **-1.825** | +1.383 |
+| 0.150 | 21.9137 | 52.9003 | 75.5082 | 128.4085 | 97.2568 | -1.917 | +2.492 |
+| 0.200 | 21.8642 | 52.8508 | 75.5578 | 128.4085 | 97.2543 | -1.958 | +4.442 |
+| 0.300 | 21.9137 | 52.8508 | 75.5578 | 128.4085 | 97.3089 | -1.042 | +11.633 |
+| 0.400 | 21.9633 | 52.8012 | 75.5082 | 128.3094 | 97.4799 | +1.833 | +25.217 |
+| 0.500 | 21.8642 | 52.7020 | 75.5082 | 128.2102 | 97.8820 | +8.592 | +51.408 |
+
+At lambda=0.10, two of the 120 selected queries cross into R@50 while one
+crosses out of R@1. Full mean rank improves by 0.1086 and selected mean rank by
+1.825. The shuffled control has score 128.4085 and worsens selected mean rank
+by 1.383, so the matched result is not explained by generic generated-image
+noise. Unlike the image-edit route, this route passes the semantic negative
+control at its best score.
+
+### Text-generation decision
+
+Text-to-image target hypotheses are a positive but small improvement:
+R@10+R@50 rises by 0.0992 to 128.5077. This is the first generated-image route
+in these experiments that improves the primary score, overall mean rank, and
+the shuffled-control comparison simultaneously.
+
+Do not yet claim a final model improvement or tune lambda further on dress
+validation. Fix lambda=0.10 and evaluate shirt/toptee next, or train a bounded
+reliability gate on FashionIQ train only. The current NF4 images still contain
+face and fine-texture artifacts, so a higher-fidelity generator or an
+image-quality/semantic-consistency gate may strengthen the signal.

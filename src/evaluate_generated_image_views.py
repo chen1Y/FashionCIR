@@ -12,6 +12,8 @@ import torch.nn.functional as F
 from PIL import Image
 
 from evaluate_image_keyword_routes import (
+    autocast,
+    batches,
     encode_complete_queries,
     encode_gallery,
     make_dataset,
@@ -37,6 +39,15 @@ def parse_args():
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--dual-alpha", type=float, default=0.5)
     parser.add_argument("--lambdas", default="0,0.05,0.1,0.15,0.2")
+    parser.add_argument(
+        "--generated-encoding",
+        choices=("complete", "target"),
+        default="complete",
+        help=(
+            "complete applies the relative caption to the generated image; "
+            "target encodes a text-generated target hypothesis as an image only."
+        ),
+    )
     parser.add_argument(
         "--fusion-modes",
         default="residual,direct",
@@ -103,6 +114,18 @@ def generated_items(plain_queries, manifest, transform):
     return items, np.asarray(indices), torch.tensor(confidence).float()
 
 
+def encode_generated_targets(model, items, batch_size, device):
+    features = []
+    with torch.inference_mode():
+        for batch in batches(items, batch_size):
+            images = torch.stack(
+                [item["visual_query"] for item in batch]
+            ).to(device)
+            with autocast(device):
+                features.append(model.extract_target(images).float().cpu())
+    return torch.cat(features)
+
+
 def main():
     args = parse_args()
     device = torch.device("cuda")
@@ -148,9 +171,14 @@ def main():
     )
     if not len(generated):
         raise ValueError("No manifest records matched validation queries")
-    generated_query = encode_complete_queries(
-        model, generated, args.batch_size, device
-    )
+    if args.generated_encoding == "complete":
+        generated_query = encode_complete_queries(
+            model, generated, args.batch_size, device
+        )
+    else:
+        generated_query = encode_generated_targets(
+            model, generated, args.batch_size, device
+        )
     delta = generated_query - plain_query[selected]
     delta = delta * confidence[:, None].clamp(0, 1)
     permutation = torch.randperm(
@@ -226,6 +254,7 @@ def main():
             "gated generated residual or direct third-view interpolation; "
             "shuffled generated views are the negative control."
         ),
+        "generated_encoding": args.generated_encoding,
         "baseline": {
             "all": metrics(baseline_ranks),
             "selected": metrics(baseline_ranks[selected]),
