@@ -15,6 +15,7 @@ from typing import Callable, Sequence
 import cv2
 import PIL.Image
 import torch
+from fashioniq_noise import load_noise_policy
 
 
 def _draw_text(image, point, text):
@@ -69,6 +70,7 @@ class FashionIQ(torch.utils.data.Dataset):
         category: str,
         transform: Sequence[Callable],
         split: str = "original-split",
+        noise_manifest: str | None = None,
     ) -> None:
         super().__init__()
         if split not in {"original-split", "val-split"}:
@@ -89,6 +91,9 @@ class FashionIQ(torch.utils.data.Dataset):
         )
         self.key_words = self._load_json(
             self.caption_dir / f"keywords_in_mods_{category}.json"
+        )
+        self.noise_excluded_indices, self.noise_excluded_image_ids = load_noise_policy(
+            self.path, category, noise_manifest
         )
         self.train_data = self._build_train_data()
         self.test_queries, self.test_targets = self._build_test_data()
@@ -119,7 +124,8 @@ class FashionIQ(torch.utils.data.Dataset):
                 "candidate": item["candidate"],
                 "captions": self._concat_text(item["captions"]),
             }
-            for item in triplets
+            for index, item in enumerate(triplets)
+            if index not in self.noise_excluded_indices
         ]
 
     def __len__(self) -> int:

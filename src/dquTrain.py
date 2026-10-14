@@ -29,6 +29,7 @@ def parse_args():
         choices=("original-split", "val-split"),
     )
     parser.add_argument("--fashioniq-path", default="../data/FashionIQ")
+    parser.add_argument("--noise-manifest", help="Optional train-only exclusion policy; off for official baseline.")
     parser.add_argument("--clip-model", default="ViT-H-14")
     parser.add_argument("--clip-pretrained", default="laion2B-s32B-b79K")
     parser.add_argument("--clip-checkpoint")
@@ -155,7 +156,11 @@ def main():
         category=args.dataset,
         transform=(model.preprocess_train, model.preprocess_val),
         split=args.fashioniq_split,
+        noise_manifest=args.noise_manifest,
     )
+    logging.info("noise_filter=%s excluded_train_queries=%d excluded_images=%d",
+                 args.noise_manifest, len(dataset.noise_excluded_indices),
+                 len(dataset.noise_excluded_image_ids))
     logging.info(
         "DQU-CIR dataset train=%d queries=%d gallery=%d split=%s",
         len(dataset),

@@ -35,6 +35,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--structured-train-path")
     parser.add_argument("--structured-val-path")
     parser.add_argument("--structured-only", action="store_true")
+    parser.add_argument("--noise-manifest", help="Dataset-bound train-only noise exclusion policy.")
     parser.add_argument("--multi-positive", default="off",
                         choices=("off", "identity", "annotated", "verified"),
                         help="Train-only labels: same target ID, exact annotated query, or reviewed additions.")
@@ -192,6 +193,7 @@ def load_dataset(args: argparse.Namespace, transforms):
         structured_only=args.structured_only,
         use_written_image=args.use_written_image,
         written_keyword_source=args.written_keyword_source,
+        noise_manifest=args.noise_manifest,
     )
     if args.positive_manifest and args.multi_positive != "verified":
         raise ValueError("--positive-manifest requires --multi-positive verified")
@@ -203,11 +205,17 @@ def load_dataset(args: argparse.Namespace, transforms):
             dataset.train_data, json.loads(split_path.read_text(encoding="utf-8")),
             category=args.dataset, mode=args.multi_positive, manifest=manifest,
         )
+        if any(targets & dataset.noise_excluded_image_ids
+               for targets in dataset.multi_positive_index.positives.values()):
+            raise ValueError("Positive manifest reintroduces an excluded image; rebuild reviewed positives")
         dataset.sample_extra_positive = args.sample_extra_positive and any(
             len(targets) > 1 for targets in dataset.multi_positive_index.positives.values()
         )
         logging.info("multi_positive=%s summary=%s", args.multi_positive,
                      dataset.multi_positive_index.summary())
+    logging.info("noise_filter=%s excluded_train_queries=%d excluded_images=%d",
+                 args.noise_manifest, len(dataset.noise_excluded_indices),
+                 len(dataset.noise_excluded_image_ids))
     logging.info(
         "FashionIQ train=%d queries=%d gallery=%d train_structured=%.4f "
         "val_structured=%.4f written_image=%s keyword_source=%s "

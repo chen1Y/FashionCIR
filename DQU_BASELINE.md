@@ -1,5 +1,9 @@
 # DQU-CIR baseline
 
+The optional `--noise-manifest` is a train-data quality ablation. Leave it unset
+for the official reproduction. It does not change validation queries/gallery;
+see [noise audit instructions](docs/experiments/fashioniq_noise_audit.md).
+
 The `dqu*` files are an isolated reproduction of the FashionIQ path in the
 official [SIGIR24-DQU-CIR](https://github.com/iLearn-Lab/SIGIR24-DQU-CIR)
 repository. They do not import the locally modified `datasets.py` or the

@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "category": "dress",
+  "split": "train",
+  "dataset_fingerprint": "af0eebd97222742ee09d0490f4c6593f32ea6124bc321f83e8cebb74dc8954d3",
+  "images": [
+    {
+      "image_id": "B0060OT3E4",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00AJLDMC8",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00ALTB0PY",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00ANK78WK",
+      "sha256": "d9fe7d042415998d97e5dc1dba4754b14f1270519a11ff69fc2add8ad5a17848",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00APYBNR0",
+      "sha256": "266eda5e91cf03d35b2a77ccc3f77567dadeee4f9acbf419459e099004d5a8bc",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00APYBNVQ",
+      "sha256": "266eda5e91cf03d35b2a77ccc3f77567dadeee4f9acbf419459e099004d5a8bc",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00B191I4G",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00B2JHHBS",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00B2JINDY",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00BFPGCYM",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00BKU92T4",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00BP407TO",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00BPRK3AE",
+      "sha256": "9a5c25d250a0d6efac4952a5425fa1118db427f479ce23432ec4b12778bca670",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00BQCJYQ2",
+      "sha256": "d9fe7d042415998d97e5dc1dba4754b14f1270519a11ff69fc2add8ad5a17848",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00BYOWGSK",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00C3CUPQW",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00C61ORU0",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00C75S3X2",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00CFXU7TY",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00CQ09L3E",
+      "sha256": "266eda5e91cf03d35b2a77ccc3f77567dadeee4f9acbf419459e099004d5a8bc",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00DPECDTE",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00DW5EXBM",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00EU9E3ZK",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    },
+    {
+      "image_id": "B00FQEHR9C",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb",
+      "decision": "exclude",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+    }
+  ],
+  "queries": [
+    {
+      "source_index": 2574,
+      "row_sha256": "696c2c4242ff0acc173fc1255aff3ac0ab7b1d735909b59b6e62bd2744cd9159",
+      "decision": "uncertain",
+      "reviewer": "model:Codex visual inspection",
+      "reason": "Dress/skirt wording needs independent semantic review; retain this query for now"
+    }
+  ],
+  "scope": "sample visually inspected by Codex; not an exhaustive human label set"
+}

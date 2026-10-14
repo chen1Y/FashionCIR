@@ -1,0 +1,7 @@
+{
+  "state": "model_unavailable",
+  "kind": "model_review_proposals",
+  "model": "Qwen/Qwen3-VL-8B-Instruct",
+  "samples_produced": 0,
+  "reason": "Required offline model files are not available in the local cache."
+}

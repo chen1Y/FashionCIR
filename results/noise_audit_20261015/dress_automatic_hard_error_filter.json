@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "category": "dress",
+  "split": "train",
+  "dataset_fingerprint": "af0eebd97222742ee09d0490f4c6593f32ea6124bc321f83e8cebb74dc8954d3",
+  "excluded_images": [],
+  "excluded_queries": [],
+  "original_queries": 5985,
+  "retained_queries": 5985
+}

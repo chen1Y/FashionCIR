@@ -1,0 +1,26 @@
+{
+  "recorded_utc": "2026-10-14T16:09:20.988429+00:00",
+  "clip_model": "ViT-H-14",
+  "clip_margin": 0.03,
+  "code_sha256": {
+    "fashioniq_noise.py": "05e02085ddf3b1c67cb7a2a43b6b8cd540d1a8ca065a447946360c4e2aabb927",
+    "audit_fashioniq_noise.py": "4c29bb87d24589261c25696f2f60656081f3b42ed6ff6c4a561378a0d0608ac6",
+    "review_fashioniq_triplets.py": "713eba75b43ed17da389ff927be8bd93f2488c2efff07129f84884815a2b4b38"
+  },
+  "scope": "complete train image splits; no original data modified",
+  "semantic_model_status": "offline local cache unavailable; no Qwen judgments produced",
+  "completed_utc": "2026-10-14T16:15:16.896364+00:00",
+  "final_validation_code_sha256": {
+    "fashioniq_noise.py": "f2a3554894658abeb9004889c3e30b23707c5fbdad3113801bfdb1c4443b410e",
+    "audit_fashioniq_noise.py": "4c29bb87d24589261c25696f2f60656081f3b42ed6ff6c4a561378a0d0608ac6",
+    "review_fashioniq_triplets.py": "f40310137d3e8fe1c60d289f2b4c3f365ab387f1f8f4cd73e989ff9d7c5a9c1c"
+  },
+  "tests_passed": 28,
+  "sample_review": {
+    "reviewer": "model:Codex visual inspection",
+    "excluded_images": 24,
+    "excluded_train_queries": 26,
+    "retained_train_queries": 5959
+  },
+  "no_retraining_performed": true
+}

@@ -1,0 +1,68 @@
+{
+  "dress": {
+    "images_scanned": 11452,
+    "images_flagged": 761,
+    "unusable_images": 0,
+    "queries_flagged": 452,
+    "queries_with_hard_errors": 0,
+    "query_reason_counts": {
+      "candidate:byte_identical_images": 226,
+      "candidate:clip_non_garment_candidate": 25,
+      "target:byte_identical_images": 255,
+      "target:clip_non_garment_candidate": 31,
+      "target:generated_caption_non_garment_hint": 26,
+      "caption_domain_disagreement": 6,
+      "caption_non_garment_claim": 18,
+      "candidate:generated_caption_non_garment_hint": 19,
+      "caption_color_disagreement": 2,
+      "candidate:low_information_image": 1
+    },
+    "total_queries": 5985,
+    "partial": false,
+    "clip_non_garment_candidates": 72
+  },
+  "shirt": {
+    "images_scanned": 19036,
+    "images_flagged": 577,
+    "unusable_images": 0,
+    "queries_flagged": 397,
+    "queries_with_hard_errors": 0,
+    "query_reason_counts": {
+      "target:byte_identical_images": 187,
+      "candidate:byte_identical_images": 190,
+      "candidate:clip_non_garment_candidate": 29,
+      "target:clip_non_garment_candidate": 27,
+      "caption_domain_disagreement": 2,
+      "caption_non_garment_claim": 20,
+      "target:generated_caption_non_garment_hint": 13,
+      "candidate:generated_caption_non_garment_hint": 8
+    },
+    "total_queries": 5988,
+    "partial": false,
+    "clip_non_garment_candidates": 100
+  },
+  "toptee": {
+    "images_scanned": 16121,
+    "images_flagged": 334,
+    "unusable_images": 0,
+    "queries_flagged": 281,
+    "queries_with_hard_errors": 0,
+    "query_reason_counts": {
+      "target:byte_identical_images": 104,
+      "target:generated_caption_non_garment_hint": 10,
+      "candidate:byte_identical_images": 117,
+      "candidate:clip_non_garment_candidate": 30,
+      "target:clip_non_garment_candidate": 40,
+      "caption_non_garment_claim": 15,
+      "candidate:generated_caption_non_garment_hint": 12,
+      "empty_caption": 12,
+      "target:low_information_image": 3,
+      "caption_domain_disagreement": 1,
+      "caption_color_disagreement": 1,
+      "candidate:low_information_image": 2
+    },
+    "total_queries": 6027,
+    "partial": false,
+    "clip_non_garment_candidates": 86
+  }
+}

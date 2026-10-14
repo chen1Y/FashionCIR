@@ -13,6 +13,7 @@ import random
 import cv2
 import base64
 from PIL import Image
+from fashioniq_noise import load_noise_policy
 
 # 对象序列化
 def save_obj(obj, path):
@@ -327,6 +328,7 @@ class FashionIQ(torch.utils.data.Dataset):
         structured_only=False,
         use_written_image=True,
         written_keyword_source="dqu",
+        noise_manifest=None,
     ):
         super().__init__()
         if split not in ("original-split", "val-split"):
@@ -375,6 +377,9 @@ class FashionIQ(torch.utils.data.Dataset):
 
         self.structured_train = self._load_structured(structured_train_path, "train")
         self.structured_val = self._load_structured(structured_val_path, "val")
+        self.noise_excluded_indices, self.noise_excluded_image_ids = load_noise_policy(
+            self.path, category, noise_manifest
+        )
         self.train_data = self._load_queries("train")
         train_count_before_filter = len(self.train_data)
         train_structured_count = sum(
@@ -543,6 +548,7 @@ class FashionIQ(torch.utils.data.Dataset):
                 "source_index": index,
             }
             for index, item in enumerate(payload)
+            if split != "train" or index not in self.noise_excluded_indices
         ]
 
     def __len__(self):

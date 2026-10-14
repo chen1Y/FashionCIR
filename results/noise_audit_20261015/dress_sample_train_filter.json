@@ -1,0 +1,436 @@
+{
+  "schema_version": 1,
+  "category": "dress",
+  "split": "train",
+  "dataset_fingerprint": "af0eebd97222742ee09d0490f4c6593f32ea6124bc321f83e8cebb74dc8954d3",
+  "excluded_images": [
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B0060OT3E4",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00AJLDMC8",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00ALTB0PY",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00ANK78WK",
+      "sha256": "d9fe7d042415998d97e5dc1dba4754b14f1270519a11ff69fc2add8ad5a17848"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00APYBNR0",
+      "sha256": "266eda5e91cf03d35b2a77ccc3f77567dadeee4f9acbf419459e099004d5a8bc"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00APYBNVQ",
+      "sha256": "266eda5e91cf03d35b2a77ccc3f77567dadeee4f9acbf419459e099004d5a8bc"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00B191I4G",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00B2JHHBS",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00B2JINDY",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00BFPGCYM",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00BKU92T4",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00BP407TO",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00BPRK3AE",
+      "sha256": "9a5c25d250a0d6efac4952a5425fa1118db427f479ce23432ec4b12778bca670"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00BQCJYQ2",
+      "sha256": "d9fe7d042415998d97e5dc1dba4754b14f1270519a11ff69fc2add8ad5a17848"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00BYOWGSK",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00C3CUPQW",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00C61ORU0",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00C75S3X2",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00CFXU7TY",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00CQ09L3E",
+      "sha256": "266eda5e91cf03d35b2a77ccc3f77567dadeee4f9acbf419459e099004d5a8bc"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00DPECDTE",
+      "sha256": "60e63d476a2d356bcb888191d432337171f6972a765d884ddd05bbec51404827"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00DW5EXBM",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00EU9E3ZK",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    },
+    {
+      "source": "reviewed",
+      "reviewer": "model:Codex visual inspection",
+      "reasons": [
+        "Standalone brand wordmark without a garment; seen in image_review_001.jpg or triplet_review_001.jpg"
+      ],
+      "image_id": "B00FQEHR9C",
+      "sha256": "edcae08d45875c32bbfb2abe403abb96a7f68017fa413a84d4d95325fae879fb"
+    }
+  ],
+  "excluded_queries": [
+    {
+      "source_index": 177,
+      "row_sha256": "0033ec470681dba8b23fb10d602f774cb71ab2cfd0c6a69ff479df3b9d4d3b5a",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 272,
+      "row_sha256": "b23daced5d04caebe549c1e4abfb409f38ab081a08cca5863ab4842a337e8bed",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 359,
+      "row_sha256": "3e7bb54efcccf319f811abb597c3f56ea4043a30ef0e545ead608899fdb74959",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 370,
+      "row_sha256": "b43c76ae833009e9d9d27076e55526d11a169777ef9f9b689e57f12de5ba6aed",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 438,
+      "row_sha256": "eb11d8e4f2aa4114da76009d80b01ae29dda69cb088ec913c5797bb6ef946e46",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 467,
+      "row_sha256": "0922ed59c7c020a283177aaffbe6d73b1c2da4b32dc0b30d7add5b22948f5c2a",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 540,
+      "row_sha256": "4e9b294b87e788d00d746e0726a24e691cb4ed39e9922316910b0b823297e358",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 870,
+      "row_sha256": "cdc674d461147e9292ec76a60969b5d2bd11ab2767843fc2cabe1fedaf3b3447",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 1202,
+      "row_sha256": "31fb09db8faf27d1905054c331ac52ffc9b1c588c8263a4d2480cbd354601677",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 1261,
+      "row_sha256": "434fd32a3e644ff10afbc1fc7aeb22b3a7f52d3e7cee2e9c769500e7df9184c7",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 1430,
+      "row_sha256": "75029a86db1c4a555e7ce48e63291ad64654b385768e757f79c81a77bffd069c",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 1688,
+      "row_sha256": "edf5623244d4110c5c525a99b263606ca0a7657555da5ee0a042608ff3dd43f9",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 1969,
+      "row_sha256": "2ccb85b063e299ba845dd9da60324c84646042ed026e60658d7cc958a5d58b87",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 1970,
+      "row_sha256": "43e80e9012a0452dc69911b33002aa04a1d54ab862bb6aab4c67da1cc46bf067",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 2164,
+      "row_sha256": "b8c5aedd9281b7738bcf42b8487851aec363a3fb8a937380223a43c447626098",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 2956,
+      "row_sha256": "ae3f2ef2697b1cecd52c7823b3dfada147bed5fb8cecd2409f26020c882ccd34",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3344,
+      "row_sha256": "b9e0ea036507a29f679996c6799a61b9eab50731ef2ea3bb3504cef00646d636",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3484,
+      "row_sha256": "6f77101412ea7c557e83e68c7b140831badddd4d1f1bfd0351db0570f23b8226",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3541,
+      "row_sha256": "80ec80c09ef46e284ce7a910da9178ef29cef4532ed485595193988c5c1191cf",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3550,
+      "row_sha256": "3d30e3d2cfa56f0732344dca28dabf21508a127c94adb1303a70686013709566",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3741,
+      "row_sha256": "fa12bed54aebeb15e58939929ec795d501463fd6189a9f08edeba2ce9c2167d2",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3750,
+      "row_sha256": "0465a60cb249b151abd7ba775555759cd53ac6f904d046e6bd17f0291a0ae3b9",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 3901,
+      "row_sha256": "0d83feb2807d54b41d5d96a9761c1292fbcc11b5815e81b479024862a35925f5",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 4576,
+      "row_sha256": "266083d522433bbd3e7ddc552625bf9b0f6b74cefc3c749038d3527aba50bb5a",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 4872,
+      "row_sha256": "858bc0e80950a2b6de6530e2713197e723a46381d6d96e1bc0679e0f89cab7ae",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    },
+    {
+      "source_index": 5616,
+      "row_sha256": "eab8691225d65d4d1b9d3781ed662afb256a39483f9eb9796d60842a260aba0c",
+      "reasons": [
+        "incident_to_excluded_image"
+      ],
+      "source": "image_policy"
+    }
+  ],
+  "original_queries": 5985,
+  "retained_queries": 5959
+}

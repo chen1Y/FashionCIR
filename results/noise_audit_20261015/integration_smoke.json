@@ -1,0 +1,14 @@
+{
+  "train_queries_before": 5985,
+  "train_queries_after": 5959,
+  "excluded_images": 24,
+  "excluded_queries": 26,
+  "validation_queries": 2017,
+  "validation_gallery": 3817,
+  "both_dataset_loaders_passed": true,
+  "remaining_multi_positive_summary": {
+    "queries": 5959,
+    "multi_positive_queries": 50,
+    "positive_links": 6015
+  }
+}

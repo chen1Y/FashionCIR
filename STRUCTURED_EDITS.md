@@ -4,6 +4,9 @@ For the optional train-only multi-positive supervision experiment, see
 [the design, reviewed-label format and commands](docs/experiments/multi_positive_cir.md).
 It is disabled by default and preserves the official FashionIQ evaluation.
 
+For optional train-only noise exclusions before constructing positive sets, see
+[the noise audit workflow](docs/experiments/fashioniq_noise_audit.md).
+
 `generate_structured_edits.py` converts each FashionIQ query into a validated
 edit program. Qwen receives only:
 
