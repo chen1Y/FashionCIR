@@ -593,7 +593,7 @@ class FashionIQ(torch.utils.data.Dataset):
         )
         target_image, target_path = self.get_img(target, stage=0)
         source_image, source_path = self.get_query_img(candidate, target, stage=0)
-        return {
+        out = {
             "target_img_data": target_image,
             "target_img_path": target_path,
             "visual_query": source_image,
@@ -607,8 +607,19 @@ class FashionIQ(torch.utils.data.Dataset):
             "structured_quality_features": quality_features,
             "candidate": candidate,
             "target": target,
+            "query_index": item["source_index"],
             "mod": {"str": modification},
         }
+        positive_index = getattr(self, "multi_positive_index", None)
+        if positive_index is not None and self.sample_extra_positive:
+            extras = positive_index.extras(item["source_index"])
+            extra_id = random.choice(extras) if extras else target
+            # Padding keeps default_collate shapes fixed. The trainer removes
+            # padded slots before encoding; they are never added to the bank.
+            out["extra_target_img"] = self.get_img(extra_id, stage=0)[0] if extras else target_image
+            out["extra_target_id"] = extra_id
+            out["has_extra_target"] = bool(extras)
+        return out
 
     def _image_id(self, image_name):
         prefix = f"{self.category}_"

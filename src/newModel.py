@@ -8,6 +8,7 @@ import open_clip
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from multi_positive_loss import multi_positive_nce, positive_aware_margin
 
 
 class StructuredAdapter(nn.Module):
@@ -455,6 +456,7 @@ class DQU_CIR(nn.Module):
         hard_negative_weight: float = 0.2,
         hard_negative_k: int = 5,
         hard_negative_margin: float = 0.01,
+        positive_targets: torch.Tensor | None = None,
     ) -> dict[str, torch.Tensor]:
         query, diagnostics = self.extract_query(
             textual_query,
@@ -468,7 +470,7 @@ class DQU_CIR(nn.Module):
             return_diagnostics=True,
         )
         target = self.extract_target(target_img)
-        ranking = self.ranking_nce_loss(query, target)
+        ranking = self.ranking_nce_loss(query, target, positive_targets)
         baseline_text = diagnostics.pop("baseline_text").detach()
         structured_text = diagnostics.pop("structured_text").detach()
         image_feature = diagnostics.pop("image_feature").detach()
@@ -501,15 +503,14 @@ class DQU_CIR(nn.Module):
                 + (1.0 - text_weight) * image_feature,
                 dim=-1,
             )
-            labels = torch.arange(target.shape[0], device=target.device)
-            baseline_loss = F.cross_entropy(
+            baseline_loss = multi_positive_nce(
                 self.loss_weight.detach() * (baseline_query @ target.t()),
-                labels,
+                positive_targets,
                 reduction="none",
             )
-            structured_loss = F.cross_entropy(
+            structured_loss = multi_positive_nce(
                 self.loss_weight.detach() * (structured_query @ target.t()),
-                labels,
+                positive_targets,
                 reduction="none",
             )
             teacher_gate = torch.sigmoid(
@@ -538,40 +539,10 @@ class DQU_CIR(nn.Module):
             )
             with torch.no_grad():
                 baseline_similarities = baseline_query @ target.detach().t()
-                diagonal = torch.eye(
-                    target.shape[0],
-                    device=target.device,
-                    dtype=torch.bool,
-                )
-                negative_similarities = baseline_similarities.masked_fill(
-                    diagonal, -torch.inf
-                )
-                top_k = min(int(hard_negative_k), target.shape[0] - 1)
-                hard_indices = negative_similarities.topk(
-                    top_k, dim=1
-                ).indices
-                baseline_positive = baseline_similarities.diag().unsqueeze(1)
-                baseline_negative = baseline_similarities.gather(
-                    1, hard_indices
-                )
-                baseline_gap = baseline_positive - baseline_negative
             adapted_similarities = margin_query @ target.detach().t()
-            adapted_positive = adapted_similarities.diag().unsqueeze(1)
-            adapted_negative = adapted_similarities.gather(1, hard_indices)
-            adapted_gap = adapted_positive - adapted_negative
-            margin_violations = F.relu(
-                float(hard_negative_margin) + baseline_gap - adapted_gap
-            )
-            per_sample_hard_negative = margin_violations.mean(dim=1)
-            flat_valid_mask = valid_mask.reshape(-1)
-            hard_negative = (
-                per_sample_hard_negative * flat_valid_mask
-            ).sum() / flat_valid_mask.sum().clamp_min(1.0)
-            hard_negative_violation_rate = (
-                (margin_violations > 0).to(flat_valid_mask.dtype)
-                * flat_valid_mask.unsqueeze(1)
-            ).sum() / (
-                flat_valid_mask.sum().clamp_min(1.0) * top_k
+            hard_negative, hard_negative_violation_rate = positive_aware_margin(
+                baseline_similarities, adapted_similarities, positive_targets,
+                valid_mask, hard_negative_k, hard_negative_margin,
             )
         else:
             hard_negative = ranking.new_zeros(())
@@ -612,8 +583,7 @@ class DQU_CIR(nn.Module):
         }
 
     def ranking_nce_loss(
-        self, query: torch.Tensor, target: torch.Tensor
+        self, query: torch.Tensor, target: torch.Tensor, positive_targets=None
     ) -> torch.Tensor:
         logits = self.loss_weight * (query @ target.t())
-        labels = torch.arange(logits.shape[0], device=logits.device)
-        return F.cross_entropy(logits, labels)
+        return multi_positive_nce(logits, positive_targets)

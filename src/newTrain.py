@@ -18,6 +18,7 @@ from tqdm import tqdm
 import newDataset
 import newModel
 import newTest
+from multi_positive import PositiveIndex
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,6 +35,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--structured-train-path")
     parser.add_argument("--structured-val-path")
     parser.add_argument("--structured-only", action="store_true")
+    parser.add_argument("--multi-positive", default="off",
+                        choices=("off", "identity", "annotated", "verified"),
+                        help="Train-only labels: same target ID, exact annotated query, or reviewed additions.")
+    parser.add_argument("--positive-manifest", help="Reviewed train-only positive JSON (verified mode).")
+    parser.add_argument("--sample-extra-positive", action=argparse.BooleanOptionalAction,
+                        default=True, help="Append up to one extra positive image per query to the target bank.")
     parser.add_argument(
         "--use-written-image",
         action=argparse.BooleanOptionalAction,
@@ -186,6 +193,21 @@ def load_dataset(args: argparse.Namespace, transforms):
         use_written_image=args.use_written_image,
         written_keyword_source=args.written_keyword_source,
     )
+    if args.positive_manifest and args.multi_positive != "verified":
+        raise ValueError("--positive-manifest requires --multi-positive verified")
+    if args.multi_positive != "off":
+        split_path = Path(args.fashioniq_path) / "image_splits" / f"split.{args.dataset}.train.json"
+        manifest = (json.loads(Path(args.positive_manifest).read_text(encoding="utf-8"))
+                    if args.positive_manifest else None)
+        dataset.multi_positive_index = PositiveIndex(
+            dataset.train_data, json.loads(split_path.read_text(encoding="utf-8")),
+            category=args.dataset, mode=args.multi_positive, manifest=manifest,
+        )
+        dataset.sample_extra_positive = args.sample_extra_positive and any(
+            len(targets) > 1 for targets in dataset.multi_positive_index.positives.values()
+        )
+        logging.info("multi_positive=%s summary=%s", args.multi_positive,
+                     dataset.multi_positive_index.summary())
     logging.info(
         "FashionIQ train=%d queries=%d gallery=%d train_structured=%.4f "
         "val_structured=%.4f written_image=%s keyword_source=%s "
@@ -303,12 +325,32 @@ def train_one_epoch(
     running_loss = 0.0
     running_hard_negative = 0.0
     running_hard_violation_rate = 0.0
+    positive_query_count = 0
+    query_count = 0
+    target_count = 0
     steps = 0
     progress = tqdm(loader, desc=f"DQU+Qwen {phase} epoch {epoch}")
     for batch_index, data in enumerate(progress):
         if args.max_train_batches and batch_index >= args.max_train_batches:
             break
         target = data["target_img_data"].to(device, non_blocking=True)
+        positives = None
+        if args.multi_positive != "off":
+            target_ids = list(data["target"])
+            if loader.dataset.sample_extra_positive:
+                extra_valid = data["has_extra_target"].bool()
+                extra_images = data["extra_target_img"][extra_valid].to(device, non_blocking=True)
+                if len(extra_images):
+                    target = torch.cat([target, extra_images], dim=0)
+                    target_ids.extend(t for t, keep in zip(data["extra_target_id"], extra_valid.tolist()) if keep)
+            positives = torch.tensor(loader.dataset.multi_positive_index.mask_rows(
+                data["query_index"].tolist(), target_ids), device=device, dtype=torch.bool)
+            # Count distinct IDs, not repeated augmentations of one target.
+            index = loader.dataset.multi_positive_index
+            positive_query_count += sum(len(index.positives[i] & set(target_ids)) > 1
+                                        for i in data["query_index"].tolist())
+            query_count += len(data["target"])
+            target_count += len(target_ids)
         visual = data["visual_query"].to(device, non_blocking=True)
         mask = data["has_structured_text"].to(device)
         confidence = data["structured_confidence"].to(device)
@@ -335,6 +377,7 @@ def train_one_epoch(
                 hard_negative_weight=args.hard_negative_weight,
                 hard_negative_k=args.hard_negative_k,
                 hard_negative_margin=args.hard_negative_margin,
+                positive_targets=positives,
             )
             loss = losses["loss"]
         if not torch.isfinite(loss):
@@ -388,6 +431,9 @@ def train_one_epoch(
         )
     if not steps:
         raise RuntimeError("No training batches were processed")
+    if query_count:
+        logging.info("multi_positive_query_coverage=%.6f mean_target_bank_size=%.2f",
+                     positive_query_count / query_count, target_count / steps)
     logging.info(
         "epoch=%d phase=%s hard_negative=%.6f "
         "hard_negative_violation_rate=%.6f",

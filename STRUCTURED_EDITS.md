@@ -1,5 +1,9 @@
 # Qwen3-VL structured edit generation
 
+For the optional train-only multi-positive supervision experiment, see
+[the design, reviewed-label format and commands](docs/experiments/multi_positive_cir.md).
+It is disabled by default and preserves the official FashionIQ evaluation.
+
 `generate_structured_edits.py` converts each FashionIQ query into a validated
 edit program. Qwen receives only:
 
