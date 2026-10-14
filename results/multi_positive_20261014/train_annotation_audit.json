@@ -1,0 +1,1125 @@
+{
+  "dress": {
+    "queries": 5985,
+    "multi_positive_queries": 55,
+    "positive_links": 6049,
+    "multi_positive_fraction": 0.009189640768588136,
+    "distinct_target_ids": 5985,
+    "rows_with_repeated_target_id": 0,
+    "expected_same_id_off_diagonal_columns_per_query_batch16": 0.0,
+    "equivalent_query_groups": [
+      {
+        "candidate": "B00AO1VSVK",
+        "modification_text": "is more wordy and less of a dress and is not a dress",
+        "source_indices": [
+          359,
+          1202
+        ],
+        "targets": [
+          "B00ANK78WK",
+          "B00BQCJYQ2"
+        ]
+      },
+      {
+        "candidate": "B006LFOX4M",
+        "modification_text": "this is not a piece of clothing and product is text",
+        "source_indices": [
+          370,
+          870,
+          2164
+        ],
+        "targets": [
+          "B00BFPGCYM",
+          "B00BKU92T4",
+          "B00DW5EXBM"
+        ]
+      },
+      {
+        "candidate": "B008VPXVTS",
+        "modification_text": "has a closed front and is belted and has a belt",
+        "source_indices": [
+          477,
+          1281
+        ],
+        "targets": [
+          "B00ALSQNZC",
+          "B00CWZSI1O"
+        ]
+      },
+      {
+        "candidate": "B00BBQCWY4",
+        "modification_text": "is solid white in color and is pure white",
+        "source_indices": [
+          535,
+          1993,
+          3872
+        ],
+        "targets": [
+          "B004ZF6T60",
+          "B004ZF6TS8",
+          "B004ZF6TYC"
+        ]
+      },
+      {
+        "candidate": "B009XEPWO8",
+        "modification_text": "is light blue in color and is shorter and flowing",
+        "source_indices": [
+          587,
+          4505
+        ],
+        "targets": [
+          "B008BBCRIS",
+          "B008BBCV84"
+        ]
+      },
+      {
+        "candidate": "B0065WE3J6",
+        "modification_text": "is more printed and lighter and is shorter and more whimsical",
+        "source_indices": [
+          623,
+          2808
+        ],
+        "targets": [
+          "B00A1ATYHY",
+          "B00A3G8R9C"
+        ]
+      },
+      {
+        "candidate": "B00D8RZKI4",
+        "modification_text": "has a black skirt and is black",
+        "source_indices": [
+          1044,
+          5325
+        ],
+        "targets": [
+          "B00D8RZKP2",
+          "B00D8RZKTS"
+        ]
+      },
+      {
+        "candidate": "B008BBCSAK",
+        "modification_text": "is more fitted and sexy and is black with straps",
+        "source_indices": [
+          1168,
+          2654
+        ],
+        "targets": [
+          "B00A3HL086",
+          "B00A3HL0O0"
+        ]
+      },
+      {
+        "candidate": "B007RLXE1C",
+        "modification_text": "is maggy london and is a word maggy london",
+        "source_indices": [
+          1332,
+          2833
+        ],
+        "targets": [
+          "B00967K04O",
+          "B00AO1VXOW"
+        ]
+      },
+      {
+        "candidate": "B00F2SGB94",
+        "modification_text": "more blue and lesser ornament and strapless",
+        "source_indices": [
+          1435,
+          4370
+        ],
+        "targets": [
+          "B005GQPE5E",
+          "B005GQPE5Y"
+        ]
+      },
+      {
+        "candidate": "B008DSPOHA",
+        "modification_text": "is blue with a belted waist and shorter",
+        "source_indices": [
+          1701,
+          3691
+        ],
+        "targets": [
+          "B0091GQTNQ",
+          "B0091GQV3E"
+        ]
+      },
+      {
+        "candidate": "B008GQ3M1E",
+        "modification_text": "is a short sleeved and is pink with frills",
+        "source_indices": [
+          1720,
+          2960
+        ],
+        "targets": [
+          "B00B0E2BK2",
+          "B00B0E2Y8G"
+        ]
+      },
+      {
+        "candidate": "B00FI0LUCY",
+        "modification_text": "is the same and is the same product",
+        "source_indices": [
+          1930,
+          2864,
+          5476
+        ],
+        "targets": [
+          "B00FI0LTXO",
+          "B00FI0LUII",
+          "B00FI0LV64"
+        ]
+      },
+      {
+        "candidate": "B002PEZMSY",
+        "modification_text": "2 and has a more closed neckline",
+        "source_indices": [
+          2020,
+          2098
+        ],
+        "targets": [
+          "B002PETCY4",
+          "B002PEZMUW"
+        ]
+      },
+      {
+        "candidate": "B00D8RZKPC",
+        "modification_text": "is exactly and is identical",
+        "source_indices": [
+          2041,
+          4366
+        ],
+        "targets": [
+          "B00D8RZKJ8",
+          "B00D8RZKNY"
+        ]
+      },
+      {
+        "candidate": "B002EANOY8",
+        "modification_text": "is short and is white and is shorter and white",
+        "source_indices": [
+          2144,
+          4938
+        ],
+        "targets": [
+          "B0019KO8EE",
+          "B002H0LDTI"
+        ]
+      },
+      {
+        "candidate": "B00CZ8VQ8K",
+        "modification_text": "has wider straps and is less sexy and is more simple and is green in colour",
+        "source_indices": [
+          2216,
+          2786
+        ],
+        "targets": [
+          "B00BQTNDLW",
+          "B00BXYRABY"
+        ]
+      },
+      {
+        "candidate": "B00480AS5K",
+        "modification_text": "is red with colorful designs and dropped to one side with longer skirt",
+        "source_indices": [
+          2295,
+          5129
+        ],
+        "targets": [
+          "B004150Y7E",
+          "B006WOFU6W"
+        ]
+      },
+      {
+        "candidate": "B00DU7WE5E",
+        "modification_text": "more revealing and long and yellow",
+        "source_indices": [
+          2475,
+          2525
+        ],
+        "targets": [
+          "B00DU7WDMS",
+          "B00DU7WDUK"
+        ]
+      },
+      {
+        "candidate": "B007IWZSWI",
+        "modification_text": "is a floral tank dress and above the knee and fitted",
+        "source_indices": [
+          2581,
+          3510
+        ],
+        "targets": [
+          "B007WFFGZU",
+          "B00C5TLSXC"
+        ]
+      },
+      {
+        "candidate": "B00EO5BKNI",
+        "modification_text": "has a long slit and is darker and more sexy",
+        "source_indices": [
+          2876,
+          3297
+        ],
+        "targets": [
+          "B00C5W163G",
+          "B00C5W1668"
+        ]
+      },
+      {
+        "candidate": "B00FP6ARGG",
+        "modification_text": "longer sleeves and a brighter pattern and is long sleeve and vintage",
+        "source_indices": [
+          3289,
+          5148
+        ],
+        "targets": [
+          "B00FCEF00O",
+          "B00FQPJWRG"
+        ]
+      },
+      {
+        "candidate": "B009OB36BG",
+        "modification_text": "shorter and is pink and shorter",
+        "source_indices": [
+          3425,
+          5047
+        ],
+        "targets": [
+          "B00APSRH44",
+          "B00BF8MH9S"
+        ]
+      },
+      {
+        "candidate": "B00816HLAC",
+        "modification_text": "is a dark green dress and is brighter",
+        "source_indices": [
+          3824,
+          5145
+        ],
+        "targets": [
+          "B00B3PUFX8",
+          "B00BB7FJRU"
+        ]
+      },
+      {
+        "candidate": "B00AD95LDO",
+        "modification_text": "has longer sleeves and lower neckline and has longer sleeves",
+        "source_indices": [
+          5040,
+          5646
+        ],
+        "targets": [
+          "B00A3UTGMK",
+          "B00A3UTOTU"
+        ]
+      },
+      {
+        "candidate": "B007CVUSCU",
+        "modification_text": "is darker and is black",
+        "source_indices": [
+          5218,
+          5317
+        ],
+        "targets": [
+          "B007CVURMQ",
+          "B007CVUSH0"
+        ]
+      }
+    ]
+  },
+  "shirt": {
+    "queries": 5988,
+    "multi_positive_queries": 96,
+    "positive_links": 6096,
+    "multi_positive_fraction": 0.01603206412825651,
+    "distinct_target_ids": 5988,
+    "rows_with_repeated_target_id": 0,
+    "expected_same_id_off_diagonal_columns_per_query_batch16": 0.0,
+    "equivalent_query_groups": [
+      {
+        "candidate": "B008LMFM5M",
+        "modification_text": "is more chic and black and is black",
+        "source_indices": [
+          39,
+          5097
+        ],
+        "targets": [
+          "B0038MLEYS",
+          "B0038MNBF8"
+        ]
+      },
+      {
+        "candidate": "B0088NZ5EW",
+        "modification_text": "is a black shirt with a flag and has more red",
+        "source_indices": [
+          212,
+          4543
+        ],
+        "targets": [
+          "B00EAX4R5C",
+          "B00EAXBT1C"
+        ]
+      },
+      {
+        "candidate": "B00BJ6YFZA",
+        "modification_text": "has a darker color and is dark grey",
+        "source_indices": [
+          302,
+          5585
+        ],
+        "targets": [
+          "B00BGDRZKI",
+          "B00BXQNBY2"
+        ]
+      },
+      {
+        "candidate": "B004IIEVD2",
+        "modification_text": "is the same and is exactly the same",
+        "source_indices": [
+          507,
+          5581
+        ],
+        "targets": [
+          "B004IIBA9K",
+          "B004IIEVDC"
+        ]
+      },
+      {
+        "candidate": "B005H4C12Y",
+        "modification_text": "is light colored and is white with pockets",
+        "source_indices": [
+          552,
+          2552,
+          5475
+        ],
+        "targets": [
+          "B002BF8EPK",
+          "B002BFBYFC",
+          "B002BFFETO"
+        ]
+      },
+      {
+        "candidate": "B00BUZZ4J6",
+        "modification_text": "is sleeveless and a brighter color and is sleeveless and yellow",
+        "source_indices": [
+          555,
+          5037
+        ],
+        "targets": [
+          "B009SDRDYG",
+          "B00C1NZ5ZY"
+        ]
+      },
+      {
+        "candidate": "B001M0MYPG",
+        "modification_text": "is solid white and a white long sleeved buttoned shirt",
+        "source_indices": [
+          583,
+          2976
+        ],
+        "targets": [
+          "B001M0MYVA",
+          "B001M0MZYQ"
+        ]
+      },
+      {
+        "candidate": "B00GGILPDQ",
+        "modification_text": "darker color and is a red shirt that is plain",
+        "source_indices": [
+          658,
+          3562
+        ],
+        "targets": [
+          "B0036SP2Y2",
+          "B0036SP2YW"
+        ]
+      },
+      {
+        "candidate": "B0060A21FQ",
+        "modification_text": "is the same shirt and is black and has a bold graphic",
+        "source_indices": [
+          722,
+          1199,
+          5497
+        ],
+        "targets": [
+          "B0060A20XY",
+          "B0060A20ZC",
+          "B0060A217Y"
+        ]
+      },
+      {
+        "candidate": "B002L8HOMQ",
+        "modification_text": "has arrows on it and is more masculine and shorter",
+        "source_indices": [
+          732,
+          2156
+        ],
+        "targets": [
+          "B001J4TY44",
+          "B0045ETXU0"
+        ]
+      },
+      {
+        "candidate": "B00A3IAZRW",
+        "modification_text": "is orange and a flying horse logo and is much brighter in color",
+        "source_indices": [
+          770,
+          2207
+        ],
+        "targets": [
+          "B00CPS9CR2",
+          "B00CPS9DIK"
+        ]
+      },
+      {
+        "candidate": "B000I90RSS",
+        "modification_text": "is white with black designs and is black and white",
+        "source_indices": [
+          780,
+          3428
+        ],
+        "targets": [
+          "B000QHEPJE",
+          "B000QHGDSU"
+        ]
+      },
+      {
+        "candidate": "B00E9IHCZA",
+        "modification_text": "is black with words and is black with shorter sleeves",
+        "source_indices": [
+          913,
+          4606
+        ],
+        "targets": [
+          "B003BQR0AI",
+          "B003BQSZ5C"
+        ]
+      },
+      {
+        "candidate": "B007N6SMG8",
+        "modification_text": "is black with small designs and has a smaller graphic on it",
+        "source_indices": [
+          972,
+          3858
+        ],
+        "targets": [
+          "B006ONZT7G",
+          "B0093SL8UG"
+        ]
+      },
+      {
+        "candidate": "B00BV2Q5GO",
+        "modification_text": "is a lighter color and is white with gray outlines",
+        "source_indices": [
+          1157,
+          2392
+        ],
+        "targets": [
+          "B00BV2Q9B0",
+          "B00BV2QB0E"
+        ]
+      },
+      {
+        "candidate": "B00641RU5C",
+        "modification_text": "is the same and is the same exact shirt",
+        "source_indices": [
+          1172,
+          1783
+        ],
+        "targets": [
+          "B00641RU0W",
+          "B00641RU1Q"
+        ]
+      },
+      {
+        "candidate": "B002KG8LMG",
+        "modification_text": "is identical and looks like a perfect match",
+        "source_indices": [
+          1264,
+          3777
+        ],
+        "targets": [
+          "B002KG6OYI",
+          "B002KGDIT2"
+        ]
+      },
+      {
+        "candidate": "B00FFT1N1G",
+        "modification_text": "has a collar and is lighter black and has to show logo",
+        "source_indices": [
+          1356,
+          3539
+        ],
+        "targets": [
+          "B006H6WNQ0",
+          "B006H6WOR8"
+        ]
+      },
+      {
+        "candidate": "B000YA114A",
+        "modification_text": "is blue and is much darker in color",
+        "source_indices": [
+          1399,
+          4923
+        ],
+        "targets": [
+          "B00079ZW7K",
+          "B0027ED4SW"
+        ]
+      },
+      {
+        "candidate": "B0013FI8MI",
+        "modification_text": "is the same and is the same exact shirt",
+        "source_indices": [
+          1478,
+          3995
+        ],
+        "targets": [
+          "B0013FJW64",
+          "B0013FPI9E"
+        ]
+      },
+      {
+        "candidate": "B00B21XPIK",
+        "modification_text": "is red long sleeved button down shirt with collar and is red with double breast pockets",
+        "source_indices": [
+          1513,
+          4157
+        ],
+        "targets": [
+          "B00BV2SLIE",
+          "B00BV2SM74"
+        ]
+      },
+      {
+        "candidate": "B00CIPJ4L6",
+        "modification_text": "is a dark red flannel shirt and has a slightly smaller and darker pattern",
+        "source_indices": [
+          1525,
+          2762
+        ],
+        "targets": [
+          "B007TXBK5U",
+          "B007TXBK6O"
+        ]
+      },
+      {
+        "candidate": "B006961ITG",
+        "modification_text": "is black and wordy and is black with yellow text",
+        "source_indices": [
+          1532,
+          4176
+        ],
+        "targets": [
+          "B00731P81A",
+          "B00731P83I"
+        ]
+      },
+      {
+        "candidate": "B00671EHQ4",
+        "modification_text": "is darker black and is very similar but logo is slightly darker",
+        "source_indices": [
+          1598,
+          2673
+        ],
+        "targets": [
+          "B001BVNSAQ",
+          "B001BVPPN4"
+        ]
+      },
+      {
+        "candidate": "B009PMSUU6",
+        "modification_text": "is black with people on it and a solid black shirt with people on front",
+        "source_indices": [
+          1648,
+          2843,
+          5007
+        ],
+        "targets": [
+          "B009L35TN0",
+          "B009L35UCK",
+          "B009L35V4C"
+        ]
+      },
+      {
+        "candidate": "B007QZWLK4",
+        "modification_text": "the shirts are exactly the same and is the same",
+        "source_indices": [
+          1677,
+          2888
+        ],
+        "targets": [
+          "B007QZWM4E",
+          "B007QZWMC6"
+        ]
+      },
+      {
+        "candidate": "B00CLIV8C8",
+        "modification_text": "is a short sleeved shirt with gray art and it has larger whire superman imprint",
+        "source_indices": [
+          1733,
+          5696
+        ],
+        "targets": [
+          "B00CN6GN7S",
+          "B00CN6H3MW"
+        ]
+      },
+      {
+        "candidate": "B00BQ20UD8",
+        "modification_text": "is black in color and black shirt with white print",
+        "source_indices": [
+          1749,
+          5931
+        ],
+        "targets": [
+          "B009ZH9NGG",
+          "B009ZH9O24"
+        ]
+      },
+      {
+        "candidate": "B00BV2QC2Q",
+        "modification_text": "is black with grey accents and black button up work shirt",
+        "source_indices": [
+          1845,
+          5388
+        ],
+        "targets": [
+          "B00BV2Q61S",
+          "B00BV2Q6N6"
+        ]
+      },
+      {
+        "candidate": "B007I77LNC",
+        "modification_text": "is exactly what you provided and is the same exact product",
+        "source_indices": [
+          1901,
+          4665
+        ],
+        "targets": [
+          "B007I77LM8",
+          "B007I77LVE"
+        ]
+      },
+      {
+        "candidate": "B00BJOQ0F0",
+        "modification_text": "has two hands for the logo and has a different graphic",
+        "source_indices": [
+          2026,
+          4738
+        ],
+        "targets": [
+          "B00BGDDY30",
+          "B00BGDDY8U"
+        ]
+      },
+      {
+        "candidate": "B0076Q98O0",
+        "modification_text": "is a darker color and is a t shirt with a man wearing a black cap",
+        "source_indices": [
+          2212,
+          2750
+        ],
+        "targets": [
+          "B001E4S8Z0",
+          "B001E4S8ZU"
+        ]
+      },
+      {
+        "candidate": "B004KM3J1Q",
+        "modification_text": "is more casual and has longer sleeves",
+        "source_indices": [
+          2400,
+          5892
+        ],
+        "targets": [
+          "B004NPAQHA",
+          "B004NPCD3U"
+        ]
+      },
+      {
+        "candidate": "B00E40LN9O",
+        "modification_text": "is darker and is blue",
+        "source_indices": [
+          2419,
+          4510,
+          5701
+        ],
+        "targets": [
+          "B00E40LTO8",
+          "B00E40LV7I",
+          "B00E40LXUI"
+        ]
+      },
+      {
+        "candidate": "B00GBAM484",
+        "modification_text": "is black with fox logo and is black",
+        "source_indices": [
+          2455,
+          3325
+        ],
+        "targets": [
+          "B00F99GCZ4",
+          "B00F99GI3U"
+        ]
+      },
+      {
+        "candidate": "B004XAT662",
+        "modification_text": "is darker colored pullover with no pockets and is black",
+        "source_indices": [
+          2475,
+          3830
+        ],
+        "targets": [
+          "B0058YRL9G",
+          "B006RDRHSM"
+        ]
+      },
+      {
+        "candidate": "B009VAP7YY",
+        "modification_text": "the shirt is black with white writing and is black with white lettering",
+        "source_indices": [
+          2551,
+          4258
+        ],
+        "targets": [
+          "B005TVUKXC",
+          "B005TVUL0O"
+        ]
+      },
+      {
+        "candidate": "B007HB6F7M",
+        "modification_text": "is lighter and has a different graphic and is more adolescent and red",
+        "source_indices": [
+          2613,
+          2992
+        ],
+        "targets": [
+          "B009H4RTT0",
+          "B009H4RWRE"
+        ]
+      },
+      {
+        "candidate": "B00BHASECS",
+        "modification_text": "is exactly the same and is the perfect product",
+        "source_indices": [
+          2722,
+          4446
+        ],
+        "targets": [
+          "B00BHASDX8",
+          "B00BHASE5A"
+        ]
+      },
+      {
+        "candidate": "B0012ODHMG",
+        "modification_text": "is orange and has long sleeves and is solid orange",
+        "source_indices": [
+          3079,
+          5335
+        ],
+        "targets": [
+          "B0036O5P4S",
+          "B0036O75CI"
+        ]
+      },
+      {
+        "candidate": "B009H4RTT0",
+        "modification_text": "is slightly lighter in color and is same",
+        "source_indices": [
+          3241,
+          3469
+        ],
+        "targets": [
+          "B009H4RSQ4",
+          "B009H4RV6Q"
+        ]
+      },
+      {
+        "candidate": "B0008TSEGA",
+        "modification_text": "has colorful logo and has a bigger logo",
+        "source_indices": [
+          3619,
+          4227
+        ],
+        "targets": [
+          "B000VCKGW4",
+          "B000VCQ1Y6"
+        ]
+      },
+      {
+        "candidate": "B0073SLJUW",
+        "modification_text": "is a light blue polo and is lighter blue with no pocket",
+        "source_indices": [
+          3895,
+          4664
+        ],
+        "targets": [
+          "B0036XD3NE",
+          "B0036XOGAI"
+        ]
+      },
+      {
+        "candidate": "B009O5FB7O",
+        "modification_text": "is darker and is blue with the anatomy of a creeper on it",
+        "source_indices": [
+          5062,
+          5853
+        ],
+        "targets": [
+          "B00580KQO2",
+          "B007JZ983Y"
+        ]
+      },
+      {
+        "candidate": "B00E3DISB8",
+        "modification_text": "is black with blue and red designs and is black with a barack obama 2012 photo",
+        "source_indices": [
+          5433,
+          5828
+        ],
+        "targets": [
+          "B0073VBMBK",
+          "B0073VBMFQ"
+        ]
+      },
+      {
+        "candidate": "B007KZJ2IE",
+        "modification_text": "are both identical and is blousy",
+        "source_indices": [
+          5620,
+          5978
+        ],
+        "targets": [
+          "B0042DD09O",
+          "B008MTK844"
+        ]
+      }
+    ]
+  },
+  "toptee": {
+    "queries": 6027,
+    "multi_positive_queries": 38,
+    "positive_links": 6079,
+    "multi_positive_fraction": 0.006304961008793761,
+    "distinct_target_ids": 6027,
+    "rows_with_repeated_target_id": 0,
+    "expected_same_id_off_diagonal_columns_per_query_batch16": 0.0,
+    "equivalent_query_groups": [
+      {
+        "candidate": "B000OBO5O2",
+        "modification_text": "the shirt has capped sleeves and white in color and has longer sleeves and is white",
+        "source_indices": [
+          159,
+          5878
+        ],
+        "targets": [
+          "B000PZOFRY",
+          "B000PZRN8C"
+        ]
+      },
+      {
+        "candidate": "B00AL1QEY4",
+        "modification_text": "the shirt is tight and dark blue in coloring and is identical",
+        "source_indices": [
+          483,
+          2192
+        ],
+        "targets": [
+          "B00AL1QEU8",
+          "B00C7AFSHQ"
+        ]
+      },
+      {
+        "candidate": "B009ESDWCM",
+        "modification_text": "is grey and it is grey",
+        "source_indices": [
+          533,
+          1350,
+          2635,
+          5529
+        ],
+        "targets": [
+          "B007J7J4B8",
+          "B007J7J4V8",
+          "B007J7J5KI",
+          "B007J7J6NO"
+        ]
+      },
+      {
+        "candidate": "B00455VX0C",
+        "modification_text": "is more cartoonish and less sophisticated and is lighter color and different graphic",
+        "source_indices": [
+          655,
+          2416
+        ],
+        "targets": [
+          "B00E678ZPU",
+          "B00E6790AY"
+        ]
+      },
+      {
+        "candidate": "B00A3I6UTE",
+        "modification_text": "is black with white writing on it and is darker",
+        "source_indices": [
+          955,
+          3541
+        ],
+        "targets": [
+          "B008TWFHJ0",
+          "B009Z3Z71A"
+        ]
+      },
+      {
+        "candidate": "B009N7Y8DG",
+        "modification_text": "is more transparent and black and sheer",
+        "source_indices": [
+          989,
+          5852
+        ],
+        "targets": [
+          "B008595MDI",
+          "B00A78X7GY"
+        ]
+      },
+      {
+        "candidate": "B006MHUHC6",
+        "modification_text": "is darker and has more blue coloring",
+        "source_indices": [
+          1013,
+          1452
+        ],
+        "targets": [
+          "B001T6UGLC",
+          "B00BSE0I3G"
+        ]
+      },
+      {
+        "candidate": "B00C7AFSHQ",
+        "modification_text": "the shirt is tight and dark blue in coloring and is identical",
+        "source_indices": [
+          1080,
+          5448
+        ],
+        "targets": [
+          "B00AL1QEF8",
+          "B00AL1QETY"
+        ]
+      },
+      {
+        "candidate": "B008OR0QJ6",
+        "modification_text": "has shorter sleeves and has off shoulder and less revealing neck",
+        "source_indices": [
+          1486,
+          1799
+        ],
+        "targets": [
+          "B0087CHN44",
+          "B0087D7O8I"
+        ]
+      },
+      {
+        "candidate": "B00CM9K0OS",
+        "modification_text": "does not have glasses and the same shirt without the 3d glasses on bill murray",
+        "source_indices": [
+          1834,
+          4262
+        ],
+        "targets": [
+          "B00BHASDME",
+          "B00BHASDRE"
+        ]
+      },
+      {
+        "candidate": "B007J7J4B8",
+        "modification_text": "is black with white designs and is black and has a bit more logo",
+        "source_indices": [
+          1931,
+          2589,
+          5633
+        ],
+        "targets": [
+          "B009ESDWCM",
+          "B009ESEDVQ",
+          "B009ESEK2S"
+        ]
+      },
+      {
+        "candidate": "B002U2QKAK",
+        "modification_text": "is grey and more sporty and is a grey shirt with a football graphic on it",
+        "source_indices": [
+          2132,
+          4103
+        ],
+        "targets": [
+          "B006U228L6",
+          "B006U228V6"
+        ]
+      },
+      {
+        "candidate": "B0039UGS4K",
+        "modification_text": "is white colored and is sleeveless and has no buttons or sleeves",
+        "source_indices": [
+          2521,
+          5980
+        ],
+        "targets": [
+          "B003NYUDMA",
+          "B003NYUDOI"
+        ]
+      },
+      {
+        "candidate": "B00AL1QEH6",
+        "modification_text": "the shirt is tight and dark blue in coloring and is identical",
+        "source_indices": [
+          3237,
+          5927,
+          5985
+        ],
+        "targets": [
+          "B00AL1QEIK",
+          "B00AL1QEY4",
+          "B00C7B65CC"
+        ]
+      },
+      {
+        "candidate": "B00DR49142",
+        "modification_text": "is identical and is available",
+        "source_indices": [
+          3284,
+          4930
+        ],
+        "targets": [
+          "B00DR4912Y",
+          "B00DR4917E"
+        ]
+      },
+      {
+        "candidate": "B00E3UNI8Y",
+        "modification_text": "is black with no words and is darker",
+        "source_indices": [
+          3288,
+          3465
+        ],
+        "targets": [
+          "B002ZZ7ZWE",
+          "B002ZZDDF2"
+        ]
+      },
+      {
+        "candidate": "B006Z8HDB0",
+        "modification_text": "is black and one center graphic display",
+        "source_indices": [
+          3477,
+          3926
+        ],
+        "targets": [
+          "B008LV14OG",
+          "B008LV15RM"
+        ]
+      }
+    ]
+  }
+}

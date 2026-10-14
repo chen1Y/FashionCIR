@@ -4,8 +4,8 @@
 `codex/multi-positive-cir`。本机已安装 Git Credential Manager（GCM 2.7.0），
 Git 的系统配置也已有 `credential.helper=manager`，但尚未找到可用的 GitHub 登录凭据。
 
-另一个已验证可用的路径是实验服务器：其 Git remote 使用 GitHub SSH，推送预检查成功。
-本次可以通过服务器现有认证发布实验分支，无需复制服务器的私钥到本机。
+另一个已验证可用的路径是实验服务器：其 Git remote 使用 GitHub SSH。
+2026-10-14 已通过服务器现有认证成功发布实验分支，并核对远端提交号；无需复制服务器的私钥到本机。
 下面的浏览器授权步骤用于以后直接从这台 Windows 电脑推送。
 
 在 PowerShell 中运行：

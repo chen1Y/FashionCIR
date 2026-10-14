@@ -1,0 +1,2369 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-14",
+  "client_timezone": "Asia/Hong_Kong",
+  "training_code_commit": "5080813",
+  "environment": {
+    "python": "3.10.8",
+    "torch": "2.9.0",
+    "open_clip_torch": "2.23.0",
+    "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+    "reported_gpu_memory_mib": 32760
+  },
+  "protocol": {
+    "dataset": "FashionIQ",
+    "category": "dress",
+    "train_queries": 5985,
+    "validation_queries": 2017,
+    "gallery_images": 3817,
+    "fashioniq_split": "original-split",
+    "seed": 42,
+    "epochs": 6,
+    "gate_warmup_epochs": 2,
+    "batch_size": 16,
+    "hard_negative_weight": 0.0,
+    "selection_metric": "R@10 + R@50",
+    "reference_image_excluded": true,
+    "official_validation_labels_unchanged": true
+  },
+  "identity_control": {
+    "status": "skipped",
+    "reason": "All training targets are unique within each category; the in-batch identity mask equals the diagonal mask."
+  },
+  "annotation_audit": {
+    "dress": {
+      "queries": 5985,
+      "multi_positive_queries": 55,
+      "positive_links": 6049,
+      "multi_positive_fraction": 0.009189640768588136,
+      "distinct_target_ids": 5985,
+      "rows_with_repeated_target_id": 0,
+      "expected_same_id_off_diagonal_columns_per_query_batch16": 0.0,
+      "equivalent_query_groups": [
+        {
+          "candidate": "B00AO1VSVK",
+          "modification_text": "is more wordy and less of a dress and is not a dress",
+          "source_indices": [
+            359,
+            1202
+          ],
+          "targets": [
+            "B00ANK78WK",
+            "B00BQCJYQ2"
+          ]
+        },
+        {
+          "candidate": "B006LFOX4M",
+          "modification_text": "this is not a piece of clothing and product is text",
+          "source_indices": [
+            370,
+            870,
+            2164
+          ],
+          "targets": [
+            "B00BFPGCYM",
+            "B00BKU92T4",
+            "B00DW5EXBM"
+          ]
+        },
+        {
+          "candidate": "B008VPXVTS",
+          "modification_text": "has a closed front and is belted and has a belt",
+          "source_indices": [
+            477,
+            1281
+          ],
+          "targets": [
+            "B00ALSQNZC",
+            "B00CWZSI1O"
+          ]
+        },
+        {
+          "candidate": "B00BBQCWY4",
+          "modification_text": "is solid white in color and is pure white",
+          "source_indices": [
+            535,
+            1993,
+            3872
+          ],
+          "targets": [
+            "B004ZF6T60",
+            "B004ZF6TS8",
+            "B004ZF6TYC"
+          ]
+        },
+        {
+          "candidate": "B009XEPWO8",
+          "modification_text": "is light blue in color and is shorter and flowing",
+          "source_indices": [
+            587,
+            4505
+          ],
+          "targets": [
+            "B008BBCRIS",
+            "B008BBCV84"
+          ]
+        },
+        {
+          "candidate": "B0065WE3J6",
+          "modification_text": "is more printed and lighter and is shorter and more whimsical",
+          "source_indices": [
+            623,
+            2808
+          ],
+          "targets": [
+            "B00A1ATYHY",
+            "B00A3G8R9C"
+          ]
+        },
+        {
+          "candidate": "B00D8RZKI4",
+          "modification_text": "has a black skirt and is black",
+          "source_indices": [
+            1044,
+            5325
+          ],
+          "targets": [
+            "B00D8RZKP2",
+            "B00D8RZKTS"
+          ]
+        },
+        {
+          "candidate": "B008BBCSAK",
+          "modification_text": "is more fitted and sexy and is black with straps",
+          "source_indices": [
+            1168,
+            2654
+          ],
+          "targets": [
+            "B00A3HL086",
+            "B00A3HL0O0"
+          ]
+        },
+        {
+          "candidate": "B007RLXE1C",
+          "modification_text": "is maggy london and is a word maggy london",
+          "source_indices": [
+            1332,
+            2833
+          ],
+          "targets": [
+            "B00967K04O",
+            "B00AO1VXOW"
+          ]
+        },
+        {
+          "candidate": "B00F2SGB94",
+          "modification_text": "more blue and lesser ornament and strapless",
+          "source_indices": [
+            1435,
+            4370
+          ],
+          "targets": [
+            "B005GQPE5E",
+            "B005GQPE5Y"
+          ]
+        },
+        {
+          "candidate": "B008DSPOHA",
+          "modification_text": "is blue with a belted waist and shorter",
+          "source_indices": [
+            1701,
+            3691
+          ],
+          "targets": [
+            "B0091GQTNQ",
+            "B0091GQV3E"
+          ]
+        },
+        {
+          "candidate": "B008GQ3M1E",
+          "modification_text": "is a short sleeved and is pink with frills",
+          "source_indices": [
+            1720,
+            2960
+          ],
+          "targets": [
+            "B00B0E2BK2",
+            "B00B0E2Y8G"
+          ]
+        },
+        {
+          "candidate": "B00FI0LUCY",
+          "modification_text": "is the same and is the same product",
+          "source_indices": [
+            1930,
+            2864,
+            5476
+          ],
+          "targets": [
+            "B00FI0LTXO",
+            "B00FI0LUII",
+            "B00FI0LV64"
+          ]
+        },
+        {
+          "candidate": "B002PEZMSY",
+          "modification_text": "2 and has a more closed neckline",
+          "source_indices": [
+            2020,
+            2098
+          ],
+          "targets": [
+            "B002PETCY4",
+            "B002PEZMUW"
+          ]
+        },
+        {
+          "candidate": "B00D8RZKPC",
+          "modification_text": "is exactly and is identical",
+          "source_indices": [
+            2041,
+            4366
+          ],
+          "targets": [
+            "B00D8RZKJ8",
+            "B00D8RZKNY"
+          ]
+        },
+        {
+          "candidate": "B002EANOY8",
+          "modification_text": "is short and is white and is shorter and white",
+          "source_indices": [
+            2144,
+            4938
+          ],
+          "targets": [
+            "B0019KO8EE",
+            "B002H0LDTI"
+          ]
+        },
+        {
+          "candidate": "B00CZ8VQ8K",
+          "modification_text": "has wider straps and is less sexy and is more simple and is green in colour",
+          "source_indices": [
+            2216,
+            2786
+          ],
+          "targets": [
+            "B00BQTNDLW",
+            "B00BXYRABY"
+          ]
+        },
+        {
+          "candidate": "B00480AS5K",
+          "modification_text": "is red with colorful designs and dropped to one side with longer skirt",
+          "source_indices": [
+            2295,
+            5129
+          ],
+          "targets": [
+            "B004150Y7E",
+            "B006WOFU6W"
+          ]
+        },
+        {
+          "candidate": "B00DU7WE5E",
+          "modification_text": "more revealing and long and yellow",
+          "source_indices": [
+            2475,
+            2525
+          ],
+          "targets": [
+            "B00DU7WDMS",
+            "B00DU7WDUK"
+          ]
+        },
+        {
+          "candidate": "B007IWZSWI",
+          "modification_text": "is a floral tank dress and above the knee and fitted",
+          "source_indices": [
+            2581,
+            3510
+          ],
+          "targets": [
+            "B007WFFGZU",
+            "B00C5TLSXC"
+          ]
+        },
+        {
+          "candidate": "B00EO5BKNI",
+          "modification_text": "has a long slit and is darker and more sexy",
+          "source_indices": [
+            2876,
+            3297
+          ],
+          "targets": [
+            "B00C5W163G",
+            "B00C5W1668"
+          ]
+        },
+        {
+          "candidate": "B00FP6ARGG",
+          "modification_text": "longer sleeves and a brighter pattern and is long sleeve and vintage",
+          "source_indices": [
+            3289,
+            5148
+          ],
+          "targets": [
+            "B00FCEF00O",
+            "B00FQPJWRG"
+          ]
+        },
+        {
+          "candidate": "B009OB36BG",
+          "modification_text": "shorter and is pink and shorter",
+          "source_indices": [
+            3425,
+            5047
+          ],
+          "targets": [
+            "B00APSRH44",
+            "B00BF8MH9S"
+          ]
+        },
+        {
+          "candidate": "B00816HLAC",
+          "modification_text": "is a dark green dress and is brighter",
+          "source_indices": [
+            3824,
+            5145
+          ],
+          "targets": [
+            "B00B3PUFX8",
+            "B00BB7FJRU"
+          ]
+        },
+        {
+          "candidate": "B00AD95LDO",
+          "modification_text": "has longer sleeves and lower neckline and has longer sleeves",
+          "source_indices": [
+            5040,
+            5646
+          ],
+          "targets": [
+            "B00A3UTGMK",
+            "B00A3UTOTU"
+          ]
+        },
+        {
+          "candidate": "B007CVUSCU",
+          "modification_text": "is darker and is black",
+          "source_indices": [
+            5218,
+            5317
+          ],
+          "targets": [
+            "B007CVURMQ",
+            "B007CVUSH0"
+          ]
+        }
+      ]
+    },
+    "shirt": {
+      "queries": 5988,
+      "multi_positive_queries": 96,
+      "positive_links": 6096,
+      "multi_positive_fraction": 0.01603206412825651,
+      "distinct_target_ids": 5988,
+      "rows_with_repeated_target_id": 0,
+      "expected_same_id_off_diagonal_columns_per_query_batch16": 0.0,
+      "equivalent_query_groups": [
+        {
+          "candidate": "B008LMFM5M",
+          "modification_text": "is more chic and black and is black",
+          "source_indices": [
+            39,
+            5097
+          ],
+          "targets": [
+            "B0038MLEYS",
+            "B0038MNBF8"
+          ]
+        },
+        {
+          "candidate": "B0088NZ5EW",
+          "modification_text": "is a black shirt with a flag and has more red",
+          "source_indices": [
+            212,
+            4543
+          ],
+          "targets": [
+            "B00EAX4R5C",
+            "B00EAXBT1C"
+          ]
+        },
+        {
+          "candidate": "B00BJ6YFZA",
+          "modification_text": "has a darker color and is dark grey",
+          "source_indices": [
+            302,
+            5585
+          ],
+          "targets": [
+            "B00BGDRZKI",
+            "B00BXQNBY2"
+          ]
+        },
+        {
+          "candidate": "B004IIEVD2",
+          "modification_text": "is the same and is exactly the same",
+          "source_indices": [
+            507,
+            5581
+          ],
+          "targets": [
+            "B004IIBA9K",
+            "B004IIEVDC"
+          ]
+        },
+        {
+          "candidate": "B005H4C12Y",
+          "modification_text": "is light colored and is white with pockets",
+          "source_indices": [
+            552,
+            2552,
+            5475
+          ],
+          "targets": [
+            "B002BF8EPK",
+            "B002BFBYFC",
+            "B002BFFETO"
+          ]
+        },
+        {
+          "candidate": "B00BUZZ4J6",
+          "modification_text": "is sleeveless and a brighter color and is sleeveless and yellow",
+          "source_indices": [
+            555,
+            5037
+          ],
+          "targets": [
+            "B009SDRDYG",
+            "B00C1NZ5ZY"
+          ]
+        },
+        {
+          "candidate": "B001M0MYPG",
+          "modification_text": "is solid white and a white long sleeved buttoned shirt",
+          "source_indices": [
+            583,
+            2976
+          ],
+          "targets": [
+            "B001M0MYVA",
+            "B001M0MZYQ"
+          ]
+        },
+        {
+          "candidate": "B00GGILPDQ",
+          "modification_text": "darker color and is a red shirt that is plain",
+          "source_indices": [
+            658,
+            3562
+          ],
+          "targets": [
+            "B0036SP2Y2",
+            "B0036SP2YW"
+          ]
+        },
+        {
+          "candidate": "B0060A21FQ",
+          "modification_text": "is the same shirt and is black and has a bold graphic",
+          "source_indices": [
+            722,
+            1199,
+            5497
+          ],
+          "targets": [
+            "B0060A20XY",
+            "B0060A20ZC",
+            "B0060A217Y"
+          ]
+        },
+        {
+          "candidate": "B002L8HOMQ",
+          "modification_text": "has arrows on it and is more masculine and shorter",
+          "source_indices": [
+            732,
+            2156
+          ],
+          "targets": [
+            "B001J4TY44",
+            "B0045ETXU0"
+          ]
+        },
+        {
+          "candidate": "B00A3IAZRW",
+          "modification_text": "is orange and a flying horse logo and is much brighter in color",
+          "source_indices": [
+            770,
+            2207
+          ],
+          "targets": [
+            "B00CPS9CR2",
+            "B00CPS9DIK"
+          ]
+        },
+        {
+          "candidate": "B000I90RSS",
+          "modification_text": "is white with black designs and is black and white",
+          "source_indices": [
+            780,
+            3428
+          ],
+          "targets": [
+            "B000QHEPJE",
+            "B000QHGDSU"
+          ]
+        },
+        {
+          "candidate": "B00E9IHCZA",
+          "modification_text": "is black with words and is black with shorter sleeves",
+          "source_indices": [
+            913,
+            4606
+          ],
+          "targets": [
+            "B003BQR0AI",
+            "B003BQSZ5C"
+          ]
+        },
+        {
+          "candidate": "B007N6SMG8",
+          "modification_text": "is black with small designs and has a smaller graphic on it",
+          "source_indices": [
+            972,
+            3858
+          ],
+          "targets": [
+            "B006ONZT7G",
+            "B0093SL8UG"
+          ]
+        },
+        {
+          "candidate": "B00BV2Q5GO",
+          "modification_text": "is a lighter color and is white with gray outlines",
+          "source_indices": [
+            1157,
+            2392
+          ],
+          "targets": [
+            "B00BV2Q9B0",
+            "B00BV2QB0E"
+          ]
+        },
+        {
+          "candidate": "B00641RU5C",
+          "modification_text": "is the same and is the same exact shirt",
+          "source_indices": [
+            1172,
+            1783
+          ],
+          "targets": [
+            "B00641RU0W",
+            "B00641RU1Q"
+          ]
+        },
+        {
+          "candidate": "B002KG8LMG",
+          "modification_text": "is identical and looks like a perfect match",
+          "source_indices": [
+            1264,
+            3777
+          ],
+          "targets": [
+            "B002KG6OYI",
+            "B002KGDIT2"
+          ]
+        },
+        {
+          "candidate": "B00FFT1N1G",
+          "modification_text": "has a collar and is lighter black and has to show logo",
+          "source_indices": [
+            1356,
+            3539
+          ],
+          "targets": [
+            "B006H6WNQ0",
+            "B006H6WOR8"
+          ]
+        },
+        {
+          "candidate": "B000YA114A",
+          "modification_text": "is blue and is much darker in color",
+          "source_indices": [
+            1399,
+            4923
+          ],
+          "targets": [
+            "B00079ZW7K",
+            "B0027ED4SW"
+          ]
+        },
+        {
+          "candidate": "B0013FI8MI",
+          "modification_text": "is the same and is the same exact shirt",
+          "source_indices": [
+            1478,
+            3995
+          ],
+          "targets": [
+            "B0013FJW64",
+            "B0013FPI9E"
+          ]
+        },
+        {
+          "candidate": "B00B21XPIK",
+          "modification_text": "is red long sleeved button down shirt with collar and is red with double breast pockets",
+          "source_indices": [
+            1513,
+            4157
+          ],
+          "targets": [
+            "B00BV2SLIE",
+            "B00BV2SM74"
+          ]
+        },
+        {
+          "candidate": "B00CIPJ4L6",
+          "modification_text": "is a dark red flannel shirt and has a slightly smaller and darker pattern",
+          "source_indices": [
+            1525,
+            2762
+          ],
+          "targets": [
+            "B007TXBK5U",
+            "B007TXBK6O"
+          ]
+        },
+        {
+          "candidate": "B006961ITG",
+          "modification_text": "is black and wordy and is black with yellow text",
+          "source_indices": [
+            1532,
+            4176
+          ],
+          "targets": [
+            "B00731P81A",
+            "B00731P83I"
+          ]
+        },
+        {
+          "candidate": "B00671EHQ4",
+          "modification_text": "is darker black and is very similar but logo is slightly darker",
+          "source_indices": [
+            1598,
+            2673
+          ],
+          "targets": [
+            "B001BVNSAQ",
+            "B001BVPPN4"
+          ]
+        },
+        {
+          "candidate": "B009PMSUU6",
+          "modification_text": "is black with people on it and a solid black shirt with people on front",
+          "source_indices": [
+            1648,
+            2843,
+            5007
+          ],
+          "targets": [
+            "B009L35TN0",
+            "B009L35UCK",
+            "B009L35V4C"
+          ]
+        },
+        {
+          "candidate": "B007QZWLK4",
+          "modification_text": "the shirts are exactly the same and is the same",
+          "source_indices": [
+            1677,
+            2888
+          ],
+          "targets": [
+            "B007QZWM4E",
+            "B007QZWMC6"
+          ]
+        },
+        {
+          "candidate": "B00CLIV8C8",
+          "modification_text": "is a short sleeved shirt with gray art and it has larger whire superman imprint",
+          "source_indices": [
+            1733,
+            5696
+          ],
+          "targets": [
+            "B00CN6GN7S",
+            "B00CN6H3MW"
+          ]
+        },
+        {
+          "candidate": "B00BQ20UD8",
+          "modification_text": "is black in color and black shirt with white print",
+          "source_indices": [
+            1749,
+            5931
+          ],
+          "targets": [
+            "B009ZH9NGG",
+            "B009ZH9O24"
+          ]
+        },
+        {
+          "candidate": "B00BV2QC2Q",
+          "modification_text": "is black with grey accents and black button up work shirt",
+          "source_indices": [
+            1845,
+            5388
+          ],
+          "targets": [
+            "B00BV2Q61S",
+            "B00BV2Q6N6"
+          ]
+        },
+        {
+          "candidate": "B007I77LNC",
+          "modification_text": "is exactly what you provided and is the same exact product",
+          "source_indices": [
+            1901,
+            4665
+          ],
+          "targets": [
+            "B007I77LM8",
+            "B007I77LVE"
+          ]
+        },
+        {
+          "candidate": "B00BJOQ0F0",
+          "modification_text": "has two hands for the logo and has a different graphic",
+          "source_indices": [
+            2026,
+            4738
+          ],
+          "targets": [
+            "B00BGDDY30",
+            "B00BGDDY8U"
+          ]
+        },
+        {
+          "candidate": "B0076Q98O0",
+          "modification_text": "is a darker color and is a t shirt with a man wearing a black cap",
+          "source_indices": [
+            2212,
+            2750
+          ],
+          "targets": [
+            "B001E4S8Z0",
+            "B001E4S8ZU"
+          ]
+        },
+        {
+          "candidate": "B004KM3J1Q",
+          "modification_text": "is more casual and has longer sleeves",
+          "source_indices": [
+            2400,
+            5892
+          ],
+          "targets": [
+            "B004NPAQHA",
+            "B004NPCD3U"
+          ]
+        },
+        {
+          "candidate": "B00E40LN9O",
+          "modification_text": "is darker and is blue",
+          "source_indices": [
+            2419,
+            4510,
+            5701
+          ],
+          "targets": [
+            "B00E40LTO8",
+            "B00E40LV7I",
+            "B00E40LXUI"
+          ]
+        },
+        {
+          "candidate": "B00GBAM484",
+          "modification_text": "is black with fox logo and is black",
+          "source_indices": [
+            2455,
+            3325
+          ],
+          "targets": [
+            "B00F99GCZ4",
+            "B00F99GI3U"
+          ]
+        },
+        {
+          "candidate": "B004XAT662",
+          "modification_text": "is darker colored pullover with no pockets and is black",
+          "source_indices": [
+            2475,
+            3830
+          ],
+          "targets": [
+            "B0058YRL9G",
+            "B006RDRHSM"
+          ]
+        },
+        {
+          "candidate": "B009VAP7YY",
+          "modification_text": "the shirt is black with white writing and is black with white lettering",
+          "source_indices": [
+            2551,
+            4258
+          ],
+          "targets": [
+            "B005TVUKXC",
+            "B005TVUL0O"
+          ]
+        },
+        {
+          "candidate": "B007HB6F7M",
+          "modification_text": "is lighter and has a different graphic and is more adolescent and red",
+          "source_indices": [
+            2613,
+            2992
+          ],
+          "targets": [
+            "B009H4RTT0",
+            "B009H4RWRE"
+          ]
+        },
+        {
+          "candidate": "B00BHASECS",
+          "modification_text": "is exactly the same and is the perfect product",
+          "source_indices": [
+            2722,
+            4446
+          ],
+          "targets": [
+            "B00BHASDX8",
+            "B00BHASE5A"
+          ]
+        },
+        {
+          "candidate": "B0012ODHMG",
+          "modification_text": "is orange and has long sleeves and is solid orange",
+          "source_indices": [
+            3079,
+            5335
+          ],
+          "targets": [
+            "B0036O5P4S",
+            "B0036O75CI"
+          ]
+        },
+        {
+          "candidate": "B009H4RTT0",
+          "modification_text": "is slightly lighter in color and is same",
+          "source_indices": [
+            3241,
+            3469
+          ],
+          "targets": [
+            "B009H4RSQ4",
+            "B009H4RV6Q"
+          ]
+        },
+        {
+          "candidate": "B0008TSEGA",
+          "modification_text": "has colorful logo and has a bigger logo",
+          "source_indices": [
+            3619,
+            4227
+          ],
+          "targets": [
+            "B000VCKGW4",
+            "B000VCQ1Y6"
+          ]
+        },
+        {
+          "candidate": "B0073SLJUW",
+          "modification_text": "is a light blue polo and is lighter blue with no pocket",
+          "source_indices": [
+            3895,
+            4664
+          ],
+          "targets": [
+            "B0036XD3NE",
+            "B0036XOGAI"
+          ]
+        },
+        {
+          "candidate": "B009O5FB7O",
+          "modification_text": "is darker and is blue with the anatomy of a creeper on it",
+          "source_indices": [
+            5062,
+            5853
+          ],
+          "targets": [
+            "B00580KQO2",
+            "B007JZ983Y"
+          ]
+        },
+        {
+          "candidate": "B00E3DISB8",
+          "modification_text": "is black with blue and red designs and is black with a barack obama 2012 photo",
+          "source_indices": [
+            5433,
+            5828
+          ],
+          "targets": [
+            "B0073VBMBK",
+            "B0073VBMFQ"
+          ]
+        },
+        {
+          "candidate": "B007KZJ2IE",
+          "modification_text": "are both identical and is blousy",
+          "source_indices": [
+            5620,
+            5978
+          ],
+          "targets": [
+            "B0042DD09O",
+            "B008MTK844"
+          ]
+        }
+      ]
+    },
+    "toptee": {
+      "queries": 6027,
+      "multi_positive_queries": 38,
+      "positive_links": 6079,
+      "multi_positive_fraction": 0.006304961008793761,
+      "distinct_target_ids": 6027,
+      "rows_with_repeated_target_id": 0,
+      "expected_same_id_off_diagonal_columns_per_query_batch16": 0.0,
+      "equivalent_query_groups": [
+        {
+          "candidate": "B000OBO5O2",
+          "modification_text": "the shirt has capped sleeves and white in color and has longer sleeves and is white",
+          "source_indices": [
+            159,
+            5878
+          ],
+          "targets": [
+            "B000PZOFRY",
+            "B000PZRN8C"
+          ]
+        },
+        {
+          "candidate": "B00AL1QEY4",
+          "modification_text": "the shirt is tight and dark blue in coloring and is identical",
+          "source_indices": [
+            483,
+            2192
+          ],
+          "targets": [
+            "B00AL1QEU8",
+            "B00C7AFSHQ"
+          ]
+        },
+        {
+          "candidate": "B009ESDWCM",
+          "modification_text": "is grey and it is grey",
+          "source_indices": [
+            533,
+            1350,
+            2635,
+            5529
+          ],
+          "targets": [
+            "B007J7J4B8",
+            "B007J7J4V8",
+            "B007J7J5KI",
+            "B007J7J6NO"
+          ]
+        },
+        {
+          "candidate": "B00455VX0C",
+          "modification_text": "is more cartoonish and less sophisticated and is lighter color and different graphic",
+          "source_indices": [
+            655,
+            2416
+          ],
+          "targets": [
+            "B00E678ZPU",
+            "B00E6790AY"
+          ]
+        },
+        {
+          "candidate": "B00A3I6UTE",
+          "modification_text": "is black with white writing on it and is darker",
+          "source_indices": [
+            955,
+            3541
+          ],
+          "targets": [
+            "B008TWFHJ0",
+            "B009Z3Z71A"
+          ]
+        },
+        {
+          "candidate": "B009N7Y8DG",
+          "modification_text": "is more transparent and black and sheer",
+          "source_indices": [
+            989,
+            5852
+          ],
+          "targets": [
+            "B008595MDI",
+            "B00A78X7GY"
+          ]
+        },
+        {
+          "candidate": "B006MHUHC6",
+          "modification_text": "is darker and has more blue coloring",
+          "source_indices": [
+            1013,
+            1452
+          ],
+          "targets": [
+            "B001T6UGLC",
+            "B00BSE0I3G"
+          ]
+        },
+        {
+          "candidate": "B00C7AFSHQ",
+          "modification_text": "the shirt is tight and dark blue in coloring and is identical",
+          "source_indices": [
+            1080,
+            5448
+          ],
+          "targets": [
+            "B00AL1QEF8",
+            "B00AL1QETY"
+          ]
+        },
+        {
+          "candidate": "B008OR0QJ6",
+          "modification_text": "has shorter sleeves and has off shoulder and less revealing neck",
+          "source_indices": [
+            1486,
+            1799
+          ],
+          "targets": [
+            "B0087CHN44",
+            "B0087D7O8I"
+          ]
+        },
+        {
+          "candidate": "B00CM9K0OS",
+          "modification_text": "does not have glasses and the same shirt without the 3d glasses on bill murray",
+          "source_indices": [
+            1834,
+            4262
+          ],
+          "targets": [
+            "B00BHASDME",
+            "B00BHASDRE"
+          ]
+        },
+        {
+          "candidate": "B007J7J4B8",
+          "modification_text": "is black with white designs and is black and has a bit more logo",
+          "source_indices": [
+            1931,
+            2589,
+            5633
+          ],
+          "targets": [
+            "B009ESDWCM",
+            "B009ESEDVQ",
+            "B009ESEK2S"
+          ]
+        },
+        {
+          "candidate": "B002U2QKAK",
+          "modification_text": "is grey and more sporty and is a grey shirt with a football graphic on it",
+          "source_indices": [
+            2132,
+            4103
+          ],
+          "targets": [
+            "B006U228L6",
+            "B006U228V6"
+          ]
+        },
+        {
+          "candidate": "B0039UGS4K",
+          "modification_text": "is white colored and is sleeveless and has no buttons or sleeves",
+          "source_indices": [
+            2521,
+            5980
+          ],
+          "targets": [
+            "B003NYUDMA",
+            "B003NYUDOI"
+          ]
+        },
+        {
+          "candidate": "B00AL1QEH6",
+          "modification_text": "the shirt is tight and dark blue in coloring and is identical",
+          "source_indices": [
+            3237,
+            5927,
+            5985
+          ],
+          "targets": [
+            "B00AL1QEIK",
+            "B00AL1QEY4",
+            "B00C7B65CC"
+          ]
+        },
+        {
+          "candidate": "B00DR49142",
+          "modification_text": "is identical and is available",
+          "source_indices": [
+            3284,
+            4930
+          ],
+          "targets": [
+            "B00DR4912Y",
+            "B00DR4917E"
+          ]
+        },
+        {
+          "candidate": "B00E3UNI8Y",
+          "modification_text": "is black with no words and is darker",
+          "source_indices": [
+            3288,
+            3465
+          ],
+          "targets": [
+            "B002ZZ7ZWE",
+            "B002ZZDDF2"
+          ]
+        },
+        {
+          "candidate": "B006Z8HDB0",
+          "modification_text": "is black and one center graphic display",
+          "source_indices": [
+            3477,
+            3926
+          ],
+          "targets": [
+            "B008LV14OG",
+            "B008LV15RM"
+          ]
+        }
+      ]
+    }
+  },
+  "code_sha256": {
+    "newTrain.py": "3e88d1c2bc7ab43af92dc05ac346e26586891ad8f6255020620c72817f75a4c2",
+    "newModel.py": "3b27d4ec233183adaaa710829d1d76e6ecfd9d8b25d576baaa8907a34f245b86",
+    "newDataset.py": "579576f20c110acc2bacdd9f7c3ce4dfdccb643564f02943de66c9fac642e037",
+    "multi_positive.py": "089b3e54a47ab353ec1e9d7178959effa192174dbde8cbf74f28aeca9c4cc471",
+    "multi_positive_loss.py": "c8c4d6a41672461860b1d48f3a8f5a1052b8eabfd7bf7adbc0767032d1450ead"
+  },
+  "runs": {
+    "off": {
+      "driver_record": {
+        "mode": "off",
+        "seed": 42,
+        "status": "complete",
+        "command": [
+          "/root/miniconda3/bin/python",
+          "newTrain.py",
+          "--dataset",
+          "dress",
+          "--fashioniq-split",
+          "original-split",
+          "--fashioniq-path",
+          "/root/autodl-tmp/data/FashionIQ",
+          "--clip-checkpoint",
+          "/root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/blobs/9a78ef8e8c73fd0df621682e7a8e8eb36c6916cb3c16b291a082ecd52ab79cc4",
+          "--dqu-checkpoint",
+          "/root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt",
+          "--model-dir",
+          "/root/autodl-tmp/results/multi_positive_pilot_20261014/checkpoints",
+          "--run-name",
+          "mp_pilot_off",
+          "--multi-positive",
+          "off",
+          "--seed",
+          "42",
+          "--num-epochs",
+          "6",
+          "--batch-size",
+          "16",
+          "--num-workers",
+          "4",
+          "--patience",
+          "20",
+          "--hard-negative-weight",
+          "0"
+        ],
+        "log": "/root/autodl-tmp/results/multi_positive_pilot_20261014/off_seed42.log",
+        "started_utc": "2026-10-14T15:11:30.688767+00:00",
+        "completion_evidence": "Final epoch 6 evaluation logged and child process exited; original driver replaced to skip redundant identity run",
+        "best_metrics": {
+          "epoch": 6,
+          "selection_metric": "R@10 + R@50",
+          "dress_r1": 21.616261774913237,
+          "dress_r10": 52.75161130391671,
+          "dress_r50": 75.11155180961825,
+          "dress_median_rank": 9.0,
+          "dress_mean_rank": 98.35200793257313,
+          "dress_structured_weight": 0.05510972440242767,
+          "dress_predicted_structured_gate": 0.43415066599845886,
+          "dress_adapter_residual_norm": 0.7580613493919373,
+          "dress_effective_residual_norm": 0.042013198137283325,
+          "dress_text_drift": 0.0008818442584015429,
+          "dress_field_attention_entropy": 1.3753371238708496,
+          "dress_calibrated_confidence": 0.8467920422554016,
+          "dress_dqu_text_weight": 0.5622592568397522,
+          "dress_mean_qwen_confidence": 0.8812468827930175,
+          "dress_structured_coverage": 0.9940505701536936,
+          "dress_group_has_relation_n": 2005.0,
+          "dress_group_has_relation_r1": 21.496259351620946,
+          "dress_group_has_relation_r10": 52.66832917705736,
+          "dress_group_has_relation_r50": 75.11221945137157,
+          "dress_group_has_relation_mean_rank": 98.66483790523691,
+          "dress_group_no_relation_n": 12.0,
+          "dress_group_no_relation_r1": 41.66666666666667,
+          "dress_group_no_relation_r10": 66.66666666666666,
+          "dress_group_no_relation_r50": 75.0,
+          "dress_group_no_relation_mean_rank": 46.083333333333336,
+          "dress_group_add_and_remove_n": 1986.0,
+          "dress_group_add_and_remove_r1": 21.45015105740181,
+          "dress_group_add_and_remove_r10": 52.51762336354482,
+          "dress_group_add_and_remove_r50": 75.02517623363545,
+          "dress_group_add_and_remove_mean_rank": 99.29405840886203,
+          "dress_group_add_only_n": 19.0,
+          "dress_group_add_only_r1": 26.31578947368421,
+          "dress_group_add_only_r10": 68.42105263157895,
+          "dress_group_add_only_r50": 84.21052631578947,
+          "dress_group_add_only_mean_rank": 32.89473684210526,
+          "dress_group_high_confidence_n": 1264.0,
+          "dress_group_high_confidence_r1": 21.75632911392405,
+          "dress_group_high_confidence_r10": 53.79746835443038,
+          "dress_group_high_confidence_r50": 76.58227848101265,
+          "dress_group_high_confidence_mean_rank": 84.1242088607595,
+          "dress_group_lower_confidence_n": 753.0,
+          "dress_group_lower_confidence_r1": 21.38114209827357,
+          "dress_group_lower_confidence_r10": 50.99601593625498,
+          "dress_group_lower_confidence_r50": 72.64276228419655,
+          "dress_group_lower_confidence_mean_rank": 122.23505976095618,
+          "dress_group_complex_n": 1620.0,
+          "dress_group_complex_r1": 22.283950617283953,
+          "dress_group_complex_r10": 52.77777777777778,
+          "dress_group_complex_r50": 75.06172839506173,
+          "dress_group_complex_mean_rank": 98.85987654320988,
+          "dress_group_simple_n": 397.0,
+          "dress_group_simple_r1": 18.89168765743073,
+          "dress_group_simple_r10": 52.64483627204031,
+          "dress_group_simple_r50": 75.31486146095719,
+          "dress_group_simple_mean_rank": 96.27959697732997
+        }
+      },
+      "initial_metrics": {
+        "dress_r1": 21.66584035696579,
+        "dress_r10": 52.15666831928607,
+        "dress_r50": 74.91323748140803,
+        "dress_median_rank": 9.0,
+        "dress_mean_rank": 99.37134357957362,
+        "dress_structured_weight": 0.06571067124605179,
+        "dress_predicted_structured_gate": 0.5,
+        "dress_adapter_residual_norm": 0.0,
+        "dress_effective_residual_norm": 0.0,
+        "dress_text_drift": 3.427931938304596e-09,
+        "dress_field_attention_entropy": 1.3753371238708496,
+        "dress_calibrated_confidence": 0.8760002255439758,
+        "dress_dqu_text_weight": 0.5583488941192627,
+        "dress_mean_qwen_confidence": 0.8812468827930175,
+        "dress_structured_coverage": 0.9940505701536936,
+        "dress_group_has_relation_n": 2005.0,
+        "dress_group_has_relation_r1": 21.546134663341647,
+        "dress_group_has_relation_r10": 52.069825436408976,
+        "dress_group_has_relation_r50": 74.91271820448878,
+        "dress_group_has_relation_mean_rank": 99.69027431421446,
+        "dress_group_no_relation_n": 12.0,
+        "dress_group_no_relation_r1": 41.66666666666667,
+        "dress_group_no_relation_r10": 66.66666666666666,
+        "dress_group_no_relation_r50": 75.0,
+        "dress_group_no_relation_mean_rank": 46.083333333333336,
+        "dress_group_add_and_remove_n": 1986.0,
+        "dress_group_add_and_remove_r1": 21.550855991943603,
+        "dress_group_add_and_remove_r10": 51.913393756294056,
+        "dress_group_add_and_remove_r50": 74.82376636455186,
+        "dress_group_add_and_remove_mean_rank": 100.31671701913393,
+        "dress_group_add_only_n": 19.0,
+        "dress_group_add_only_r1": 21.052631578947366,
+        "dress_group_add_only_r10": 68.42105263157895,
+        "dress_group_add_only_r50": 84.21052631578947,
+        "dress_group_add_only_mean_rank": 34.21052631578947,
+        "dress_group_high_confidence_n": 1264.0,
+        "dress_group_high_confidence_r1": 21.598101265822788,
+        "dress_group_high_confidence_r10": 52.92721518987342,
+        "dress_group_high_confidence_r50": 76.50316455696202,
+        "dress_group_high_confidence_mean_rank": 84.85759493670886,
+        "dress_group_lower_confidence_n": 753.0,
+        "dress_group_lower_confidence_r1": 21.779548472775563,
+        "dress_group_lower_confidence_r10": 50.863213811420984,
+        "dress_group_lower_confidence_r50": 72.24435590969456,
+        "dress_group_lower_confidence_mean_rank": 123.734395750332,
+        "dress_group_complex_n": 1620.0,
+        "dress_group_complex_r1": 22.407407407407405,
+        "dress_group_complex_r10": 52.28395061728395,
+        "dress_group_complex_r50": 74.75308641975309,
+        "dress_group_complex_mean_rank": 99.95308641975309,
+        "dress_group_simple_n": 397.0,
+        "dress_group_simple_r1": 18.639798488664987,
+        "dress_group_simple_r10": 51.63727959697732,
+        "dress_group_simple_r50": 75.56675062972292,
+        "dress_group_simple_mean_rank": 96.99748110831234
+      },
+      "best_metrics": {
+        "epoch": 6,
+        "selection_metric": "R@10 + R@50",
+        "dress_r1": 21.616261774913237,
+        "dress_r10": 52.75161130391671,
+        "dress_r50": 75.11155180961825,
+        "dress_median_rank": 9.0,
+        "dress_mean_rank": 98.35200793257313,
+        "dress_structured_weight": 0.05510972440242767,
+        "dress_predicted_structured_gate": 0.43415066599845886,
+        "dress_adapter_residual_norm": 0.7580613493919373,
+        "dress_effective_residual_norm": 0.042013198137283325,
+        "dress_text_drift": 0.0008818442584015429,
+        "dress_field_attention_entropy": 1.3753371238708496,
+        "dress_calibrated_confidence": 0.8467920422554016,
+        "dress_dqu_text_weight": 0.5622592568397522,
+        "dress_mean_qwen_confidence": 0.8812468827930175,
+        "dress_structured_coverage": 0.9940505701536936,
+        "dress_group_has_relation_n": 2005.0,
+        "dress_group_has_relation_r1": 21.496259351620946,
+        "dress_group_has_relation_r10": 52.66832917705736,
+        "dress_group_has_relation_r50": 75.11221945137157,
+        "dress_group_has_relation_mean_rank": 98.66483790523691,
+        "dress_group_no_relation_n": 12.0,
+        "dress_group_no_relation_r1": 41.66666666666667,
+        "dress_group_no_relation_r10": 66.66666666666666,
+        "dress_group_no_relation_r50": 75.0,
+        "dress_group_no_relation_mean_rank": 46.083333333333336,
+        "dress_group_add_and_remove_n": 1986.0,
+        "dress_group_add_and_remove_r1": 21.45015105740181,
+        "dress_group_add_and_remove_r10": 52.51762336354482,
+        "dress_group_add_and_remove_r50": 75.02517623363545,
+        "dress_group_add_and_remove_mean_rank": 99.29405840886203,
+        "dress_group_add_only_n": 19.0,
+        "dress_group_add_only_r1": 26.31578947368421,
+        "dress_group_add_only_r10": 68.42105263157895,
+        "dress_group_add_only_r50": 84.21052631578947,
+        "dress_group_add_only_mean_rank": 32.89473684210526,
+        "dress_group_high_confidence_n": 1264.0,
+        "dress_group_high_confidence_r1": 21.75632911392405,
+        "dress_group_high_confidence_r10": 53.79746835443038,
+        "dress_group_high_confidence_r50": 76.58227848101265,
+        "dress_group_high_confidence_mean_rank": 84.1242088607595,
+        "dress_group_lower_confidence_n": 753.0,
+        "dress_group_lower_confidence_r1": 21.38114209827357,
+        "dress_group_lower_confidence_r10": 50.99601593625498,
+        "dress_group_lower_confidence_r50": 72.64276228419655,
+        "dress_group_lower_confidence_mean_rank": 122.23505976095618,
+        "dress_group_complex_n": 1620.0,
+        "dress_group_complex_r1": 22.283950617283953,
+        "dress_group_complex_r10": 52.77777777777778,
+        "dress_group_complex_r50": 75.06172839506173,
+        "dress_group_complex_mean_rank": 98.85987654320988,
+        "dress_group_simple_n": 397.0,
+        "dress_group_simple_r1": 18.89168765743073,
+        "dress_group_simple_r10": 52.64483627204031,
+        "dress_group_simple_r50": 75.31486146095719,
+        "dress_group_simple_mean_rank": 96.27959697732997
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "metrics": {
+            "dress_r1": 21.66584035696579,
+            "dress_r10": 52.15666831928607,
+            "dress_r50": 74.91323748140803,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 99.37134357957362,
+            "dress_structured_weight": 0.061197225004434586,
+            "dress_predicted_structured_gate": 0.47174057364463806,
+            "dress_adapter_residual_norm": 0.0,
+            "dress_effective_residual_norm": 0.0,
+            "dress_text_drift": 3.427931938304596e-09,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8650619983673096,
+            "dress_dqu_text_weight": 0.5583488941192627,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.546134663341647,
+            "dress_group_has_relation_r10": 52.069825436408976,
+            "dress_group_has_relation_r50": 74.91271820448878,
+            "dress_group_has_relation_mean_rank": 99.69027431421446,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.550855991943603,
+            "dress_group_add_and_remove_r10": 51.913393756294056,
+            "dress_group_add_and_remove_r50": 74.82376636455186,
+            "dress_group_add_and_remove_mean_rank": 100.31671701913393,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 21.052631578947366,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 34.21052631578947,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.598101265822788,
+            "dress_group_high_confidence_r10": 52.92721518987342,
+            "dress_group_high_confidence_r50": 76.50316455696202,
+            "dress_group_high_confidence_mean_rank": 84.85759493670886,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.779548472775563,
+            "dress_group_lower_confidence_r10": 50.863213811420984,
+            "dress_group_lower_confidence_r50": 72.24435590969456,
+            "dress_group_lower_confidence_mean_rank": 123.734395750332,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.407407407407405,
+            "dress_group_complex_r10": 52.28395061728395,
+            "dress_group_complex_r50": 74.75308641975309,
+            "dress_group_complex_mean_rank": 99.95308641975309,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.639798488664987,
+            "dress_group_simple_r10": 51.63727959697732,
+            "dress_group_simple_r50": 75.56675062972292,
+            "dress_group_simple_mean_rank": 96.99748110831234
+          }
+        },
+        {
+          "epoch": 2,
+          "metrics": {
+            "dress_r1": 21.66584035696579,
+            "dress_r10": 52.15666831928607,
+            "dress_r50": 74.91323748140803,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 99.37134357957362,
+            "dress_structured_weight": 0.05510972440242767,
+            "dress_predicted_structured_gate": 0.43415066599845886,
+            "dress_adapter_residual_norm": 0.0,
+            "dress_effective_residual_norm": 0.0,
+            "dress_text_drift": 3.427931938304596e-09,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8467920422554016,
+            "dress_dqu_text_weight": 0.5583488941192627,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.546134663341647,
+            "dress_group_has_relation_r10": 52.069825436408976,
+            "dress_group_has_relation_r50": 74.91271820448878,
+            "dress_group_has_relation_mean_rank": 99.69027431421446,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.550855991943603,
+            "dress_group_add_and_remove_r10": 51.913393756294056,
+            "dress_group_add_and_remove_r50": 74.82376636455186,
+            "dress_group_add_and_remove_mean_rank": 100.31671701913393,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 21.052631578947366,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 34.21052631578947,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.598101265822788,
+            "dress_group_high_confidence_r10": 52.92721518987342,
+            "dress_group_high_confidence_r50": 76.50316455696202,
+            "dress_group_high_confidence_mean_rank": 84.85759493670886,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.779548472775563,
+            "dress_group_lower_confidence_r10": 50.863213811420984,
+            "dress_group_lower_confidence_r50": 72.24435590969456,
+            "dress_group_lower_confidence_mean_rank": 123.734395750332,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.407407407407405,
+            "dress_group_complex_r10": 52.28395061728395,
+            "dress_group_complex_r50": 74.75308641975309,
+            "dress_group_complex_mean_rank": 99.95308641975309,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.639798488664987,
+            "dress_group_simple_r10": 51.63727959697732,
+            "dress_group_simple_r50": 75.56675062972292,
+            "dress_group_simple_mean_rank": 96.99748110831234
+          }
+        },
+        {
+          "epoch": 3,
+          "metrics": {
+            "dress_r1": 21.715418939018345,
+            "dress_r10": 52.5532969757065,
+            "dress_r50": 75.01239464551314,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 99.2136836886465,
+            "dress_structured_weight": 0.05510972440242767,
+            "dress_predicted_structured_gate": 0.43415066599845886,
+            "dress_adapter_residual_norm": 0.26884856820106506,
+            "dress_effective_residual_norm": 0.014913803897798061,
+            "dress_text_drift": 0.00011484269634820521,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8467920422554016,
+            "dress_dqu_text_weight": 0.5583276748657227,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.596009975062344,
+            "dress_group_has_relation_r10": 52.46882793017457,
+            "dress_group_has_relation_r50": 75.01246882793018,
+            "dress_group_has_relation_mean_rank": 99.53167082294264,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.50050352467271,
+            "dress_group_add_and_remove_r10": 52.31621349446123,
+            "dress_group_add_and_remove_r50": 74.92447129909365,
+            "dress_group_add_and_remove_mean_rank": 100.16213494461229,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 31.57894736842105,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 33.63157894736842,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.75632911392405,
+            "dress_group_high_confidence_r10": 53.63924050632911,
+            "dress_group_high_confidence_r50": 76.58227848101265,
+            "dress_group_high_confidence_mean_rank": 84.7745253164557,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.646746347941566,
+            "dress_group_lower_confidence_r10": 50.73041168658698,
+            "dress_group_lower_confidence_r50": 72.37715803452855,
+            "dress_group_lower_confidence_mean_rank": 123.4515272244356,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.283950617283953,
+            "dress_group_complex_r10": 52.59259259259259,
+            "dress_group_complex_r50": 74.81481481481481,
+            "dress_group_complex_mean_rank": 99.77098765432099,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 19.395465994962215,
+            "dress_group_simple_r10": 52.39294710327456,
+            "dress_group_simple_r50": 75.81863979848866,
+            "dress_group_simple_mean_rank": 96.93954659949623
+          }
+        },
+        {
+          "epoch": 4,
+          "metrics": {
+            "dress_r1": 21.616261774913237,
+            "dress_r10": 52.45413981160139,
+            "dress_r50": 75.06197322756569,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 98.7183936539415,
+            "dress_structured_weight": 0.05510972440242767,
+            "dress_predicted_structured_gate": 0.43415066599845886,
+            "dress_adapter_residual_norm": 0.4937571883201599,
+            "dress_effective_residual_norm": 0.027373721823096275,
+            "dress_text_drift": 0.0003812057839240879,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8467920422554016,
+            "dress_dqu_text_weight": 0.5595882534980774,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.496259351620946,
+            "dress_group_has_relation_r10": 52.36907730673317,
+            "dress_group_has_relation_r50": 75.06234413965088,
+            "dress_group_has_relation_mean_rank": 99.03341645885287,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.50050352467271,
+            "dress_group_add_and_remove_r10": 52.215508559919435,
+            "dress_group_add_and_remove_r50": 74.97482376636455,
+            "dress_group_add_and_remove_mean_rank": 99.65861027190333,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 21.052631578947366,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 33.68421052631579,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.677215189873415,
+            "dress_group_high_confidence_r10": 53.48101265822785,
+            "dress_group_high_confidence_r50": 76.50316455696202,
+            "dress_group_high_confidence_mean_rank": 84.44778481012658,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.51394422310757,
+            "dress_group_lower_confidence_r10": 50.73041168658698,
+            "dress_group_lower_confidence_r50": 72.64276228419655,
+            "dress_group_lower_confidence_mean_rank": 122.67330677290836,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.283950617283953,
+            "dress_group_complex_r10": 52.28395061728395,
+            "dress_group_complex_r50": 75.0,
+            "dress_group_complex_mean_rank": 99.19691358024691,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.89168765743073,
+            "dress_group_simple_r10": 53.14861460957179,
+            "dress_group_simple_r50": 75.31486146095719,
+            "dress_group_simple_mean_rank": 96.76574307304786
+          }
+        },
+        {
+          "epoch": 5,
+          "metrics": {
+            "dress_r1": 21.864154685176004,
+            "dress_r10": 52.45413981160139,
+            "dress_r50": 75.06197322756569,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 98.61279127416955,
+            "dress_structured_weight": 0.05510972440242767,
+            "dress_predicted_structured_gate": 0.43415066599845886,
+            "dress_adapter_residual_norm": 0.6671497225761414,
+            "dress_effective_residual_norm": 0.03698541224002838,
+            "dress_text_drift": 0.000690133310854435,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8467920422554016,
+            "dress_dqu_text_weight": 0.5624731183052063,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.74563591022444,
+            "dress_group_has_relation_r10": 52.36907730673317,
+            "dress_group_has_relation_r50": 75.06234413965088,
+            "dress_group_has_relation_mean_rank": 98.92718204488779,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.701913393756296,
+            "dress_group_add_and_remove_r10": 52.215508559919435,
+            "dress_group_add_and_remove_r50": 74.97482376636455,
+            "dress_group_add_and_remove_mean_rank": 99.55891238670695,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 26.31578947368421,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 32.89473684210526,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.835443037974684,
+            "dress_group_high_confidence_r10": 53.40189873417721,
+            "dress_group_high_confidence_r50": 76.58227848101265,
+            "dress_group_high_confidence_mean_rank": 84.33306962025317,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.91235059760956,
+            "dress_group_lower_confidence_r10": 50.863213811420984,
+            "dress_group_lower_confidence_r50": 72.50996015936255,
+            "dress_group_lower_confidence_mean_rank": 122.58300132802125,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.59259259259259,
+            "dress_group_complex_r10": 52.46913580246913,
+            "dress_group_complex_r50": 75.0,
+            "dress_group_complex_mean_rank": 99.17037037037036,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.89168765743073,
+            "dress_group_simple_r10": 52.39294710327456,
+            "dress_group_simple_r50": 75.31486146095719,
+            "dress_group_simple_mean_rank": 96.33753148614609
+          }
+        },
+        {
+          "epoch": 6,
+          "metrics": {
+            "dress_r1": 21.616261774913237,
+            "dress_r10": 52.75161130391671,
+            "dress_r50": 75.11155180961825,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 98.35200793257313,
+            "dress_structured_weight": 0.05510972440242767,
+            "dress_predicted_structured_gate": 0.43415066599845886,
+            "dress_adapter_residual_norm": 0.7580613493919373,
+            "dress_effective_residual_norm": 0.042013198137283325,
+            "dress_text_drift": 0.0008818442584015429,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8467920422554016,
+            "dress_dqu_text_weight": 0.5622592568397522,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.496259351620946,
+            "dress_group_has_relation_r10": 52.66832917705736,
+            "dress_group_has_relation_r50": 75.11221945137157,
+            "dress_group_has_relation_mean_rank": 98.66483790523691,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.45015105740181,
+            "dress_group_add_and_remove_r10": 52.51762336354482,
+            "dress_group_add_and_remove_r50": 75.02517623363545,
+            "dress_group_add_and_remove_mean_rank": 99.29405840886203,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 26.31578947368421,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 32.89473684210526,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.75632911392405,
+            "dress_group_high_confidence_r10": 53.79746835443038,
+            "dress_group_high_confidence_r50": 76.58227848101265,
+            "dress_group_high_confidence_mean_rank": 84.1242088607595,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.38114209827357,
+            "dress_group_lower_confidence_r10": 50.99601593625498,
+            "dress_group_lower_confidence_r50": 72.64276228419655,
+            "dress_group_lower_confidence_mean_rank": 122.23505976095618,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.283950617283953,
+            "dress_group_complex_r10": 52.77777777777778,
+            "dress_group_complex_r50": 75.06172839506173,
+            "dress_group_complex_mean_rank": 98.85987654320988,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.89168765743073,
+            "dress_group_simple_r10": 52.64483627204031,
+            "dress_group_simple_r50": 75.31486146095719,
+            "dress_group_simple_mean_rank": 96.27959697732997
+          }
+        }
+      ],
+      "positive_coverage_by_epoch": [],
+      "log": "/root/autodl-tmp/results/multi_positive_pilot_20261014/off_seed42.log"
+    },
+    "annotated": {
+      "driver_record": {
+        "mode": "annotated",
+        "seed": 42,
+        "status": "complete",
+        "command": [
+          "/root/miniconda3/bin/python",
+          "newTrain.py",
+          "--dataset",
+          "dress",
+          "--fashioniq-split",
+          "original-split",
+          "--fashioniq-path",
+          "/root/autodl-tmp/data/FashionIQ",
+          "--clip-checkpoint",
+          "/root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/blobs/9a78ef8e8c73fd0df621682e7a8e8eb36c6916cb3c16b291a082ecd52ab79cc4",
+          "--dqu-checkpoint",
+          "/root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt",
+          "--model-dir",
+          "/root/autodl-tmp/results/multi_positive_pilot_20261014/annotated_stage/checkpoints",
+          "--run-name",
+          "mp_pilot_annotated",
+          "--multi-positive",
+          "annotated",
+          "--seed",
+          "42",
+          "--num-epochs",
+          "6",
+          "--batch-size",
+          "16",
+          "--num-workers",
+          "4",
+          "--patience",
+          "20",
+          "--hard-negative-weight",
+          "0"
+        ],
+        "log": "/root/autodl-tmp/results/multi_positive_pilot_20261014/annotated_stage/annotated_seed42.log",
+        "started_utc": "2026-10-14T15:26:11.701049+00:00",
+        "returncode": 0,
+        "seconds": 853.3443890903145,
+        "best_metrics": {
+          "epoch": 6,
+          "selection_metric": "R@10 + R@50",
+          "dress_r1": 21.715418939018345,
+          "dress_r10": 52.5532969757065,
+          "dress_r50": 75.11155180961825,
+          "dress_median_rank": 9.0,
+          "dress_mean_rank": 98.40902330193356,
+          "dress_structured_weight": 0.055130720138549805,
+          "dress_predicted_structured_gate": 0.43429723381996155,
+          "dress_adapter_residual_norm": 0.7629541754722595,
+          "dress_effective_residual_norm": 0.04229787737131119,
+          "dress_text_drift": 0.0008917661034502089,
+          "dress_field_attention_entropy": 1.3753371238708496,
+          "dress_calibrated_confidence": 0.8468364477157593,
+          "dress_dqu_text_weight": 0.5621792674064636,
+          "dress_mean_qwen_confidence": 0.8812468827930175,
+          "dress_structured_coverage": 0.9940505701536936,
+          "dress_group_has_relation_n": 2005.0,
+          "dress_group_has_relation_r1": 21.596009975062344,
+          "dress_group_has_relation_r10": 52.46882793017457,
+          "dress_group_has_relation_r50": 75.11221945137157,
+          "dress_group_has_relation_mean_rank": 98.7221945137157,
+          "dress_group_no_relation_n": 12.0,
+          "dress_group_no_relation_r1": 41.66666666666667,
+          "dress_group_no_relation_r10": 66.66666666666666,
+          "dress_group_no_relation_r50": 75.0,
+          "dress_group_no_relation_mean_rank": 46.083333333333336,
+          "dress_group_add_and_remove_n": 1986.0,
+          "dress_group_add_and_remove_r1": 21.550855991943603,
+          "dress_group_add_and_remove_r10": 52.31621349446123,
+          "dress_group_add_and_remove_r50": 75.02517623363545,
+          "dress_group_add_and_remove_mean_rank": 99.35599194360523,
+          "dress_group_add_only_n": 19.0,
+          "dress_group_add_only_r1": 26.31578947368421,
+          "dress_group_add_only_r10": 68.42105263157895,
+          "dress_group_add_only_r50": 84.21052631578947,
+          "dress_group_add_only_mean_rank": 32.473684210526315,
+          "dress_group_high_confidence_n": 1264.0,
+          "dress_group_high_confidence_r1": 21.835443037974684,
+          "dress_group_high_confidence_r10": 53.48101265822785,
+          "dress_group_high_confidence_r50": 76.58227848101265,
+          "dress_group_high_confidence_mean_rank": 84.16930379746836,
+          "dress_group_lower_confidence_n": 753.0,
+          "dress_group_lower_confidence_r1": 21.51394422310757,
+          "dress_group_lower_confidence_r10": 50.99601593625498,
+          "dress_group_lower_confidence_r50": 72.64276228419655,
+          "dress_group_lower_confidence_mean_rank": 122.31208499335989,
+          "dress_group_complex_n": 1620.0,
+          "dress_group_complex_r1": 22.34567901234568,
+          "dress_group_complex_r10": 52.53086419753087,
+          "dress_group_complex_r50": 75.06172839506173,
+          "dress_group_complex_mean_rank": 98.92345679012345,
+          "dress_group_simple_n": 397.0,
+          "dress_group_simple_r1": 19.143576826196472,
+          "dress_group_simple_r10": 52.64483627204031,
+          "dress_group_simple_r50": 75.31486146095719,
+          "dress_group_simple_mean_rank": 96.30982367758186
+        }
+      },
+      "initial_metrics": {
+        "dress_r1": 21.66584035696579,
+        "dress_r10": 52.15666831928607,
+        "dress_r50": 74.91323748140803,
+        "dress_median_rank": 9.0,
+        "dress_mean_rank": 99.37134357957362,
+        "dress_structured_weight": 0.06571067124605179,
+        "dress_predicted_structured_gate": 0.5,
+        "dress_adapter_residual_norm": 0.0,
+        "dress_effective_residual_norm": 0.0,
+        "dress_text_drift": 3.427931938304596e-09,
+        "dress_field_attention_entropy": 1.3753371238708496,
+        "dress_calibrated_confidence": 0.8760002255439758,
+        "dress_dqu_text_weight": 0.5583488941192627,
+        "dress_mean_qwen_confidence": 0.8812468827930175,
+        "dress_structured_coverage": 0.9940505701536936,
+        "dress_group_has_relation_n": 2005.0,
+        "dress_group_has_relation_r1": 21.546134663341647,
+        "dress_group_has_relation_r10": 52.069825436408976,
+        "dress_group_has_relation_r50": 74.91271820448878,
+        "dress_group_has_relation_mean_rank": 99.69027431421446,
+        "dress_group_no_relation_n": 12.0,
+        "dress_group_no_relation_r1": 41.66666666666667,
+        "dress_group_no_relation_r10": 66.66666666666666,
+        "dress_group_no_relation_r50": 75.0,
+        "dress_group_no_relation_mean_rank": 46.083333333333336,
+        "dress_group_add_and_remove_n": 1986.0,
+        "dress_group_add_and_remove_r1": 21.550855991943603,
+        "dress_group_add_and_remove_r10": 51.913393756294056,
+        "dress_group_add_and_remove_r50": 74.82376636455186,
+        "dress_group_add_and_remove_mean_rank": 100.31671701913393,
+        "dress_group_add_only_n": 19.0,
+        "dress_group_add_only_r1": 21.052631578947366,
+        "dress_group_add_only_r10": 68.42105263157895,
+        "dress_group_add_only_r50": 84.21052631578947,
+        "dress_group_add_only_mean_rank": 34.21052631578947,
+        "dress_group_high_confidence_n": 1264.0,
+        "dress_group_high_confidence_r1": 21.598101265822788,
+        "dress_group_high_confidence_r10": 52.92721518987342,
+        "dress_group_high_confidence_r50": 76.50316455696202,
+        "dress_group_high_confidence_mean_rank": 84.85759493670886,
+        "dress_group_lower_confidence_n": 753.0,
+        "dress_group_lower_confidence_r1": 21.779548472775563,
+        "dress_group_lower_confidence_r10": 50.863213811420984,
+        "dress_group_lower_confidence_r50": 72.24435590969456,
+        "dress_group_lower_confidence_mean_rank": 123.734395750332,
+        "dress_group_complex_n": 1620.0,
+        "dress_group_complex_r1": 22.407407407407405,
+        "dress_group_complex_r10": 52.28395061728395,
+        "dress_group_complex_r50": 74.75308641975309,
+        "dress_group_complex_mean_rank": 99.95308641975309,
+        "dress_group_simple_n": 397.0,
+        "dress_group_simple_r1": 18.639798488664987,
+        "dress_group_simple_r10": 51.63727959697732,
+        "dress_group_simple_r50": 75.56675062972292,
+        "dress_group_simple_mean_rank": 96.99748110831234
+      },
+      "best_metrics": {
+        "epoch": 6,
+        "selection_metric": "R@10 + R@50",
+        "dress_r1": 21.715418939018345,
+        "dress_r10": 52.5532969757065,
+        "dress_r50": 75.11155180961825,
+        "dress_median_rank": 9.0,
+        "dress_mean_rank": 98.40902330193356,
+        "dress_structured_weight": 0.055130720138549805,
+        "dress_predicted_structured_gate": 0.43429723381996155,
+        "dress_adapter_residual_norm": 0.7629541754722595,
+        "dress_effective_residual_norm": 0.04229787737131119,
+        "dress_text_drift": 0.0008917661034502089,
+        "dress_field_attention_entropy": 1.3753371238708496,
+        "dress_calibrated_confidence": 0.8468364477157593,
+        "dress_dqu_text_weight": 0.5621792674064636,
+        "dress_mean_qwen_confidence": 0.8812468827930175,
+        "dress_structured_coverage": 0.9940505701536936,
+        "dress_group_has_relation_n": 2005.0,
+        "dress_group_has_relation_r1": 21.596009975062344,
+        "dress_group_has_relation_r10": 52.46882793017457,
+        "dress_group_has_relation_r50": 75.11221945137157,
+        "dress_group_has_relation_mean_rank": 98.7221945137157,
+        "dress_group_no_relation_n": 12.0,
+        "dress_group_no_relation_r1": 41.66666666666667,
+        "dress_group_no_relation_r10": 66.66666666666666,
+        "dress_group_no_relation_r50": 75.0,
+        "dress_group_no_relation_mean_rank": 46.083333333333336,
+        "dress_group_add_and_remove_n": 1986.0,
+        "dress_group_add_and_remove_r1": 21.550855991943603,
+        "dress_group_add_and_remove_r10": 52.31621349446123,
+        "dress_group_add_and_remove_r50": 75.02517623363545,
+        "dress_group_add_and_remove_mean_rank": 99.35599194360523,
+        "dress_group_add_only_n": 19.0,
+        "dress_group_add_only_r1": 26.31578947368421,
+        "dress_group_add_only_r10": 68.42105263157895,
+        "dress_group_add_only_r50": 84.21052631578947,
+        "dress_group_add_only_mean_rank": 32.473684210526315,
+        "dress_group_high_confidence_n": 1264.0,
+        "dress_group_high_confidence_r1": 21.835443037974684,
+        "dress_group_high_confidence_r10": 53.48101265822785,
+        "dress_group_high_confidence_r50": 76.58227848101265,
+        "dress_group_high_confidence_mean_rank": 84.16930379746836,
+        "dress_group_lower_confidence_n": 753.0,
+        "dress_group_lower_confidence_r1": 21.51394422310757,
+        "dress_group_lower_confidence_r10": 50.99601593625498,
+        "dress_group_lower_confidence_r50": 72.64276228419655,
+        "dress_group_lower_confidence_mean_rank": 122.31208499335989,
+        "dress_group_complex_n": 1620.0,
+        "dress_group_complex_r1": 22.34567901234568,
+        "dress_group_complex_r10": 52.53086419753087,
+        "dress_group_complex_r50": 75.06172839506173,
+        "dress_group_complex_mean_rank": 98.92345679012345,
+        "dress_group_simple_n": 397.0,
+        "dress_group_simple_r1": 19.143576826196472,
+        "dress_group_simple_r10": 52.64483627204031,
+        "dress_group_simple_r50": 75.31486146095719,
+        "dress_group_simple_mean_rank": 96.30982367758186
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "metrics": {
+            "dress_r1": 21.66584035696579,
+            "dress_r10": 52.15666831928607,
+            "dress_r50": 74.91323748140803,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 99.37134357957362,
+            "dress_structured_weight": 0.061195001006126404,
+            "dress_predicted_structured_gate": 0.47172483801841736,
+            "dress_adapter_residual_norm": 0.0,
+            "dress_effective_residual_norm": 0.0,
+            "dress_text_drift": 3.427931938304596e-09,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8650575280189514,
+            "dress_dqu_text_weight": 0.5583488941192627,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.546134663341647,
+            "dress_group_has_relation_r10": 52.069825436408976,
+            "dress_group_has_relation_r50": 74.91271820448878,
+            "dress_group_has_relation_mean_rank": 99.69027431421446,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.550855991943603,
+            "dress_group_add_and_remove_r10": 51.913393756294056,
+            "dress_group_add_and_remove_r50": 74.82376636455186,
+            "dress_group_add_and_remove_mean_rank": 100.31671701913393,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 21.052631578947366,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 34.21052631578947,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.598101265822788,
+            "dress_group_high_confidence_r10": 52.92721518987342,
+            "dress_group_high_confidence_r50": 76.50316455696202,
+            "dress_group_high_confidence_mean_rank": 84.85759493670886,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.779548472775563,
+            "dress_group_lower_confidence_r10": 50.863213811420984,
+            "dress_group_lower_confidence_r50": 72.24435590969456,
+            "dress_group_lower_confidence_mean_rank": 123.734395750332,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.407407407407405,
+            "dress_group_complex_r10": 52.28395061728395,
+            "dress_group_complex_r50": 74.75308641975309,
+            "dress_group_complex_mean_rank": 99.95308641975309,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.639798488664987,
+            "dress_group_simple_r10": 51.63727959697732,
+            "dress_group_simple_r50": 75.56675062972292,
+            "dress_group_simple_mean_rank": 96.99748110831234
+          }
+        },
+        {
+          "epoch": 2,
+          "metrics": {
+            "dress_r1": 21.66584035696579,
+            "dress_r10": 52.15666831928607,
+            "dress_r50": 74.91323748140803,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 99.37134357957362,
+            "dress_structured_weight": 0.055130720138549805,
+            "dress_predicted_structured_gate": 0.43429723381996155,
+            "dress_adapter_residual_norm": 0.0,
+            "dress_effective_residual_norm": 0.0,
+            "dress_text_drift": 3.427931938304596e-09,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8468364477157593,
+            "dress_dqu_text_weight": 0.5583488941192627,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.546134663341647,
+            "dress_group_has_relation_r10": 52.069825436408976,
+            "dress_group_has_relation_r50": 74.91271820448878,
+            "dress_group_has_relation_mean_rank": 99.69027431421446,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.550855991943603,
+            "dress_group_add_and_remove_r10": 51.913393756294056,
+            "dress_group_add_and_remove_r50": 74.82376636455186,
+            "dress_group_add_and_remove_mean_rank": 100.31671701913393,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 21.052631578947366,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 34.21052631578947,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.598101265822788,
+            "dress_group_high_confidence_r10": 52.92721518987342,
+            "dress_group_high_confidence_r50": 76.50316455696202,
+            "dress_group_high_confidence_mean_rank": 84.85759493670886,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.779548472775563,
+            "dress_group_lower_confidence_r10": 50.863213811420984,
+            "dress_group_lower_confidence_r50": 72.24435590969456,
+            "dress_group_lower_confidence_mean_rank": 123.734395750332,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.407407407407405,
+            "dress_group_complex_r10": 52.28395061728395,
+            "dress_group_complex_r50": 74.75308641975309,
+            "dress_group_complex_mean_rank": 99.95308641975309,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 18.639798488664987,
+            "dress_group_simple_r10": 51.63727959697732,
+            "dress_group_simple_r50": 75.56675062972292,
+            "dress_group_simple_mean_rank": 96.99748110831234
+          }
+        },
+        {
+          "epoch": 3,
+          "metrics": {
+            "dress_r1": 21.913733267228558,
+            "dress_r10": 52.45413981160139,
+            "dress_r50": 75.11155180961825,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 99.14476945959346,
+            "dress_structured_weight": 0.055130720138549805,
+            "dress_predicted_structured_gate": 0.43429723381996155,
+            "dress_adapter_residual_norm": 0.27977603673934937,
+            "dress_effective_residual_norm": 0.015526825562119484,
+            "dress_text_drift": 0.0001246457250090316,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8468364477157593,
+            "dress_dqu_text_weight": 0.5592464208602905,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.795511221945137,
+            "dress_group_has_relation_r10": 52.36907730673317,
+            "dress_group_has_relation_r50": 75.11221945137157,
+            "dress_group_has_relation_mean_rank": 99.46234413965087,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.75226586102719,
+            "dress_group_add_and_remove_r10": 52.215508559919435,
+            "dress_group_add_and_remove_r50": 75.02517623363545,
+            "dress_group_add_and_remove_mean_rank": 100.09365558912387,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 26.31578947368421,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 33.473684210526315,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.99367088607595,
+            "dress_group_high_confidence_r10": 53.48101265822785,
+            "dress_group_high_confidence_r50": 76.74050632911393,
+            "dress_group_high_confidence_mean_rank": 84.71677215189874,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.779548472775563,
+            "dress_group_lower_confidence_r10": 50.73041168658698,
+            "dress_group_lower_confidence_r50": 72.37715803452855,
+            "dress_group_lower_confidence_mean_rank": 123.36387782204515,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.469135802469136,
+            "dress_group_complex_r10": 52.59259259259259,
+            "dress_group_complex_r50": 74.93827160493827,
+            "dress_group_complex_mean_rank": 99.70617283950617,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 19.64735516372796,
+            "dress_group_simple_r10": 51.88916876574308,
+            "dress_group_simple_r50": 75.81863979848866,
+            "dress_group_simple_mean_rank": 96.85390428211586
+          }
+        },
+        {
+          "epoch": 4,
+          "metrics": {
+            "dress_r1": 21.764997521070896,
+            "dress_r10": 52.354982647496286,
+            "dress_r50": 75.06197322756569,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 98.74665344571146,
+            "dress_structured_weight": 0.055130720138549805,
+            "dress_predicted_structured_gate": 0.43429723381996155,
+            "dress_adapter_residual_norm": 0.4857187271118164,
+            "dress_effective_residual_norm": 0.026934226974844933,
+            "dress_text_drift": 0.0003689795557875186,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8468364477157593,
+            "dress_dqu_text_weight": 0.5597015023231506,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.64588528678304,
+            "dress_group_has_relation_r10": 52.26932668329177,
+            "dress_group_has_relation_r50": 75.06234413965088,
+            "dress_group_has_relation_mean_rank": 99.06184538653366,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.6012084592145,
+            "dress_group_add_and_remove_r10": 52.11480362537765,
+            "dress_group_add_and_remove_r50": 74.97482376636455,
+            "dress_group_add_and_remove_mean_rank": 99.68932527693858,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 26.31578947368421,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 33.473684210526315,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.835443037974684,
+            "dress_group_high_confidence_r10": 53.48101265822785,
+            "dress_group_high_confidence_r50": 76.50316455696202,
+            "dress_group_high_confidence_mean_rank": 84.48496835443038,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.646746347941566,
+            "dress_group_lower_confidence_r10": 50.46480743691899,
+            "dress_group_lower_confidence_r50": 72.64276228419655,
+            "dress_group_lower_confidence_mean_rank": 122.68658698539177,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.34567901234568,
+            "dress_group_complex_r10": 52.22222222222223,
+            "dress_group_complex_r50": 75.0,
+            "dress_group_complex_mean_rank": 99.20617283950617,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 19.395465994962215,
+            "dress_group_simple_r10": 52.896725440806044,
+            "dress_group_simple_r50": 75.31486146095719,
+            "dress_group_simple_mean_rank": 96.87153652392946
+          }
+        },
+        {
+          "epoch": 5,
+          "metrics": {
+            "dress_r1": 21.764997521070896,
+            "dress_r10": 52.40456122954883,
+            "dress_r50": 75.06197322756569,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 98.58701041150223,
+            "dress_structured_weight": 0.055130720138549805,
+            "dress_predicted_structured_gate": 0.43429723381996155,
+            "dress_adapter_residual_norm": 0.6669257283210754,
+            "dress_effective_residual_norm": 0.0369887612760067,
+            "dress_text_drift": 0.0006909708608873188,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8468364477157593,
+            "dress_dqu_text_weight": 0.5626674294471741,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.64588528678304,
+            "dress_group_has_relation_r10": 52.31920199501246,
+            "dress_group_has_relation_r50": 75.06234413965088,
+            "dress_group_has_relation_mean_rank": 98.90124688279302,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.6515609264854,
+            "dress_group_add_and_remove_r10": 52.16515609264854,
+            "dress_group_add_and_remove_r50": 74.97482376636455,
+            "dress_group_add_and_remove_mean_rank": 99.53423967774421,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 21.052631578947366,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 32.73684210526316,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.835443037974684,
+            "dress_group_high_confidence_r10": 53.16455696202531,
+            "dress_group_high_confidence_r50": 76.58227848101265,
+            "dress_group_high_confidence_mean_rank": 84.32120253164557,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.646746347941566,
+            "dress_group_lower_confidence_r10": 51.12881806108898,
+            "dress_group_lower_confidence_r50": 72.50996015936255,
+            "dress_group_lower_confidence_mean_rank": 122.53386454183267,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.407407407407405,
+            "dress_group_complex_r10": 52.407407407407405,
+            "dress_group_complex_r50": 75.0,
+            "dress_group_complex_mean_rank": 99.13271604938272,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 19.143576826196472,
+            "dress_group_simple_r10": 52.39294710327456,
+            "dress_group_simple_r50": 75.31486146095719,
+            "dress_group_simple_mean_rank": 96.360201511335
+          }
+        },
+        {
+          "epoch": 6,
+          "metrics": {
+            "dress_r1": 21.715418939018345,
+            "dress_r10": 52.5532969757065,
+            "dress_r50": 75.11155180961825,
+            "dress_median_rank": 9.0,
+            "dress_mean_rank": 98.40902330193356,
+            "dress_structured_weight": 0.055130720138549805,
+            "dress_predicted_structured_gate": 0.43429723381996155,
+            "dress_adapter_residual_norm": 0.7629541754722595,
+            "dress_effective_residual_norm": 0.04229787737131119,
+            "dress_text_drift": 0.0008917661034502089,
+            "dress_field_attention_entropy": 1.3753371238708496,
+            "dress_calibrated_confidence": 0.8468364477157593,
+            "dress_dqu_text_weight": 0.5621792674064636,
+            "dress_mean_qwen_confidence": 0.8812468827930175,
+            "dress_structured_coverage": 0.9940505701536936,
+            "dress_group_has_relation_n": 2005.0,
+            "dress_group_has_relation_r1": 21.596009975062344,
+            "dress_group_has_relation_r10": 52.46882793017457,
+            "dress_group_has_relation_r50": 75.11221945137157,
+            "dress_group_has_relation_mean_rank": 98.7221945137157,
+            "dress_group_no_relation_n": 12.0,
+            "dress_group_no_relation_r1": 41.66666666666667,
+            "dress_group_no_relation_r10": 66.66666666666666,
+            "dress_group_no_relation_r50": 75.0,
+            "dress_group_no_relation_mean_rank": 46.083333333333336,
+            "dress_group_add_and_remove_n": 1986.0,
+            "dress_group_add_and_remove_r1": 21.550855991943603,
+            "dress_group_add_and_remove_r10": 52.31621349446123,
+            "dress_group_add_and_remove_r50": 75.02517623363545,
+            "dress_group_add_and_remove_mean_rank": 99.35599194360523,
+            "dress_group_add_only_n": 19.0,
+            "dress_group_add_only_r1": 26.31578947368421,
+            "dress_group_add_only_r10": 68.42105263157895,
+            "dress_group_add_only_r50": 84.21052631578947,
+            "dress_group_add_only_mean_rank": 32.473684210526315,
+            "dress_group_high_confidence_n": 1264.0,
+            "dress_group_high_confidence_r1": 21.835443037974684,
+            "dress_group_high_confidence_r10": 53.48101265822785,
+            "dress_group_high_confidence_r50": 76.58227848101265,
+            "dress_group_high_confidence_mean_rank": 84.16930379746836,
+            "dress_group_lower_confidence_n": 753.0,
+            "dress_group_lower_confidence_r1": 21.51394422310757,
+            "dress_group_lower_confidence_r10": 50.99601593625498,
+            "dress_group_lower_confidence_r50": 72.64276228419655,
+            "dress_group_lower_confidence_mean_rank": 122.31208499335989,
+            "dress_group_complex_n": 1620.0,
+            "dress_group_complex_r1": 22.34567901234568,
+            "dress_group_complex_r10": 52.53086419753087,
+            "dress_group_complex_r50": 75.06172839506173,
+            "dress_group_complex_mean_rank": 98.92345679012345,
+            "dress_group_simple_n": 397.0,
+            "dress_group_simple_r1": 19.143576826196472,
+            "dress_group_simple_r10": 52.64483627204031,
+            "dress_group_simple_r50": 75.31486146095719,
+            "dress_group_simple_mean_rank": 96.30982367758186
+          }
+        }
+      ],
+      "positive_coverage_by_epoch": [
+        {
+          "distinct_positive_query_fraction": 0.00919,
+          "mean_target_bank_size": 16.11
+        },
+        {
+          "distinct_positive_query_fraction": 0.00919,
+          "mean_target_bank_size": 16.11
+        },
+        {
+          "distinct_positive_query_fraction": 0.00919,
+          "mean_target_bank_size": 16.11
+        },
+        {
+          "distinct_positive_query_fraction": 0.00919,
+          "mean_target_bank_size": 16.11
+        },
+        {
+          "distinct_positive_query_fraction": 0.00919,
+          "mean_target_bank_size": 16.11
+        },
+        {
+          "distinct_positive_query_fraction": 0.00919,
+          "mean_target_bank_size": 16.11
+        }
+      ],
+      "log": "/root/autodl-tmp/results/multi_positive_pilot_20261014/annotated_stage/annotated_seed42.log"
+    }
+  },
+  "annotated_minus_off": {
+    "dress_r1": 0.09915716410510811,
+    "dress_r10": -0.1983143282102091,
+    "dress_r50": 0.0,
+    "dress_mean_rank": 0.05701536936042828,
+    "r10_plus_r50": -0.1983143282102091
+  },
+  "limitations": [
+    "One training seed and six epochs; no statistical-significance claim.",
+    "Only 55/5985 dress queries obtain distinct extra targets.",
+    "Existing exact-match annotation groups include suspected non-garment noise; no new human labels were created.",
+    "Hard-negative weight is zero; this pilot does not measure its performance contribution.",
+    "Validation remains single-target FashionIQ; no multi-answer evaluation claim."
+  ]
+}

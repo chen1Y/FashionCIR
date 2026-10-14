@@ -166,6 +166,9 @@ python -m unittest discover -s tests -v
 
 ## 服务器试验入口
 
+已完成的两组 Dress 初步实验见 [服务器结果报告](multi_positive_server_results.md)。
+当前多正版本未改善主指标，保留为实验分支。
+
 `scripts/run_multi_positive_pilot.py` 按顺序运行等预算对照，并保存命令、代码 SHA256、
 日志、耗时和最佳指标。默认比较 `off` / `annotated`；`identity` 可显式指定。
 输出目录已有 `pilot_status.json` 时拒绝覆盖。
