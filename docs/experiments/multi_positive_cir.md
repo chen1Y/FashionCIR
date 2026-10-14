@@ -144,8 +144,8 @@ mAP@K / 多正 recall；它属于扩展评估，不能替代官方单 target 指
 
 ## 本地验证与局限
 
-本仓库当前没有 FashionIQ 数据、CLIP 权重或训练 checkpoint。
-本次只验证实现、合成张量上的损失/梯度和数据路径；不声称训练后检索效果提高。
+本地仓库没有 FashionIQ 数据、CLIP 权重或训练 checkpoint。
+初版先验证实现、合成张量上的损失/梯度和数据路径；后续服务器试验见下文。
 测试无需下载 CLIP，但数值测试需要 PyTorch：
 
 ```bash
@@ -153,7 +153,7 @@ python -m unittest discover -s tests -v
 ```
 
 2026-10-14 本地验证：Python 3.12 / PyTorch 2.14.1+cpu，17 项测试全部通过；
-修改文件语法编译及 `git diff --check` 通过。尚未运行真实 FashionIQ GPU 训练或验证集评估。
+修改文件语法编译及 `git diff --check` 通过。该本地验证不包含真实 FashionIQ GPU 训练或验证集评估。
 
 覆盖单正退化、额外正例梯度、矩形候选库、难负例排除、无负例/无有效行、
 半精度大 logit、完整 compute_loss 反向传播、额外图片与 padding、审核文件隔离和陈旧标签拒绝。
@@ -163,3 +163,41 @@ python -m unittest discover -s tests -v
 实验在 `codex/multi-positive-cir`，`main` 保留原代码。
 分支是同一仓库中的独立修改路线，便于比较和撤回；无需复制整个 GitHub 仓库。
 此处仅提交代码、测试与说明，不提交数据、模型权重或真实审核标签。
+
+## 服务器试验入口
+
+`scripts/run_multi_positive_pilot.py` 按顺序运行等预算对照，并保存命令、代码 SHA256、
+日志、耗时和最佳指标。默认比较 `off` / `annotated`；`identity` 可显式指定。
+输出目录已有 `pilot_status.json` 时拒绝覆盖。
+
+```bash
+python scripts/run_multi_positive_pilot.py \
+  --fashioniq-path /root/autodl-tmp/data/FashionIQ \
+  --clip-checkpoint /path/to/open_clip_pytorch_model.bin \
+  --dqu-checkpoint /root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt \
+  --output-dir /root/autodl-tmp/results/multi_positive_new_run \
+  --modes off annotated --seeds 42 --num-epochs 6
+```
+
+试验固定 `original-split`、batch size 16、两轮 gate 预热和四轮 adapter 训练；
+hard-negative 权重设为 0，与 v7 设定对齐，优先隔离多正 NCE 和门控教师的影响。
+这组试验不能用于评价非零 hard-negative 权重的增益。
+
+2026-10-14 服务器原始 train 标注审计：
+
+| 类别 | 查询数 | 有不同正例目标的查询 | 覆盖率 | 总正例关系数 |
+|---|---:|---:|---:|---:|
+| dress | 5985 | 55 | 0.9190% | 6049 |
+| shirt | 5988 | 96 | 1.6032% | 6096 |
+| toptee | 6027 | 38 | 0.6305% | 6079 |
+
+三个类别都满足“不同训练行的 target ID 不重复”。因此 `identity` 在当前数据上没有
+可修复的同 ID 冲突，不应声称它能提升此数据集。Dress 的 55 条查询来自 26 个精确等价组；
+它们都有通过现有解析规则的结构化记录，但这不等于标注已经过人工语义复核。
+例如部分重复查询描述“不是服装”或“商品图片是文字”，需要单独审查数据噪声。
+
+新增正例来自多个三元组的已有目标并集，而不是给任意单个三元组凭空生成标签。
+没有精确等价三元组的查询仍然只有一个标注目标。若要覆盖更多查询，需另外进行候选挖掘、
+语义复核及 `verified` 文件标注；本次没有开展这项新增标注。
+
+本机 GitHub 认证和推送步骤见 [Windows 推送说明](../github_push_windows.md)。
