@@ -1,0 +1,45 @@
+{
+  "captured_utc": "2026-10-15T14:54:51.460123+00:00",
+  "status": "waiting_for_original_dqu",
+  "stages": [],
+  "baseline_evaluations": [
+    {
+      "epoch": 1,
+      "shoes_r1": 29.017603634298695,
+      "shoes_r10": 65.58773424190801,
+      "shoes_r50": 85.51959114139693,
+      "shoes_median_rank": 4.0,
+      "shoes_mean_rank": 32.89097103918228,
+      "shoes_text_weight": 0.46163666248321533
+    },
+    {
+      "epoch": 2,
+      "shoes_r1": 30.437251561612722,
+      "shoes_r10": 67.3480976717774,
+      "shoes_r50": 87.79102782509938,
+      "shoes_median_rank": 4.0,
+      "shoes_mean_rank": 29.94207836456559,
+      "shoes_text_weight": 0.4675740897655487
+    },
+    {
+      "epoch": 3,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_median_rank": 3.0,
+      "shoes_mean_rank": 28.91879613855764,
+      "shoes_text_weight": 0.443101704120636
+    },
+    {
+      "epoch": 4,
+      "shoes_r1": 30.266893810335038,
+      "shoes_r10": 68.42703009653606,
+      "shoes_r50": 87.27995457126633,
+      "shoes_median_rank": 4.0,
+      "shoes_mean_rank": 30.65985235661556,
+      "shoes_text_weight": 0.4148661196231842
+    }
+  ],
+  "last_progress": "DQU train epoch 5:   9%|\u2589         | 50/562 [00:33<05:39,  1.51it/s, loss=0.0748]",
+  "free_GiB": 21.743022918701172
+}

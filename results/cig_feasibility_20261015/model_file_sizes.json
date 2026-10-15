@@ -1,0 +1,145 @@
+{
+  "openai/clip-vit-large-patch14": {
+    "sha": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+    "large_files": [
+      {
+        "path": "flax_model.msgpack",
+        "bytes": 1710486359
+      },
+      {
+        "path": "model.safetensors",
+        "bytes": 1710540580
+      },
+      {
+        "path": "pytorch_model.bin",
+        "bytes": 1710671599
+      },
+      {
+        "path": "tf_model.h5",
+        "bytes": 1711114176
+      }
+    ]
+  },
+  "Geonmo/CLIP-Giga-config-fixed": {
+    "sha": "8b3abaf34bce848963013f93fa60d740103f09b2",
+    "large_files": [
+      {
+        "path": "pytorch_model-00001-of-00002.bin",
+        "bytes": 9990161549
+      },
+      {
+        "path": "pytorch_model-00002-of-00002.bin",
+        "bytes": 168539369
+      }
+    ]
+  },
+  "stabilityai/stable-diffusion-xl-base-1.0": {
+    "sha": "462165984030d82259a11f4367a4eed129e94a7b",
+    "large_files": [
+      {
+        "path": "sd_xl_base_1.0.safetensors",
+        "bytes": 6938078334
+      },
+      {
+        "path": "sd_xl_base_1.0_0.9vae.safetensors",
+        "bytes": 6938078334
+      },
+      {
+        "path": "text_encoder/flax_model.msgpack",
+        "bytes": 492248682
+      },
+      {
+        "path": "text_encoder/model.fp16.safetensors",
+        "bytes": 246144152
+      },
+      {
+        "path": "text_encoder/model.onnx",
+        "bytes": 492587457
+      },
+      {
+        "path": "text_encoder/model.safetensors",
+        "bytes": 492265168
+      },
+      {
+        "path": "text_encoder/openvino_model.bin",
+        "bytes": 492242672
+      },
+      {
+        "path": "text_encoder_2/flax_model.msgpack",
+        "bytes": 2778657095
+      },
+      {
+        "path": "text_encoder_2/model.fp16.safetensors",
+        "bytes": 1389382176
+      },
+      {
+        "path": "text_encoder_2/model.onnx_data",
+        "bytes": 2778639360
+      },
+      {
+        "path": "text_encoder_2/model.safetensors",
+        "bytes": 2778702264
+      },
+      {
+        "path": "text_encoder_2/openvino_model.bin",
+        "bytes": 2778640120
+      },
+      {
+        "path": "unet/diffusion_flax_model.msgpack",
+        "bytes": 10269915611
+      },
+      {
+        "path": "unet/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 5135149760
+      },
+      {
+        "path": "unet/diffusion_pytorch_model.safetensors",
+        "bytes": 10270077736
+      },
+      {
+        "path": "unet/model.onnx_data",
+        "bytes": 10269854720
+      },
+      {
+        "path": "unet/openvino_model.bin",
+        "bytes": 10269856428
+      },
+      {
+        "path": "vae/diffusion_flax_model.msgpack",
+        "bytes": 334623853
+      },
+      {
+        "path": "vae/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 167335342
+      },
+      {
+        "path": "vae/diffusion_pytorch_model.safetensors",
+        "bytes": 334643268
+      },
+      {
+        "path": "vae_1_0/diffusion_pytorch_model.fp16.safetensors",
+        "bytes": 167335342
+      },
+      {
+        "path": "vae_1_0/diffusion_pytorch_model.safetensors",
+        "bytes": 334643268
+      },
+      {
+        "path": "vae_decoder/model.onnx",
+        "bytes": 198093688
+      },
+      {
+        "path": "vae_decoder/openvino_model.bin",
+        "bytes": 197961232
+      },
+      {
+        "path": "vae_encoder/model.onnx",
+        "bytes": 136775724
+      },
+      {
+        "path": "vae_encoder/openvino_model.bin",
+        "bytes": 136655184
+      }
+    ]
+  }
+}

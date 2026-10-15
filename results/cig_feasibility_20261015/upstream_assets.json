@@ -1,0 +1,24 @@
+{
+  "observed_utc": "2026-10-15",
+  "repository": "https://github.com/lan-lw/ComposedImageGen",
+  "commit": "49d0be042ea0372c157844543dc80c4bef80fc9a",
+  "public_weights_folder": "https://drive.google.com/drive/folders/1hpIpI0X26ox-uY-QdOPKDKKZlnWkftIA",
+  "listed_files": [
+    {
+      "id": "1i1pVaklxQ3zP8HVRuJlf16k49dwj1xhe",
+      "name": "phi_best_giga.pt",
+      "mime_type": "application/x-zip",
+      "bytes": 157334551
+    },
+    {
+      "id": "1Twns8NvCe1PB7D-vmMKJAjVJ9Qyrj13l",
+      "name": "phi_best.pt",
+      "mime_type": "application/x-zip",
+      "bytes": 56652823
+    }
+  ],
+  "fine_tuned_unet_present_in_listing": false,
+  "source_training_script_present": false,
+  "CIG_gpu_experiment_run": false,
+  "paper_sha256": "275ecf8dd59559194bf1aaec54624dcb25d51db5c329aa5d4963cad5d6250260"
+}
