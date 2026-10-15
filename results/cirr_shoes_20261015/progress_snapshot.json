@@ -1,6 +1,6 @@
 {
   "status": "in_progress_not_final_comparison",
-  "captured_utc": "2026-10-15T14:38:31.579677+00:00",
+  "captured_utc": "2026-10-15T14:42:33.550790+00:00",
   "baseline_pid": 2400,
   "queue_pid": 2996,
   "queue_status": "waiting_for_original_dqu",
@@ -20,9 +20,18 @@
       "shoes_median_rank": 4.0,
       "shoes_mean_rank": 32.89097103918228,
       "shoes_text_weight": 0.46163666248321533
+    },
+    {
+      "epoch": 2,
+      "shoes_r1": 30.437251561612722,
+      "shoes_r10": 67.3480976717774,
+      "shoes_r50": 87.79102782509938,
+      "shoes_median_rank": 4.0,
+      "shoes_mean_rank": 29.94207836456559,
+      "shoes_text_weight": 0.4675740897655487
     }
   ],
-  "free_GiB": 21.595260620117188,
+  "free_GiB": 21.594913482666016,
   "baseline_code_snapshot": "/root/autodl-tmp/experiments/cirr-shoes-20261015",
   "queued_code_snapshot": "/root/autodl-tmp/experiments/cirr-shoes-final-20261015",
   "CIRR_blocker": "Original images not available; awaiting authorized image path/download access",
@@ -30,5 +39,6 @@
     "local": 37,
     "server": 37,
     "passed": true
-  }
+  },
+  "code_commit": "97ace62"
 }
