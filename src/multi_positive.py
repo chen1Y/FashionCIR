@@ -10,7 +10,8 @@ from pathlib import Path
 
 
 class PositiveIndex:
-    def __init__(self, queries, train_ids, *, category, mode="identity", manifest=None):
+    def __init__(self, queries, train_ids, *, category, mode="identity", manifest=None,
+                 allow_self_target=False):
         if mode not in {"identity", "annotated", "verified"}:
             raise ValueError(f"Unknown positive mode: {mode}")
         self.queries = {q["source_index"]: q for q in queries}
@@ -26,7 +27,10 @@ class PositiveIndex:
             for q in queries:
                 groups[(q["candidate"], q["modification_text"])].add(q["target"])
             for i, q in self.queries.items():
-                self.positives[i].update(groups[(q["candidate"], q["modification_text"])])
+                targets = groups[(q["candidate"], q["modification_text"])]
+                if allow_self_target and q["target"] != q["candidate"]:
+                    targets = targets - {q["candidate"]}
+                self.positives[i].update(targets)
         if mode == "verified":
             if manifest is None:
                 raise ValueError("verified mode requires a reviewed manifest")
@@ -55,7 +59,7 @@ class PositiveIndex:
                         raise ValueError(f"Invalid/non-train positive at query {i}: {target}")
                 self.positives[i].update(targets)
         for i, q in self.queries.items():
-            if q["candidate"] in self.positives[i]:
+            if q["candidate"] in self.positives[i] and not (allow_self_target and q["candidate"] == q["target"]):
                 raise ValueError(f"Reference image cannot be a positive: query {i}")
 
     def extras(self, index):

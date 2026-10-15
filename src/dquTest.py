@@ -34,7 +34,7 @@ def test(params, model, testset, category):
     gallery_features = []
     with torch.inference_mode():
         for batch in tqdm(
-            list(_batched(queries, params.batch_size)),
+            _batched(queries, params.batch_size),
             desc="DQU query features",
         ):
             visual = torch.stack([item["visual_query"] for item in batch]).to(
@@ -49,7 +49,7 @@ def test(params, model, testset, category):
             scalers.append(scaler.float().cpu())
 
         for batch in tqdm(
-            list(_batched(targets, params.batch_size)),
+            _batched(targets, params.batch_size),
             desc="DQU gallery features",
         ):
             images = torch.stack([item["target_img_data"] for item in batch]).to(
@@ -61,6 +61,8 @@ def test(params, model, testset, category):
     query_features = torch.cat(query_features)
     gallery_features = torch.cat(gallery_features)
     similarities = query_features @ gallery_features.t()
+    queries = getattr(testset, "query_metadata", queries)
+    targets = getattr(testset, "target_metadata", targets)
     gallery_index = {
         item["target_img_id"]: index for index, item in enumerate(targets)
     }
@@ -81,6 +83,9 @@ def test(params, model, testset, category):
         (f"{category}_r{k}", float(np.mean(ranks <= k) * 100.0))
         for k in (1, 10, 50)
     ]
+    if category == "cirr":
+        from benchmark_metrics import cirr_metrics
+        metrics.extend(cirr_metrics(similarities, queries, gallery_index, ranks))
     metrics.extend(
         [
             (f"{category}_median_rank", float(np.median(ranks))),

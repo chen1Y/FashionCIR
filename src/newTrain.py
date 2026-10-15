@@ -19,12 +19,16 @@ import newDataset
 import newModel
 import newTest
 from multi_positive import PositiveIndex
+from benchmark_data import selection_score, selection_name
+from experiment_storage import require_space, atomic_torch_save
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--local-rank", "--local_rank", default=int(os.getenv("LOCAL_RANK", -1)), type=int)
-    parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee"))
+    parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee", "cirr", "shoes"))
+    parser.add_argument("--cirr-path", default="../data/CIRR")
+    parser.add_argument("--shoes-path", default="../data/Shoes")
     parser.add_argument(
         "--fashioniq-split",
         "--fashioniq_split",
@@ -135,6 +139,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-train-batches", type=int, default=0)
     parser.add_argument("--eval-limit", type=int, default=0)
     parser.add_argument("--model-dir", default="./checkpoints")
+    parser.add_argument("--min-free-gib", type=float, default=8)
     parser.add_argument("--run-name", default="dqu_qwen_structured_text")
     parser.add_argument("--resume")
     parser.add_argument("--eval-only", action="store_true")
@@ -181,6 +186,8 @@ def default_structured_path(args: argparse.Namespace, split: str) -> str:
 
 
 def load_dataset(args: argparse.Namespace, transforms):
+    if args.dataset in ("cirr", "shoes"):
+        return load_benchmark_dataset(args, transforms)
     train_path = args.structured_train_path or default_structured_path(args, "train")
     val_path = args.structured_val_path or default_structured_path(args, "val")
     dataset = newDataset.FashionIQ(
@@ -233,6 +240,33 @@ def load_dataset(args: argparse.Namespace, transforms):
     return dataset
 
 
+def load_benchmark_dataset(args, transforms):
+    if args.noise_manifest or args.structured_only or args.written_keyword_source != "dqu":
+        raise ValueError("CIRR/Shoes require full evaluation and original DQU keywords; FashionIQ noise policies are unsupported")
+    if args.positive_manifest and args.multi_positive != "verified":
+        raise ValueError("--positive-manifest requires --multi-positive verified")
+    from benchmarkDataset import CIRBenchmark
+    dataset = CIRBenchmark(getattr(args, args.dataset + "_path"), args.dataset, transforms,
+        structured_train_path=args.structured_train_path, structured_val_path=args.structured_val_path,
+        use_written_image=args.use_written_image)
+    if not args.disable_structured_text and (
+        dataset.train_structured_coverage == 0 or dataset.val_structured_coverage == 0
+    ):
+        raise ValueError("CIRR/Shoes structured comparison requires validated train/eval JSON; use --disable-structured-text for the explicit DQU control")
+    if args.multi_positive != "off":
+        manifest = json.loads(Path(args.positive_manifest).read_text(encoding="utf-8")) if args.positive_manifest else None
+        dataset.multi_positive_index = PositiveIndex(dataset.train_data, dataset.meta.image_ids["train"],
+            category=args.dataset, mode=args.multi_positive, manifest=manifest,
+            allow_self_target=args.dataset == "shoes")
+        dataset.sample_extra_positive = args.sample_extra_positive and any(
+            len(ids) > 1 for ids in dataset.multi_positive_index.positives.values())
+        logging.info("multi_positive=%s summary=%s", args.multi_positive, dataset.multi_positive_index.summary())
+    logging.info("benchmark=%s", dataset.meta.audit())
+    logging.info("structured_coverage train=%.6f val=%.6f; all queries retained with DQU fallback",
+                 dataset.train_structured_coverage, dataset.val_structured_coverage)
+    return dataset
+
+
 def create_model(args, device):
     model = newModel.DQU_CIR(
         hidden_dim=args.hidden_dim,
@@ -279,8 +313,10 @@ def create_optimizer(args, model):
     return optimizer
 
 
-def load_dqu_checkpoint(path, model):
+def load_dqu_checkpoint(path, model, expected_dataset=None):
     checkpoint = torch.load(path, map_location="cpu")
+    if expected_dataset in ("cirr", "shoes") and checkpoint.get("config", {}).get("dataset") != expected_dataset:
+        raise ValueError("CIRR/Shoes must use a DQU checkpoint trained on the same dataset")
     state = checkpoint.get("model_state", checkpoint)
     incompatible = model.load_state_dict(state, strict=False)
     allowed_missing = {
@@ -302,8 +338,10 @@ def load_dqu_checkpoint(path, model):
     )
 
 
-def load_checkpoint(path, model):
+def load_checkpoint(path, model, expected_dataset=None):
     checkpoint = torch.load(path, map_location="cpu")
+    if expected_dataset in ("cirr", "shoes") and checkpoint.get("config", {}).get("dataset") != expected_dataset:
+        raise ValueError("Adapter checkpoint dataset does not match CIRR/Shoes evaluation")
     state = checkpoint.get("model_state", checkpoint)
     if checkpoint.get("adapter_only", False):
         incompatible = model.load_state_dict(state, strict=False)
@@ -465,7 +503,7 @@ def save_checkpoint(args, model, epoch, metrics):
             for name, tensor in state.items()
             if name.startswith("structured_")
         }
-    torch.save(
+    atomic_torch_save(
         {
             "epoch": epoch,
             "model_state": state,
@@ -480,7 +518,7 @@ def save_checkpoint(args, model, epoch, metrics):
         json.dumps(
             {
                 "epoch": epoch,
-                "selection_metric": "R@10 + R@50",
+                "selection_metric": selection_name(args.dataset),
                 **dict(metrics),
             },
             indent=2,
@@ -511,10 +549,7 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
     if args.eval_before_train:
         metrics = newTest.test(args, model, dataset, args.dataset)
         metric_dict = dict(metrics)
-        best_score = (
-            metric_dict[f"{args.dataset}_r10"]
-            + metric_dict[f"{args.dataset}_r50"]
-        )
+        best_score = selection_score(metric_dict, args.dataset)
         path = save_checkpoint(args, model, 0, metrics)
         logging.info(
             "epoch=0 protected_metrics=%s score=%.6f saved=%s",
@@ -523,6 +558,7 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
             path,
         )
     for epoch in range(1, args.num_epochs + 1):
+        require_space(args.model_dir, args.min_free_gib)
         if args.gate_warmup_epochs > 0:
             phase = "gate" if epoch <= args.gate_warmup_epochs else "adapter"
         else:
@@ -545,7 +581,7 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
 
         metrics = newTest.test(args, model, dataset, args.dataset)
         metric_dict = dict(metrics)
-        score = metric_dict[f"{args.dataset}_r10"] + metric_dict[f"{args.dataset}_r50"]
+        score = selection_score(metric_dict, args.dataset)
         logging.info("epoch=%d metrics=%s score=%.6f", epoch, metric_dict, score)
         if score > best_score:
             best_score = score
@@ -568,17 +604,18 @@ def main() -> None:
     if not torch.cuda.is_available():
         raise RuntimeError("ViT-H/14 training requires a CUDA GPU")
     set_seed(args.seed)
+    require_space(args.model_dir, args.min_free_gib)
     device = torch.device("cuda")
     logging.info("arguments=%s", vars(args))
     model = create_model(args, device)
     if args.dqu_checkpoint:
-        load_dqu_checkpoint(args.dqu_checkpoint, model)
+        load_dqu_checkpoint(args.dqu_checkpoint, model, args.dataset)
     if args.freeze_dqu_backbone:
         if not args.dqu_checkpoint:
             raise ValueError("--freeze-dqu-backbone requires --dqu-checkpoint")
         model.freeze_dqu_backbone()
     if args.resume:
-        checkpoint = load_checkpoint(args.resume, model)
+        checkpoint = load_checkpoint(args.resume, model, args.dataset)
         logging.info(
             "loaded_checkpoint=%s epoch=%s", args.resume, checkpoint.get("epoch")
         )

@@ -74,7 +74,7 @@ def test(params, model, testset, category):
     calibrated_confidences = []
     with torch.inference_mode():
         for batch in tqdm(
-            list(_batched(queries, params.batch_size)),
+            _batched(queries, params.batch_size),
             desc="query features",
             disable=not _show_progress(params),
         ):
@@ -146,7 +146,7 @@ def test(params, model, testset, category):
 
         gallery_batches = []
         for batch in tqdm(
-            list(_batched(targets, params.batch_size)),
+            _batched(targets, params.batch_size),
             desc="gallery features",
             disable=not _show_progress(params),
         ):
@@ -157,6 +157,10 @@ def test(params, model, testset, category):
     query_features = torch.cat(query_batches)
     gallery_features = torch.cat(gallery_batches)
     similarities = query_features @ gallery_features.t()
+    queries = getattr(testset, "query_metadata", queries)
+    if eval_limit > 0:
+        queries = queries[:eval_limit]
+    targets = getattr(testset, "target_metadata", targets)
 
     gallery_index = {}
     for index, item in enumerate(targets):
@@ -192,6 +196,9 @@ def test(params, model, testset, category):
         (f"{category}_r{k}", float(np.mean(ranks_array <= k) * 100.0))
         for k in (1, 10, 50)
     ]
+    if category == "cirr":
+        from benchmark_metrics import cirr_metrics
+        out.extend(cirr_metrics(similarities, queries, gallery_index, ranks_array))
     out.extend(
         [
             (f"{category}_median_rank", float(np.median(ranks_array))),

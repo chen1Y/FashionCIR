@@ -1,0 +1,6 @@
+{
+  "official_dataset_sha256": "dd087591d505f6cfde25275d35a2dfb3eb34eb9a8b9c988d6ea291adfc31ceed",
+  "queries_exactly_matched": 10751,
+  "rendered_and_target_images_exact_matches": 6,
+  "full_eval_gallery_ids_match": true
+}

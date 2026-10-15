@@ -1,0 +1,65 @@
+{
+  "shoes": {
+    "dataset": "shoes",
+    "root": "/root/autodl-tmp/data/Shoes",
+    "train_queries": 8990,
+    "eval_queries": 1761,
+    "train_images": 10000,
+    "eval_images": 4658,
+    "self_target_train_queries": 26,
+    "self_target_eval_queries": 1,
+    "missing_images": 0,
+    "missing_examples": [],
+    "ready": true,
+    "test1_loaded": false,
+    "multi_positive": {
+      "identity": {
+        "queries": 8990,
+        "multi_positive_queries": 0,
+        "positive_links": 8990
+      },
+      "annotated": {
+        "queries": 8990,
+        "multi_positive_queries": 64,
+        "positive_links": 9061
+      }
+    }
+  },
+  "cirr": {
+    "dataset": "cirr",
+    "root": "/root/autodl-tmp/data/CIRR",
+    "train_queries": 28225,
+    "eval_queries": 4181,
+    "train_images": 16939,
+    "eval_images": 2297,
+    "self_target_train_queries": 0,
+    "self_target_eval_queries": 0,
+    "missing_images": 19236,
+    "missing_examples": [
+      "train-11041-2-img0",
+      "train-11041-0-img1",
+      "train-5247-3-img1",
+      "train-10570-3-img0",
+      "train-9206-0-img0",
+      "train-5703-0-img1",
+      "train-6069-0-img0",
+      "train-7757-1-img1",
+      "train-4414-2-img0",
+      "train-7069-3-img1"
+    ],
+    "ready": false,
+    "test1_loaded": false,
+    "multi_positive": {
+      "identity": {
+        "queries": 28225,
+        "multi_positive_queries": 0,
+        "positive_links": 28225
+      },
+      "annotated": {
+        "queries": 28225,
+        "multi_positive_queries": 170,
+        "positive_links": 28401
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "archive_sha256": "da66f14692c94b48dd4d8f782d7431fab84dcd929afbb3af76030f8a149564bf",
+  "archive_images": 14764,
+  "decode_failures": [],
+  "seed": 42,
+  "baseline_selection": "R@10 + R@50",
+  "lr": 5e-05,
+  "clip_lr": 5e-06,
+  "batch_size": 16,
+  "space_min_GiB": 8,
+  "code_archive_sha256": "516e243382ac72a39ad6c66889b69ab3fff5f28f76d8a8a3d1003d813af4ed81"
+}

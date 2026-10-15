@@ -1,0 +1,36 @@
+{
+  "verified_only": true,
+  "files": [
+    {
+      "snapshot": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00001-of-00004.safetensors",
+      "blob": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/blobs/d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "sha256": "d5d0aef0eb170fc7453a296c43c0849a56f510555d3588e4fd662bb35490aefa",
+      "bytes": 4902275944
+    },
+    {
+      "snapshot": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00002-of-00004.safetensors",
+      "blob": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/blobs/8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "sha256": "8be88fb5501e4d5719a6d4cc212e6a13480330e74f3e8c77daa1a68f199106b5",
+      "bytes": 4915962496
+    },
+    {
+      "snapshot": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00003-of-00004.safetensors",
+      "blob": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/blobs/83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "sha256": "83de00eafe6e0d57ccd009dbcf71c9974d74df2f016c27afb7e95aafd16b2192",
+      "bytes": 4999831048
+    },
+    {
+      "snapshot": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b/model-00004-of-00004.safetensors",
+      "blob": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/blobs/0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      "sha256": "0a88b98e9f96270973f567e6a2c103ede6ccdf915ca3075e21c755604d0377a5",
+      "bytes": 2716270024
+    }
+  ],
+  "action": "replace byte-identical snapshot weights with hardlinks to verified blobs",
+  "reclaimed_bytes": 17534339512,
+  "disk_after": {
+    "total": 161061273600,
+    "used": 133532352512,
+    "free": 27528921088
+  }
+}

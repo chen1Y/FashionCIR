@@ -1,0 +1,7 @@
+{
+  "kind": "CPU_FAKE_MODEL_integration_not_retrieval_result",
+  "full_queries": 1761,
+  "full_gallery": 4658,
+  "baseline_and_structured_evaluators_agree": true,
+  "lazy_records": "LazyRecords"
+}

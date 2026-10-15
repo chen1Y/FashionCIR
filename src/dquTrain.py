@@ -18,11 +18,15 @@ from tqdm import tqdm
 import dquDataset
 import dquModel
 import dquTest
+from benchmark_data import selection_score, selection_name
+from experiment_storage import require_space, atomic_torch_save
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee"))
+    parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee", "cirr", "shoes"))
+    parser.add_argument("--cirr-path", default="../data/CIRR")
+    parser.add_argument("--shoes-path", default="../data/Shoes")
     parser.add_argument(
         "--fashioniq-split",
         default="original-split",
@@ -49,6 +53,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--num-workers", type=int, default=4)
     parser.add_argument("--model-dir", default="./checkpoints")
+    parser.add_argument("--min-free-gib", type=float, default=8)
     parser.add_argument("--run-name", default="dqu_official")
     parser.add_argument("--resume")
     parser.add_argument("--eval-only", action="store_true")
@@ -129,7 +134,7 @@ def train_epoch(args, model, optimizer, loader, device, scaler, epoch):
 
 def save_checkpoint(path, args, model, optimizer, epoch, metrics):
     path.parent.mkdir(parents=True, exist_ok=True)
-    torch.save(
+    atomic_torch_save(
         {
             "epoch": epoch,
             "model_state": model.state_dict(),
@@ -149,15 +154,23 @@ def main():
     if not torch.cuda.is_available():
         raise RuntimeError("The ViT-H/14 DQU-CIR baseline requires a CUDA GPU")
     set_seed(args.seed)
+    require_space(args.model_dir, args.min_free_gib)
     device = torch.device("cuda")
     model, optimizer = build_model(args, device)
-    dataset = dquDataset.FashionIQ(
-        path=args.fashioniq_path,
-        category=args.dataset,
-        transform=(model.preprocess_train, model.preprocess_val),
-        split=args.fashioniq_split,
-        noise_manifest=args.noise_manifest,
-    )
+    if args.dataset in ("cirr", "shoes"):
+        if args.noise_manifest:
+            raise ValueError("FashionIQ noise policies cannot be applied to CIRR/Shoes")
+        from benchmarkDataset import CIRBenchmark
+        dataset = CIRBenchmark(getattr(args, args.dataset + "_path"), args.dataset,
+                               (model.preprocess_train, model.preprocess_val))
+    else:
+        dataset = dquDataset.FashionIQ(
+            path=args.fashioniq_path,
+            category=args.dataset,
+            transform=(model.preprocess_train, model.preprocess_val),
+            split=args.fashioniq_split,
+            noise_manifest=args.noise_manifest,
+        )
     logging.info("noise_filter=%s excluded_train_queries=%d excluded_images=%d",
                  args.noise_manifest, len(dataset.noise_excluded_indices),
                  len(dataset.noise_excluded_image_ids))
@@ -177,6 +190,8 @@ def main():
     start_epoch = 1
     if args.resume:
         checkpoint = torch.load(args.resume, map_location=device)
+        if args.dataset in ("cirr", "shoes") and checkpoint.get("config", {}).get("dataset") != args.dataset:
+            raise ValueError("Checkpoint dataset does not match CIRR/Shoes evaluation")
         model.load_state_dict(checkpoint["model_state"])
         start_epoch = int(checkpoint.get("epoch", 0)) + 1
 
@@ -199,6 +214,7 @@ def main():
     stale_epochs = 0
 
     for epoch in range(start_epoch, args.num_epochs + 1):
+        require_space(args.model_dir, args.min_free_gib)
         if epoch > 1 and epoch % args.lr_decay == 0 and epoch <= args.max_decay_epoch:
             for group in optimizer.param_groups:
                 group["lr"] *= args.lr_div
@@ -209,7 +225,7 @@ def main():
 
         metrics = dquTest.test(args, model, dataset, args.dataset)
         metric_dict = dict(metrics)
-        score = metric_dict[f"{args.dataset}_r10"] + metric_dict[f"{args.dataset}_r50"]
+        score = selection_score(metric_dict, args.dataset)
         logging.info("epoch=%d metrics=%s score=%.6f", epoch, metric_dict, score)
         if score > best_score:
             best_score = score
@@ -221,7 +237,7 @@ def main():
                 json.dumps(
                     {
                         "epoch": epoch,
-                        "selection_metric": "R@10 + R@50",
+                        "selection_metric": selection_name(args.dataset),
                         **metric_dict,
                     },
                     indent=2,

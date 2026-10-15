@@ -1,0 +1,108 @@
+{
+  "dqu_commit": "49f53992447a9a84b897d9b2e2f2c91dd2cc8788",
+  "cirr_commit": "2276fba2d2c53862c8ae79ea18e1f1ae03719f56",
+  "files": [
+    {
+      "path": "data/Shoes/captions_shoes.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/captions_shoes.json",
+      "bytes": 313083,
+      "sha256": "702b6f5a8578426567d4830133565e297e8c8a5c68eb753eb34d06fa3c177895"
+    },
+    {
+      "path": "data/Shoes/correction_dict_shoes.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/correction_dict_shoes.json",
+      "bytes": 2807,
+      "sha256": "50451054df2d2365d732413bea40983c03c6f00ea4361ec258d16bd2c6238c24"
+    },
+    {
+      "path": "data/Shoes/eval_im_names.txt",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/eval_im_names.txt",
+      "bytes": 132354,
+      "sha256": "f1fd756f9c9841119c2d601994f16338f4e9b8f2846aaec0748ba873654548f3"
+    },
+    {
+      "path": "data/Shoes/image_captions_shoes.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/image_captions_shoes.json",
+      "bytes": 1154339,
+      "sha256": "3bde8b308bf86fbd1f33dd9f87044c558a0c685b187dbe3f06d3255b78bd93ce"
+    },
+    {
+      "path": "data/Shoes/keywords_in_mods_shoes.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/keywords_in_mods_shoes.json",
+      "bytes": 1244531,
+      "sha256": "34dc94270f9daefbe20408620f578976e42dcb066737e75d9ef94caf05d8d85b"
+    },
+    {
+      "path": "data/Shoes/relative_captions_shoes.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/relative_captions_shoes.json",
+      "bytes": 1601188,
+      "sha256": "717d815ca134f166d1a6e12a2b2e86b94dfdf22f3a45c3b984b59bfd89d91cdf"
+    },
+    {
+      "path": "data/Shoes/train_im_names.txt",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/Shoes/train_im_names.txt",
+      "bytes": 283658,
+      "sha256": "dd7f58d8d65f95c17c585cd62efd3038a8a6ed4d8ee0d6153287f75b76d1c64f"
+    },
+    {
+      "path": "data/CIRR/image_captions_cirr_train.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/CIRR/image_captions_cirr_train.json",
+      "bytes": 1138291,
+      "sha256": "255609c51a36794184cb8760399de78324920d503cf1249085806ce6b3b8868d"
+    },
+    {
+      "path": "data/CIRR/image_captions_cirr_val.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/CIRR/image_captions_cirr_val.json",
+      "bytes": 147977,
+      "sha256": "fe2e96e455e89f3d50c40f56cb7823aa8e5e261a3175cf59c48f8dedee003131"
+    },
+    {
+      "path": "data/CIRR/image_captions_cirr_test1.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/CIRR/image_captions_cirr_test1.json",
+      "bytes": 154376,
+      "sha256": "a083c6419376081baf6f1c9110c0567bcdc8ea5b70dd6610f0fe7a79133abc94"
+    },
+    {
+      "path": "data/CIRR/keywords_in_mods_cirr_train.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/CIRR/keywords_in_mods_cirr_train.json",
+      "bytes": 3994347,
+      "sha256": "6eff802966a80478082536c318536ddee0042f94525c17057114deeed5deeb3e"
+    },
+    {
+      "path": "data/CIRR/keywords_in_mods_cirr_val.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/CIRR/keywords_in_mods_cirr_val.json",
+      "bytes": 553981,
+      "sha256": "322b65bb910a156fb9e355fa0fc887b892cdc4b9ca534cecc6f47a2c7a9bf94f"
+    },
+    {
+      "path": "data/CIRR/keywords_in_mods_cirr_test1.json",
+      "url": "https://raw.githubusercontent.com/iLearn-Lab/SIGIR24-DQU-CIR/49f53992447a9a84b897d9b2e2f2c91dd2cc8788/data/CIRR/keywords_in_mods_cirr_test1.json",
+      "bytes": 515995,
+      "sha256": "cabae360587308e3a57adb30d14aae32a9abb4ca0869ecb6b2f094123c683d3c"
+    },
+    {
+      "path": "data/CIRR/captions/cap.rc2.train.json",
+      "url": "https://raw.githubusercontent.com/Cuberick-Orion/CIRR/2276fba2d2c53862c8ae79ea18e1f1ae03719f56/captions/cap.rc2.train.json",
+      "bytes": 11710661,
+      "sha256": "ca21ead38fb9487e432cb01339e5bc1a0693a982daff52197eab8e517e8c8a36"
+    },
+    {
+      "path": "data/CIRR/captions/cap.rc2.val.json",
+      "url": "https://raw.githubusercontent.com/Cuberick-Orion/CIRR/2276fba2d2c53862c8ae79ea18e1f1ae03719f56/captions/cap.rc2.val.json",
+      "bytes": 1609916,
+      "sha256": "a85c3a1aa464f1af7229918e8018d08b8b20ce5dab479ffdf39d61113140f919"
+    },
+    {
+      "path": "data/CIRR/image_splits/split.rc2.train.json",
+      "url": "https://raw.githubusercontent.com/Cuberick-Orion/CIRR/2276fba2d2c53862c8ae79ea18e1f1ae03719f56/image_splits/split.rc2.train.json",
+      "bytes": 969680,
+      "sha256": "7b3f2211ff67e527190754ab778321a3c83f0baa6150d1e6c19646ec25c3bcb9"
+    },
+    {
+      "path": "data/CIRR/image_splits/split.rc2.val.json",
+      "url": "https://raw.githubusercontent.com/Cuberick-Orion/CIRR/2276fba2d2c53862c8ae79ea18e1f1ae03719f56/image_splits/split.rc2.val.json",
+      "bytes": 105568,
+      "sha256": "de36f7a7219c8bb06347a67748cfc68405be7dad62853a1e31846c98e491235b"
+    }
+  ]
+}
