@@ -1,0 +1,681 @@
+{
+  "schema_version": 1,
+  "kind": "fashioniq_triplet_additions",
+  "category": "dress",
+  "split": "train",
+  "annotation_type": "synthetic_pseudo_labels",
+  "source_signature": "001866003f5b621c6be4d222826c6164e98f609ee8a3b739265873e593c89a41",
+  "proposal_method": "BLIP text overlap with a color difference; requires paired image review",
+  "seed": 42,
+  "original_triplets": 5985,
+  "training_image_ids": 11452,
+  "global_heldout_overlap_excluded": 0,
+  "audit_sampling_exclusions": 761,
+  "records": [
+    {
+      "candidate": "B00CHUH8MY",
+      "target": "B0009Y2LN6",
+      "captions": [
+        "change the black dress to purple and shorten it to below the knee",
+        "add short lace sleeves and a V neckline"
+      ],
+      "target_keywords": [
+        "purple",
+        "short lace sleeves",
+        "V neckline"
+      ],
+      "reference_sha256": "5230fbfe9889968100a1dbf440d0e1c739f046e2fa7f46ae6bca75c4be2ed161",
+      "target_sha256": "38245fbf3a1bf12e49f869ae640a005b72becb19db9ddbd519e8205c9a48215c",
+      "reference_description": "a woman in a black dress posing for a photo",
+      "target_description": "a woman in a purple dress posing for a photo",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is black, sleeveless and ankle length; target is purple, below knee with lace sleeves and a V neckline."
+      }
+    },
+    {
+      "candidate": "B005P781OA",
+      "target": "B000YX9H5M",
+      "captions": [
+        "make the dress black with a plain upper section",
+        "use long sleeves and keep the sparkle on the short skirt"
+      ],
+      "target_keywords": [
+        "black",
+        "long sleeves",
+        "sparkly skirt"
+      ],
+      "reference_sha256": "8bee3a427175901b68fa4358c8c3779a1ef39e258e5f70dfd9617df3897e7bff",
+      "target_sha256": "0c3e6d10be647126a91b492c5124f012f5c431b91b5b6911b84763e3dd728075",
+      "reference_description": "a woman in a gold sequin dress",
+      "target_description": "a woman in black dress with sequin",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is gold and sparkly throughout with shorter sleeves; target has plain black long sleeves and bodice, with a sparkly short skirt."
+      }
+    },
+    {
+      "candidate": "B00C2PTBAG",
+      "target": "B000CMQRM6",
+      "captions": [
+        "change the fitted gray dress into a long flared green dress",
+        "add dark side panels around a patterned center panel"
+      ],
+      "target_keywords": [
+        "green",
+        "long flared skirt",
+        "dark side panels"
+      ],
+      "reference_sha256": "c21371919da923a79750beb88db6940da6fa90be4e65f85e8bab6e38bab10cb0",
+      "target_sha256": "5d6527831749f38197bc02b3e8a30005019bf0d3fd09e2b47f2660a48e7acdd1",
+      "reference_description": "a woman in a silver dress standing up",
+      "target_description": "a woman in a green dress standing up",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Target is a long green A-line garment with a patterned center and dark solid side panels; reference is a gray fitted knee-length dress."
+      }
+    },
+    {
+      "candidate": "B00FKEHK6S",
+      "target": "B000W0MTHK",
+      "captions": [
+        "make the long dress pale green with light decorative patterns",
+        "replace the longer sleeves with short puff sleeves and remove the waist tie"
+      ],
+      "target_keywords": [
+        "pale green",
+        "short puff sleeves",
+        "light decorative patterns"
+      ],
+      "reference_sha256": "54591893ad875aef0bface1558645041ddd5f288de9d085be8795f8113cd474c",
+      "target_sha256": "63a70dc362ab7c370a91074f003f327c4b4c75a5023b16f8c4ee10d9dd52eecd",
+      "reference_description": "a woman in a long blue dress",
+      "target_description": "a woman in a long green dress",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference has dark blue longer sleeves and a visible tie; target is pale green with short puff sleeves, no visible tie and light motifs."
+      }
+    },
+    {
+      "candidate": "B0067VFMZO",
+      "target": "B000VXZT6Q",
+      "captions": [
+        "make the dress black with large light-colored flowers",
+        "use short sleeves and a V neckline"
+      ],
+      "target_keywords": [
+        "black",
+        "large light-colored flowers",
+        "short sleeves",
+        "V neckline"
+      ],
+      "reference_sha256": "82654c0e743dd9e363cd430406facb8a0449792dd223480f9e7b5f8264064bb0",
+      "target_sha256": "e557b98fe08a7d96e40f8f44f81146b074fbe6680faafb57b36ce91c686f31a6",
+      "reference_description": "a dress with blue flowers on it",
+      "target_description": "a woman in a black dress with flowers on it",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is pale with blue flowers and longer sleeves; target is black with large light floral motifs, a V neckline and short sleeves."
+      }
+    },
+    {
+      "candidate": "B007XSECNI",
+      "target": "B00385X5HO",
+      "captions": [
+        "change the white dress to a dark blue dress with a patchwork-like shiny pattern",
+        "give it an asymmetric one-shoulder neckline"
+      ],
+      "target_keywords": [
+        "dark blue",
+        "shiny pattern",
+        "one-shoulder neckline"
+      ],
+      "reference_sha256": "71d2a104ab662855862c4b5240cfdffee18fefed22c47f1e9f5fd5d3ed38a32b",
+      "target_sha256": "faa2ec619df5f0c443c1937803ae00205038979907107de84790f39f95bd266c",
+      "reference_description": "a woman in a white dress with sequins",
+      "target_description": "a woman in a blue dress with sequins",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is white with two shoulder straps; target is blue with contrasting shiny blocks and one covered shoulder."
+      }
+    },
+    {
+      "candidate": "B000FD03GI",
+      "target": "B00CHSEO7I",
+      "captions": [],
+      "target_keywords": [],
+      "reference_sha256": "50171ed8cfe61fb56daa80f288af2e3ec269e27126236a2ef682556626464123",
+      "target_sha256": "10ee43a37177ce5716b0ec9f1030a4304e46b88adf055bb9d7d51cee77e0e094",
+      "reference_description": "a blue dress with palm trees on it",
+      "target_description": "a woman in a black dress with palm trees",
+      "proposal_score": 0.793972,
+      "decision": "reject",
+      "reject_reason": "Garment category or full garment extent is uncertain in the available image; excluded from this conservative dress pilot."
+    },
+    {
+      "candidate": "B00CDGMGAQ",
+      "target": "B008AHWAAI",
+      "captions": [
+        "make the short dress dark navy with short sleeves",
+        "keep a small chest cutout and add a pleated skirt"
+      ],
+      "target_keywords": [
+        "dark navy",
+        "short sleeves",
+        "chest cutout",
+        "pleated skirt"
+      ],
+      "reference_sha256": "db8d12c6a548062db7195564b642250c3d3d9b0d1c276b1bc7789fcfe7166cbd",
+      "target_sha256": "323b19b791e398f3301d4079d26f94e40fd471ee16f65e1618de105b10de6e2d",
+      "reference_description": "a woman in a black dress with cutouts",
+      "target_description": "a woman in a navy dress with cutouts",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is a black sleeveless short shift with a chest cutout; target is navy, short sleeved, with a cutout and pleated skirt."
+      }
+    },
+    {
+      "candidate": "B004L2KJZY",
+      "target": "B009P8UO90",
+      "captions": [
+        "make the floral dress black instead of white",
+        "spread the colorful flowers over a more closely fitted skirt"
+      ],
+      "target_keywords": [
+        "black",
+        "colorful flowers",
+        "closely fitted skirt"
+      ],
+      "reference_sha256": "ff4d7dfd78583fd7ae04cc5d114e03425477ac66cbe1e57621fbd27454f32dcb",
+      "target_sha256": "f725a99eb0ebda73d63a4fdb5142aeecd37f48ab58d4a2fb1fcdb6713eb9a168",
+      "reference_description": "a woman in a white dress with colorful flowers",
+      "target_description": "a woman in a black dress with colorful flowers",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference has a flared white skirt with flowers concentrated near the top; target has a narrower black skirt with floral motifs extending down it."
+      }
+    },
+    {
+      "candidate": "B004HD4US4",
+      "target": "B000CMQRM6",
+      "captions": [
+        "change the black short dress to a long green dress with dark side panels",
+        "make it sleeveless with a square neckline and a patterned center panel"
+      ],
+      "target_keywords": [
+        "green",
+        "dark side panels",
+        "sleeveless",
+        "square neckline",
+        "patterned center panel"
+      ],
+      "reference_sha256": "7f7f518b1816e3294fb74292e5eb4449962d48835352b46c53625bad5416ba6e",
+      "target_sha256": "5d6527831749f38197bc02b3e8a30005019bf0d3fd09e2b47f2660a48e7acdd1",
+      "reference_description": "a woman in a black dress standing up",
+      "target_description": "a woman in a green dress standing up",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference has a black short tiered skirt, collar/buttons and small sleeves; target is long, green, sleeveless with a square neck and contrasting panels."
+      }
+    },
+    {
+      "candidate": "B005V3N4E0",
+      "target": "B002KNZJKQ",
+      "captions": [
+        "change the black dress to teal with lace-like patterns covering the skirt too",
+        "make the neckline wider and the sleeves much shorter"
+      ],
+      "target_keywords": [
+        "teal",
+        "lace-like patterns",
+        "wide neckline",
+        "short sleeves"
+      ],
+      "reference_sha256": "e3b28e8dbbe86f13635d8de1a9fac8e798feb539a41cfdf871b86f19a9b42621",
+      "target_sha256": "b98586fd2601e90cb981e1aa7a425d463e4df5540fb19c1cdc02398683811594",
+      "reference_description": "a woman in a black dress with lace",
+      "target_description": "a woman in a blue dress with lace",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Black reference has longer lace sleeves and plain skirt; teal target has a wide neckline, short lace shoulder coverage and patterned skirt."
+      }
+    },
+    {
+      "candidate": "B00AS15I26",
+      "target": "B000W0PR38",
+      "captions": [
+        "change the fitted black dress to a long brown dress",
+        "add short lace sleeves and an asymmetric layered skirt"
+      ],
+      "target_keywords": [
+        "brown",
+        "long skirt",
+        "short lace sleeves",
+        "layered skirt"
+      ],
+      "reference_sha256": "fc06e8b4b66a43dae4523eab8733d382d6b90cc0d8ee962a806abffdf998b370",
+      "target_sha256": "0d0830b34b7879f65e72f40f3ba02eb6bb5a7f87f1e32bb3d8444746bbec5bf7",
+      "reference_description": "a woman in a black dress standing up",
+      "target_description": "a woman in a brown dress standing up",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is black, fitted and sleeveless with a sheer neckline; target is brown and floor length with short lace sleeves and diagonal skirt layers."
+      }
+    },
+    {
+      "candidate": "B00CQ66LF4",
+      "target": "B002A63QW6",
+      "captions": [
+        "make the blue dress red and strapless",
+        "replace the flared skirt and waist bow with a fitted skirt and ruched waist"
+      ],
+      "target_keywords": [
+        "red",
+        "strapless",
+        "fitted skirt",
+        "ruched waist"
+      ],
+      "reference_sha256": "0e175269a637f95be07a20f90715b3d0934f5c95330528fa384f1898044a981d",
+      "target_sha256": "d80cfa72178e46aaa126bf4170c8cb8d9f0ce427e5086fbdd1774fcfa12568e7",
+      "reference_description": "a blue dress with a bow on the waist",
+      "target_description": "a red dress with a bow on the waist",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference has a blue flared skirt, collar-like V neck, sleeves and bow; target is red, strapless and fitted with horizontal waist gathers."
+      }
+    },
+    {
+      "candidate": "B009WJ0QMW",
+      "target": "B002SQ9ZUA",
+      "captions": [
+        "make the short dress black with shiny gold-colored patterns",
+        "replace the sleeves and waist belt with a sleeveless halter-style V neckline"
+      ],
+      "target_keywords": [
+        "black",
+        "shiny gold-colored patterns",
+        "sleeveless",
+        "V neckline"
+      ],
+      "reference_sha256": "68a7878efebdc731da872209e65706a197bd1fcf49a493ced7d81f78cd19ad93",
+      "target_sha256": "0efb31c880e527bbc6bcc8fb7dce82ed38ad016bcc816208d49bbcaaf50e06fc",
+      "reference_description": "a woman in a white dress and boots",
+      "target_description": "a woman in a gold dress and boots",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is white with longer sleeves and dark belt; target is fitted black/gold, sleeveless with a plunging halter-like neckline and no belt."
+      }
+    },
+    {
+      "candidate": "B0052Z9GGM",
+      "target": "B003ZFLA0Q",
+      "captions": [],
+      "target_keywords": [],
+      "reference_sha256": "b5c3e40366f1797f1989633bde4e9485129546c54d1dbbeaaa8db5cf34bee28b",
+      "target_sha256": "5e21231ad88b859998e6fbbed4029e5b33da6abedb69086fa95f8679c93a37e1",
+      "reference_description": "a red dress with ruffles on the bottom",
+      "target_description": "a white dress with ruffles on the bottom",
+      "proposal_score": 1.0,
+      "decision": "reject",
+      "reject_reason": "Garment category or full garment extent is uncertain in the available image; excluded from this conservative dress pilot."
+    },
+    {
+      "candidate": "B00ARIAB5Y",
+      "target": "B009P8UO90",
+      "captions": [],
+      "target_keywords": [],
+      "reference_sha256": "2bdcf37f405c772c957782666428f7ea4efb9c88481b29c6e0b951b34d311f34",
+      "target_sha256": "f725a99eb0ebda73d63a4fdb5142aeecd37f48ab58d4a2fb1fcdb6713eb9a168",
+      "reference_description": "a woman in a white dress with colorful flowers",
+      "target_description": "a woman in a black dress with colorful flowers",
+      "proposal_score": 1.0,
+      "decision": "reject",
+      "reject_reason": "Garment category or full garment extent is uncertain in the available image; excluded from this conservative dress pilot."
+    },
+    {
+      "candidate": "B00G6TS9CA",
+      "target": "B00ARHOQM4",
+      "captions": [
+        "make the dress black all over with a textured pattern",
+        "remove the blue peplum ruffle and keep a close-fitting short skirt"
+      ],
+      "target_keywords": [
+        "black",
+        "textured pattern",
+        "close-fitting short skirt"
+      ],
+      "reference_sha256": "5d003afea34a44859f428490b836eb7cbd0a58c8dad856833ad26d0654876b0e",
+      "target_sha256": "4407e4a883a983836e8db785a68db97eeeaab918212373d8ec0f6fe4dc302183",
+      "reference_description": "a woman in a blue dress with mesh",
+      "target_description": "a woman in a black dress with mesh",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference has a vivid blue center and peplum ruffle; target is black with visible curved patterns and a fitted skirt without the peplum."
+      }
+    },
+    {
+      "candidate": "B003V5Y066",
+      "target": "B002TKJL68",
+      "captions": [
+        "change the brown dress to a black strapless dress",
+        "remove the belt and give the short skirt more flare"
+      ],
+      "target_keywords": [
+        "black",
+        "strapless",
+        "flared short skirt"
+      ],
+      "reference_sha256": "c867dc50345a135348e1cdbf58a4e7492759179b61f26bf141243c974c2313fa",
+      "target_sha256": "cbfe5770d4e7818167170cf6bedba35664f64fb4c84081ed10ac94a53a9b26c8",
+      "reference_description": "a woman in a brown dress and brown belt",
+      "target_description": "a woman in a black dress with a belt",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference has a brown fitted skirt, cap sleeves and a wide belt; target is black, strapless and has an unbelted flared skirt."
+      }
+    },
+    {
+      "candidate": "B00ATTIRDE",
+      "target": "B0042ET3NK",
+      "captions": [
+        "make the gray dress black with a draped cowl neckline",
+        "shorten the long sleeves to around the elbows"
+      ],
+      "target_keywords": [
+        "black",
+        "cowl neckline",
+        "elbow-length sleeves"
+      ],
+      "reference_sha256": "c371a80f6a835d90a0ea1f07d3c0e530479ce2f402a3f8e242c8437e3055b399",
+      "target_sha256": "052edfda1c39472e4a16d70c9bdb5b4726d5020455d0f0875228e95867c878c1",
+      "reference_description": "a woman in a gray sweater dress",
+      "target_description": "a woman in a black sweater dress",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is light gray with a close high neck and long sleeves; target is black with a draped collar and sleeves reaching around the elbow."
+      }
+    },
+    {
+      "candidate": "B004VT7EC8",
+      "target": "B002NN85O0",
+      "captions": [],
+      "target_keywords": [],
+      "reference_sha256": "001b9d6659308aa7ac317b7ca267acab2dbab425894e9b1ce124a956de6ab4df",
+      "target_sha256": "41703003c5aec38e8dacdfbf140a3e2b1331da4dac87647f38557084b090bd07",
+      "reference_description": "a white dress with a v - neckline",
+      "target_description": "a purple dress with a v - neckline",
+      "proposal_score": 1.0,
+      "decision": "reject",
+      "reject_reason": "Garment category or full garment extent is uncertain in the available image; excluded from this conservative dress pilot."
+    },
+    {
+      "candidate": "B00E3UZQ0W",
+      "target": "B001ELTWX0",
+      "captions": [
+        "make the white dress black and add short sleeves",
+        "replace the strapless neckline with a V neckline and a small tie below the bust"
+      ],
+      "target_keywords": [
+        "black",
+        "short sleeves",
+        "V neckline",
+        "small tie below the bust"
+      ],
+      "reference_sha256": "dbd04e26371c8052ea7213f3a4652325511a66c5f3a7ea45c4454a0da091817a",
+      "target_sha256": "19b1ab86589b8223f233f55207d6686380398cc7854a6f24acb359043012f20a",
+      "reference_description": "a white dress with a bow on the front",
+      "target_description": "a black dress with a bow on the front",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is white and strapless with a broad gathered upper band; black target has short sleeves, V neck and a small center tie."
+      }
+    },
+    {
+      "candidate": "B00CGYJZXG",
+      "target": "B0011G40PI",
+      "captions": [
+        "change the pale sleeveless dress to a black dress with lace-like patterns",
+        "add elbow-length sleeves and a V neckline"
+      ],
+      "target_keywords": [
+        "black",
+        "lace-like patterns",
+        "elbow-length sleeves",
+        "V neckline"
+      ],
+      "reference_sha256": "396cce2cd1e313032f4fe93aa167d2722df1d997ea3df76a18594eaa3d60ab60",
+      "target_sha256": "6b6229842c33e9eaf228757f1c8da7c606353542728a7a52560904061fc14b92",
+      "reference_description": "a woman in a white dress with lace",
+      "target_description": "a woman in a black dress with lace",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is pale, sleeveless and short; target is black with light lace-like motifs, longer sleeves and a V neckline."
+      }
+    },
+    {
+      "candidate": "B004P2KWHA",
+      "target": "B0009Y2LN6",
+      "captions": [
+        "change the olive-colored dress to purple",
+        "add lace sleeves that extend farther down the upper arms while keeping a V neckline"
+      ],
+      "target_keywords": [
+        "purple",
+        "lace sleeves",
+        "V neckline"
+      ],
+      "reference_sha256": "77776dd7d765bc1f8f72ac66df3b3dd721352ba742ff8b14d69fffea711956e3",
+      "target_sha256": "38245fbf3a1bf12e49f869ae640a005b72becb19db9ddbd519e8205c9a48215c",
+      "reference_description": "a woman in a green dress posing for a photo",
+      "target_description": "a woman in a purple dress posing for a photo",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is olive with short cap sleeves and V neck; target is purple with longer lace sleeves and a V neckline."
+      }
+    },
+    {
+      "candidate": "B007WPHSZQ",
+      "target": "B007FK91D0",
+      "captions": [
+        "change the long purple dress to black",
+        "replace the plunging neckline and bright waist bands with a high rounded decorated neckline"
+      ],
+      "target_keywords": [
+        "black",
+        "long skirt",
+        "rounded decorated neckline"
+      ],
+      "reference_sha256": "09c037516ac19eec937cf877b4954082303a53b172e75a069add0a83e9cb9a5b",
+      "target_sha256": "d19b1754ff94ebc5bc831fd0f1e4bc1d67ad7f5298e8921e6e542e30805ab9d9",
+      "reference_description": "a woman in a purple evening dress",
+      "target_description": "a woman in a black evening dress",
+      "proposal_score": 1.0,
+      "decision": "accept",
+      "review": {
+        "reviewer": "model:Codex paired-image visual inspection (2026-10-15)",
+        "both_garments": true,
+        "caption_satisfied": [
+          true,
+          true
+        ],
+        "meaningful_difference": true,
+        "target_keywords_supported": true,
+        "evidence": "Reference is purple with a deep neck and contrasting waist bands; target is black, floor length with a high embellished round neckline and no bright waist bands."
+      }
+    }
+  ],
+  "review_method": "Single model visual inspection of 24 paired contact-sheet rows; not independent model review or human ground truth.",
+  "training_status": "Not trained: existing Shoes generation/training queue retains GPU priority.",
+  "original_source_root": "/root/autodl-tmp/data/FashionIQ"
+}

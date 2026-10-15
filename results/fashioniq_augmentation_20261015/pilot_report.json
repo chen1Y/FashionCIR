@@ -1,0 +1,34 @@
+{
+  "dataset": "FashionIQ dress",
+  "original_triplets": 5985,
+  "added_triplets": 20,
+  "total_triplets": 6005,
+  "training_image_ids": 11452,
+  "added_physical_images": 0,
+  "tests": {
+    "passed": 47,
+    "failed": 0,
+    "skipped": 0
+  },
+  "loaders": {
+    "dquDataset": {
+      "train": 6005,
+      "validation_queries": 2017,
+      "validation_gallery": 3817,
+      "original_prefix_unchanged": true,
+      "new_items_decoded_and_keyword_rendered": 20
+    },
+    "newDataset": {
+      "train": 6005,
+      "validation_queries": 2017,
+      "validation_gallery": 3817,
+      "original_prefix_unchanged": true,
+      "new_items_decoded_and_keyword_rendered": 20
+    }
+  },
+  "all_categories_heldout_metadata_unchanged": true,
+  "original_metadata_unchanged": true,
+  "caption_review": "Single-model Codex paired visual inspection, synthetic labels; no human ground truth",
+  "retrieval_training": "Not run; GPU reserved for existing Shoes queue",
+  "overlay_path": "/root/autodl-tmp/results/fashioniq_augmentation_20261015/overlay"
+}
