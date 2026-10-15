@@ -1,0 +1,63 @@
+{
+  "captured_utc": "2026-10-15T17:00:13.283822+00:00",
+  "queue_status": "qwen_train",
+  "baseline_status": "complete_early_stopped",
+  "last_completed_baseline_epoch": 8,
+  "best_baseline_epoch": 3,
+  "best_baseline_metrics": {
+    "epoch": 3,
+    "selection_metric": "R@10 + R@50",
+    "shoes_r1": 30.948324815445773,
+    "shoes_r10": 68.76774559909143,
+    "shoes_r50": 88.47245883021012,
+    "shoes_median_rank": 3.0,
+    "shoes_mean_rank": 28.91879613855764,
+    "shoes_text_weight": 0.443101704120636
+  },
+  "last_notified_primary_score": 157.24020442930154,
+  "known_blockers": [
+    "CIRR raw images missing"
+  ],
+  "automation_id": "cir",
+  "automation_status": "ACTIVE",
+  "free_GiB": 21.733734130859375,
+  "gpu_memory_used_MiB": 17303,
+  "gpu_utilization_percent": 68,
+  "verified_processes": {
+    "queue": 2996,
+    "generation": 4561,
+    "fashioniq_followup": 7147
+  },
+  "structured_generation": {
+    "train": {
+      "samples": 373,
+      "expected": 8990,
+      "status_counts": {
+        "ok": 215,
+        "failed": 158
+      },
+      "log_age_seconds": 15.63
+    }
+  },
+  "fashioniq_followup": {
+    "schema_version": 1,
+    "new_attempt_budget": 120,
+    "seed": 43,
+    "model": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "shoes_results": "/root/autodl-tmp/results/cirr_shoes_20261015",
+    "code_root": "/root/autodl-tmp/experiments/fashioniq-augmentation-followup-20261016",
+    "new_images": 0,
+    "status": "waiting_for_shoes",
+    "updated_utc": "2026-10-15T16:57:06.091087+00:00",
+    "prior_accepted": 20,
+    "source_signature": "001866003f5b621c6be4d222826c6164e98f609ee8a3b739265873e593c89a41"
+  },
+  "errors": [],
+  "quality_warnings": [
+    "Known early query-only selfcheck false rejections; protocol unchanged, observe valid coverage."
+  ],
+  "last_notified_stage": "baseline_complete_and_qwen_train_started",
+  "last_notified_quality_warning": "early_query_only_selfcheck_false_rejection",
+  "last_notified_followup_status": "waiting_for_shoes",
+  "last_check_has_actionable_change": false
+}

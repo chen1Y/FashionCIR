@@ -98,6 +98,11 @@ def main():
     import json
     from generate_structured_edits import extract_json_object, load_qwen
     processor, model, device = load_qwen(args)
+    category_rule = "\nRequired dataset category: " + {
+        "dress": "dresses or gowns; reject tops, separate skirts, trousers and incomplete garments of uncertain category.",
+        "shirt": "shirts or blouses; reject dresses, trousers and uncertain garment categories.",
+        "toptee": "tops or T-shirts; reject dresses, trousers and uncertain garment categories.",
+    }[payload["category"]] + " Both reference and target must satisfy this category."
 
     def ask(row, prompt):
         paths = [image_path(args.root, payload["category"], row[k]) for k in ("candidate", "target")]
@@ -123,12 +128,12 @@ def main():
         count += 1
         log = dict(index=index, candidate=row["candidate"], target=row["target"])
         try:
-            log["generation"] = ask(row, GENERATE_PROMPT)
+            log["generation"] = ask(row, GENERATE_PROMPT + category_rule)
             annotation = extract_json_object(log["generation"])
             if "reject_reason" in annotation:
                 row.update(decision="reject", reject_reason=annotation["reject_reason"])
             else:
-                log["review"] = ask(row, REVIEW_PROMPT + json.dumps(annotation))
+                log["review"] = ask(row, REVIEW_PROMPT + json.dumps(annotation) + category_rule)
                 review = extract_json_object(log["review"])
                 review["reviewer"] = f"model:{args.model}; separate prompt, same weights"
                 row.update(captions=annotation["captions"], target_keywords=annotation["target_keywords"], review=review, decision="accept")

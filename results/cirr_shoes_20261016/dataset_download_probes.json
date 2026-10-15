@@ -1,0 +1,14 @@
+[
+  {
+    "name": "MIT-States",
+    "server_head_status": 200,
+    "bytes": 807745643,
+    "url": "http://wednesday.csail.mit.edu/joseph_result/state_and_transformation/release_dataset.zip"
+  },
+  {
+    "name": "CIRCO COCO unlabeled2017",
+    "server_head_status": 200,
+    "bytes": 20126613414,
+    "url": "http://images.cocodataset.org/zips/unlabeled2017.zip"
+  }
+]
