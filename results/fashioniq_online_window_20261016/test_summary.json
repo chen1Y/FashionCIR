@@ -1,0 +1,11 @@
+{
+  "environment": "Linux server existing CIR environment",
+  "unittest_result": "84 tests passed",
+  "log_sha256": "dfff7f713824367fea1975493037c31a8c2b56c997b166f2e25ad8c8e1d35256",
+  "new_gpu_window_cases": 8,
+  "final_overlays": [
+    "loader_check.json",
+    "screened_loader_check.json"
+  ],
+  "retrieval_training_performed": false
+}

@@ -1,6 +1,7 @@
 """Optional offline two-image Qwen labeling; refuses an occupied benchmark/GPU.
 
-Produces synthetic labels, not human ground truth. Run only after existing experiments.
+Produces synthetic labels, not human ground truth. A live online-only Shoes queue
+is exempt only with a verified supervisor proof that its dispatcher is held.
 """
 import argparse
 from contextlib import ExitStack
@@ -37,9 +38,14 @@ Use null for uncertainty. Return JSON only:
 Proposed annotation: """
 
 
-def require_idle(results, min_free_gib, output):
+def require_idle(results, min_free_gib, output, gpu_hold=None):
     """Fail closed before loading weights; never stop or compete with another job."""
+    if gpu_hold:
+        from cir_gpu_window import verify_hold
+        verify_hold(gpu_hold, results)
     for name in ("baseline.pid", "queue.pid"):
+        if gpu_hold and name == 'queue.pid':
+            continue  # Exemption requires a live supervisor and a verified stopped API dispatcher.
         path = Path(results) / name
         if path.exists():
             pid = int(path.read_text().strip())
@@ -69,6 +75,7 @@ def main():
     parser.add_argument("--limit", type=int, default=24)
     parser.add_argument("--max-fraction", type=float, default=.1)
     parser.add_argument("--attn-implementation", default="sdpa")
+    parser.add_argument("--gpu-hold", type=Path, help="Verified online-window supervisor proof; default guards remain strict")
     args = parser.parse_args()
     output = Path(args.output).resolve()
     if output.exists() or Path(str(output) + ".responses.json").exists():
@@ -91,7 +98,7 @@ def main():
         if (None in hashes or hashes[0] == hashes[1]
                 or hashes != [row.get("reference_sha256"), row.get("target_sha256")]):
             raise ValueError("Proposal images are missing, identical or changed")
-    require_idle(args.guard_results, args.min_free_gib, output)
+    require_idle(args.guard_results, args.min_free_gib, output, args.gpu_hold)
     args.offline = True  # no downloads, including tokenizers/processors
     from PIL import Image
     import torch
@@ -125,6 +132,11 @@ def main():
     for index, row in enumerate(payload["records"]):
         if row.get("decision") != "pending" or count >= args.limit:
             continue
+        from experiment_storage import require_space
+        require_space(output, args.min_free_gib)
+        if args.gpu_hold:
+            from cir_gpu_window import verify_hold
+            verify_hold(args.gpu_hold, args.guard_results)
         count += 1
         log = dict(index=index, candidate=row["candidate"], target=row["target"])
         try:

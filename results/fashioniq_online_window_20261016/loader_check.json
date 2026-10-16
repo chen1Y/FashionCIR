@@ -1,0 +1,80 @@
+{
+  "status": "passed",
+  "category": "dress",
+  "original_triplets": 5985,
+  "added_triplets": 75,
+  "total_triplets": 6060,
+  "added_physical_images": 0,
+  "training_image_ids": 11452,
+  "validation_and_test_unchanged": true,
+  "shared_original_image_directory": true,
+  "loaders": {
+    "original_dqu": {
+      "train_before": 5985,
+      "train_after": 6060,
+      "validation_queries": 2017,
+      "gallery_images": 3817,
+      "real_written_image_checks": [
+        {
+          "candidate": "B003ULNDK0",
+          "target": "B00CHLEXJO",
+          "written_image_size": [
+            512,
+            512
+          ]
+        },
+        {
+          "candidate": "B00CIQNEJ8",
+          "target": "B002UWP1WS",
+          "written_image_size": [
+            512,
+            512
+          ]
+        },
+        {
+          "candidate": "B002KCHHJS",
+          "target": "B00153X5QM",
+          "written_image_size": [
+            512,
+            512
+          ]
+        }
+      ]
+    },
+    "structured_fallback": {
+      "train_before": 5985,
+      "train_after": 6060,
+      "validation_queries": 2017,
+      "gallery_images": 3817,
+      "real_written_image_checks": [
+        {
+          "candidate": "B003ULNDK0",
+          "target": "B00CHLEXJO",
+          "written_image_size": [
+            512,
+            512
+          ]
+        },
+        {
+          "candidate": "B00CIQNEJ8",
+          "target": "B002UWP1WS",
+          "written_image_size": [
+            512,
+            512
+          ]
+        },
+        {
+          "candidate": "B002KCHHJS",
+          "target": "B00153X5QM",
+          "written_image_size": [
+            512,
+            512
+          ]
+        }
+      ]
+    }
+  },
+  "model_weights_loaded": false,
+  "retrieval_training_performed": false,
+  "note": "Image I/O mocked only during full metadata construction; three accepted written images per adapter decoded/rendered for real"
+}

@@ -1,0 +1,109 @@
+{
+  "method": "Assistant visual inspection of 8 source/target pairs and model outputs, not independent human GT",
+  "new_indices_reviewed": [
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31
+  ],
+  "observations": [
+    {
+      "indices": [
+        24,
+        25,
+        26
+      ],
+      "decision": "model_rejected",
+      "observation": "Visible garment changes could be described; rejection appears over-conservative, not evidence that images are noise. Kept rejected without retry."
+    },
+    {
+      "indices": [
+        27,
+        29
+      ],
+      "decision": "model_accepted",
+      "observation": "Main requested color, neckline/strap and sleeve changes visually supported."
+    },
+    {
+      "indices": [
+        28
+      ],
+      "decision": "model_accepted",
+      "observation": "Floral decoration is visible; specific embroidery construction remains a review uncertainty."
+    },
+    {
+      "indices": [
+        30
+      ],
+      "decision": "model_rejected",
+      "observation": "Only one caption and uncertain review; correctly excluded by structural validation."
+    },
+    {
+      "indices": [
+        31
+      ],
+      "decision": "model_accepted",
+      "observation": "Color/texture changes supported, but captions omit sleeve-style differences."
+    },
+    {
+      "indices": [
+        34,
+        47
+      ],
+      "decision": "model_accepted",
+      "observation": "Color and sleeve/neckline changes visibly supported; source-target direction consistent."
+    },
+    {
+      "indices": [
+        70
+      ],
+      "decision": "model_accepted",
+      "observation": "Red color, sleeve and wrap-front changes visible; dark olive versus near-black source shade remains less certain."
+    },
+    {
+      "indices": [
+        99
+      ],
+      "decision": "model_accepted_quality_holdout",
+      "observation": "Target also has prominent layered ruffles at the neckline; simpler rounded neckline claim is misleading. Exclude from a separate screened overlay."
+    },
+    {
+      "indices": [
+        82
+      ],
+      "decision": "model_accepted",
+      "observation": "Fuchsia color and shorter-front/longer-back hem are visible."
+    },
+    {
+      "indices": [
+        42
+      ],
+      "decision": "model_accepted_quality_holdout",
+      "observation": "Pink floral pattern and ruffles visible, but off-the-shoulder claim is uncertain: pictured neckline rests around shoulder tops. Exclude conservatively."
+    }
+  ],
+  "raw_model_labels_changed": false,
+  "retrieval_improvement_tested": false,
+  "additional_sampling": {
+    "seed": 43,
+    "pool": "accepted new records with index >=32 at sampling time, before batch completion",
+    "indices": [
+      34,
+      70,
+      47,
+      99,
+      82,
+      42
+    ]
+  },
+  "quality_holdout_indices": [
+    28,
+    42,
+    99
+  ],
+  "screened_overlay_changes": "Separate derived manifest excludes three assistant-flagged new records; original model output and main overlay unchanged. Other accepted records not all visually reviewed."
+}

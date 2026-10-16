@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-16T06:54:37.003146+00:00",
+  "authorization": "User requested use idle GPU to advance FashionIQ while Shoes is online",
+  "old_waiter_pid": 3019,
+  "manifest_sha256": "72e981d39a2f215b8658fbe1dd1ae25198e5b537467253f498d2c98102e0f0b9",
+  "new_pairs": 120,
+  "prior_accepted": 20,
+  "model_and_pair_selection_changed": false
+}

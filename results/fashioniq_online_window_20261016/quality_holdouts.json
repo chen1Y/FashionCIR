@@ -1,0 +1,24 @@
+{
+  "method": "Assistant visual screening; not independent human GT. Other accepted rows not all visually reviewed.",
+  "raw_model_labels_changed": false,
+  "holdouts": [
+    {
+      "index": 28,
+      "candidate": "B00DMVFCZM",
+      "target": "B000W0MTHK",
+      "reason": "Floral decoration visible; embroidery construction uncertain."
+    },
+    {
+      "index": 42,
+      "candidate": "B008G41MAO",
+      "target": "B005WQ7UF0",
+      "reason": "Neckline rests around shoulder tops; off-the-shoulder wording uncertain."
+    },
+    {
+      "index": 99,
+      "candidate": "B00E62MFMY",
+      "target": "B004VT7U1S",
+      "reason": "Target retains prominent layered neckline ruffles; simpler rounded neckline claim misleading."
+    }
+  ]
+}

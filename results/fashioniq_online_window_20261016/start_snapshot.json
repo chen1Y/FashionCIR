@@ -1,0 +1,25 @@
+{
+  "captured_utc": "2026-10-16T06:57:43.602766+00:00",
+  "supervisor_pid": 6822,
+  "labeling_pid": 6823,
+  "held_shoes_queue_pid": 5853,
+  "gpu_total_MiB": 32760,
+  "gpu_free_before_MiB": 32230,
+  "gpu_labeling_used_MiB": 17224,
+  "free_GiB_before": 21.63788604736328,
+  "model": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+  "prepared_manifest_sha256": "72e981d39a2f215b8658fbe1dd1ae25198e5b537467253f498d2c98102e0f0b9",
+  "decisions": {
+    "accept": 27,
+    "reject": 9,
+    "pending": 108
+  },
+  "tests_passed": 84,
+  "new_images": 0,
+  "source_sha256": {
+    "src/cir_gpu_window.py": "b1326ac52fedd3abc223da546c4bab98eb07890d551cb69482387a86190d2417",
+    "src/generate_fashioniq_pair_captions.py": "443ccd35ca8dbdfd9d2c03623e7a338b5270dc3e5a976cbd789dd49c09db99d1",
+    "scripts/run_fashioniq_during_online.py": "49c4081f208f6d2c3e015525b8da888773dc500d63cac7502f2e285b566775af",
+    "tests/test_cir_gpu_window.py": "951e976dee23eae21fd19d24f508d2315d2cc24ad60dad79b0fea08a31aaa524"
+  }
+}
