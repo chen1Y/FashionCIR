@@ -1,0 +1,8 @@
+{
+  "train_queries": 8990,
+  "val_queries": 1761,
+  "gallery": 4658,
+  "loaded_valid_structured": 275,
+  "no_validation_filtering": true,
+  "weights_loaded": false
+}

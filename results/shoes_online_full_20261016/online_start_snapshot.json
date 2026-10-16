@@ -1,0 +1,62 @@
+{
+  "captured_utc": "2026-10-16T06:29:04.833603+00:00",
+  "status": "qwen_train",
+  "generation_provider": "online-qwen37",
+  "queue_pid": 5853,
+  "generation_pid": 5854,
+  "fashioniq_followup_pid": 3019,
+  "code_root": "/root/autodl-tmp/experiments/shoes-online-full-20261016",
+  "structured_paths": {
+    "train": "/root/autodl-tmp/results/cirr_shoes_20261015/online_qwen37_v3/structured_shoes_train.json",
+    "val": "/root/autodl-tmp/results/cirr_shoes_20261015/online_qwen37_v3/structured_shoes_val.json"
+  },
+  "baseline_sha256": "0f5972dc791caa78b713dcbac60b83e22c51c7d27d3d6b2de88812985cfaaf2a",
+  "baseline_metrics": {
+    "epoch": 3,
+    "selection_metric": "R@10 + R@50",
+    "shoes_r1": 30.948324815445773,
+    "shoes_r10": 68.76774559909143,
+    "shoes_r50": 88.47245883021012,
+    "shoes_median_rank": 3.0,
+    "shoes_mean_rank": 28.91879613855764,
+    "shoes_text_weight": 0.443101704120636
+  },
+  "train_progress": {
+    "samples": 460,
+    "expected": 8990,
+    "statuses": {
+      "ok": 411,
+      "failed": 49
+    },
+    "state": "running",
+    "attempts_complete": false,
+    "cost": {
+      "calls": 903,
+      "max_calls": 23000,
+      "max_cny": 15.0,
+      "accounted_upper_cny": 0.33363879999999985,
+      "estimated_list_price_cny": 0.3188932,
+      "prompt_tokens": 727718,
+      "completion_tokens": 216687,
+      "usage_missing_calls": 4,
+      "request_states": {
+        "known": 899,
+        "reserved": 4
+      },
+      "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+      "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+    }
+  },
+  "stages": [],
+  "free_GiB": 21.652145385742188,
+  "tests": {
+    "passed": 76,
+    "failed": 0
+  },
+  "api_secret_storage": "Memory only; anonymous pipe; no argv/env/file",
+  "source_sha256": {
+    "src/generate_shoes_online.py": "7637b6dd7b111ea49b24a9191cb989ff2e7988f3588a366d39e7ea835fa818a8",
+    "scripts/run_cirr_shoes_benchmark.py": "84ac425bacb750e5bee30a1e2d8e61abafc37ea19a1a6a81b4b9a4ca8ddbc8b9",
+    "tests/test_shoes_online_full.py": "76a136ca3816d8a7a5307c7742e8a0f4745448216f6908f3d0dca73f39753b97"
+  }
+}

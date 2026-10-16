@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-16T06:09:26.708252+00:00",
+  "reason": "User explicitly requested stop local Qwen and switch full generation to online qwen3.7-flash",
+  "verified_old_queue_pid": 3018,
+  "verified_local_generation_pid": 3020,
+  "fashioniq_waiter_paused_pid": 3019,
+  "saved_local_records": 1452,
+  "baseline_retrained": false
+}
