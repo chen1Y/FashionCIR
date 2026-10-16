@@ -54,7 +54,7 @@ SQLite 使用 WAL 和 FULL 同步，按 split＋原始 query index＋phase 唯�
 
 原 DQU-CIR 基线最佳第 3 轮：R@1 **30.9483**、R@10 **68.7677**、R@50 **88.4725**。队列最终汇总四组指标及相对基线差值，尚未训练完成不能将生成覆盖率说成检索提升。单 seed、额外 adapter 训练预算及环境差异仍限制结论强度。
 
-FashionIQ 等待任务仍检查五个阶段全部 returncode=0、四组指标完整有效、队列退出和 GPU 空闲，满足后才按此前安排进行扩充。
+后续用户已授权利用在线生成期间的空闲 GPU 提前扩充 FashionIQ，现已完成并释放 GPU；详见 [FashionIQ 并行扩充结果](fashioniq_online_window_20261016.md)。不再等待或重复启动该扩充。
 
 ## 验证与监视
 
@@ -65,3 +65,22 @@ FashionIQ 等待任务仍检查五个阶段全部 returncode=0、四组指标完
 14:29 保存的快照为已处理 460 条、411 条通过、49 条失败，标价估算约 0.3189 元。实际 `CIRBenchmark` 加载线上部分产物成功，保留 8,990 条训练查询、1,761 条验证查询和 4,658 张图库；没有加载模型权重或删除验证查询。再次计算原 DQU checkpoint 的 SHA-256，与迁移时原始核验文件完全一致。切换记录、计划、源文件哈希和加载检查保存在 `results/shoes_online_full_20261016/`，只是启动证据，不是最终实验结果。
 
 持续监视任务 `cir` 保持 ACTIVE，每 15 分钟检查在线路径、队列/子进程、API 错误与费用、生成推进、GPU/磁盘和后续 checkpoint，只在阶段完成、失败、明显新结果或需输入时通知。旧本地 Shoes 生成不得恢复。全部 Shoes 比较和 FashionIQ 扩充完成或停止且结果已报告后，再结束监视。
+
+
+## 原论文结果与本机对照（2026-10-16 更新）
+
+用户要求把原论文纳入对比。已核验作者 [arXiv 稿 Table 2](https://arxiv.org/html/2404.15875v1#S4.T2)：DQU-CIR 在 Shoes 上为 R@1=31.47±1.31、R@10=69.19±0.99、R@50=88.52±0.31，Avg=63.06±0.69，五个随机种子的均值±标准差。论文 4.1.2 使用单 A100-40G；[官方仓库](https://github.com/iLearn-Lab/SIGIR24-DQU-CIR) 环境为 Python3.9.18 / Torch2.0.1 / OpenCLIP2.23。
+
+本机仍沿用现有单 seed42 和服务器报告的 RTX4080 SUPER / Torch2.9 / OpenCLIP2.23，不为追齐论文数字改动训练协议。原基线最佳 epoch3：R@1=30.9483、R@10=68.7677、R@50=88.4725，Avg=62.7295。与论文均值的差异分别为 -0.5217/-0.4223/-0.0475 个百分点，仅是描述性差异；不能从单 seed 与论文标准差推断显著性。改进幅度以相同环境、相同数据的本机基线为主。
+
+只读报告工具 `scripts/report_shoes_comparison.py` 将论文、本机基线及三个结构化分支写入 JSON/Markdown，并记录各 R@k 相对本机基线的百分点差。不存在的结果保持 pending；已有但阶段未完成的最佳 checkpoint 标为 intermediate_best；只有原五阶段均成功且四组指标齐全才标完整对比。
+
+服务器工具独立部署到 `/root/autodl-tmp/experiments/shoes-reporting-20261016`，不修改当前执行的 Shoes 源文件或调度进程，不新增训练或生成。监视时调用：
+
+```bash
+python /root/autodl-tmp/experiments/shoes-reporting-20261016/scripts/report_shoes_comparison.py \
+  --results /root/autodl-tmp/results/cirr_shoes_20261015 \
+  --output /root/autodl-tmp/results/cirr_shoes_20261015/comparison_with_paper
+```
+
+输出 `comparison_with_paper.json` 和 `.md`。最终仍需区分单 seed、额外 adapter 训练预算与方法本身的贡献；当前未增加匹配预算继续训练或多 seed 实验。

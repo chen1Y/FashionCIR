@@ -1,0 +1,12 @@
+{
+  "unittest_cases": 4,
+  "result": "passed",
+  "checks": [
+    "pending metrics are absent, never fabricated zeros",
+    "intermediate checkpoint is not final",
+    "missing/non-finite metric rejection",
+    "all five successful stages and checkpoint metrics required"
+  ],
+  "real_server_report_generated": true,
+  "training_protocol_changed": false
+}

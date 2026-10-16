@@ -1,0 +1,111 @@
+{
+  "captured_utc": "2026-10-16T08:05:08.735769+00:00",
+  "queue_status": "qwen_train",
+  "final_comparison_complete": false,
+  "paper": {
+    "title": "Simple but Effective Raw-Data Level Multimodal Fusion for Composed Image Retrieval",
+    "url": "https://arxiv.org/html/2404.15875v1#S4.T2",
+    "doi": "10.1145/3626772.3657727",
+    "table": 2,
+    "random_seeds": 5,
+    "mean_percent": {
+      "shoes_r1": 31.47,
+      "shoes_r10": 69.19,
+      "shoes_r50": 88.52
+    },
+    "std_percent": {
+      "shoes_r1": 1.31,
+      "shoes_r10": 0.99,
+      "shoes_r50": 0.31
+    },
+    "average_mean_percent": 63.06,
+    "average_std_percent": 0.69,
+    "hardware": "single A100-40G",
+    "verification": "Author arXiv manuscript Table 2 and section 4.1.2, checked 2026-10-16"
+  },
+  "rows": [
+    {
+      "name": "DQU-CIR paper",
+      "status": "published_reference",
+      "metrics": {
+        "shoes_r1": 31.47,
+        "shoes_r10": 69.19,
+        "shoes_r50": 88.52
+      },
+      "std": {
+        "shoes_r1": 1.31,
+        "shoes_r10": 0.99,
+        "shoes_r50": 0.31
+      },
+      "random_seeds": 5
+    },
+    {
+      "name": "DQU-CIR local",
+      "status": "completed_baseline",
+      "metrics": {
+        "shoes_r1": 30.948324815445773,
+        "shoes_r10": 68.76774559909143,
+        "shoes_r50": 88.47245883021012
+      },
+      "random_seeds": 1,
+      "epoch": 3,
+      "evidence": "/root/autodl-tmp/results/cirr_shoes_20261015/checkpoints/shoes_dqu_original_seed42_best.json",
+      "delta_vs_paper_pp": {
+        "shoes_r1": -0.5216751845542262,
+        "shoes_r10": -0.4222544009085709,
+        "shoes_r50": -0.047541169789880655
+      }
+    },
+    {
+      "name": "structured_off",
+      "status": "pending",
+      "metrics": null,
+      "random_seeds": 1
+    },
+    {
+      "name": "structured_identity",
+      "status": "pending",
+      "metrics": null,
+      "random_seeds": 1
+    },
+    {
+      "name": "structured_annotated",
+      "status": "pending",
+      "metrics": null,
+      "random_seeds": 1
+    }
+  ],
+  "generation": {
+    "train": {
+      "state": "running",
+      "attempted_queries": 6360,
+      "total_queries": 8990,
+      "valid_queries": 5301,
+      "attempts_complete": false,
+      "updated_utc": "2026-10-16T08:05:05.666437+00:00",
+      "cost": {
+        "calls": 12298,
+        "max_calls": 23000,
+        "max_cny": 15.0,
+        "accounted_upper_cny": 4.520601600000002,
+        "estimated_list_price_cny": 4.502374400000001,
+        "prompt_tokens": 10074360,
+        "completion_tokens": 3109378,
+        "usage_missing_calls": 5,
+        "request_states": {
+          "known": 12292,
+          "metered": 1,
+          "reserved": 4,
+          "unknown": 1
+        },
+        "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+        "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+      }
+    },
+    "val": {
+      "state": "not_started"
+    }
+  },
+  "selection_metric": "R@10 + R@50; Avg is descriptive only",
+  "interpretation": "Paper: five-seed mean/std, A100-40G. Local: seed42, server-reported RTX 4080 SUPER, Torch2.9. Improvement uses the same-environment local baseline; cross-environment differences are descriptive, not significance tests. Extra adapter training budget remains a confound."
+}

@@ -1,0 +1,136 @@
+{
+  "captured_utc": "2026-10-16T08:05:41.473349+00:00",
+  "queue_status": "qwen_train",
+  "stages": [],
+  "processes": [
+    {
+      "pid": 5853,
+      "state": "S",
+      "start_ticks": "135357980",
+      "cwd": "/root/autodl-tmp/experiments/shoes-online-full-20261016",
+      "command": [
+        "python",
+        "-u",
+        "scripts/run_cirr_shoes_benchmark.py",
+        "--dataset",
+        "shoes",
+        "--data-root",
+        "/root/autodl-tmp/data/Shoes",
+        "--output",
+        "/root/autodl-tmp/results/cirr_shoes_20261015",
+        "--clip-checkpoint",
+        "/root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/snapshots/1c2b8495b28150b8a4922ee1c8edee224c284c0c/open_clip_pytorch_model.bin",
+        "--qwen-model",
+        "qwen3.7-flash",
+        "--generation-provider",
+        "online-qwen37",
+        "--structured-directory",
+        "/root/autodl-tmp/results/cirr_shoes_20261015/online_qwen37_v3",
+        "--skip-baseline",
+        "--baseline-log",
+        "/root/autodl-tmp/results/cirr_shoes_20261015/shoes_dqu_original.log",
+        "--generation-limit",
+        "0",
+        "--adapter-epochs",
+        "6",
+        "--online-workers",
+        "8",
+        "--online-rpm",
+        "120",
+        "--online-max-cny",
+        "15",
+        "--online-max-calls",
+        "23000",
+        "--detach"
+      ],
+      "command_sha256": "c5954a938f9b88a3be6368109ec5213ad6d1eacedf32d12de99e5fb325d7b55d"
+    },
+    {
+      "pid": 5854,
+      "state": "S",
+      "start_ticks": "135357980",
+      "cwd": "/root/autodl-tmp/experiments/shoes-online-full-20261016",
+      "command": [
+        "/root/miniconda3/bin/python",
+        "src/generate_shoes_online.py",
+        "--root",
+        "/root/autodl-tmp/data/Shoes",
+        "--split",
+        "train",
+        "--output",
+        "/root/autodl-tmp/results/cirr_shoes_20261015/online_qwen37_v3/structured_shoes_train.json",
+        "--ledger",
+        "/root/autodl-tmp/results/cirr_shoes_20261015/online_qwen37_v3/requests.sqlite3",
+        "--workers",
+        "8",
+        "--rpm",
+        "120.0",
+        "--max-cny",
+        "15.0",
+        "--max-calls",
+        "23000",
+        "--api-key-fd",
+        "5"
+      ],
+      "command_sha256": "52f200fe9299bd7fa7a3f7d767744d7597a7f4862913a448c3a45372be83c282"
+    }
+  ],
+  "train": {
+    "schema_version": 1,
+    "dataset": "shoes",
+    "split": "train",
+    "model": "qwen3.7-flash",
+    "query_sha256": "4924a7f9f4b88ffa0bc189a507cfc86a70c1191331d3f569fd70164cb9334b06",
+    "state": "running",
+    "generation_provider": "qwen37-api",
+    "semantic_validation_method": "same-model reference-only self-check; not human GT",
+    "attempted_queries": 6390,
+    "total_queries": 8990,
+    "remaining_queries": 2600,
+    "attempts_complete": false,
+    "valid_queries": 5326,
+    "cost": {
+      "calls": 12357,
+      "max_calls": 23000,
+      "max_cny": 15.0,
+      "accounted_upper_cny": 4.549723800000001,
+      "estimated_list_price_cny": 4.522895,
+      "prompt_tokens": 10121235,
+      "completion_tokens": 3123310,
+      "usage_missing_calls": 7,
+      "request_states": {
+        "known": 12349,
+        "metered": 1,
+        "reserved": 6,
+        "unknown": 1
+      },
+      "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+      "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+    },
+    "updated_utc": "2026-10-16T08:05:35.771711+00:00"
+  },
+  "val_file_exists": false,
+  "resources": {
+    "gpu": "1, 32760, 0",
+    "gpu_processes": "",
+    "disk_free_gib": 21.560771942138672
+  },
+  "logs": {
+    "queue.log": {
+      "bytes": 89,
+      "mtime_utc": "2026-10-16T04:49:44.169865+00:00"
+    },
+    "qwen_train.log": {
+      "bytes": 392178,
+      "mtime_utc": "2026-10-16T08:05:37.582867+00:00"
+    },
+    "shoes_dqu_original.log": {
+      "bytes": 986243,
+      "mtime_utc": "2026-10-15T15:22:56.984328+00:00"
+    }
+  },
+  "checkpoint_metrics_files": [
+    "shoes_dqu_original_seed42_best.json"
+  ],
+  "fashioniq_status": "complete"
+}
