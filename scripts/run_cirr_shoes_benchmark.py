@@ -1,5 +1,6 @@
 """Sequential original-DQU / structured / multi-positive experiments on one GPU."""
 import argparse
+import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -100,7 +101,10 @@ def main():
         require_space(args.output, args.min_free_gib)
         report["status"] = name
         save()
-        with (args.output/f"{name}.log").open("w", encoding="utf-8") as log:
+        # Recovery appends to previous evidence; never truncate an interrupted log.
+        with (args.output/f"{name}.log").open("a", encoding="utf-8") as log:
+            log.write("\n=== stage launch " + datetime.datetime.now(datetime.timezone.utc).isoformat() + " ===\n")
+            log.flush()
             code = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT).returncode
         report["stages"].append({"stage": name, "returncode": code})
         save()

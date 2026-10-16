@@ -1,0 +1,26 @@
+{
+  "server": "connect.weste.seetacloud.com:42002",
+  "checked_utc": "2026-10-16T04:52:04.972047+00:00",
+  "prior_records": 1096,
+  "current_records": 1105,
+  "new_records_since_recovery": 9,
+  "all_prior_records_unchanged": true,
+  "old_log_prefixes_preserved": true,
+  "generator_and_critic_prompts_unchanged": true,
+  "baseline_retrained": false,
+  "saved_failed_queries_retried": false,
+  "verified_processes": {
+    "queue": 3018,
+    "generation": 3020,
+    "fashioniq_followup": 3019
+  },
+  "queue_status": "qwen_train",
+  "fashioniq_status": "waiting_for_shoes",
+  "free_GiB": 21.668346405029297,
+  "gpu_compute_apps": "3020, 17252",
+  "errors": [],
+  "tests": {
+    "passed": 55,
+    "failed": 0
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "server": "connect.weste.seetacloud.com:42002",
+  "checked_utc": "2026-10-16T04:47:37.474471+00:00",
+  "baseline_checkpoint_sha256": "0f5972dc791caa78b713dcbac60b83e22c51c7d27d3d6b2de88812985cfaaf2a",
+  "baseline_epoch": 3,
+  "baseline_model_tensors": 693,
+  "baseline_metrics": {
+    "shoes_r1": 30.948324815445773,
+    "shoes_r10": 68.76774559909143,
+    "shoes_r50": 88.47245883021012,
+    "shoes_median_rank": 3.0,
+    "shoes_mean_rank": 28.91879613855764,
+    "shoes_text_weight": 0.443101704120636
+  },
+  "data_audit": {
+    "dataset": "shoes",
+    "root": "/root/autodl-tmp/data/Shoes",
+    "train_queries": 8990,
+    "eval_queries": 1761,
+    "train_images": 10000,
+    "eval_images": 4658,
+    "self_target_train_queries": 26,
+    "self_target_eval_queries": 1,
+    "unique_train_targets": 6633,
+    "train_queries_with_reused_target_id": 4616,
+    "missing_images": 0,
+    "missing_examples": [],
+    "ready": true,
+    "test1_loaded": false
+  },
+  "generation_resume": {
+    "attempted_queries": 1096,
+    "total_queries": 8990,
+    "remaining_queries": 7894,
+    "attempts_complete": false,
+    "valid_queries": 598
+  },
+  "prior_counts": {
+    "ok": 598,
+    "failed": 498
+  },
+  "source_changes": [
+    "generate_benchmark_edits.py"
+  ],
+  "backup_path": "/root/autodl-tmp/results/cirr_shoes_20261015/recovery_20261016_new_instance",
+  "code_root": "/root/autodl-tmp/experiments/cirr-shoes-recovery-20261016",
+  "free_GiB": 21.66840362548828,
+  "tests": {
+    "passed": 55,
+    "failed": 0
+  },
+  "protocol": "Same model, prompts, budgets and training configs; resume only unattempted queries; append logs"
+}

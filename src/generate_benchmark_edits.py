@@ -55,6 +55,29 @@ def response(reference, text, processor, model, device, max_tokens):
     return processor.batch_decode(ids[:, inputs.input_ids.shape[1]:], skip_special_tokens=True)[0]
 
 
+def resume_samples(rows, samples):
+    """Preserve all completed attempts, including rejections, after interruption."""
+    expected = {row["source_index"]: row for row in rows}
+    stored = {}
+    for sample in samples:
+        idx = sample["query_index"]
+        if idx in stored or idx not in expected or sample.get("source_index") != idx:
+            raise ValueError("Duplicate or unknown saved query index")
+        if sample.get("status") not in {"ok", "failed"}:
+            raise ValueError("Unknown saved attempt status")
+        if any(sample.get(k) != expected[idx][k] for k in ("candidate", "target", "modification_text")):
+            raise ValueError("Saved attempt does not match query metadata")
+        stored[idx] = sample
+    return stored
+
+
+def attempt_progress(rows, stored):
+    return {"attempted_queries": len(stored), "total_queries": len(rows),
+            "remaining_queries": len(rows) - len(stored),
+            "attempts_complete": len(stored) == len(rows),
+            "valid_queries": sum(x["status"] == "ok" for x in stored.values())}
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--dataset", choices=("cirr", "shoes"), required=True)
@@ -85,6 +108,13 @@ def main():
         return
     if not meta.audit()["ready"]:
         raise FileNotFoundError("Dataset image audit failed; no generation started")
+    stored = resume_samples(rows, result["samples"])
+    result.update(attempt_progress(rows, stored))
+    print(json.dumps({"resume": attempt_progress(rows, stored),
+                      "policy": "one completed attempt per query; saved failures are not retried"}), flush=True)
+    if len(stored) == len(rows):
+        atomic_write_json(args.output, result)
+        return
     require_space(args.output.parent)
     try:
         processor, model, device = load_qwen(args)
@@ -92,11 +122,10 @@ def main():
         result.update(state="model_unavailable", error=f"{type(e).__name__}: {e}")
         atomic_write_json(args.output, result)
         raise
-    stored = {sample["query_index"]: sample for sample in result["samples"]}
     attempted = 0
     for row in rows:
         idx = row["source_index"]
-        if stored.get(idx, {}).get("status") == "ok":
+        if idx in stored:
             continue
         if args.limit and attempted >= args.limit:
             break
@@ -127,9 +156,11 @@ def main():
         stored[idx] = sample
         attempted += 1
         result.update(samples=[stored[k] for k in sorted(stored)], state="partial")
+        result.update(attempt_progress(rows, stored))
         atomic_write_json(args.output, result)
         print(json.dumps({"query_index": idx, "status": sample["status"]}), flush=True)
     result["state"] = "complete" if len(stored) == len(rows) and all(x["status"] == "ok" for x in stored.values()) else "partial"
+    result.update(attempt_progress(rows, stored))
     atomic_write_json(args.output, result)
 
 
