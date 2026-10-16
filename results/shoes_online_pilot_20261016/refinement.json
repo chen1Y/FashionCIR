@@ -1,0 +1,1119 @@
+{
+  "state": "complete",
+  "dataset": "shoes",
+  "split": "train",
+  "query_sha256": "4924a7f9f4b88ffa0bc189a507cfc86a70c1191331d3f569fd70164cb9334b06",
+  "parent_sha256": "cc4824b09923d53dde5d8fb71790969f867d3b4f3529973828539c113603de68",
+  "parent_cost": {
+    "calls": 96,
+    "max_calls": 128,
+    "max_cny": 0.5,
+    "conservative_reserved_cny": 0.3538943999999996,
+    "estimated_list_price_cny": 0.03168760000000002,
+    "prompt_tokens": 46330,
+    "completion_tokens": 28027,
+    "usage_missing_calls": 0,
+    "input_cny_per_million": 0.2,
+    "output_cny_per_million": 0.8,
+    "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+    "price_as_of": "2026-10-16",
+    "note": "Beijing <=32k list-price estimate; no discounts assumed, not an invoice"
+  },
+  "selection": "Eight post-hoc diagnostic cases, not independent validation",
+  "created_utc": "2026-10-16T05:46:48.019350+00:00",
+  "samples": [
+    {
+      "candidate": "img_womens_clogs_840.jpg",
+      "target": "img_womens_clogs_36.jpg",
+      "modification_text": "has an open section above the sole",
+      "source_index": 58,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "black color",
+            "category": "color",
+            "region": "sole and upper",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "platform wedge shape",
+            "category": "shape",
+            "region": "sole",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "ankle strap with buckle",
+            "category": "part",
+            "region": "upper",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "closed toe",
+            "category": "style",
+            "region": "front",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "solid sole construction above footbed",
+            "category": "part",
+            "region": "under foot",
+            "evidence": "reference_image"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "open section above the sole",
+            "category": "part",
+            "region": "under foot",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [],
+        "target_description": "A black platform wedge sandal featuring an open cutout or gap in the sole structure directly beneath the footbed, retaining the ankle strap and closed toe.",
+        "complexity": {
+          "level": "simple",
+          "score": 0.9,
+          "reason": "The instruction requests a specific structural modification (adding an open section) to a clearly defined reference object."
+        },
+        "confidence": {
+          "score": 0.9,
+          "ambiguities": [
+            "Exact size and shape of the new open section are not specified"
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n\"retain\": [\n{\"attribute\": \"black color\", \"category\": \"color\", \"region\": \"sole and upper\", \"evidence\": \"reference_image\"},\n{\"attribute\": \"platform wedge shape\", \"category\": \"shape\", \"region\": \"sole\", \"evidence\": \"reference_image\"},\n{\"attribute\": \"ankle strap with buckle\", \"category\": \"part\", \"region\": \"upper\", \"evidence\": \"reference_image\"},\n{\"attribute\": \"closed toe\", \"category\": \"style\", \"region\": \"front\", \"evidence\": \"reference_image\"}\n],\n\"remove\": [\n{\"attribute\": \"solid sole construction above footbed\", \"category\": \"part\", \"region\": \"under foot\", \"evidence\": \"reference_image\"}\n],\n\"add\": [\n{\"attribute\": \"open section above the sole\", \"category\": \"part\", \"region\": \"under foot\", \"evidence\": \"modification_text\"}\n],\n\"relations\": [],\n\"target_description\": \"A black platform wedge sandal featuring an open cutout or gap in the sole structure directly beneath the footbed, retaining the ankle strap and closed toe.\",\n\"complexity\": {\"level\": \"simple\", \"score\": 0.9, \"reason\": \"The instruction requests a specific structural modification (adding an open section) to a clearly defined reference object.\"},\n\"confidence\": {\"score\": 0.9, \"ambiguities\": [\"Exact size and shape of the new open section are not specified\"]}\n}",
+        "usage": {
+          "prompt_tokens": 763,
+          "total_tokens": 1088,
+          "completion_tokens": 325,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 680
+          },
+          "completion_tokens_details": {
+            "text_tokens": 325
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-c47ee1ef-212d-9c75-a4e9-14b98f2e293d",
+        "finish_reason": "stop",
+        "seconds": 6.521458056988195
+      },
+      "status": "ok",
+      "query_index": 58,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The edit correctly interprets the instruction 'has an open section above the sole' as a structural modification to the reference shoe's solid platform.\",\n\"The 'remove' action targets the 'solid sole construction above footbed', which is the necessary prerequisite for creating the requested 'open section'.\",\n\"The 'add' action explicitly introduces the 'open section above the sole', directly satisfying the positive constraint of the instruction.\",\n\"Retained attributes (black color, wedge shape, ankle strap, closed toe) are consistent with the reference and do not contradict the new structural feature.\",\n\"The target description accurately reflects the combination of retained features and the specific modification requested.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 676,
+          "total_tokens": 827,
+          "completion_tokens": 151,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 593
+          },
+          "completion_tokens_details": {
+            "text_tokens": 151
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-deabe07f-f254-9e41-92dc-99e2db86eab0",
+        "finish_reason": "stop",
+        "seconds": 1.6506809021811932
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The edit correctly interprets the instruction 'has an open section above the sole' as a structural modification to the reference shoe's solid platform.",
+            "The 'remove' action targets the 'solid sole construction above footbed', which is the necessary prerequisite for creating the requested 'open section'.",
+            "The 'add' action explicitly introduces the 'open section above the sole', directly satisfying the positive constraint of the instruction.",
+            "Retained attributes (black color, wedge shape, ankle strap, closed toe) are consistent with the reference and do not contradict the new structural feature.",
+            "The target description accurately reflects the combination of retained features and the specific modification requested."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_athletic_shoes_57.jpg",
+      "target": "img_womens_athletic_shoes_130.jpg",
+      "modification_text": "is teal and grey",
+      "source_index": 71,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "Mary Jane style with strap",
+            "category": "style",
+            "region": "whole shoe",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "Mesh toe box and side panels",
+            "category": "material",
+            "region": "toe and sides",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "White sole",
+            "category": "color",
+            "region": "sole",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "Purple color",
+            "category": "color",
+            "region": "upper",
+            "evidence": "reference_image"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "Teal color",
+            "category": "color",
+            "region": "upper",
+            "evidence": "modification_text"
+          },
+          {
+            "attribute": "Grey color",
+            "category": "color",
+            "region": "upper",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [],
+        "target_description": "A Mary Jane style shoe featuring teal and grey coloring on the upper, mesh toe box and side panels, and a white sole.",
+        "complexity": {
+          "level": "simple",
+          "score": 0.9,
+          "reason": "The request is a direct color swap of the upper from purple to teal and grey."
+        },
+        "confidence": {
+          "score": 0.8,
+          "ambiguities": [
+            "Specific allocation of teal and grey (e.g., which part is which) is not specified"
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n  \"retain\": [\n    {\n      \"attribute\": \"Mary Jane style with strap\",\n      \"category\": \"style\",\n      \"region\": \"whole shoe\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"Mesh toe box and side panels\",\n      \"category\": \"material\",\n      \"region\": \"toe and sides\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"White sole\",\n      \"category\": \"color\",\n      \"region\": \"sole\",\n      \"evidence\": \"reference_image\"\n    }\n  ],\n  \"remove\": [\n    {\n      \"attribute\": \"Purple color\",\n      \"category\": \"color\",\n      \"region\": \"upper\",\n      \"evidence\": \"reference_image\"\n    }\n  ],\n  \"add\": [\n    {\n      \"attribute\": \"Teal color\",\n      \"category\": \"color\",\n      \"region\": \"upper\",\n      \"evidence\": \"modification_text\"\n    },\n    {\n      \"attribute\": \"Grey color\",\n      \"category\": \"color\",\n      \"region\": \"upper\",\n      \"evidence\": \"modification_text\"\n    }\n  ],\n  \"relations\": [],\n  \"target_description\": \"A Mary Jane style shoe featuring teal and grey coloring on the upper, mesh toe box and side panels, and a white sole.\",\n  \"complexity\": {\n    \"level\": \"simple\",\n    \"score\": 0.9,\n    \"reason\": \"The request is a direct color swap of the upper from purple to teal and grey.\"\n  },\n  \"confidence\": {\n    \"score\": 0.8,\n    \"ambiguities\": [\n      \"Specific allocation of teal and grey (e.g., which part is which) is not specified\"\n    ]\n  }\n}",
+        "usage": {
+          "prompt_tokens": 760,
+          "total_tokens": 1191,
+          "completion_tokens": 431,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 677
+          },
+          "completion_tokens_details": {
+            "text_tokens": 431
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-dc78f796-b150-9b62-b4ff-b679ff3464bc",
+        "finish_reason": "stop",
+        "seconds": 4.079276162898168
+      },
+      "status": "ok",
+      "query_index": 71,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The edit correctly identifies the instruction to change the color from purple to teal and grey.\",\n\"The plan to remove the 'Purple color' and add 'Teal color' and 'Grey color' aligns with the instruction 'is teal and grey'.\",\n\"Properties that remain unchanged (Mary Jane style, mesh panels, white sole) are correctly retained as they are not contradicted by the instruction.\",\n\"The ambiguity regarding the specific allocation of teal and grey (e.g., which part is which) is appropriately noted in the confidence section rather than being invented.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 668,
+          "total_tokens": 800,
+          "completion_tokens": 132,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 585
+          },
+          "completion_tokens_details": {
+            "text_tokens": 132
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-d895564a-5d5a-9585-80bd-a7820c05119d",
+        "finish_reason": "stop",
+        "seconds": 5.571824354119599
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The edit correctly identifies the instruction to change the color from purple to teal and grey.",
+            "The plan to remove the 'Purple color' and add 'Teal color' and 'Grey color' aligns with the instruction 'is teal and grey'.",
+            "Properties that remain unchanged (Mary Jane style, mesh panels, white sole) are correctly retained as they are not contradicted by the instruction.",
+            "The ambiguity regarding the specific allocation of teal and grey (e.g., which part is which) is appropriately noted in the confidence section rather than being invented."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_stiletto_1489.jpg",
+      "target": "img_womens_stiletto_1173.jpg",
+      "modification_text": "are black and red",
+      "source_index": 236,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "slingback style with T-strap",
+            "category": "style",
+            "region": "entire shoe",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "pointed toe shape",
+            "category": "shape",
+            "region": "toe area",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "high stiletto heel",
+            "category": "shape",
+            "region": "heel area",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "beige lace side panel",
+            "category": "material",
+            "region": "side upper",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "brown color",
+            "category": "color",
+            "region": "entire shoe",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "beige color",
+            "category": "color",
+            "region": "entire shoe",
+            "evidence": "reference_image"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "black and red coloring",
+            "category": "color",
+            "region": "entire shoe",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [],
+        "target_description": "A black and red pointed-toe slingback pump with a T-strap, featuring a high stiletto heel and a beige lace side panel.",
+        "complexity": {
+          "level": "simple",
+          "score": 0.1,
+          "reason": "The request is a simple color swap to 'black and red' without specifying distribution or pattern."
+        },
+        "confidence": {
+          "score": 0.6,
+          "ambiguities": [
+            "The instruction 'black and red' does not specify which parts are black vs. red, or if they are mixed/striped."
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n  \"retain\": [\n    {\n      \"attribute\": \"slingback style with T-strap\",\n      \"category\": \"style\",\n      \"region\": \"entire shoe\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"pointed toe shape\",\n      \"category\": \"shape\",\n      \"region\": \"toe area\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"high stiletto heel\",\n      \"category\": \"shape\",\n      \"region\": \"heel area\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"beige lace side panel\",\n      \"category\": \"material\",\n      \"region\": \"side upper\",\n      \"evidence\": \"reference_image\"\n    }\n  ],\n  \"remove\": [\n    {\n      \"attribute\": \"brown color\",\n      \"category\": \"color\",\n      \"region\": \"entire shoe\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"beige color\",\n      \"category\": \"color\",\n      \"region\": \"entire shoe\",\n      \"evidence\": \"reference_image\"\n    }\n  ],\n  \"add\": [\n    {\n      \"attribute\": \"black and red coloring\",\n      \"category\": \"color\",\n      \"region\": \"entire shoe\",\n      \"evidence\": \"modification_text\"\n    }\n  ],\n  \"relations\": [],\n  \"target_description\": \"A black and red pointed-toe slingback pump with a T-strap, featuring a high stiletto heel and a beige lace side panel.\",\n  \"complexity\": {\n    \"level\": \"simple\",\n    \"score\": 0.1,\n    \"reason\": \"The request is a simple color swap to 'black and red' without specifying distribution or pattern.\"\n  },\n  \"confidence\": {\n    \"score\": 0.6,\n    \"ambiguities\": [\n      \"The instruction 'black and red' does not specify which parts are black vs. red, or if they are mixed/striped.\"\n    ]\n  }\n}",
+        "usage": {
+          "prompt_tokens": 760,
+          "total_tokens": 1263,
+          "completion_tokens": 503,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 677
+          },
+          "completion_tokens_details": {
+            "text_tokens": 503
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-ef0957e3-eb4f-97fc-b46b-ac1255fa1aff",
+        "finish_reason": "stop",
+        "seconds": 4.631252554943785
+      },
+      "status": "ok",
+      "query_index": 236,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The edit correctly identifies the instruction 'are black and red' as a color modification and proposes to remove the existing brown/beige colors while adding the new color attribute.\",\n\"The retention of structural elements (slingback T-strap, pointed toe, stiletto heel) is consistent with the instruction which only specifies color changes.\",\n\"The target description accurately reflects the proposed edit: a shoe retaining the reference structure but colored in 'black and red'.\",\n\"The ambiguity score correctly notes that the instruction does not specify the distribution of black vs. red (e.g., stripes, blocks, or mixed), preventing the invention of a specific pattern.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 726,
+          "total_tokens": 875,
+          "completion_tokens": 149,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 643
+          },
+          "completion_tokens_details": {
+            "text_tokens": 149
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-c01ff2ee-706f-9c4e-aa29-cc1d71737211",
+        "finish_reason": "stop",
+        "seconds": 2.1721498710103333
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The edit correctly identifies the instruction 'are black and red' as a color modification and proposes to remove the existing brown/beige colors while adding the new color attribute.",
+            "The retention of structural elements (slingback T-strap, pointed toe, stiletto heel) is consistent with the instruction which only specifies color changes.",
+            "The target description accurately reflects the proposed edit: a shoe retaining the reference structure but colored in 'black and red'.",
+            "The ambiguity score correctly notes that the instruction does not specify the distribution of black vs. red (e.g., stripes, blocks, or mixed), preventing the invention of a specific pattern."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_sneakers_485.jpg",
+      "target": "img_womens_sneakers_804.jpg",
+      "modification_text": "are solid red",
+      "source_index": 484,
+      "structured_edit": {
+        "target_description": "A high-top sneaker with a solid red upper, pink accents on the sole and strap, and a brown outsole with a white spiral logo.",
+        "retain": [
+          {
+            "attribute": "high-top silhouette",
+            "category": "shape",
+            "region": "overall",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "mesh texture on toe box",
+            "category": "material",
+            "region": "toe area",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "brown outsole with white spiral logo",
+            "category": "pattern",
+            "region": "outsole",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "pink sole edge and strap",
+            "category": "color",
+            "region": "sole and ankle",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "white color on upper",
+            "category": "color",
+            "region": "upper",
+            "evidence": "modification_text"
+          },
+          {
+            "attribute": "green accent patch",
+            "category": "color",
+            "region": "side panel",
+            "evidence": "modification_text"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "solid red color on upper",
+            "category": "color",
+            "region": "upper",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [],
+        "complexity": {
+          "level": "simple",
+          "score": 0.1,
+          "reason": "The instruction is a direct color replacement of the upper to solid red, which is a simple attribute change."
+        },
+        "confidence": {
+          "score": 0.9,
+          "ambiguities": []
+        }
+      },
+      "generation": {
+        "text": "{\n\"target_description\": \"A high-top sneaker with a solid red upper, pink accents on the sole and strap, and a brown outsole with a white spiral logo.\",\n\"retain\": [\n{\"attribute\": \"high-top silhouette\", \"category\": \"shape\", \"region\": \"overall\", \"evidence\": \"reference_image\"},\n{\"attribute\": \"mesh texture on toe box\", \"category\": \"material\", \"region\": \"toe area\", \"evidence\": \"reference_image\"},\n{\"attribute\": \"brown outsole with white spiral logo\", \"category\": \"pattern\", \"region\": \"outsole\", \"evidence\": \"reference_image\"},\n{\"attribute\": \"pink sole edge and strap\", \"category\": \"color\", \"region\": \"sole and ankle\", \"evidence\": \"reference_image\"}\n],\n\"remove\": [\n{\"attribute\": \"white color on upper\", \"category\": \"color\", \"region\": \"upper\", \"evidence\": \"modification_text\"},\n{\"attribute\": \"green accent patch\", \"category\": \"color\", \"region\": \"side panel\", \"evidence\": \"modification_text\"}\n],\n\"add\": [\n{\"attribute\": \"solid red color on upper\", \"category\": \"color\", \"region\": \"upper\", \"evidence\": \"modification_text\"}\n],\n\"relations\": [],\n\"complexity\": {\n\"level\": \"simple\",\n\"score\": 0.1,\n\"reason\": \"The instruction is a direct color replacement of the upper to solid red, which is a simple attribute change.\"\n},\n\"confidence\": {\n\"score\": 0.9,\n\"ambiguities\": []\n}\n}",
+        "usage": {
+          "prompt_tokens": 759,
+          "total_tokens": 1118,
+          "completion_tokens": 359,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 676
+          },
+          "completion_tokens_details": {
+            "text_tokens": 359
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-9d7c9d29-5201-9c26-b6de-be8c9a167a45",
+        "finish_reason": "stop",
+        "seconds": 3.825237977085635
+      },
+      "status": "ok",
+      "query_index": 484,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The target description correctly implements the instruction 'are solid red' by specifying a 'solid red upper'.\",\n\"The plan properly identifies and removes the existing white color on the upper and the green accent patch to satisfy the 'solid' constraint.\",\n\"Retained properties (mesh texture, brown outsole with spiral logo, pink sole/strap) are consistent with the reference image and do not conflict with the new solid red upper.\",\n\"The edit accurately reflects a color replacement without inventing new structural changes or misinterpreting the direction of the modification.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 695,
+          "total_tokens": 824,
+          "completion_tokens": 129,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 612
+          },
+          "completion_tokens_details": {
+            "text_tokens": 129
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-99db71e5-3072-9471-aa2c-c28185ce3955",
+        "finish_reason": "stop",
+        "seconds": 1.5514199719764292
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The target description correctly implements the instruction 'are solid red' by specifying a 'solid red upper'.",
+            "The plan properly identifies and removes the existing white color on the upper and the green accent patch to satisfy the 'solid' constraint.",
+            "Retained properties (mesh texture, brown outsole with spiral logo, pink sole/strap) are consistent with the reference image and do not conflict with the new solid red upper.",
+            "The edit accurately reflects a color replacement without inventing new structural changes or misinterpreting the direction of the modification."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_flats_685.jpg",
+      "target": "img_womens_flats_57.jpg",
+      "modification_text": "have straps",
+      "source_index": 527,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "loafer silhouette",
+            "category": "style",
+            "region": "whole shoe",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "closed toe",
+            "category": "shape",
+            "region": "toe area",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "flat sole",
+            "category": "part",
+            "region": "bottom",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "strapless design",
+            "category": "style",
+            "region": "upper",
+            "evidence": "reference_image"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "straps",
+            "category": "part",
+            "region": "upper",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [],
+        "target_description": "A flat loafer-style shoe featuring straps on the upper, maintaining the original closed-toe shape and sole structure.",
+        "complexity": {
+          "level": "simple",
+          "score": 0.9,
+          "reason": "The instruction simply adds a structural element (straps) to a shoe that currently has none."
+        },
+        "confidence": {
+          "score": 0.8,
+          "ambiguities": [
+            "Specific style, number, and placement of straps are not specified"
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n\"retain\": [\n{\n\"attribute\": \"loafer silhouette\",\n\"category\": \"style\",\n\"region\": \"whole shoe\",\n\"evidence\": \"reference_image\"\n},\n{\n\"attribute\": \"closed toe\",\n\"category\": \"shape\",\n\"region\": \"toe area\",\n\"evidence\": \"reference_image\"\n},\n{\n\"attribute\": \"flat sole\",\n\"category\": \"part\",\n\"region\": \"bottom\",\n\"evidence\": \"reference_image\"\n}\n],\n\"remove\": [\n{\n\"attribute\": \"strapless design\",\n\"category\": \"style\",\n\"region\": \"upper\",\n\"evidence\": \"reference_image\"\n}\n],\n\"add\": [\n{\n\"attribute\": \"straps\",\n\"category\": \"part\",\n\"region\": \"upper\",\n\"evidence\": \"modification_text\"\n}\n],\n\"relations\": [],\n\"target_description\": \"A flat loafer-style shoe featuring straps on the upper, maintaining the original closed-toe shape and sole structure.\",\n\"complexity\": {\n\"level\": \"simple\",\n\"score\": 0.9,\n\"reason\": \"The instruction simply adds a structural element (straps) to a shoe that currently has none.\"\n},\n\"confidence\": {\n\"score\": 0.8,\n\"ambiguities\": [\n\"Specific style, number, and placement of straps are not specified\"\n]\n}\n}",
+        "usage": {
+          "prompt_tokens": 758,
+          "total_tokens": 1086,
+          "completion_tokens": 328,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 675
+          },
+          "completion_tokens_details": {
+            "text_tokens": 328
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-7345e782-1c04-9e4d-8cd0-f8f2b40cc447",
+        "finish_reason": "stop",
+        "seconds": 4.336019215872511
+      },
+      "status": "ok",
+      "query_index": 527,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The instruction 'have straps' is correctly interpreted as an addition to the reference shoe, which is a strapless loafer.\",\n\"The plan retains the core silhouette (loafer), shape (closed toe), and sole (flat), which are valid properties to preserve.\",\n\"The removal of 'strapless design' and addition of 'straps' directly addresses the instruction to change the shoe from having no straps to having straps.\",\n\"The target description accurately reflects the intended modification: a flat loafer with added straps.\",\n\"The ambiguity regarding the specific style/number of straps is appropriately noted, as the instruction is generic.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 626,
+          "total_tokens": 770,
+          "completion_tokens": 144,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 543
+          },
+          "completion_tokens_details": {
+            "text_tokens": 144
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-8c9f4a3d-ae55-9c0b-a545-33d8f289f315",
+        "finish_reason": "stop",
+        "seconds": 1.8290852361824363
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The instruction 'have straps' is correctly interpreted as an addition to the reference shoe, which is a strapless loafer.",
+            "The plan retains the core silhouette (loafer), shape (closed toe), and sole (flat), which are valid properties to preserve.",
+            "The removal of 'strapless design' and addition of 'straps' directly addresses the instruction to change the shoe from having no straps to having straps.",
+            "The target description accurately reflects the intended modification: a flat loafer with added straps.",
+            "The ambiguity regarding the specific style/number of straps is appropriately noted, as the instruction is generic."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_boots_753.jpg",
+      "target": "img_womens_boots_99.jpg",
+      "modification_text": "have pink in them",
+      "source_index": 615,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "cowboy boot shape",
+            "category": "shape",
+            "region": "whole shoe",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "red color on lower section",
+            "category": "color",
+            "region": "lower upper/foot",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "cream color on upper shaft",
+            "category": "color",
+            "region": "upper shaft",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "embroidery pattern style",
+            "category": "pattern",
+            "region": "upper shaft",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [],
+        "add": [
+          {
+            "attribute": "pink color presence",
+            "category": "color",
+            "region": "shoe",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [],
+        "target_description": "A cowboy boot retaining its red foot and cream shaft structure, but incorporating pink color elements into the design.",
+        "complexity": {
+          "level": "simple",
+          "score": 0.1,
+          "reason": "The instruction is a general request to add a color without specifying location or method."
+        },
+        "confidence": {
+          "score": 0.5,
+          "ambiguities": [
+            "It is unclear where exactly the pink should be added (e.g., replacing red, replacing cream, or new embroidery)",
+            "The specific shade of pink is not defined"
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n\"retain\": [\n  {\n    \"attribute\": \"cowboy boot shape\",\n    \"category\": \"shape\",\n    \"region\": \"whole shoe\",\n    \"evidence\": \"reference_image\"\n  },\n  {\n    \"attribute\": \"red color on lower section\",\n    \"category\": \"color\",\n    \"region\": \"lower upper/foot\",\n    \"evidence\": \"reference_image\"\n  },\n  {\n    \"attribute\": \"cream color on upper shaft\",\n    \"category\": \"color\",\n    \"region\": \"upper shaft\",\n    \"evidence\": \"reference_image\"\n  },\n  {\n    \"attribute\": \"embroidery pattern style\",\n    \"category\": \"pattern\",\n    \"region\": \"upper shaft\",\n    \"evidence\": \"reference_image\"\n  }\n],\n\"remove\": [],\n\"add\": [\n  {\n    \"attribute\": \"pink color presence\",\n    \"category\": \"color\",\n    \"region\": \"shoe\",\n    \"evidence\": \"modification_text\"\n  }\n],\n\"relations\": [],\n\"target_description\": \"A cowboy boot retaining its red foot and cream shaft structure, but incorporating pink color elements into the design.\",\n\"complexity\": {\n  \"level\": \"simple\",\n  \"score\": 0.1,\n  \"reason\": \"The instruction is a general request to add a color without specifying location or method.\"\n},\n\"confidence\": {\n  \"score\": 0.5,\n  \"ambiguities\": [\n    \"It is unclear where exactly the pink should be added (e.g., replacing red, replacing cream, or new embroidery)\",\n    \"The specific shade of pink is not defined\"\n  ]\n}\n}",
+        "usage": {
+          "prompt_tokens": 760,
+          "total_tokens": 1154,
+          "completion_tokens": 394,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 677
+          },
+          "completion_tokens_details": {
+            "text_tokens": 394
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-47f26aaf-fbbd-9613-b78f-286eae010b9b",
+        "finish_reason": "stop",
+        "seconds": 4.321610810002312
+      },
+      "status": "ok",
+      "query_index": 615,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The edit correctly identifies the instruction 'have pink in them' as an additive constraint.\",\n\"The program retains the existing red and cream colors, which is valid as the instruction does not explicitly forbid them, though it creates a potential conflict if 'pink' implies replacing the current non-pink tones.\",\n\"The program adds 'pink color presence' without specifying location, which aligns with the vague instruction.\",\n\"The target description accurately reflects the retention of the base structure (red foot, cream shaft) while acknowledging the addition of pink elements.\",\n\"The confidence score and ambiguities are appropriate given the lack of specific direction on where to place the pink.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 657,
+          "total_tokens": 805,
+          "completion_tokens": 148,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 574
+          },
+          "completion_tokens_details": {
+            "text_tokens": 148
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-73cc23f5-e847-9b88-8f5b-28f5c9245b8b",
+        "finish_reason": "stop",
+        "seconds": 2.1926429090090096
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The edit correctly identifies the instruction 'have pink in them' as an additive constraint.",
+            "The program retains the existing red and cream colors, which is valid as the instruction does not explicitly forbid them, though it creates a potential conflict if 'pink' implies replacing the current non-pink tones.",
+            "The program adds 'pink color presence' without specifying location, which aligns with the vague instruction.",
+            "The target description accurately reflects the retention of the base structure (red foot, cream shaft) while acknowledging the addition of pink elements.",
+            "The confidence score and ambiguities are appropriate given the lack of specific direction on where to place the pink."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_athletic_shoes_454.jpg",
+      "target": "img_womens_athletic_shoes_1422.jpg",
+      "modification_text": "is black with silver accents",
+      "source_index": 1097,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "shoe structure and design",
+            "category": "shape",
+            "region": "whole shoe",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "transparent heel unit",
+            "category": "part",
+            "region": "heel",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "white mesh upper",
+            "category": "color",
+            "region": "upper",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "light blue accents",
+            "category": "color",
+            "region": "side and laces",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "silver details",
+            "category": "color",
+            "region": "midsole and toe",
+            "evidence": "reference_image"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "black base color",
+            "category": "color",
+            "region": "upper",
+            "evidence": "modification_text"
+          },
+          {
+            "attribute": "silver accents",
+            "category": "color",
+            "region": "accents",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "upper",
+            "relation": "changed from",
+            "object": "white to black"
+          },
+          {
+            "subject": "accents",
+            "relation": "changed from",
+            "object": "blue to silver"
+          }
+        ],
+        "target_description": "A running shoe with a black upper and silver accents, maintaining the original structural design and transparent heel unit.",
+        "complexity": {
+          "level": "simple",
+          "score": 0.9,
+          "reason": "The request is a direct color swap of the existing palette."
+        },
+        "confidence": {
+          "score": 0.95,
+          "ambiguities": [
+            "Exact distribution of black vs silver not specified (e.g., is the sole black or just the upper?)"
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n  \"retain\": [\n    {\n      \"attribute\": \"shoe structure and design\",\n      \"category\": \"shape\",\n      \"region\": \"whole shoe\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"transparent heel unit\",\n      \"category\": \"part\",\n      \"region\": \"heel\",\n      \"evidence\": \"reference_image\"\n    }\n  ],\n  \"remove\": [\n    {\n      \"attribute\": \"white mesh upper\",\n      \"category\": \"color\",\n      \"region\": \"upper\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"light blue accents\",\n      \"category\": \"color\",\n      \"region\": \"side and laces\",\n      \"evidence\": \"reference_image\"\n    },\n    {\n      \"attribute\": \"silver details\",\n      \"category\": \"color\",\n      \"region\": \"midsole and toe\",\n      \"evidence\": \"reference_image\"\n    }\n  ],\n  \"add\": [\n    {\n      \"attribute\": \"black base color\",\n      \"category\": \"color\",\n      \"region\": \"upper\",\n      \"evidence\": \"modification_text\"\n    },\n    {\n      \"attribute\": \"silver accents\",\n      \"category\": \"color\",\n      \"region\": \"accents\",\n      \"evidence\": \"modification_text\"\n    }\n  ],\n  \"relations\": [\n    {\n      \"subject\": \"upper\",\n      \"relation\": \"changed from\",\n      \"object\": \"white to black\"\n    },\n    {\n      \"subject\": \"accents\",\n      \"relation\": \"changed from\",\n      \"object\": \"blue to silver\"\n    }\n  ],\n  \"target_description\": \"A running shoe with a black upper and silver accents, maintaining the original structural design and transparent heel unit.\",\n  \"complexity\": {\n    \"level\": \"simple\",\n    \"score\": 0.9,\n    \"reason\": \"The request is a direct color swap of the existing palette.\"\n  },\n  \"confidence\": {\n    \"score\": 0.95,\n    \"ambiguities\": [\n      \"Exact distribution of black vs silver not specified (e.g., is the sole black or just the upper?)\"\n    ]\n  }\n}",
+        "usage": {
+          "prompt_tokens": 761,
+          "total_tokens": 1300,
+          "completion_tokens": 539,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 678
+          },
+          "completion_tokens_details": {
+            "text_tokens": 539
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-cbc37133-e4a7-9b63-9f8e-ddfbad39aa6d",
+        "finish_reason": "stop",
+        "seconds": 6.55984270083718
+      },
+      "status": "ok",
+      "query_index": 1097,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The edit correctly implements the instruction 'is black with silver accents' by removing the reference's white mesh and light blue accents.\",\n\"The plan to retain the 'transparent heel unit' is valid; while the reference heel is blue, retaining the structural component (the unit itself) aligns with the instruction which only specifies color for the upper/accents generally, allowing the heel to remain as a structural feature or be implicitly recolored as part of the 'accents' change.\",\n\"The target description accurately summarizes the intended modification: a black upper with silver accents on the original structure.\",\n\"The ambiguity regarding the sole color is noted but does not invalidate the core instruction of changing the upper to black with silver accents.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 736,
+          "total_tokens": 898,
+          "completion_tokens": 162,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 653
+          },
+          "completion_tokens_details": {
+            "text_tokens": 162
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-a7c1078a-09b1-9d73-8e3d-1033aa1b5de9",
+        "finish_reason": "stop",
+        "seconds": 2.162156803999096
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The edit correctly implements the instruction 'is black with silver accents' by removing the reference's white mesh and light blue accents.",
+            "The plan to retain the 'transparent heel unit' is valid; while the reference heel is blue, retaining the structural component (the unit itself) aligns with the instruction which only specifies color for the upper/accents generally, allowing the heel to remain as a structural feature or be implicitly recolored as part of the 'accents' change.",
+            "The target description accurately summarizes the intended modification: a black upper with silver accents on the original structure.",
+            "The ambiguity regarding the sole color is noted but does not invalidate the core instruction of changing the upper to black with silver accents."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    },
+    {
+      "candidate": "img_womens_stiletto_410.jpg",
+      "target": "img_womens_stiletto_653.jpg",
+      "modification_text": "is a black closed toe stiletto",
+      "source_index": 1377,
+      "structured_edit": {
+        "retain": [
+          {
+            "attribute": "black color",
+            "category": "color",
+            "region": "upper and straps",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "ankle strap with buckle",
+            "category": "part",
+            "region": "heel area",
+            "evidence": "reference_image"
+          }
+        ],
+        "remove": [
+          {
+            "attribute": "open toe",
+            "category": "shape",
+            "region": "front",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "rhinestone embellishment on strap",
+            "category": "pattern",
+            "region": "forefoot strap",
+            "evidence": "reference_image"
+          },
+          {
+            "attribute": "clear acrylic heel",
+            "category": "material",
+            "region": "heel",
+            "evidence": "reference_image"
+          }
+        ],
+        "add": [
+          {
+            "attribute": "closed toe",
+            "category": "shape",
+            "region": "front",
+            "evidence": "modification_text"
+          },
+          {
+            "attribute": "stiletto heel",
+            "category": "style",
+            "region": "heel",
+            "evidence": "modification_text"
+          }
+        ],
+        "relations": [
+          {
+            "subject": "shoe",
+            "relation": "modified to have",
+            "object": "closed toe"
+          },
+          {
+            "subject": "shoe",
+            "relation": "modified to have",
+            "object": "stiletto heel"
+          }
+        ],
+        "target_description": "A black closed-toe stiletto sandal featuring an ankle strap with a buckle, retaining the original upper structure but with the toe area covered and the heel replaced by a thin stiletto style.",
+        "complexity": {
+          "level": "moderate",
+          "score": 0.6,
+          "reason": "Requires changing fundamental structural components (toe coverage and heel type) while keeping specific details like the ankle strap."
+        },
+        "confidence": {
+          "score": 0.8,
+          "ambiguities": [
+            "Specific material of the new closed toe is not specified",
+            "Exact thickness or height of the new stiletto heel is undefined"
+          ]
+        }
+      },
+      "generation": {
+        "text": "{\n\"retain\": [\n  {\n    \"attribute\": \"black color\",\n    \"category\": \"color\",\n    \"region\": \"upper and straps\",\n    \"evidence\": \"reference_image\"\n  },\n  {\n    \"attribute\": \"ankle strap with buckle\",\n    \"category\": \"part\",\n    \"region\": \"heel area\",\n    \"evidence\": \"reference_image\"\n  }\n],\n\"remove\": [\n  {\n    \"attribute\": \"open toe\",\n    \"category\": \"shape\",\n    \"region\": \"front\",\n    \"evidence\": \"reference_image\"\n  },\n  {\n    \"attribute\": \"rhinestone embellishment on strap\",\n    \"category\": \"pattern\",\n    \"region\": \"forefoot strap\",\n    \"evidence\": \"reference_image\"\n  },\n  {\n    \"attribute\": \"clear acrylic heel\",\n    \"category\": \"material\",\n    \"region\": \"heel\",\n    \"evidence\": \"reference_image\"\n  }\n],\n\"add\": [\n  {\n    \"attribute\": \"closed toe\",\n    \"category\": \"shape\",\n    \"region\": \"front\",\n    \"evidence\": \"modification_text\"\n  },\n  {\n    \"attribute\": \"stiletto heel\",\n    \"category\": \"style\",\n    \"region\": \"heel\",\n    \"evidence\": \"modification_text\"\n  }\n],\n\"relations\": [\n  {\n    \"subject\": \"shoe\",\n    \"relation\": \"modified to have\",\n    \"object\": \"closed toe\"\n  },\n  {\n    \"subject\": \"shoe\",\n    \"relation\": \"modified to have\",\n    \"object\": \"stiletto heel\"\n  }\n],\n\"target_description\": \"A black closed-toe stiletto sandal featuring an ankle strap with a buckle, retaining the original upper structure but with the toe area covered and the heel replaced by a thin stiletto style.\",\n\"complexity\": {\n  \"level\": \"moderate\",\n  \"score\": 0.6,\n  \"reason\": \"Requires changing fundamental structural components (toe coverage and heel type) while keeping specific details like the ankle strap.\"\n},\n\"confidence\": {\n  \"score\": 0.8,\n  \"ambiguities\": [\n    \"Specific material of the new closed toe is not specified\",\n    \"Exact thickness or height of the new stiletto heel is undefined\"\n  ]\n}\n}",
+        "usage": {
+          "prompt_tokens": 764,
+          "total_tokens": 1330,
+          "completion_tokens": 566,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 681
+          },
+          "completion_tokens_details": {
+            "text_tokens": 566
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-de9db30b-2269-905c-aa8a-685afab9832f",
+        "finish_reason": "stop",
+        "seconds": 5.305106131127104
+      },
+      "status": "ok",
+      "query_index": 1377,
+      "category": "shoes",
+      "split": "train",
+      "validation": {
+        "valid": true,
+        "errors": []
+      },
+      "generation_inputs": "reference_image_and_modification_only",
+      "diagnostics": {
+        "has_action_fields": true,
+        "comparison_explicit": null,
+        "same_add_remove": []
+      },
+      "critic_response": {
+        "text": "{\n\"valid\": true,\n\"reasons\": [\n\"The edit plan correctly identifies the reference shoe as an open-toe sandal with a clear block heel and applies the requested modifications to create a closed-toe stiletto.\",\n\"Retain operations are valid: The black color of the upper/straps and the ankle strap with buckle are preserved from the reference.\",\n\"Remove operations align with the instruction: Removing 'open toe' and 'clear acrylic heel' is necessary to achieve the 'closed toe stiletto' target description.\",\n\"Add operations fulfill the specific instruction: Adding 'closed toe' and 'stiletto heel' directly addresses the prompt's requirements.\",\n\"The target description accurately summarizes the intended transformation (changing structure while keeping specific details like the ankle strap).\",\n\"Ambiguities regarding the specific material of the new closed toe and exact dimensions of the stiletto are appropriately noted as undefined.\"\n]\n}",
+        "usage": {
+          "prompt_tokens": 777,
+          "total_tokens": 974,
+          "completion_tokens": 197,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 83,
+            "text_tokens": 694
+          },
+          "completion_tokens_details": {
+            "text_tokens": 197
+          }
+        },
+        "model": "qwen3.7-flash",
+        "request_id": "chatcmpl-909bc3ab-256b-9754-962d-54c27894afc7",
+        "finish_reason": "stop",
+        "seconds": 2.107061807066202
+      },
+      "semantic_validation": {
+        "valid": true,
+        "judgment": {
+          "valid": true,
+          "reasons": [
+            "The edit plan correctly identifies the reference shoe as an open-toe sandal with a clear block heel and applies the requested modifications to create a closed-toe stiletto.",
+            "Retain operations are valid: The black color of the upper/straps and the ankle strap with buckle are preserved from the reference.",
+            "Remove operations align with the instruction: Removing 'open toe' and 'clear acrylic heel' is necessary to achieve the 'closed toe stiletto' target description.",
+            "Add operations fulfill the specific instruction: Adding 'closed toe' and 'stiletto heel' directly addresses the prompt's requirements.",
+            "The target description accurately summarizes the intended transformation (changing structure while keeping specific details like the ankle strap).",
+            "Ambiguities regarding the specific material of the new closed toe and exact dimensions of the stiletto are appropriately noted as undefined."
+          ]
+        },
+        "method": "same-model self-check; not human GT"
+      }
+    }
+  ],
+  "combined_cost": {
+    "calls": 112,
+    "max_calls": 128,
+    "max_cny": 0.5,
+    "conservative_reserved_cny": 0.41287679999999927,
+    "estimated_list_price_cny": 0.037742400000000016,
+    "prompt_tokens": 57976,
+    "completion_tokens": 32684,
+    "usage_missing_calls": 0,
+    "input_cny_per_million": 0.2,
+    "output_cny_per_million": 0.8,
+    "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+    "price_as_of": "2026-10-16",
+    "note": "Beijing <=32k list-price estimate; no discounts assumed, not an invoice"
+  }
+}

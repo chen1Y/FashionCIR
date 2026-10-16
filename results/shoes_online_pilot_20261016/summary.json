@@ -1,0 +1,66 @@
+{
+  "state": "complete",
+  "model": "qwen3.7-flash",
+  "initial_queries": 24,
+  "posthoc_regression_queries": 8,
+  "initial_summary": {
+    "local_8b": {
+      "samples": 24,
+      "schema_valid": 22,
+      "selfcheck_ok": 12,
+      "has_action_fields": 3
+    },
+    "online_original": {
+      "samples": 24,
+      "schema_valid": 0,
+      "selfcheck_ok": 0,
+      "has_action_fields": 22
+    },
+    "optimized_original_critic": {
+      "samples": 24,
+      "schema_valid": 24,
+      "selfcheck_ok": 12,
+      "has_action_fields": 24
+    },
+    "optimized_corrected_critic": {
+      "samples": 24,
+      "schema_valid": 24,
+      "selfcheck_ok": 20,
+      "has_action_fields": 24
+    }
+  },
+  "corrected_critic_pair_matrix": {
+    "failed->ok": 9,
+    "ok->ok": 11,
+    "ok->failed": 1,
+    "failed->failed": 3
+  },
+  "regression_summary": {
+    "samples": 8,
+    "schema_valid": 8,
+    "selfcheck_ok": 8,
+    "assistant_hold_for_review": 3
+  },
+  "combined_cost": {
+    "calls": 112,
+    "max_calls": 128,
+    "max_cny": 0.5,
+    "conservative_reserved_cny": 0.41287679999999927,
+    "estimated_list_price_cny": 0.037742400000000016,
+    "prompt_tokens": 57976,
+    "completion_tokens": 32684,
+    "usage_missing_calls": 0,
+    "input_cny_per_million": 0.2,
+    "output_cny_per_million": 0.8,
+    "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+    "price_as_of": "2026-10-16",
+    "note": "Beijing <=32k list-price estimate; no discounts assumed, not an invoice"
+  },
+  "tests_passed": 66,
+  "limitations": [
+    "Balanced local ok/failed challenge sample, not population accuracy",
+    "Post-hoc refinement reuses known cases, not independent validation",
+    "Same-model critics can accept incorrect or over-specific text",
+    "No retrieval training or performance claim; live queue unchanged"
+  ]
+}

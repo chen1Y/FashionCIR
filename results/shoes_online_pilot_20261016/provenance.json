@@ -1,0 +1,17 @@
+{
+  "parent_commit": "dabd1d4",
+  "source_sha256": {
+    "src/shoes_online_pilot.py": "767fce7ae11e42f11c970d4588921a189bb940e2095302c5e11530faf0955f12",
+    "src/shoes_online_refine.py": "b190fc258759f351fcec15806d563bf8ff3514decf1dea49b53d10d0d193ee32",
+    "src/generate_benchmark_edits.py": "86a562f28e72c7b31063679c3e77da860390cc86037ee0d61266421bd238497e",
+    "src/generate_structured_edits.py": "2900503cba85a386743be6fe00a427c7cddd82a1bad827c11ba3671beaf531f0"
+  },
+  "test_count": 66,
+  "provider_models": [
+    "qwen3.7-flash"
+  ],
+  "results_sha256": {
+    "pilot.json": "cc4824b09923d53dde5d8fb71790969f867d3b4f3529973828539c113603de68",
+    "refinement.json": "073f77effdd924db89462f788dabe468050907486b116173bc658b5017ea4b3d"
+  }
+}

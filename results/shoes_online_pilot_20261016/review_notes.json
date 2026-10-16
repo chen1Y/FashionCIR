@@ -1,0 +1,48 @@
+{
+  "method": "Assistant visual inspection of reference contact sheet plus text; NOT independent human GT",
+  "target_images_used": false,
+  "held_out_accuracy_estimate": false,
+  "note": "These flags are a separate diagnostic artifact. Raw model acceptance is preserved; no training ingestion.",
+  "samples": [
+    {
+      "source_index": 58,
+      "decision": "hold_for_review",
+      "observation": "Above the sole is ambiguous; v1 selects an open front, v2 a gap beneath the footbed. Both self-checks accepting does not resolve the location."
+    },
+    {
+      "source_index": 71,
+      "decision": "usable_with_uncertainty",
+      "observation": "Requested teal/grey is represented; exact allocation remains an explicit ambiguity."
+    },
+    {
+      "source_index": 236,
+      "decision": "hold_for_review",
+      "observation": "Black/red request still retains a beige side panel; compatibility and intended color scope need review."
+    },
+    {
+      "source_index": 484,
+      "decision": "hold_for_review",
+      "observation": "Solid-red upper still retains pink strap accents in v2. The same-model critic missed this region/color conflict."
+    },
+    {
+      "source_index": 527,
+      "decision": "usable_with_uncertainty",
+      "observation": "Montage-specific colors omitted; straps added without fixing number/placement. Exact target remains unknown."
+    },
+    {
+      "source_index": 615,
+      "decision": "usable_with_uncertainty",
+      "observation": "Pink presence and uncertain placement explicit; does not force all red to disappear. Retained source colors are assumptions, not target facts."
+    },
+    {
+      "source_index": 1097,
+      "decision": "usable_with_uncertainty",
+      "observation": "Old white/blue retained colors removed; requested black/silver represented, distribution unspecified."
+    },
+    {
+      "source_index": 1377,
+      "decision": "usable_with_uncertainty",
+      "observation": "Closed toe/stiletto requested state represented; material and heel dimensions left uncertain. No target-image verification."
+    }
+  ]
+}
