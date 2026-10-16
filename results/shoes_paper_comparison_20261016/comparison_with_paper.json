@@ -1,7 +1,7 @@
 {
-  "captured_utc": "2026-10-16T08:05:08.735769+00:00",
-  "queue_status": "qwen_train",
-  "final_comparison_complete": false,
+  "captured_utc": "2026-10-16T10:31:05.886176+00:00",
+  "queue_status": "complete",
+  "final_comparison_complete": true,
   "paper": {
     "title": "Simple but Effective Raw-Data Level Multimodal Fusion for Composed Image Retrieval",
     "url": "https://arxiv.org/html/2404.15875v1#S4.T2",
@@ -58,52 +58,104 @@
     },
     {
       "name": "structured_off",
-      "status": "pending",
-      "metrics": null,
-      "random_seeds": 1
+      "status": "completed",
+      "metrics": {
+        "shoes_r1": 31.232254400908577,
+        "shoes_r10": 68.82453151618398,
+        "shoes_r50": 88.52924474730267
+      },
+      "random_seeds": 1,
+      "epoch": 4,
+      "evidence": "/root/autodl-tmp/results/cirr_shoes_20261015/checkpoints/shoes_structured_off_seed42_best.json",
+      "delta_vs_local_baseline_pp": {
+        "shoes_r1": 0.2839295854628041,
+        "shoes_r10": 0.05678591709255443,
+        "shoes_r50": 0.05678591709255443
+      }
     },
     {
       "name": "structured_identity",
-      "status": "pending",
-      "metrics": null,
-      "random_seeds": 1
+      "status": "completed",
+      "metrics": {
+        "shoes_r1": 31.232254400908577,
+        "shoes_r10": 68.82453151618398,
+        "shoes_r50": 88.52924474730267
+      },
+      "random_seeds": 1,
+      "epoch": 4,
+      "evidence": "/root/autodl-tmp/results/cirr_shoes_20261015/checkpoints/shoes_structured_identity_seed42_best.json",
+      "delta_vs_local_baseline_pp": {
+        "shoes_r1": 0.2839295854628041,
+        "shoes_r10": 0.05678591709255443,
+        "shoes_r50": 0.05678591709255443
+      }
     },
     {
       "name": "structured_annotated",
-      "status": "pending",
-      "metrics": null,
-      "random_seeds": 1
+      "status": "completed",
+      "metrics": {
+        "shoes_r1": 31.005110732538334,
+        "shoes_r10": 68.88131743327655,
+        "shoes_r50": 88.47245883021012
+      },
+      "random_seeds": 1,
+      "epoch": 3,
+      "evidence": "/root/autodl-tmp/results/cirr_shoes_20261015/checkpoints/shoes_structured_annotated_seed42_best.json",
+      "delta_vs_local_baseline_pp": {
+        "shoes_r1": 0.05678591709256153,
+        "shoes_r10": 0.11357183418512307,
+        "shoes_r50": 0.0
+      }
     }
   ],
   "generation": {
     "train": {
-      "state": "running",
-      "attempted_queries": 6360,
+      "state": "complete",
+      "attempted_queries": 8990,
       "total_queries": 8990,
-      "valid_queries": 5301,
-      "attempts_complete": false,
-      "updated_utc": "2026-10-16T08:05:05.666437+00:00",
+      "valid_queries": 7488,
+      "attempts_complete": true,
+      "updated_utc": "2026-10-16T08:48:39.821762+00:00",
       "cost": {
-        "calls": 12298,
+        "calls": 17387,
         "max_calls": 23000,
         "max_cny": 15.0,
-        "accounted_upper_cny": 4.520601600000002,
-        "estimated_list_price_cny": 4.502374400000001,
-        "prompt_tokens": 10074360,
-        "completion_tokens": 3109378,
-        "usage_missing_calls": 5,
+        "accounted_upper_cny": 6.394230000000032,
+        "estimated_list_price_cny": 6.387266800000001,
+        "prompt_tokens": 14273586,
+        "completion_tokens": 4415687,
+        "usage_missing_calls": 2,
         "request_states": {
-          "known": 12292,
-          "metered": 1,
-          "reserved": 4,
-          "unknown": 1
+          "known": 17385,
+          "unknown": 2
         },
         "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
         "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
       }
     },
     "val": {
-      "state": "not_started"
+      "state": "complete",
+      "attempted_queries": 1761,
+      "total_queries": 1761,
+      "valid_queries": 1463,
+      "attempts_complete": true,
+      "updated_utc": "2026-10-16T09:17:31.217910+00:00",
+      "cost": {
+        "calls": 20805,
+        "max_calls": 23000,
+        "max_cny": 15.0,
+        "accounted_upper_cny": 7.658072000000011,
+        "estimated_list_price_cny": 7.651108799999999,
+        "prompt_tokens": 17086500,
+        "completion_tokens": 5292261,
+        "usage_missing_calls": 2,
+        "request_states": {
+          "known": 20803,
+          "unknown": 2
+        },
+        "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+        "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+      }
     }
   },
   "selection_metric": "R@10 + R@50; Avg is descriptive only",

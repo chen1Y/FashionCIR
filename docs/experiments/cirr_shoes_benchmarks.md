@@ -1,5 +1,7 @@
 # CIRR / Shoes：DQU 基线与当前方法
 
+**2026-10-16 最终更新：** Shoes 原基线及在线文本后的三组六轮实验均已完成；结果和限制见 [最终对比](shoes_online_full_20261016.md)，完整审计见 `results/shoes_paper_comparison_20261016/`。FashionIQ 筛查版72条扩充也已完成，未新增检索训练。本页后文保留早期准备过程。
+
 ## 已确认的范围
 
 新分支 `codex/cirr-shoes-benchmarks` 从噪声审计分支继续，保留 FashionIQ 默认行为。

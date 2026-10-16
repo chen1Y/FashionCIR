@@ -1,6 +1,6 @@
 # Shoes：论文与本机受控对比
 
-状态：`qwen_train`；完整对比：`False`。
+状态：`complete`；完整对比：`True`。
 
 数值为百分比；论文为五个 seed 的均值±标准差，本机为单 seed。
 
@@ -8,9 +8,9 @@
 |---|---|---:|---:|---:|---:|
 | DQU-CIR paper | published_reference | 31.47 ± 1.31 | 69.19 ± 0.99 | 88.52 ± 0.31 | 63.06 ± 0.69 |
 | DQU-CIR local | completed_baseline | 30.95 | 68.77 | 88.47 | 62.73 |
-| structured_off | pending | — | — | — | — |
-| structured_identity | pending | — | — | — | — |
-| structured_annotated | pending | — | — | — | — |
+| structured_off | completed | 31.23 | 68.82 | 88.53 | 62.86 |
+| structured_identity | completed | 31.23 | 68.82 | 88.53 | 62.86 |
+| structured_annotated | completed | 31.01 | 68.88 | 88.47 | 62.79 |
 
 论文：[Table 2](https://arxiv.org/html/2404.15875v1#S4.T2)；实验配置：[官方仓库](https://github.com/iLearn-Lab/SIGIR24-DQU-CIR)。
 

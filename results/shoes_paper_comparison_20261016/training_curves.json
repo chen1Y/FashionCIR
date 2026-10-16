@@ -1,0 +1,206 @@
+{
+  "structured_off": [
+    {
+      "epoch": 1,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.048246853053569794,
+      "shoes_effective_residual_norm": 0.0,
+      "multi_positive_coverage": null
+    },
+    {
+      "epoch": 2,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.04177659749984741,
+      "shoes_effective_residual_norm": 0.0,
+      "multi_positive_coverage": null
+    },
+    {
+      "epoch": 3,
+      "shoes_r1": 31.061896649630892,
+      "shoes_r10": 68.82453151618398,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.04177659749984741,
+      "shoes_effective_residual_norm": 0.007119329646229744,
+      "multi_positive_coverage": null
+    },
+    {
+      "epoch": 4,
+      "shoes_r1": 31.232254400908577,
+      "shoes_r10": 68.82453151618398,
+      "shoes_r50": 88.52924474730267,
+      "shoes_structured_weight": 0.04177659749984741,
+      "shoes_effective_residual_norm": 0.013199475593864918,
+      "multi_positive_coverage": null
+    },
+    {
+      "epoch": 5,
+      "shoes_r1": 31.3458262350937,
+      "shoes_r10": 68.59738784781374,
+      "shoes_r50": 88.64281658148779,
+      "shoes_structured_weight": 0.04177659749984741,
+      "shoes_effective_residual_norm": 0.013475588522851467,
+      "multi_positive_coverage": null
+    },
+    {
+      "epoch": 6,
+      "shoes_r1": 31.175468483816015,
+      "shoes_r10": 68.6541737649063,
+      "shoes_r50": 88.58603066439524,
+      "shoes_structured_weight": 0.04177659749984741,
+      "shoes_effective_residual_norm": 0.015202890150249004,
+      "multi_positive_coverage": null
+    }
+  ],
+  "structured_identity": [
+    {
+      "epoch": 1,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.04824555292725563,
+      "shoes_effective_residual_norm": 0.0,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.0,
+        "mean_target_bank_size": 16.0
+      }
+    },
+    {
+      "epoch": 2,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.041778355836868286,
+      "shoes_effective_residual_norm": 0.0,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.0,
+        "mean_target_bank_size": 16.0
+      }
+    },
+    {
+      "epoch": 3,
+      "shoes_r1": 30.83475298126065,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.041778355836868286,
+      "shoes_effective_residual_norm": 0.007114798296242952,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.0,
+        "mean_target_bank_size": 16.0
+      }
+    },
+    {
+      "epoch": 4,
+      "shoes_r1": 31.232254400908577,
+      "shoes_r10": 68.82453151618398,
+      "shoes_r50": 88.52924474730267,
+      "shoes_structured_weight": 0.041778355836868286,
+      "shoes_effective_residual_norm": 0.013189177960157394,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.0,
+        "mean_target_bank_size": 16.0
+      }
+    },
+    {
+      "epoch": 5,
+      "shoes_r1": 31.28904031800114,
+      "shoes_r10": 68.59738784781374,
+      "shoes_r50": 88.64281658148779,
+      "shoes_structured_weight": 0.041778355836868286,
+      "shoes_effective_residual_norm": 0.013473816215991974,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.0,
+        "mean_target_bank_size": 16.0
+      }
+    },
+    {
+      "epoch": 6,
+      "shoes_r1": 31.28904031800114,
+      "shoes_r10": 68.71095968199886,
+      "shoes_r50": 88.58603066439524,
+      "shoes_structured_weight": 0.041778355836868286,
+      "shoes_effective_residual_norm": 0.015192331746220589,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.0,
+        "mean_target_bank_size": 16.0
+      }
+    }
+  ],
+  "structured_annotated": [
+    {
+      "epoch": 1,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.04820309951901436,
+      "shoes_effective_residual_norm": 0.0,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.007119,
+        "mean_target_bank_size": 16.11
+      }
+    },
+    {
+      "epoch": 2,
+      "shoes_r1": 30.948324815445773,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.04172305390238762,
+      "shoes_effective_residual_norm": 0.0,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.007119,
+        "mean_target_bank_size": 16.11
+      }
+    },
+    {
+      "epoch": 3,
+      "shoes_r1": 31.005110732538334,
+      "shoes_r10": 68.88131743327655,
+      "shoes_r50": 88.47245883021012,
+      "shoes_structured_weight": 0.04172305390238762,
+      "shoes_effective_residual_norm": 0.007450933568179607,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.007119,
+        "mean_target_bank_size": 16.11
+      }
+    },
+    {
+      "epoch": 4,
+      "shoes_r1": 31.629755820556504,
+      "shoes_r10": 68.76774559909143,
+      "shoes_r50": 88.52924474730267,
+      "shoes_structured_weight": 0.04172305390238762,
+      "shoes_effective_residual_norm": 0.01290869154036045,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.007119,
+        "mean_target_bank_size": 16.11
+      }
+    },
+    {
+      "epoch": 5,
+      "shoes_r1": 31.005110732538334,
+      "shoes_r10": 68.71095968199886,
+      "shoes_r50": 88.64281658148779,
+      "shoes_structured_weight": 0.04172305390238762,
+      "shoes_effective_residual_norm": 0.013474791310727596,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.007119,
+        "mean_target_bank_size": 16.11
+      }
+    },
+    {
+      "epoch": 6,
+      "shoes_r1": 31.40261215218626,
+      "shoes_r10": 68.6541737649063,
+      "shoes_r50": 88.58603066439524,
+      "shoes_structured_weight": 0.04172305390238762,
+      "shoes_effective_residual_norm": 0.015056120231747627,
+      "multi_positive_coverage": {
+        "distinct_multi_positive_query_fraction": 0.007119,
+        "mean_target_bank_size": 16.11
+      }
+    }
+  ]
+}

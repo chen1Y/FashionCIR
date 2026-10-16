@@ -1,0 +1,43 @@
+{
+  "checked_utc": "2026-10-16T10:32:42.978259+00:00",
+  "archive_downloaded": false,
+  "full_archive_integrity_verified": false,
+  "download_probes": [
+    {
+      "name": "MIT-States",
+      "url": "http://wednesday.csail.mit.edu/joseph_result/state_and_transformation/release_dataset.zip",
+      "status": 200,
+      "content_type": "application/zip",
+      "bytes": "807745643"
+    },
+    {
+      "name": "CIRCO COCO images",
+      "url": "http://images.cocodataset.org/zips/unlabeled2017.zip",
+      "status": 200,
+      "content_type": "application/zip",
+      "bytes": "20126613414"
+    }
+  ],
+  "css_official_link": "https://drive.google.com/file/d/1wPqMw-HKmXUG2qTgYBiTNUnjz83hA2tY/view?usp=sharing",
+  "css_probe": {
+    "error": "URLError: <urlopen error [Errno 101] Network is unreachable>",
+    "full_binary_confirmed": false
+  },
+  "original_dqu_dataset_classes": [
+    "FashionIQ",
+    "Shoes",
+    "CIRR",
+    "Fashion200k"
+  ],
+  "tirg_dataset_classes": [
+    "BaseDataset",
+    "CSSDataset",
+    "Fashion200k",
+    "MITStates"
+  ],
+  "conclusions": {
+    "MIT-States": "First feasibility candidate. Need a new DQU-compatible adapter, noun-disjoint split, target adjective+noun multi-GT evaluation; archive not yet downloaded/CRC-verified.",
+    "CSS": "Supplemental synthetic compositional test. Official Drive link present; complete binary not confirmed; no ready original-DQU adapter.",
+    "CIRCO": "Validation/test benchmark, not supervised training. Full gallery archive plus extraction does not fit while preserving 8GiB reserve."
+  }
+}
