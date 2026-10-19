@@ -1,0 +1,7 @@
+{
+  "status": "complete",
+  "completed_steps": 500,
+  "baseline_internal_dev_mse": 0.06419242365518585,
+  "best_internal_dev_mse": 0.0634353681380162,
+  "metric_scope": "Self-reconstruction noise MSE on internal train-image dev partition; not retrieval accuracy"
+}

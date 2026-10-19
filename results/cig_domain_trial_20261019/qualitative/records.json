@@ -1,0 +1,149 @@
+{
+  "scope": "8 fixed internal-dev reconstruction probes, not CIR retrieval evaluation",
+  "records": [
+    {
+      "phase": "base",
+      "image_id": "B00A07VLYM",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00A07VLYM.jpg",
+      "caption": "a woman in a black dress is posing",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1024.png",
+      "sha256": "f9da80f2ecf5ed512f81b76d603b78b8bdca24ce5cd3511baf97140ffab26874",
+      "seed": 43024
+    },
+    {
+      "phase": "base",
+      "image_id": "B006MQT4BM",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B006MQT4BM.jpg",
+      "caption": "a woman in a floral print dress",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1025.png",
+      "sha256": "e8f6ac31bde6c0f60c048fdab5b012d3fb73deafc3ea4d0e52a710e47167287e",
+      "seed": 43025
+    },
+    {
+      "phase": "base",
+      "image_id": "B00CM6E6IW",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00CM6E6IW.jpg",
+      "caption": "a woman in a purple dress with black and white flowers",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1026.png",
+      "sha256": "462cbdd8b9b9bebf796ae48fadb1df85984bdc7e24f5c8ecd0dddbd7eebd9aac",
+      "seed": 43026
+    },
+    {
+      "phase": "base",
+      "image_id": "B0072CLDAU",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B0072CLDAU.jpg",
+      "caption": "a mannequin wearing a brown dress",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1027.png",
+      "sha256": "991d4595dfe5d4cbabed166809b05e87238e6b27d0f027a0d679875760e35caa",
+      "seed": 43027
+    },
+    {
+      "phase": "base",
+      "image_id": "B00DR8U7IM",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00DR8U7IM.jpg",
+      "caption": "a woman in a black dress and jacket",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1028.png",
+      "sha256": "03320ec9adf06be47801002225002c7fd8940af42c7a379d81c0ce692c3dc88f",
+      "seed": 43028
+    },
+    {
+      "phase": "base",
+      "image_id": "B009P9DPLI",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B009P9DPLI.jpg",
+      "caption": "a mannequin dress with beige and gold trim",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1029.png",
+      "sha256": "a91a37869949a8b146e3cae3b4c77221cf2c8abe407ddec16ee27874c08b045f",
+      "seed": 43029
+    },
+    {
+      "phase": "base",
+      "image_id": "B0036ZALPA",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B0036ZALPA.jpg",
+      "caption": "a woman in a purple dress is posing",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1030.png",
+      "sha256": "7b41ce795177001f50c247421c2d7e73f556af11f289cad05bcbd5970a459ce1",
+      "seed": 43030
+    },
+    {
+      "phase": "base",
+      "image_id": "B00CJJ6AXQ",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00CJJ6AXQ.jpg",
+      "caption": "a woman in black dress and white gloves",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/base_1031.png",
+      "sha256": "de346e1bfd5f47804e0e81f46c52f44aaa5405115e0e478fb7b7373e5e86c1de",
+      "seed": 43031
+    },
+    {
+      "phase": "trained",
+      "image_id": "B00A07VLYM",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00A07VLYM.jpg",
+      "caption": "a woman in a black dress is posing",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1024.png",
+      "sha256": "41ab282618758b1250850f436c29db81e2d18383166784c7678689db21f28d12",
+      "seed": 43024
+    },
+    {
+      "phase": "trained",
+      "image_id": "B006MQT4BM",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B006MQT4BM.jpg",
+      "caption": "a woman in a floral print dress",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1025.png",
+      "sha256": "d44e0ba209d3c9c97c6332db6fef2d4c718b136cea97a4e1630f59c71ebc1a44",
+      "seed": 43025
+    },
+    {
+      "phase": "trained",
+      "image_id": "B00CM6E6IW",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00CM6E6IW.jpg",
+      "caption": "a woman in a purple dress with black and white flowers",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1026.png",
+      "sha256": "2ea4611ff4da8bcc17ca0af3cf8708e281790383f74a8666884b9ea517579545",
+      "seed": 43026
+    },
+    {
+      "phase": "trained",
+      "image_id": "B0072CLDAU",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B0072CLDAU.jpg",
+      "caption": "a mannequin wearing a brown dress",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1027.png",
+      "sha256": "e60a18890c486a3698a19a12d7c2ba75852e783ed6c2b229eabc67fae7161a0b",
+      "seed": 43027
+    },
+    {
+      "phase": "trained",
+      "image_id": "B00DR8U7IM",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00DR8U7IM.jpg",
+      "caption": "a woman in a black dress and jacket",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1028.png",
+      "sha256": "4b566306d7fb14f39cfde4fece512702abfbb2b2dc213528b86004a1e15db2af",
+      "seed": 43028
+    },
+    {
+      "phase": "trained",
+      "image_id": "B009P9DPLI",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B009P9DPLI.jpg",
+      "caption": "a mannequin dress with beige and gold trim",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1029.png",
+      "sha256": "474a06bab754623a1d22ea9294bedc26cd7f51a9e78e44d526a57ae73dc65afe",
+      "seed": 43029
+    },
+    {
+      "phase": "trained",
+      "image_id": "B0036ZALPA",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B0036ZALPA.jpg",
+      "caption": "a woman in a purple dress is posing",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1030.png",
+      "sha256": "8e9b8ed4d6bbc84205c11bf2db49bc8bce5b09d1609dcca42c9148f16bb52630",
+      "seed": 43030
+    },
+    {
+      "phase": "trained",
+      "image_id": "B00CJJ6AXQ",
+      "source": "/root/autodl-tmp/data/FashionIQ/resized_image/B00CJJ6AXQ.jpg",
+      "caption": "a woman in black dress and white gloves",
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/trained_1031.png",
+      "sha256": "c2524a07eb35ac58f47a939c8d2e610336f9032647e2165ad25497f946bdafea",
+      "seed": 43031
+    }
+  ]
+}

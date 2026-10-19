@@ -1,0 +1,77 @@
+{
+  "scope": "8 fixed train-query editing probes using internal-dev references; no target images read, not retrieval evaluation",
+  "records": [
+    {
+      "query_index": 94,
+      "reference_id": "B006MOS5IM",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B006MOS5IM.jpg",
+      "delta": "is black with long sleeves and has more lace and looser skirt",
+      "seed": 63094,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_94.png",
+      "sha256": "cbc705799586e46ea2fb56a69a5f8057b88d4d5b30391c30150dabec889c96c0"
+    },
+    {
+      "query_index": 222,
+      "reference_id": "B00BM9KPSK",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B00BM9KPSK.jpg",
+      "delta": "is more casual with tank top and has stripes and is black and white",
+      "seed": 63222,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_222.png",
+      "sha256": "4b45d2f93d7c3113aed3ac142e3e65616a356686a5548322ba9c03316bb677d2"
+    },
+    {
+      "query_index": 480,
+      "reference_id": "B006BNPCQW",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B006BNPCQW.jpg",
+      "delta": "More blue and  brown floral patterned",
+      "seed": 63480,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_480.png",
+      "sha256": "834592cd672358facf8294a75fc79a954bb359eba39f1db30ccb29f1fec1dc96"
+    },
+    {
+      "query_index": 502,
+      "reference_id": "B006NU5T0W",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B006NU5T0W.jpg",
+      "delta": "pink in color with a neck strap and is hot pink sleeveless maxi with neck strap",
+      "seed": 63502,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_502.png",
+      "sha256": "59fe403827b5f959a01f9f48e2491d2fa94ce3ed1ab22339be9ae565d1c3d9cf"
+    },
+    {
+      "query_index": 581,
+      "reference_id": "B008OW2YQ4",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B008OW2YQ4.jpg",
+      "delta": "is black and white and is more animal-like and patterned",
+      "seed": 63581,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_581.png",
+      "sha256": "3955c3ed04b4bfa112cfe7aa64075002038b7e53a0d2e7b9d46f4011f44a0f52"
+    },
+    {
+      "query_index": 833,
+      "reference_id": "B004A7XTKM",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B004A7XTKM.jpg",
+      "delta": "More sexy and edgy and has shorter sleeves",
+      "seed": 63833,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_833.png",
+      "sha256": "4a9ce9c34dc34c640c0429b8143470c29cd1b3c69a023c67a02a3e25325d13e5"
+    },
+    {
+      "query_index": 842,
+      "reference_id": "B003TFDLR2",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B003TFDLR2.jpg",
+      "delta": " and sleeveless and is a plain yellow white dress",
+      "seed": 63842,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_842.png",
+      "sha256": "13671303a54605e24e0a2d53d8ee0a0a8b26351ff080d9b40ed73678bb1a93cc"
+    },
+    {
+      "query_index": 883,
+      "reference_id": "B006ZUO5PK",
+      "reference_path": "/root/autodl-tmp/data/FashionIQ/resized_image/B006ZUO5PK.jpg",
+      "delta": "is darker and is darker in color",
+      "seed": 63883,
+      "generated": "/root/autodl-tmp/results/cig_domain_trial_20261019/qualitative/query_only_883.png",
+      "sha256": "36d237522160a1e7faa1f84422a9b8ccc5483ca1fad0fd7d1ea6c80a8914c9aa"
+    }
+  ]
+}

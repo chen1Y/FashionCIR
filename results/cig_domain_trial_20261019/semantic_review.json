@@ -1,0 +1,51 @@
+{
+  "scope": "Codex visual review of all 8 paired source/base/trained reconstructions and all 8 query-only trained generations; subjective diagnostics, not expert GT or retrieval evaluation",
+  "reconstruction_observations": [
+    "Base and trained samples remain visually similar overall; no clear consistent quality improvement established.",
+    "Source cut, sleeve, length, viewpoint and color are often not preserved; purple garment example is generated as grayscale."
+  ],
+  "query_observations": [
+    {
+      "query_index": 94,
+      "assessment": "partial",
+      "notes": "Black, long sleeves and lace appear; output is a collage and the requested looser skirt is not established."
+    },
+    {
+      "query_index": 222,
+      "assessment": "partial",
+      "notes": "Black/white striped tank appearance present, with added leggings and weak reference-item preservation."
+    },
+    {
+      "query_index": 480,
+      "assessment": "partial",
+      "notes": "Blue floral pattern present; source short sleeveless shape becomes a long sleeved floor-length garment."
+    },
+    {
+      "query_index": 502,
+      "assessment": "coarse_attributes_present",
+      "notes": "Hot pink maxi and neck strap broadly present; fine reference-item preservation unverified."
+    },
+    {
+      "query_index": 581,
+      "assessment": "coarse_attributes_present",
+      "notes": "Black/white animal-like pattern present; cropped image prevents full shape/length verification."
+    },
+    {
+      "query_index": 833,
+      "assessment": "quality_failure",
+      "notes": "Reference dress replaced by a separate shirt and denim shorts; requested shorter sleeves does not justify garment-category change."
+    },
+    {
+      "query_index": 842,
+      "assessment": "quality_failure",
+      "notes": "Yellow sleeveless color/style partly present, but generated tunic plus pants changes the requested dress composition."
+    },
+    {
+      "query_index": 883,
+      "assessment": "quality_failure",
+      "notes": "Darker color present but output is a multi-person, multi-garment collage rather than a single pseudo-target image."
+    }
+  ],
+  "conclusion": "Training pipeline works, but this small domain pilot does not justify replacing Qwen generation or claiming retrieval gains.",
+  "next_experiment_executed": false
+}
