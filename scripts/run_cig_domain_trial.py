@@ -11,6 +11,7 @@ import json
 import os
 from pathlib import Path
 import random
+import re
 import subprocess
 import sys
 import time
@@ -48,6 +49,8 @@ def prepare_manifest(args):
         caption = captions.get(key, "")
         if not isinstance(caption, str) or not caption.strip() or "$" in caption:
             continue
+        if not re.search(r"\b(dress|gown)\b", caption, re.I):
+            continue
         path = image_path(args.root, "dress", key)
         if not path:
             continue
@@ -69,6 +72,7 @@ def prepare_manifest(args):
     if len(rows) != args.train_images + args.dev_images:
         raise ValueError("Insufficient clean train-only image-caption pairs")
     return dict(seed=42, source_signature=ctx["source_signature"], rows=rows,
+                caption_filter="dress_or_gown",
                 official_heldout_byte_hashes=len(heldout), official_heldout_overlap=0,
                 train_count=args.train_images, internal_dev_count=args.dev_images,
                 masking="NLTK first adjective* noun+ span; remove orphaned initial determiner",
@@ -351,6 +355,7 @@ def main():
         software=dict(python=sys.version, torch=torch.__version__, diffusers=diffusers.__version__,
                       transformers=transformers.__version__, nltk=nltk.__version__),
         resolution=512, trainable="cross-attention attn2.to_k and attn2.to_v", cfg_training_dropout=0,
+        caption_filter="dress_or_gown",
         phi="SEARLE_ViT-L14", phi_sha256=file_sha(args.assets / "SEARLE_ViT-L14.pt"),
         differences_from_paper=["FashionIQ train-only domain pilot rather than 490k CC3M images",
             "512 center crop and CLIP standard center crop rather than SEARLE targetpad",
@@ -367,6 +372,8 @@ def main():
     manifest_path = args.output / "manifest.json"
     if manifest_path.exists():
         manifest = json.loads(manifest_path.read_text())
+        if manifest.get("caption_filter") != protocol["caption_filter"]:
+            raise ValueError("Existing manifest uses a different caption filtering policy")
     else:
         manifest = prepare_manifest(args)
         write_json(manifest_path, manifest)

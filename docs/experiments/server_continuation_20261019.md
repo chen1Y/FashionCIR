@@ -56,10 +56,10 @@ FashionIQ 六轮多正实验也未改善主指标：off 的 R@10+R@50 为127.863
 因此实现独立的 **CIG-inspired SD1.5 FashionIQ 域内试训**：
 
 - SD1.5 四通道文生图 U-Net + CLIP ViT-L/14 + 官方 SEARLE Phi。只选择需要的 safetensors/config，逐项验证来源 revision、大小与 SHA256，不下载整个仓库。
-- 1024张原训练图片训练、另128张原训练图片作内部开发集；排除所有类别官方 val/test 的 ID 与相同图片字节，固定 manifest 后不重采样。
+- 1024张原训练图片训练、另128张原训练图片作内部开发集；排除所有类别官方 val/test 的 ID 与相同图片字节，并保守要求自身描述含 dress/gown，避免把不明确衣物类别混入本次 Dress 域内试训。固定 manifest 后不重采样。
 - 对每张图自身的 BLIP 描述删除第一个形容词／名词片段，以 `a photo of $ that …` 作为条件；参考图经冻结的 CLIP/Phi 得到伪词。重建对象是同一张训练图，无需 CIR 三元组标注。
 - 冻结 Phi、CLIP、VAE 与 U-Net 其余参数，只训练 `attn2.to_k`、`attn2.to_v`；噪声预测 MSE，lr1e-6，microbatch2×累积8，有效batch16，最多500个优化步骤。
-- 内部开发集固定噪声 seed 衡量重建 MSE；训练后最多8组固定内部开发样本做 base/trained 配对生成。这些指标不是检索准确率。
+- 内部开发集固定噪声 seed 衡量重建 MSE；训练后最多8组固定内部开发样本做 base/trained 配对生成，另对最多8个内部开发参考图的原训练查询做参考图＋修改句生成，生成器不读取目标图。这些指标不是检索准确率。
 - 累计8小时墙钟从首次GPU使用开始覆盖缓存、训练、生成，持久化预算并设置硬截止；不自动重开预算。文件锁阻止重复启动。保留 best/last K/V 权重，不改 DQU。
 - 等待本轮 FashionIQ 标注完成且GPU无其他计算进程后运行；不抢占标注GPU。依赖仅额外隔离安装 NLTK，不替换当前 Torch/Transformers/Diffusers。
 
