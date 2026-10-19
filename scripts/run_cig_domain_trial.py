@@ -148,9 +148,21 @@ def prepare_cache(args, manifest, budget):
 def train(args, manifest, budget):
     import torch
     from diffusers import UNet2DConditionModel, DDPMScheduler
+    from safetensors import safe_open
     from safetensors.torch import load_file
-    cache = load_file(str(args.output / "conditioning.safetensors"))
+    cache_path = args.output / "conditioning.safetensors"
+    recorded = json.loads((args.output / "cache_verified.json").read_text())
+    if file_sha(cache_path) != recorded["sha256"]:
+        raise ValueError("Conditioning cache integrity changed")
+    with safe_open(str(cache_path), framework="pt") as stream:
+        metadata = stream.metadata()
+    if (metadata["manifest_sha256"] != file_sha(args.output / "manifest.json")
+            or metadata["protocol_sha256"] != file_sha(args.output / "protocol.json")):
+        raise ValueError("Conditioning cache is bound to another manifest/protocol")
+    cache = load_file(str(cache_path))
     latents, hidden = cache["latents"], cache["hidden"]
+    if len(latents) != len(manifest["rows"]) or tuple(latents.shape[1:]) != (4, 64, 64) or tuple(hidden.shape[1:]) != (77, 768):
+        raise ValueError("Cached SD1.5 tensor layout invalid")
     unet = UNet2DConditionModel.from_pretrained(args.assets / "sd15" / "unet", local_files_only=True).cuda()
     selected = trainable_kv(unet)
     unet.enable_gradient_checkpointing()
