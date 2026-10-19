@@ -137,6 +137,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--patience", type=int, default=5)
     parser.add_argument("--eval-every", type=int, default=1)
     parser.add_argument("--max-train-batches", type=int, default=0)
+    parser.add_argument("--train-samples-per-epoch", type=int, default=0,
+                        help="Optional equal-budget ablation: include every row and pad smaller sets with repeats.")
     parser.add_argument("--eval-limit", type=int, default=0)
     parser.add_argument("--model-dir", default="./checkpoints")
     parser.add_argument("--min-free-gib", type=float, default=8)
@@ -530,10 +532,15 @@ def save_checkpoint(args, model, epoch, metrics):
 
 def train_and_evaluate(args, model, optimizer, dataset, device):
     generator = torch.Generator().manual_seed(args.seed)
+    sampler = None
+    if getattr(args, "train_samples_per_epoch", 0):
+        from epoch_budget_sampler import EpochBudgetSampler
+        sampler = EpochBudgetSampler(len(dataset), args.train_samples_per_epoch, args.seed)
     loader = DataLoader(
         dataset,
         batch_size=args.batch_size,
-        shuffle=True,
+        shuffle=sampler is None,
+        sampler=sampler,
         num_workers=args.num_workers,
         pin_memory=True,
         generator=generator,
@@ -559,6 +566,8 @@ def train_and_evaluate(args, model, optimizer, dataset, device):
         )
     for epoch in range(1, args.num_epochs + 1):
         require_space(args.model_dir, args.min_free_gib)
+        if sampler is not None:
+            sampler.set_epoch(epoch)
         if args.gate_warmup_epochs > 0:
             phase = "gate" if epoch <= args.gate_warmup_epochs else "adapter"
         else:
