@@ -1,0 +1,171 @@
+{
+  "method": "Codex visual review of all 51 new model-accepted pairs; conservative exclusion of contradictions and uncertainty, not expert/human GT",
+  "reviewed_new_count": 51,
+  "raw_new_accepted": 51,
+  "holdouts": [
+    {
+      "index": 149,
+      "candidate": "B007WA2QYO",
+      "target": "B007WA1RV2",
+      "reason": "Reference has a clearly visible white collar; caption says collarless."
+    },
+    {
+      "index": 151,
+      "candidate": "B005SMZW26",
+      "target": "B00AITNIAW",
+      "reason": "Specific lace-up construction at the target bodice cannot be verified from the available image."
+    },
+    {
+      "index": 152,
+      "candidate": "B006G2AJFM",
+      "target": "B003ILC4I4",
+      "reason": "Reference already appears to have a hood/drawstrings; a cowl-to-hood change is not established."
+    },
+    {
+      "index": 153,
+      "candidate": "B0043T2OLM",
+      "target": "B002NN85O0",
+      "reason": "Target garment length/type and claimed sweetheart neckline are ambiguous in this product image."
+    },
+    {
+      "index": 158,
+      "candidate": "B00BGYFWOI",
+      "target": "B0013CKV5S",
+      "reason": "Strapless reference claim is uncertain at the visible shoulder/strap boundary."
+    },
+    {
+      "index": 159,
+      "candidate": "B00976LSV8",
+      "target": "B002SQ9ZUA",
+      "reason": "Specific sequin construction cannot be distinguished reliably from the visible gold pattern."
+    },
+    {
+      "index": 160,
+      "candidate": "B00CF3B3JM",
+      "target": "B00DPKU2YQ",
+      "reason": "Caption itself hedges possibly velvet-like; fabric identity is not established."
+    },
+    {
+      "index": 170,
+      "candidate": "B003ZYMRAY",
+      "target": "B00FFW0TRW",
+      "reason": "Target shoulders appear covered by a wide neckline; off-shoulder claim is not supported."
+    },
+    {
+      "index": 172,
+      "candidate": "B008YE1XFK",
+      "target": "B002ZG7MQW",
+      "reason": "Target has visible thin shoulder straps, contradicting strapless."
+    },
+    {
+      "index": 174,
+      "candidate": "B00E7PWR3W",
+      "target": "B00BUKCDWM",
+      "reason": "Source textile is visibly textured; the claimed solid-to-checkered transition is uncertain."
+    },
+    {
+      "index": 184,
+      "candidate": "B00D76N4TS",
+      "target": "B0012ZHRIK",
+      "reason": "V-neck and halter are compatible; a new halter change is not established by these front views."
+    },
+    {
+      "index": 187,
+      "candidate": "B007I6BXOG",
+      "target": "B0029XRJ6Y",
+      "reason": "Target neckline does not clearly establish the claimed sweetheart shape."
+    },
+    {
+      "index": 188,
+      "candidate": "B004J20TI8",
+      "target": "B00872FXPK",
+      "reason": "Target has a prominent one-shoulder strap/ruffle, contradicting strapless."
+    },
+    {
+      "index": 193,
+      "candidate": "B004I8W616",
+      "target": "B0015PZ018",
+      "reason": "Specific lace construction is uncertain at the available target resolution."
+    },
+    {
+      "index": 211,
+      "candidate": "B003VCLSFA",
+      "target": "B002AS57KI",
+      "reason": "The asserted beading-to-beading construction cannot be distinguished from embroidery or other ornament."
+    },
+    {
+      "index": 218,
+      "candidate": "B008OVCI0C",
+      "target": "B006BIOUEW",
+      "reason": "Source one-shoulder claim is uncertain and target neckline is rounded rather than straight."
+    },
+    {
+      "index": 227,
+      "candidate": "B0062SP5EU",
+      "target": "B005FUMTS6",
+      "reason": "Soft fabric is a tactile property not established by the images."
+    },
+    {
+      "index": 228,
+      "candidate": "B008IGJDO2",
+      "target": "B00CI35G88",
+      "reason": "Reference has visible shoulder straps/cutouts; describing it as off-shoulder is ambiguous."
+    },
+    {
+      "index": 236,
+      "candidate": "B004Z56LN6",
+      "target": "B002ZG8IOC",
+      "reason": "Target texture does not clearly establish the claimed ruched/gathered construction."
+    },
+    {
+      "index": 245,
+      "candidate": "B009AMLH8S",
+      "target": "B002ZG8IOC",
+      "reason": "Target texture does not clearly establish the claimed ruched construction."
+    },
+    {
+      "index": 250,
+      "candidate": "B00DF0UQ24",
+      "target": "B003COZ89O",
+      "reason": "Target has a ruffled sleeveless V neckline; halter construction is not established."
+    },
+    {
+      "index": 257,
+      "candidate": "B0091QUGPS",
+      "target": "B000E2F2VG",
+      "reason": "Reference back is not visible, so the asserted change from a simple back cut cannot be verified."
+    }
+  ],
+  "retained_new_indices": [
+    144,
+    145,
+    154,
+    163,
+    167,
+    176,
+    178,
+    179,
+    189,
+    190,
+    191,
+    195,
+    199,
+    200,
+    208,
+    209,
+    210,
+    213,
+    214,
+    216,
+    217,
+    219,
+    221,
+    222,
+    239,
+    244,
+    249,
+    254,
+    263
+  ],
+  "prior_accepted_preserved": 72
+}

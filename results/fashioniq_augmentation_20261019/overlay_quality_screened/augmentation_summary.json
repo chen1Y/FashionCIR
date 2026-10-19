@@ -1,0 +1,11 @@
+{
+  "original_triplets": 5985,
+  "added_triplets": 101,
+  "total_triplets": 6086,
+  "added_physical_images": 0,
+  "image_directory": "/root/autodl-tmp/data/FashionIQ/resized_image",
+  "source_signature": "001866003f5b621c6be4d222826c6164e98f609ee8a3b739265873e593c89a41",
+  "category": "dress",
+  "annotation_type": "synthetic_pseudo_labels",
+  "validation_and_test": "unchanged"
+}

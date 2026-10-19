@@ -1,0 +1,13 @@
+{
+  "raw_new_accepted": 51,
+  "raw_new_rejected": 69,
+  "visually_reviewed_new_accepted": 51,
+  "new_visual_holdouts": 22,
+  "screened_new_accepted": 29,
+  "prior_accepted": 72,
+  "screened_total_added": 101,
+  "total_training_triplets": 6086,
+  "new_images": 0,
+  "retrieval_training_performed": false,
+  "quality_method": "Codex visual review of all 51 new model-accepted pairs; conservative exclusion of contradictions and uncertainty, not expert/human GT"
+}

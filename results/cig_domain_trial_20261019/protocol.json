@@ -1,0 +1,169 @@
+{
+  "name": "CIG-inspired SD1.5 FashionIQ domain pilot",
+  "seed": 42,
+  "steps": 500,
+  "train_images": 1024,
+  "internal_dev_images": 128,
+  "learning_rate": 1e-06,
+  "microbatch": 2,
+  "accumulation": 8,
+  "effective_batch": 16,
+  "maximum_gpu_wall_seconds": 28800,
+  "optimizer": "AdamW",
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "weight_decay": 0.01,
+  "gradient_clip_norm": 1.0,
+  "software": {
+    "python": "3.10.8 (main, Nov 24 2022, 14:13:03) [GCC 11.2.0]",
+    "torch": "2.9.0+cu128",
+    "diffusers": "0.37.1",
+    "transformers": "4.57.1",
+    "nltk": "3.9.2"
+  },
+  "resolution": 512,
+  "trainable": "cross-attention attn2.to_k and attn2.to_v",
+  "cfg_training_dropout": 0,
+  "caption_filter": "dress_or_gown",
+  "phi": "SEARLE_ViT-L14",
+  "phi_sha256": "0ce31fb8eecaad95cdf60287dbad2ac9f968d79b74559f11b462701ce4693b95",
+  "differences_from_paper": [
+    "FashionIQ train-only domain pilot rather than 490k CC3M images",
+    "512 center crop and CLIP standard center crop rather than SEARLE targetpad",
+    "deterministic VAE posterior mode cache",
+    "NLTK noun-phrase mask",
+    "single GPU BF16 mixed precision"
+  ],
+  "assets": {
+    "status": "verified",
+    "files": [
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "model_index.json",
+        "size": 543,
+        "sha256": "72435d612b1363ac5f0727052e7fc74bcdc08f625603e147bb4850e0aa404fea",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "scheduler/scheduler_config.json",
+        "size": 308,
+        "sha256": "699cce92eb7c122e2eb7dfdea78e6187fda76a5ed4a8e42319b85610e620e091",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "unet/config.json",
+        "size": 743,
+        "sha256": "78f474de6bab3d893868f37be97b636ae65c0df3073ed3256ca458ff599b5f96",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "unet/diffusion_pytorch_model.safetensors",
+        "size": 3438167540,
+        "sha256": "19da7aaa4b880e59d56843f1fcb4dd9b599c28a1d9d9af7c1143057c8ffae9f1",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "vae/config.json",
+        "size": 547,
+        "sha256": "786a7d21647ddea6a04b9675c03d3cb45e90a2f3c6da5fbda2c54ade040036de",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "vae/diffusion_pytorch_model.safetensors",
+        "size": 334643276,
+        "sha256": "a2b5134f4dbc140d9c11f11cba3233099e00af40f262f136c691fb7d38d2194c",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "text_encoder/config.json",
+        "size": 617,
+        "sha256": "845df614cb9327ae7bbea027316246fae917827407da6df13572e41b5f93b4cc",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "text_encoder/model.safetensors",
+        "size": 492265874,
+        "sha256": "d008943c017f0092921106440254dbbe00b6a285f7883ec8ba160c3faad88334",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "tokenizer/merges.txt",
+        "size": 524619,
+        "sha256": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "tokenizer/vocab.json",
+        "size": 1059962,
+        "sha256": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "tokenizer/tokenizer_config.json",
+        "size": 806,
+        "sha256": "00439066fcba73de57644cf41e4e3b9f2dbb09d7f3fc2005898ba52399045882",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "sd15",
+        "repository": "AI-ModelScope/stable-diffusion-v1-5",
+        "path": "tokenizer/special_tokens_map.json",
+        "size": 472,
+        "sha256": "c4864a9376a8401918425bed71fc14fc0e81f9b59ec45c1cf96cccb2df508eac",
+        "revision": "1da7e88f8131250f694a8cbeaf0999d34c580318"
+      },
+      {
+        "folder": "clip_l14",
+        "repository": "AI-ModelScope/clip-vit-large-patch14",
+        "path": "config.json",
+        "size": 4519,
+        "sha256": "8a09b467700c58138c29d53c605b34ebc69beaadd13274a8a2af8ad2c2f4032a",
+        "revision": "f14d10b70c22170418f57120d301a7017cf60012"
+      },
+      {
+        "folder": "clip_l14",
+        "repository": "AI-ModelScope/clip-vit-large-patch14",
+        "path": "preprocessor_config.json",
+        "size": 316,
+        "sha256": "910e70b3956ac9879ebc90b22fb3bc8a75b6a0677814500101a4c072bd7857bd",
+        "revision": "f14d10b70c22170418f57120d301a7017cf60012"
+      },
+      {
+        "folder": "clip_l14",
+        "repository": "AI-ModelScope/clip-vit-large-patch14",
+        "path": "model.safetensors",
+        "size": 1710540580,
+        "sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+        "revision": "f14d10b70c22170418f57120d301a7017cf60012"
+      }
+    ]
+  },
+  "code_sha256": {
+    "src/cig_trial.py": "31b31d43deb92cf0975a21710062ac06482ffbb87fb2650a4f98e474a9fdd050",
+    "scripts/run_cig_domain_trial.py": "407801c8558324a334966719789c492e8f91ea0cf4368e2613df18f3458e5c83"
+  },
+  "retrieval_training_run": false
+}

@@ -1,0 +1,15 @@
+{
+  "server": "connect.westc.seetacloud.com:42484",
+  "checked_utc": "2026-10-19T07:11:22.329004+00:00",
+  "pid_checks": [
+    {
+      "file": "queue.pid",
+      "pid": 5853,
+      "live_command": null
+    }
+  ],
+  "reason": "Clone has completed results; preserve stale PID files without signaling any process",
+  "prior_manifest": "/root/autodl-tmp/results/fashioniq_augmentation_20261016/overlay_quality_screened/augmentation_manifest.json",
+  "new_attempt_budget": 120,
+  "seed": 44
+}

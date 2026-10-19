@@ -1,0 +1,28 @@
+{
+  "captured_utc": "2026-10-19T07:45:50.430663+00:00",
+  "server": "connect.westc.seetacloud.com:42484",
+  "trial_pid": 5229,
+  "process_cmdline": "python -u scripts/run_cig_domain_trial.py --root /root/autodl-tmp/data/FashionIQ --assets /root/autodl-tmp/cig_assets_20261019 --output /root/autodl-tmp/results/cig_domain_trial_20261019 --noise-audit /root/autodl-tmp/results/noise_audit_20261014/dress/audit.json --fashioniq-results /root/autodl-tmp/results/fashioniq_augmentation_20261019 ",
+  "process_cwd": "/root/autodl-tmp/experiments/fashioniq-continuation-20261019",
+  "state": {
+    "status": "training",
+    "step": 52,
+    "train_mse": 0.0972679213155061,
+    "grad_norm": 0.021495891734957695,
+    "elapsed_train_seconds": 121.26793828047812,
+    "remaining_seconds": 28575.088895082474
+  },
+  "free_gib": 15.131946563720703,
+  "baseline_internal_dev": {
+    "internal_dev_mse": 0.06419242365518585,
+    "seed": 7331
+  },
+  "budget": {
+    "started_unix": 1792395723.655893,
+    "maximum_seconds": 28800
+  },
+  "protocol_sha256": "7aafd8443efd524854383ef5dff7d2ff1ec3d2c82a4fd5cf51b4f376284cf2e5",
+  "manifest_sha256": "caed7355bd88c79bf09c3ca361b7045e17c90b2edf15cb08d578ed9c2eab401e",
+  "checkpoint_present": true,
+  "metric_scope": "intermediate training, not retrieval result"
+}

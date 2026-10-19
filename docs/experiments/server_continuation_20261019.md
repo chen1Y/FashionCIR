@@ -48,6 +48,16 @@ FashionIQ 六轮多正实验也未改善主指标：off 的 R@10+R@50 为127.863
 使用原本地 Qwen3-VL-8B 权重、原双图生成和另一提示词复核，同一模型复核仍不是独立模型或人工 GT。
 只新增元数据覆盖层，不增加图片或改动验证/测试。完成后另执行真实加载与抽样检查；尚无扩充后检索提升结论。
 
+### 本次完成结果
+
+2026-10-19 15:37 香港时间，原120个新图对全部处理：模型接受51、拒绝69。原始覆盖层新增123（历史72+本轮51），总6108。
+随后助手逐图检查全部51个新接受对，另外22条因明确矛盾或可视证据不足被单独排除，**本轮最终保留29条，累计新增101条，5985→6086**。
+例如 index149 把明显有白领的参考衣物说成 collarless，index172 把有肩带的目标说成 strapless；其他排除项包括无法确认的面料工艺、领型及不可见参考背面。未把不确定条目直接改写成新真值。
+
+推荐路径为服务器 `fashioniq_augmentation_20261019/overlay_quality_screened`，原始 `overlay` 和模型输出保留。历史144条 manifest 记录原样保留，历史72条接受数据没有重标。全部新接受样本的助手视觉检查也不是专家人工 GT。
+两版均通过原 DQU 和 structured fallback 两个真实适配器加载：图片ID11452、验证2017、图库3817不变，原三元组前缀相同、val/test一致，并各实际渲染三个新图对。
+可复核本地 `results/fashioniq_augmentation_20261019/quality_review_summary.json`、`quality_holdouts.json`、`screened_loader_check.json` 及两版 manifest。
+
 ## CIG：用户新授权下的实模型试训
 
 用户明确允许补齐权重，最多 **8 GPU 小时**，替代旧的禁止大权重下载约束。仍保留至少8 GiB数据盘空间。
@@ -69,3 +79,13 @@ FashionIQ 六轮多正实验也未改善主指标：off 的 R@10+R@50 为127.863
 代码：`src/cig_trial.py`、`scripts/run_cig_domain_trial.py`、`scripts/download_cig_trial_assets.py`。
 CPU真实小模型测试覆盖 Diffusers K/V 更新、冻结参数不变、CLIP伪词注入及预算不能重置。
 上游：[CIG](https://github.com/lan-lw/ComposedImageGen)、[论文](https://openaccess.thecvf.com/content/CVPR2025/papers/Wang_Generative_Zero-Shot_Composed_Image_Retrieval_CVPR_2025_paper.pdf)、[SEARLE](https://github.com/miccunifi/SEARLE)。
+
+### 启动核验（中间状态）
+
+选定15个SD1.5/CLIP文件全部校验通过，另有官方SEARLE Phi（SHA256 `0ce31fb8eecaad95cdf60287dbad2ac9f968d79b74559f11b462701ce4693b95`）。
+4项CPU测试通过，真实SD1.5 CLIP文本权重的原生伪词注入也通过，输出 `[1,77,768]`。
+8小时累计预算始于 **2026-10-19 07:42:03 UTC（15:42香港时间）**。1152条缓存已完成，实模型训练已经开始，进程身份核实为5229，训练参数19,169,280个，仅K/V。
+首步 checkpoint 已保存、参数变化L2为0.0037173；固定内部dev噪声MSE初始化0.0641924，首步0.0641843。此微小中间变化不能说明生成质量或检索收益。
+本地 `results/cig_domain_trial_20261019/launch_verification.json` 是第52步时的启动快照，**不是最终结果**；服务器 `trial_state.json` 和 `training.jsonl` 才是继续推进的状态。
+后续核验至第79步时GPU约4717MiB、无OOM/非有限值，磁盘约15.13GiB可用，不需要删除旧checkpoint。
+已恢复每15分钟监视，正常进度不重复提醒；完成或失败后汇总并停止监视。没有启动扩充后的DQU检索训练。

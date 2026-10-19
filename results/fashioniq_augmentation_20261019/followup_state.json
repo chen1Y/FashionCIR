@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "new_attempt_budget": 120,
+  "seed": 44,
+  "model": "/root/autodl-tmp/src/models--Qwen--Qwen3-VL-8B-Instruct/snapshots/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+  "shoes_results": "/root/autodl-tmp/results/cirr_shoes_20261015",
+  "code_root": "/root/autodl-tmp/experiments/fashioniq-continuation-20261019",
+  "new_images": 0,
+  "status": "complete",
+  "updated_utc": "2026-10-19T07:37:11.553201+00:00",
+  "prior_accepted": 72,
+  "source_signature": "001866003f5b621c6be4d222826c6164e98f609ee8a3b739265873e593c89a41",
+  "new_accepted": 51,
+  "decisions": {
+    "accept": 123,
+    "reject": 141
+  },
+  "summary": {
+    "original_triplets": 5985,
+    "added_triplets": 123,
+    "total_triplets": 6108,
+    "added_physical_images": 0,
+    "image_directory": "/root/autodl-tmp/data/FashionIQ/resized_image",
+    "source_signature": "001866003f5b621c6be4d222826c6164e98f609ee8a3b739265873e593c89a41",
+    "category": "dress",
+    "annotation_type": "synthetic_pseudo_labels",
+    "validation_and_test": "unchanged"
+  },
+  "note": "Synthetic labels; retrieval improvement untested. No retrieval training started."
+}

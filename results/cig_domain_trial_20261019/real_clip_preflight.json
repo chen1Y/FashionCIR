@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "shape": [
+    1,
+    77,
+    768
+  ],
+  "device": "cpu",
+  "placeholder_id": [
+    259
+  ]
+}
