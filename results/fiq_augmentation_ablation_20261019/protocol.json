@@ -1,0 +1,42 @@
+{
+  "category": "dress",
+  "seed": 42,
+  "epochs": 6,
+  "warmup_gate_epochs": 2,
+  "batch_size": 16,
+  "learning_rate": 5e-05,
+  "hard_negative_weight": 0,
+  "multi_positive": "off",
+  "frozen_dqu": true,
+  "original_unique_queries": 5985,
+  "augmented_unique_queries": 6086,
+  "examples_per_epoch_per_arm": 6086,
+  "original_repeats_per_epoch": 101,
+  "optimizer_updates_per_epoch_per_arm": 381,
+  "model_selection": "R@10+R@50 on unchanged full validation",
+  "eval_queries": 2017,
+  "gallery_images": 3817,
+  "eval_limit": 0,
+  "training_truncation": false,
+  "added_images": 0,
+  "online_api_budget_cny": 1,
+  "online_max_calls": 202,
+  "preparation_wall_start": 1792398139.0,
+  "maximum_wall_seconds": 10800,
+  "source_hashes": {
+    "/root/autodl-tmp/results/fashioniq_augmentation_20261019/overlay_quality_screened/augmentation_manifest.json": "3fc7c4331595a9d646ded39ca83c0fc6da393d20c193cd7437b4a8df982fe018",
+    "/root/autodl-tmp/data/FashionIQ/captions/structured_edits_dress_train_qwen37flash.json": "e648963b81ba70e97ef75434edb96b5ba17490c24f5a75b96961d81e4169dd7f",
+    "/root/autodl-tmp/data/FashionIQ/captions/structured_edits_dress_val_qwen37flash.json": "c1de50c9e548c77249c96b64f9954bcd6aebebee687f984a192dc4b7a0b2239a",
+    "/root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt": "a505052a947dfad3b8f1488a66ea316ef3e2688def3c17fae730c80e58cd659f"
+  },
+  "code_hashes": {
+    "src/newTrain.py": "b20c120c0fb565101f68b6ad072854681f5c79e930004114370ec9486f2798bb",
+    "src/newModel.py": "3b27d4ec233183adaaa710829d1d76e6ecfd9d8b25d576baaa8907a34f245b86",
+    "src/newDataset.py": "6c6367979ccbb5170ffc2278d1495891560f56e1cfd9882d94059d2d738fc59d",
+    "src/generate_structured_edits.py": "2900503cba85a386743be6fe00a427c7cddd82a1bad827c11ba3671beaf531f0",
+    "src/generate_fiq_augmentation_online.py": "73e834c6fc85a8231eb6beaaf3395332447034a02f69f167e36d9061f7425d7a",
+    "src/epoch_budget_sampler.py": "435a25b6e1ee119812c119b4ef7bc6dfa2a54ffe67e5439210b636affaeb385b",
+    "scripts/run_fiq_augmentation_ablation.py": "401608f18f4ee92623ef25ae7da0f1615e2b7af149bfdd92cba030c509ae2f6d"
+  },
+  "interpretation": "Single-seed pilot, full augmented Dress training set; not a three-category FashionIQ mean"
+}

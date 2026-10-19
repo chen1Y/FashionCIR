@@ -1,0 +1,110 @@
+{
+  "captured_utc": "2026-10-19T09:10:32.975259+00:00",
+  "status": "passed",
+  "result_scope": "Final single-seed Dress augmentation ablation; not three-category mean or significance evidence",
+  "completed_utc": "2026-10-19T09:06:33.632591+00:00",
+  "arms": [
+    {
+      "arm": "original_padded",
+      "status": "complete",
+      "completed_epochs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "updates_per_epoch": 381,
+      "total_updates": 2286,
+      "selected_epoch": 5,
+      "metrics": {
+        "dress_r1": 21.66584035696579,
+        "dress_r10": 52.6524541398116,
+        "dress_r50": 75.2602875557759
+      },
+      "checkpoint_sha256": "40578544017e463a0495e9bb1a051ce51fb098ef70328a2b963c21c223b6cb18",
+      "checkpoint_bytes": 2124351,
+      "adapter_only": true,
+      "finite_tensors": true,
+      "log_errors": []
+    },
+    {
+      "arm": "augmented101",
+      "status": "complete",
+      "completed_epochs": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "updates_per_epoch": 381,
+      "total_updates": 2286,
+      "selected_epoch": 5,
+      "metrics": {
+        "dress_r1": 21.764997521070896,
+        "dress_r10": 52.70203272186416,
+        "dress_r50": 75.2602875557759
+      },
+      "checkpoint_sha256": "0f41144de9abcbfb125adc6feb5b04fdb715c6df7ea33fb3dd65592462546613",
+      "checkpoint_bytes": 2124340,
+      "adapter_only": true,
+      "finite_tensors": true,
+      "log_errors": []
+    }
+  ],
+  "delta_percentage_points": {
+    "dress_r1": 0.09915716410510456,
+    "dress_r10": 0.049578582052554054,
+    "dress_r50": 0.0
+  },
+  "equivalent_net_queries": {
+    "dress_r1": 2,
+    "dress_r10": 1,
+    "dress_r50": 0
+  },
+  "source_and_code_hashes_match": {
+    "/root/autodl-tmp/results/fashioniq_augmentation_20261019/overlay_quality_screened/augmentation_manifest.json": true,
+    "/root/autodl-tmp/data/FashionIQ/captions/structured_edits_dress_train_qwen37flash.json": true,
+    "/root/autodl-tmp/data/FashionIQ/captions/structured_edits_dress_val_qwen37flash.json": true,
+    "/root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt": true,
+    "src/newTrain.py": true,
+    "src/newModel.py": true,
+    "src/newDataset.py": true,
+    "src/generate_structured_edits.py": true,
+    "src/generate_fiq_augmentation_online.py": true,
+    "src/epoch_budget_sampler.py": true,
+    "scripts/run_fiq_augmentation_ablation.py": true
+  },
+  "original_rows_unchanged": true,
+  "original_structures_unchanged": true,
+  "heldout_annotations_unchanged": true,
+  "merged_structured_hash_matches": true,
+  "processes_exited": {
+    "6963": true,
+    "6968": true,
+    "7531": true
+  },
+  "gpu_compute_processes": "",
+  "free_gib": 15.085704803466797,
+  "wall_seconds_preparation_to_completion": 2654.63259100914,
+  "maximum_wall_seconds": 10800,
+  "online_cost": {
+    "calls": 109,
+    "max_calls": 202,
+    "max_cny": 1,
+    "accounted_upper_cny": 0.06946660000000003,
+    "estimated_list_price_cny": 0.0694666,
+    "prompt_tokens": 92497,
+    "completion_tokens": 63709,
+    "usage_missing_calls": 0,
+    "request_states": {
+      "known": 109
+    },
+    "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+    "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+  },
+  "conclusion": "Very small positive single-seed change at R1/R10, R50 tied; no evidence yet of reliable improvement; no follow-on experiment launched"
+}

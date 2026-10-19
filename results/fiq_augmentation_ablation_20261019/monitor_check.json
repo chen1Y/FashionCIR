@@ -1,0 +1,65 @@
+{
+  "captured_utc": "2026-10-19T08:54:50.236634+00:00",
+  "status": "training_augmented101",
+  "free_gib": 15.086627960205078,
+  "remaining_wall_seconds": 8848.763317346573,
+  "arms": [
+    {
+      "arm": "original_padded",
+      "status": "complete",
+      "pid": 6968,
+      "returncode": 0,
+      "metric_scope": "final_arm_best",
+      "best_metrics": {
+        "epoch": 5,
+        "dress_r1": 21.66584035696579,
+        "dress_r10": 52.6524541398116,
+        "dress_r50": 75.2602875557759
+      },
+      "log_bytes": 1056122,
+      "mtime_utc": "2026-10-19T08:51:23.973781+00:00",
+      "error_lines": []
+    },
+    {
+      "arm": "augmented101",
+      "status": "running",
+      "pid": 7531,
+      "returncode": null,
+      "metric_scope": "intermediate_best",
+      "best_metrics": {},
+      "log_bytes": 182262,
+      "mtime_utc": "2026-10-19T08:54:50.357666+00:00",
+      "error_lines": []
+    }
+  ],
+  "processes": [
+    {
+      "pid": 6963,
+      "cmd": "python -u scripts/run_fiq_augmentation_ablation.py --root /root/autodl-tmp/data/FashionIQ --overlay /root/autodl-tmp/results/fashioniq_augmentation_20261019/overlay_quality_screened --output /root/autodl-tmp/results/fiq_augmentation_ablation_20261019 --clip-checkpoint /root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/snapshots/1c2b8495b28150b8a4922ee1c8edee224c284c0c/open_clip_pytorch_model.bin --dqu-checkpoint /root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt --generation-pid 6845 --generation-start-unix 1792398139 ",
+      "cwd": "/root/autodl-tmp/experiments/fiq-augmentation-ablation-20261019",
+      "ppid": "3914"
+    },
+    {
+      "pid": 6968,
+      "cmd": null,
+      "cwd": null,
+      "ppid": null
+    },
+    {
+      "pid": 7531,
+      "cmd": "/root/miniconda3/bin/python -u newTrain.py --dataset dress --fashioniq-split original-split --fashioniq-path /root/autodl-tmp/results/fashioniq_augmentation_20261019/overlay_quality_screened --clip-checkpoint /root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/snapshots/1c2b8495b28150b8a4922ee1c8edee224c284c0c/open_clip_pytorch_model.bin --dqu-checkpoint /root/autodl-tmp/checkpoints/dress_dqu_official_original_seed42_best.pt --structured-train-path /root/autodl-tmp/results/fiq_augmentation_ablation_20261019/structured_train_merged.json --structured-val-path /root/autodl-tmp/data/FashionIQ/captions/structured_edits_dress_val_qwen37flash.json --multi-positive off --seed 42 --num-epochs 6 --batch-size 16 --num-workers 4 --patience 20 --hard-negative-weight 0 --train-samples-per-epoch 6086 --run-name augmented101 --model-dir /root/autodl-tmp/results/fiq_augmentation_ablation_20261019/checkpoints ",
+      "cwd": "/root/autodl-tmp/experiments/fiq-augmentation-ablation-20261019/src",
+      "ppid": "6963"
+    }
+  ],
+  "hashes_match": {
+    "src/newTrain.py": true,
+    "src/newModel.py": true,
+    "src/newDataset.py": true,
+    "src/generate_structured_edits.py": true,
+    "src/generate_fiq_augmentation_online.py": true,
+    "src/epoch_budget_sampler.py": true,
+    "scripts/run_fiq_augmentation_ablation.py": true
+  },
+  "gpu": "7531, 4518 MiB"
+}
