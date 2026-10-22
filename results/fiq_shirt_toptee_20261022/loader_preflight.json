@@ -1,0 +1,30 @@
+{
+  "shirt": {
+    "baseline_queries": 5988,
+    "adapter_queries": 5988,
+    "validation": 2038,
+    "gallery": 6346,
+    "drawn_baseline": true,
+    "drawn_adapter": true,
+    "positive_labels": {
+      "queries": 5988,
+      "multi_positive_queries": 96,
+      "positive_links": 6096
+    },
+    "structured_mode": "explicit missing-path CPU loader check only; formal queue requires complete online inputs"
+  },
+  "toptee": {
+    "baseline_queries": 6027,
+    "adapter_queries": 6027,
+    "validation": 1961,
+    "gallery": 5373,
+    "drawn_baseline": true,
+    "drawn_adapter": true,
+    "positive_labels": {
+      "queries": 6027,
+      "multi_positive_queries": 38,
+      "positive_links": 6079
+    },
+    "structured_mode": "explicit missing-path CPU loader check only; formal queue requires complete online inputs"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "captured_utc": "2026-10-22T13:58:31.883804+00:00",
+  "server": "connect.weste.seetacloud.com:47914",
+  "status": "shirt_dqu_original",
+  "processes": [
+    {
+      "pid": 3553,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "python scripts/run_fiq_shirt_toptee.py --root /root/autodl-tmp/data/FashionIQ --output /root/autodl-tmp/results/fiq_shirt_toptee_20261022 --clip-checkpoint /root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/snapshots/1c2b8495b28150b8a4922ee1c8edee224c284c0c/open_clip_pytorch_model.bin --detach "
+    },
+    {
+      "pid": 3554,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "/root/miniconda3/bin/python src/generate_fashioniq_online.py --root /root/autodl-tmp/data/FashionIQ --output /root/autodl-tmp/results/fiq_shirt_toptee_20261022 --api-key-fd 4 "
+    },
+    {
+      "pid": 3555,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "/root/miniconda3/bin/python src/dquTrain.py --dataset shirt --fashioniq-path /root/autodl-tmp/data/FashionIQ --fashioniq-split original-split --clip-checkpoint /root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/blobs/9a78ef8e8c73fd0df621682e7a8e8eb36c6916cb3c16b291a082ecd52ab79cc4 --seed 42 --batch-size 16 --num-workers 4 --model-dir /dev/shm/fiq_shirt_toptee_20261022/shirt --run-name dqu_original --num-epochs 100 --patience 5 --lr 1e-4 --clip-lr 1e-6 "
+    }
+  ],
+  "gpu": "3555, 28202 MiB",
+  "free_gib": 16.20488739013672,
+  "tmpfs_free_gib": 30.999919891357422,
+  "ledger_snapshot": [
+    {
+      "category": "shirt",
+      "states": [
+        [
+          "known",
+          120,
+          98357,
+          59636,
+          0.0673802
+        ],
+        [
+          "reserved",
+          8,
+          0,
+          0,
+          0.032768
+        ]
+      ],
+      "final_samples": 112
+    }
+  ],
+  "interpretation": "Launch/intermediate verification only; final comparison pending"
+}

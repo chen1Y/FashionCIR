@@ -1,0 +1,135 @@
+{
+  "captured_utc": "2026-10-22T13:47:02.779770+00:00",
+  "free_gib_before": 15.025306701660156,
+  "files": [
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/09c1807c6d00d7cab94f7db39d4c02ebb8537225ccde383861ac48db97945aa6.incomplete",
+      "size": 1073741824,
+      "allocated_bytes": 402661376,
+      "mtime": 1785390024.089469,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/1e4d15c80d388b630a97347694914cbc58ea9dc40e472305add52981ca02e856.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785389859.1602705,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/2003cdd961d3a94897f70a49c4cda975e9f92dd938adfeeba4f335f695570310.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785389857.9561992,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/5dd068336d14d45ffb43cef374d286cc6ba9d8741b028f90a7d040d847961f4a.incomplete",
+      "size": 8358006,
+      "allocated_bytes": 8359936,
+      "mtime": 1785389961.9661257,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/b1830db6908dcc76df3a71492acbcf2b8cac130114cf1f3c2d9edae8de8c6de3.incomplete",
+      "size": 1073741824,
+      "allocated_bytes": 402780160,
+      "mtime": 1785389985.2873967,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/d20abf545941bbffe26e201276226332e6ad6a2d3d7a7a18fb45ec7006fcdc8a.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785389858.7762477,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/d725335e4ea2399be706469e4b8807716a8fa64bd03468252e9f7acf2415fee4.incomplete",
+      "size": 1073678149,
+      "allocated_bytes": 285827072,
+      "mtime": 1785389994.2438796,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--Qwen--Qwen-Image-Edit/blobs/e5baa4c61fbce2011ea179122a8dc4bfaefb5387feeee5eff765fb237977cbd1.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785389863.3965206,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/blobs/9a78ef8e8c73fd0df621682e7a8e8eb36c6916cb3c16b291a082ecd52ab79cc4.incomplete",
+      "size": 52428800,
+      "allocated_bytes": 52428800,
+      "mtime": 1785136228.4193199,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--stabilityai--stable-diffusion-xl-base-1.0/blobs/660c6f5b1abae9dc498ac2d21e1347d2abdb0cf6c0c0c8576cd796491d9a6cdd.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785401903.6379032,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--stabilityai--stable-diffusion-xl-base-1.0/blobs/83e012a805b84c7ca28e5646747c90a243c65c8ba4f070e2d7ddc9d74661e139.incomplete",
+      "size": 1073741824,
+      "allocated_bytes": 1286144,
+      "mtime": 1785401937.9167953,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--stabilityai--stable-diffusion-xl-base-1.0/blobs/bcb60880a46b63dea58e9bc591abe15f8350bde47b405f9c38f4be70c6161e68.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785401907.8257606,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--stabilityai--stable-diffusion-xl-base-1.0/blobs/eb6516ab7e1104d5d1a174a4d65c57835ae38061531d0a2192103aecfb790cc1.incomplete",
+      "size": 0,
+      "allocated_bytes": 0,
+      "mtime": 1785401907.905758,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/models--stabilityai--stable-diffusion-xl-base-1.0/blobs/ec310df2af79c318e24d20511b601a591ca8cd4f1fce1d8dff822a356bcdb1f4.incomplete",
+      "size": 1073741824,
+      "allocated_bytes": 1568768,
+      "mtime": 1785401912.733596,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/sdxl-base-1.0-modelscope/text_encoder/model.fp16.safetensors.incomplete",
+      "size": 15728640,
+      "allocated_bytes": 15728640,
+      "mtime": 1785402072.9454064,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/sdxl-base-1.0-modelscope/text_encoder_2/model.fp16.safetensors.incomplete",
+      "size": 51380224,
+      "allocated_bytes": 51380224,
+      "mtime": 1785402074.8093746,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/sdxl-base-1.0-modelscope/unet/diffusion_pytorch_model.fp16.safetensors.incomplete",
+      "size": 4194304,
+      "allocated_bytes": 4194304,
+      "mtime": 1785402071.805426,
+      "status": "unused_incomplete_download"
+    },
+    {
+      "path": "/root/autodl-tmp/model_cache/sdxl-base-1.0-modelscope/vae/diffusion_pytorch_model.fp16.safetensors.incomplete",
+      "size": 49283072,
+      "allocated_bytes": 49283072,
+      "mtime": 1785402073.497397,
+      "status": "unused_incomplete_download"
+    }
+  ],
+  "policy": "Only inactive incomplete downloads; no checkpoint or complete model deleted",
+  "free_gib_after": 16.213199615478516,
+  "released_allocated_bytes": 1275498496
+}
