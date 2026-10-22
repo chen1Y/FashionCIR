@@ -1,0 +1,10 @@
+{
+  "epoch": 2,
+  "selection_metric": "R@10 + R@50",
+  "shirt_r1": 24.77919528949951,
+  "shirt_r10": 54.563297350343476,
+  "shirt_r50": 73.25809617271835,
+  "shirt_median_rank": 8.0,
+  "shirt_mean_rank": 131.73012757605497,
+  "shirt_text_weight": 0.6179202795028687
+}

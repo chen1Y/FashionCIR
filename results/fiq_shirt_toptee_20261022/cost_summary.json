@@ -1,25 +1,22 @@
 {
   "categories": {
     "shirt": {
-      "calls": 259,
-      "max_calls": 16052,
-      "max_cny": 7.5,
-      "accounted_upper_cny": 0.17850180000000004,
-      "estimated_list_price_cny": 0.1416378,
-      "prompt_tokens": 205521,
-      "completion_tokens": 125667,
-      "usage_missing_calls": 9,
+      "calls": 2911,
+      "accounted_upper_cny": 1.6548145999999997,
+      "estimated_list_price_cny": 1.6507186,
+      "prompt_tokens": 2409861,
+      "completion_tokens": 1460933,
       "request_states": {
-        "known": 250,
-        "reserved": 8,
+        "known": 2910,
         "unknown": 1
       },
-      "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
-      "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+      "max_cny": 7.5,
+      "max_calls": 16052
     }
   },
-  "total_accounted_upper_cny": 0.17850180000000004,
+  "total_accounted_upper_cny": 1.6548145999999997,
+  "total_estimated_list_price_cny": 1.6507186,
   "max_cny": 15,
-  "price_checked": "2026-10-22",
-  "note": "Beijing list-price usage estimate; not an invoice"
+  "state": "paused_by_user",
+  "note": "Known usage at Beijing list price; unknown reservation retained. No requests in flight; not an invoice"
 }

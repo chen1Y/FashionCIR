@@ -62,3 +62,22 @@ The interrupted Shirt baseline had reached182/375 batches of epoch1 but had no c
 
 
 Continuation was verified on the new dispatcher3958, online process3959 and Shirt DQU3960 (historical references only): new API requests returned normally, total finalized samples advanced beyond159, and same-seed Shirt baseline epoch1 batches advanced. Original start remains2026-10-22T13:56:44.261471+00:00; recovery evidence is in `recovery_verification.json`. No new retrieval result is available yet. Monitoring remains active with the original spending/time limits.
+
+
+## User-requested durable pause — 2026-10-22 22:49 Hong Kong
+
+The user asked to pause only if progress could be saved for later continuation. During inspection the Shirt baseline naturally finished after epoch7 (five stale evaluations since best epoch2), published its unmodified full best checkpoint to the persistent data disk and entered `waiting_online_shirt`. No optimizer/RNG recovery is needed at this completed-stage boundary; the baseline is not truncated.
+
+| Completed Shirt DQU | R@1 | R@10 | R@50 |
+|---|---:|---:|---:|
+| Best epoch2, single seed42 | 24.7792 | 54.5633 | 73.2581 |
+
+The dispatcher was stopped before it could advance; API main-thread SIGINT allowed the bounded thread pool to drain all active requests and write final samples to SQLite. After confirming there were no reserved/metered requests or requests without finalized samples, SQLite WAL was checkpointed and a database backup saved under `user_pause_20261022`. Partial structured JSON was rebuilt from all durable finalized rows, then the dispatcher was terminated. Both processes exited, GPU compute processes are empty, and no generation or GPU work continues. This is an intentional user pause, not a failed experiment.
+
+Saved online progress: **Shirt train2677/5988**, including2521 schema/program-valid records. Shirt val and all Toptee generation are pending. The three Shirt structured arms and four Toptee GPU stages (seven total) remain pending. Previously failed samples including the old unknown query157 are preserved and are not automatically retried.
+
+API usage at pause:2911 total requests,2910 known and1 old unknown; prompt2409861 tokens, completion1460933 tokens. Known list-price estimate **1.6507186 CNY**, unknown allowance0.004096 CNY, conservative total1.6548146 CNY; no request remains in flight. Original15 CNY total/7.5 per-category limits are unchanged.
+
+Evidence: `pause_audit.json`, `pause_resume_plan.json`, updated `experiment_report.json` and `cost_summary.json`. The preserved Shirt baseline SHA-256 is `6690822bf59dbc4c6c9e45df9d2a0026da033b327afef595bbc17829d2150866`. All weight/ledger state is on the persistent data disk, independent of process memory. Original metadata and training/generation source are unchanged.
+
+The resume plan lists the exact seven remaining GPU commands and requires the unchanged API generator to reuse its original ledgers. It explicitly **forbids `--resume-initial-failure`**, which is only for the old pre-checkpoint failure. A future user-authorized continuation must adopt and SHA-verify the completed Shirt baseline, skip its training, preserve all2677 API records and accumulated costs, and run only remaining stages. The original12-hour budget has3152.034592 seconds spent and40047.965408 seconds remaining recorded; this pause has not reset or extended it. Any later treatment of user-requested downtime must be explicit rather than silently resetting the deadline. Automated monitoring is also paused until an explicit continuation request.

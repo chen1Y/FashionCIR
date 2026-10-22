@@ -1,0 +1,60 @@
+{
+  "status": "paused_by_user",
+  "paused_utc": "2026-10-22T14:49:16.296063+00:00",
+  "completed_baseline": {
+    "epoch": 2,
+    "selection_metric": "R@10 + R@50",
+    "shirt_r1": 24.77919528949951,
+    "shirt_r10": 54.563297350343476,
+    "shirt_r50": 73.25809617271835,
+    "shirt_median_rank": 8.0,
+    "shirt_mean_rank": 131.73012757605497,
+    "shirt_text_weight": 0.6179202795028687
+  },
+  "checkpoint_path": "/root/autodl-tmp/results/fiq_shirt_toptee_20261022/shirt/checkpoints/shirt_dqu_original_seed42_best.pt",
+  "checkpoint_sha256": "6690822bf59dbc4c6c9e45df9d2a0026da033b327afef595bbc17829d2150866",
+  "api_final_samples": 2677,
+  "outputs": {
+    "shirt_train": {
+      "completed": 2677,
+      "valid": 2521,
+      "total": 5988
+    }
+  },
+  "costs": {
+    "categories": {
+      "shirt": {
+        "calls": 2911,
+        "accounted_upper_cny": 1.6548145999999997,
+        "estimated_list_price_cny": 1.6507186,
+        "prompt_tokens": 2409861,
+        "completion_tokens": 1460933,
+        "request_states": {
+          "known": 2910,
+          "unknown": 1
+        },
+        "max_cny": 7.5,
+        "max_calls": 16052
+      }
+    },
+    "total_accounted_upper_cny": 1.6548145999999997,
+    "total_estimated_list_price_cny": 1.6507186,
+    "max_cny": 15,
+    "state": "paused_by_user",
+    "note": "Known usage at Beijing list price; unknown reservation retained. No requests in flight; not an invoice"
+  },
+  "all_api_requests_drained": true,
+  "no_request_without_final_sample": true,
+  "remaining_gpu_stages": 7,
+  "original_started_utc": "2026-10-22T13:56:44.261471+00:00",
+  "spent_wall_seconds_before_pause": 3152.034592,
+  "remaining_original_wall_budget_seconds": 40047.965408000004,
+  "budget_reset": false,
+  "requires_explicit_resume": true,
+  "gpu_compute_processes": "",
+  "free_gib": 12.42032241821289,
+  "process_states": {
+    "3958": "exited",
+    "3959": "exited"
+  }
+}

@@ -1,12 +1,12 @@
 {
-  "status": "shirt_dqu_original",
+  "status": "paused_by_user",
   "started_utc": "2026-10-22T13:56:44.261471+00:00",
   "queue_pid": 3958,
   "stages": [
     {
       "category": "shirt",
       "stage": "dqu_original",
-      "status": "running",
+      "status": "complete",
       "command": [
         "/root/miniconda3/bin/python",
         "src/dquTrain.py",
@@ -38,7 +38,8 @@
         "1e-6"
       ],
       "started_utc": "2026-10-22T14:09:16.291222+00:00",
-      "pid": 3960
+      "pid": 3960,
+      "returncode": 0
     }
   ],
   "dataset_audit": {
@@ -54,33 +55,44 @@
     }
   },
   "metrics": {
-    "shirt": {}
+    "shirt": {
+      "dqu_original": {
+        "epoch": 2,
+        "selection_metric": "R@10 + R@50",
+        "shirt_r1": 24.77919528949951,
+        "shirt_r10": 54.563297350343476,
+        "shirt_r50": 73.25809617271835,
+        "shirt_median_rank": 8.0,
+        "shirt_mean_rank": 131.73012757605497,
+        "shirt_text_weight": 0.6179202795028687
+      }
+    }
   },
   "costs": {
     "categories": {
       "shirt": {
-        "calls": 170,
-        "max_calls": 16052,
-        "max_cny": 7.5,
-        "accounted_upper_cny": 0.10073760000000005,
-        "estimated_list_price_cny": 0.09664160000000001,
-        "prompt_tokens": 138896,
-        "completion_tokens": 86078,
-        "usage_missing_calls": 1,
+        "calls": 2911,
+        "accounted_upper_cny": 1.6548145999999997,
+        "estimated_list_price_cny": 1.6507186,
+        "prompt_tokens": 2409861,
+        "completion_tokens": 1460933,
         "request_states": {
-          "known": 169,
+          "known": 2910,
           "unknown": 1
         },
-        "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
-        "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+        "max_cny": 7.5,
+        "max_calls": 16052
       }
     },
-    "total_accounted_upper_cny": 0.10073760000000005,
+    "total_accounted_upper_cny": 1.6548145999999997,
+    "total_estimated_list_price_cny": 1.6507186,
     "max_cny": 15,
-    "price_checked": "2026-10-22",
-    "note": "Beijing list-price usage estimate; not an invoice"
+    "state": "paused_by_user",
+    "note": "Known usage at Beijing list price; unknown reservation retained. No requests in flight; not an invoice"
   },
-  "checkpoint_hashes": {},
+  "checkpoint_hashes": {
+    "shirt": "6690822bf59dbc4c6c9e45df9d2a0026da033b327afef595bbc17829d2150866"
+  },
   "recovery": {
     "reason": "User replenished API account and explicitly requested continuation after HTTP403",
     "previous_evidence": "/root/autodl-tmp/results/fiq_shirt_toptee_20261022/recovery_20261022T140916Z",
@@ -90,5 +102,10 @@
     "budget": "Original ledger limits and original 12-hour wall deadline unchanged"
   },
   "generation_pid": 3959,
-  "updated_utc": "2026-10-22T14:09:16.292404+00:00"
+  "updated_utc": "2026-10-22T14:49:16.296063+00:00",
+  "paused_utc": "2026-10-22T14:49:16.296063+00:00",
+  "pause_audit": "pause_audit.json",
+  "resume_plan": "pause_resume_plan.json",
+  "remaining_gpu_stages": 7,
+  "interpretation": "Shirt DQU final; structured branches and Toptee pending. Durable pause at completed stage boundary; no active GPU/API process."
 }
