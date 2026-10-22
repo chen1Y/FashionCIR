@@ -1,0 +1,8 @@
+{
+  "reason": "User replenished API account and explicitly requested continuation after HTTP403",
+  "previous_evidence": "/root/autodl-tmp/results/fiq_shirt_toptee_20261022/recovery_20261022T140916Z",
+  "original_started_utc": "2026-10-22T13:56:44.261471+00:00",
+  "partial_baseline": "No checkpoint/optimizer saved; repeat same-seed full baseline, record wasted partial epoch",
+  "online": "Reuse all saved successes/failures including query157 failure; never resend unknown request",
+  "budget": "Original ledger limits and original 12-hour wall deadline unchanged"
+}

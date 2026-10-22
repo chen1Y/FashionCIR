@@ -1,0 +1,88 @@
+{
+  "status": "failed",
+  "started_utc": "2026-10-22T13:56:44.261471+00:00",
+  "queue_pid": 3553,
+  "stages": [
+    {
+      "category": "shirt",
+      "stage": "dqu_original",
+      "status": "running",
+      "command": [
+        "/root/miniconda3/bin/python",
+        "src/dquTrain.py",
+        "--dataset",
+        "shirt",
+        "--fashioniq-path",
+        "/root/autodl-tmp/data/FashionIQ",
+        "--fashioniq-split",
+        "original-split",
+        "--clip-checkpoint",
+        "/root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/blobs/9a78ef8e8c73fd0df621682e7a8e8eb36c6916cb3c16b291a082ecd52ab79cc4",
+        "--seed",
+        "42",
+        "--batch-size",
+        "16",
+        "--num-workers",
+        "4",
+        "--model-dir",
+        "/dev/shm/fiq_shirt_toptee_20261022/shirt",
+        "--run-name",
+        "dqu_original",
+        "--num-epochs",
+        "100",
+        "--patience",
+        "5",
+        "--lr",
+        "1e-4",
+        "--clip-lr",
+        "1e-6"
+      ],
+      "started_utc": "2026-10-22T13:56:44.265305+00:00",
+      "pid": 3555
+    }
+  ],
+  "dataset_audit": {
+    "shirt": {
+      "train": 5988,
+      "val": 2038,
+      "gallery": 6346
+    },
+    "toptee": {
+      "train": 6027,
+      "val": 1961,
+      "gallery": 5373
+    }
+  },
+  "metrics": {
+    "shirt": {}
+  },
+  "costs": {
+    "categories": {
+      "shirt": {
+        "calls": 170,
+        "max_calls": 16052,
+        "max_cny": 7.5,
+        "accounted_upper_cny": 0.10073760000000005,
+        "estimated_list_price_cny": 0.09664160000000001,
+        "prompt_tokens": 138896,
+        "completion_tokens": 86078,
+        "usage_missing_calls": 1,
+        "request_states": {
+          "known": 169,
+          "unknown": 1
+        },
+        "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+        "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+      }
+    },
+    "total_accounted_upper_cny": 0.10073760000000005,
+    "max_cny": 15,
+    "price_checked": "2026-10-22",
+    "note": "Beijing list-price usage estimate; not an invoice"
+  },
+  "checkpoint_hashes": {},
+  "generation_pid": 3554,
+  "updated_utc": "2026-10-22T13:59:24.455021+00:00",
+  "error_type": "RuntimeError",
+  "error": "Online generation failed; see online_generation.log and retained ledger"
+}

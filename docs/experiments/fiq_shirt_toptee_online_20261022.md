@@ -50,3 +50,15 @@ Read `experiment_report.json`, `protocol.json`, `cost_summary.json`, per-categor
 Three query-binding/publication guard tests passed locally and on the server; ten existing durable-ledger/cost/resume tests passed on the server. Both real FashionIQ adapters loaded all original metadata, checked full validation/gallery sizes and actually drew/read a training pair per category. Exact annotated multi-positive coverage is96/5988 queries for Shirt and38/6027 for Toptee; these are conservative existing training annotations, not newly generated positives.
 
 The detached dispatcher launched on2026-10-22: initial queue PID3553, online generation3554 and Shirt DQU3555, with commands/cwd/GPU identity verified. These PIDs are only historical references; monitor current `/proc` identity. Online generation and Shirt baseline initialization are active. Final metrics and actual cost remain pending; no retrieval benefit is claimed before completion.
+
+
+## Explicit continuation after account replenishment
+
+The initial API process stopped on one HTTP403 at Shirt train query157, after159 finalized query records and169 known requests. HTTP403's exact provider cause was not returned by the old client; the user subsequently replenished the Qwen account and explicitly requested continuation. No claim that it was a content-safety rejection is made.
+
+Initial measured list-price usage was0.0966416 CNY. The single unknown request retains0.004096 CNY conservative reservation, giving0.1007376 CNY total upper accounting at the stop. Its saved failed query remains a DQU fallback and is not retried. All159 records (including failures) and the original SQLite budget are reused.
+
+The interrupted Shirt baseline had reached182/375 batches of epoch1 but had no checkpoint or saved optimizer state. Its complete same-seed baseline must therefore start again; the interrupted work is documented as overhead and is not presented as resumed model steps. Original queue/generation/training logs, protocol, reports and partial generated output are copied to a timestamped recovery directory, and initial source files are retained separately. Only explicit initial-failure dispatch recovery code changes; generation, prompts, schemas, training, data, per-category7.5 CNY/total15 CNY limits and the original12-hour launch deadline stay fixed. The dispatcher refuses a recovery that changes other protocol/code fields or has an existing training checkpoint. An additional guard test verifies these restrictions.
+
+
+Continuation was verified on the new dispatcher3958, online process3959 and Shirt DQU3960 (historical references only): new API requests returned normally, total finalized samples advanced beyond159, and same-seed Shirt baseline epoch1 batches advanced. Original start remains2026-10-22T13:56:44.261471+00:00; recovery evidence is in `recovery_verification.json`. No new retrieval result is available yet. Monitoring remains active with the original spending/time limits.

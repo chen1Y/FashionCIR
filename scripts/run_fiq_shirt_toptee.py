@@ -64,6 +64,16 @@ def plan(root, output, clip, staging):
     return commands
 
 
+def compatible_resume(original, current):
+    """Only initial dispatch recovery code may change, never the scientific protocol."""
+    if json.dumps({k:v for k,v in original.items() if k != "code_hashes"}, sort_keys=True) != json.dumps({k:v for k,v in current.items() if k != "code_hashes"}, sort_keys=True):
+        raise ValueError("Resume would change the scientific protocol or budget")
+    changed = {k for k in set(original["code_hashes"]) | set(current["code_hashes"])
+               if original["code_hashes"].get(k) != current["code_hashes"].get(k)}
+    if changed - {"scripts/run_fiq_shirt_toptee.py"}:
+        raise ValueError("Resume would change generation/model/data/training code")
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", type=Path, required=True)
@@ -72,6 +82,8 @@ def main():
     p.add_argument("--staging", type=Path, default=Path("/dev/shm/fiq_shirt_toptee_20261022"))
     p.add_argument("--detach", action="store_true")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--resume-initial-failure", action="store_true",
+                   help="Explicitly resume this pre-first-checkpoint failure; keep original clock, ledger and saved queries")
     args = p.parse_args()
     args.root, args.output, args.clip_checkpoint = args.root.resolve(), args.output.resolve(), args.clip_checkpoint.resolve()
     if not args.staging.is_absolute() or args.staging.parent != Path("/dev/shm"):
@@ -124,7 +136,21 @@ def main():
         print(json.dumps(protocol, indent=2))
         return
     args.output.mkdir(parents=True, exist_ok=True)
-    if (args.output / "experiment_report.json").exists() or args.staging.exists():
+    old_report = None
+    if args.resume_initial_failure:
+        old_report = json.loads((args.output / "experiment_report.json").read_text())
+        original_protocol = json.loads((args.output / "protocol.json").read_text())
+        compatible_resume(original_protocol, protocol)
+        if (old_report["status"] != "failed" or len(old_report["stages"]) != 1
+                or old_report["stages"][0]["category"] != "shirt"
+                or old_report["stages"][0]["stage"] != "dqu_original"
+                or old_report["metrics"].get("shirt") or list(args.staging.rglob("*"))):
+            raise ValueError("This narrow recovery requires initial failed stage with no trained checkpoint")
+        for pid in [old_report["queue_pid"], old_report["generation_pid"], old_report["stages"][0]["pid"]]:
+            path = Path("/proc") / str(pid) / "cmdline"
+            if path.exists() and str(ROOT).encode() in path.read_bytes():
+                raise RuntimeError("Previous experiment process is still active")
+    elif (args.output / "experiment_report.json").exists() or args.staging.exists():
         raise FileExistsError("Inspect previous queue/staging; never launch twice")
     require_space(args.output, 8 + 2 * 3.7 + .5)
     require_space(Path("/dev/shm"), 16)
@@ -138,14 +164,37 @@ def main():
     key = getpass.getpass("DashScope API key (memory only): ")
     if not key:
         raise ValueError("Empty API key")
+    recovery = None
+    if old_report is not None:
+        stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        backup = args.output / ("recovery_" + stamp)
+        backup.mkdir()
+        for name in ["queue.log", "online_generation.log", "queue.pid", "generation.pid", "experiment_report.json",
+                     "protocol.json", "cost_summary.json", "shirt/dqu_original.log", "shirt/structured_shirt_train.json"]:
+            source = args.output / name
+            if source.exists():
+                target = backup / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, target)
+                if source.suffix == ".log" or source.suffix == ".pid":
+                    source.unlink()
+        recovery = dict(reason="User replenished API account and explicitly requested continuation after HTTP403",
+                        previous_evidence=str(backup), original_started_utc=old_report["started_utc"],
+                        partial_baseline="No checkpoint/optimizer saved; repeat same-seed full baseline, record wasted partial epoch",
+                        online="Reuse all saved successes/failures including query157 failure; never resend unknown request",
+                        budget="Original ledger limits and original 12-hour wall deadline unchanged")
+        atomic_write_json(backup / "recovery_manifest.json", recovery)
     if args.detach and not detach_queue(args.output):
         return
-    args.staging.mkdir()
+    args.staging.mkdir(exist_ok=old_report is not None)
     (args.output / "queue.pid").write_text(str(os.getpid()) + "\n")
     atomic_write_json(args.output / "protocol.json", protocol)
-    report = dict(status="starting", started_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    report = dict(status="starting", started_utc=old_report["started_utc"] if old_report else datetime.datetime.now(datetime.timezone.utc).isoformat(),
                   queue_pid=os.getpid(), stages=[], dataset_audit=audit, metrics={}, costs={}, checkpoint_hashes={})
-    started = time.monotonic()
+    if recovery:
+        report["recovery"] = recovery
+    elapsed_before_resume = (datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(report["started_utc"])).total_seconds()
+    started = time.monotonic() - elapsed_before_resume
     children = []
     env = dict(os.environ, HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", TOKENIZERS_PARALLELISM="false",
                OMP_NUM_THREADS="2", MKL_NUM_THREADS="2")

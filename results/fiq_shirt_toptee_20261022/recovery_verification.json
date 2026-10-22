@@ -1,0 +1,58 @@
+{
+  "captured_utc": "2026-10-22T14:10:49.136388+00:00",
+  "status": "shirt_dqu_original",
+  "queue_pid": 3958,
+  "generation_pid": 3959,
+  "original_started_utc": "2026-10-22T13:56:44.261471+00:00",
+  "budget_reset": false,
+  "saved_queries": 254,
+  "requests": [
+    [
+      "known",
+      272,
+      223650,
+      136518,
+      0.15394440000000012
+    ],
+    [
+      "reserved",
+      8,
+      0,
+      0,
+      0.032768
+    ],
+    [
+      "unknown",
+      1,
+      0,
+      0,
+      0.004096
+    ]
+  ],
+  "query157_attempts": [
+    [
+      "generate",
+      "unknown"
+    ]
+  ],
+  "gpu": "3960, 28008 MiB",
+  "free_gib": 16.20201873779297,
+  "processes": [
+    {
+      "pid": 3958,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "python scripts/run_fiq_shirt_toptee.py --root /root/autodl-tmp/data/FashionIQ --output /root/autodl-tmp/results/fiq_shirt_toptee_20261022 --clip-checkpoint /root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/snapshots/1c2b8495b28150b8a4922ee1c8edee224c284c0c/open_clip_pytorch_model.bin --resume-initial-failure --detach "
+    },
+    {
+      "pid": 3959,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "/root/miniconda3/bin/python src/generate_fashioniq_online.py --root /root/autodl-tmp/data/FashionIQ --output /root/autodl-tmp/results/fiq_shirt_toptee_20261022 --api-key-fd 4 "
+    },
+    {
+      "pid": 3960,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "/root/miniconda3/bin/python src/dquTrain.py --dataset shirt --fashioniq-path /root/autodl-tmp/data/FashionIQ --fashioniq-split original-split --clip-checkpoint /root/.cache/huggingface/hub/models--laion--CLIP-ViT-H-14-laion2B-s32B-b79K/blobs/9a78ef8e8c73fd0df621682e7a8e8eb36c6916cb3c16b291a082ecd52ab79cc4 --seed 42 --batch-size 16 --num-workers 4 --model-dir /dev/shm/fiq_shirt_toptee_20261022/shirt --run-name dqu_original --num-epochs 100 --patience 5 --lr 1e-4 --clip-lr 1e-6 "
+    }
+  ],
+  "scope": "Verified resumed launch, intermediate only"
+}

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 from generate_fashioniq_online import check_complete, fingerprint, VERSION
-from run_fiq_shirt_toptee import publish_checkpoint
+from run_fiq_shirt_toptee import publish_checkpoint, compatible_resume
 
 
 class OnlineGuards(unittest.TestCase):
@@ -58,6 +58,23 @@ class OnlineGuards(unittest.TestCase):
                 with self.assertRaises(FileExistsError):
                     publish_checkpoint(source, destination)
             self.assertTrue(source.exists())
+
+    def test_explicit_recovery_cannot_change_budget_or_generator(self):
+        old = {"maximum_wall_seconds": 43200, "online": {"max_total_cny": 15},
+               "code_hashes": {"scripts/run_fiq_shirt_toptee.py": "old", "src/generate_fashioniq_online.py": "same"}}
+        new = copy.deepcopy(old)
+        new["code_hashes"]["scripts/run_fiq_shirt_toptee.py"] = "recovery-fix"
+        compatible_resume(old, new)
+        old["commands"] = [["stage", ["python", "train.py"]]]
+        new["commands"] = [("stage", ["python", "train.py"])]
+        compatible_resume(old, new)  # JSON round-trip converts command tuples to lists.
+        new["online"]["max_total_cny"] = 16
+        with self.assertRaises(ValueError):
+            compatible_resume(old, new)
+        new = copy.deepcopy(old)
+        new["code_hashes"]["src/generate_fashioniq_online.py"] = "different-prompt"
+        with self.assertRaises(ValueError):
+            compatible_resume(old, new)
 
 
 if __name__ == "__main__":

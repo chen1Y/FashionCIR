@@ -133,7 +133,7 @@
     "src/train.py": "d0812e9d22e89b3c447d4553b236b7665477a842af7906bac544550aaf1f716f",
     "src/utils.py": "68a3cf7a95e6d49b2e269c09896878fb0caeda6f4e3ad007dbed6c6d7e3da69c",
     "src/verify_fashioniq_augmentation.py": "b1f7079996e3816613f26762814bd7fcf7c49a25482966994a6fbc61cac62532",
-    "scripts/run_fiq_shirt_toptee.py": "e0dfc0cd7d39792fce9ce9c34aec799881784f201deac21d9a2ea3f4db80dc80",
+    "scripts/run_fiq_shirt_toptee.py": "6525a85c5b0218cf0c3aa208a1345ad3342cff8d81e2288077caa1b11b794195",
     "scripts/run_cirr_shoes_benchmark.py": "84ac425bacb750e5bee30a1e2d8e61abafc37ea19a1a6a81b4b9a4ca8ddbc8b9"
   },
   "commands": {
