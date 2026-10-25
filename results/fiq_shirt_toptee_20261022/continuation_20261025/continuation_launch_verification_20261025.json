@@ -1,0 +1,45 @@
+{
+  "captured_utc": "2026-10-25T15:46:29.459183+00:00",
+  "server": "connect.westc.seetacloud.com:33699",
+  "status": "waiting_online_shirt",
+  "dispatcher": "resume_fiq_saved_pause.py",
+  "processes": [
+    {
+      "pid": 2098,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "python scripts/resume_fiq_saved_pause.py --output /root/autodl-tmp/results/fiq_shirt_toptee_20261022 --detach "
+    },
+    {
+      "pid": 2099,
+      "cwd": "/root/autodl-tmp/experiments/fiq-shirt-toptee-online-20261022",
+      "cmd": "/root/miniconda3/bin/python src/generate_fashioniq_online.py --root /root/autodl-tmp/data/FashionIQ --output /root/autodl-tmp/results/fiq_shirt_toptee_20261022 --api-key-fd 4 "
+    }
+  ],
+  "states": [
+    [
+      "known",
+      3217,
+      1.8259585999999992
+    ],
+    [
+      "reserved",
+      8,
+      0.032768
+    ],
+    [
+      "unknown",
+      1,
+      0.004096
+    ]
+  ],
+  "final_samples": 2958,
+  "query157": [
+    [
+      "generate",
+      "unknown"
+    ]
+  ],
+  "gpu": "",
+  "free_gib": 12.408893585205078,
+  "scope": "Continuation launch/intermediate; Shirt baseline adopted; no final comparison yet"
+}

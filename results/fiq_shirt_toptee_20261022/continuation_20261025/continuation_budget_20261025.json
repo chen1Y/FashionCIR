@@ -1,0 +1,9 @@
+{
+  "original_maximum_seconds": 43200,
+  "previously_spent_seconds": 3152.034592,
+  "maximum_continuation_seconds": 40047.965408000004,
+  "resumed_utc": "2026-10-25T15:43:14.106045+00:00",
+  "excluded_user_pause": true,
+  "original_started_utc": "2026-10-22T13:56:44.261471+00:00",
+  "budget_reset": false
+}

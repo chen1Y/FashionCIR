@@ -1,0 +1,23 @@
+{
+  "checked_utc": "2026-10-25T15:42:40.992811+00:00",
+  "completed_shirt_sha256": "6690822bf59dbc4c6c9e45df9d2a0026da033b327afef595bbc17829d2150866",
+  "reused_api_records": 2677,
+  "remaining_queries": 13337,
+  "remaining_gpu_stages": 7,
+  "remaining_runtime_seconds": 40047.965408000004,
+  "free_gib": 12.419254302978516,
+  "existing_ledgers": {
+    "shirt": {
+      "samples": 2677,
+      "calls": 2911,
+      "accounted_upper_cny": 1.6548145999999997
+    }
+  },
+  "log_offsets_before_resume": {
+    "queue.log": 0,
+    "online_generation.log": 55075
+  },
+  "resume_script_sha256": "46bc38b7a4203eda1b839c20a7b001269c636894045c4d25adde18d4966b8810",
+  "original_scientific_protocol_unchanged": true,
+  "runtime_policy": "Explicit user continuation excludes the requested pause; consumed runtime and all API costs retained"
+}

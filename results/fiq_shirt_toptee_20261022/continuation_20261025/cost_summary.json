@@ -1,0 +1,25 @@
+{
+  "categories": {
+    "shirt": {
+      "calls": 3220,
+      "max_calls": 16052,
+      "max_cny": 7.5,
+      "accounted_upper_cny": 1.8560407999999997,
+      "estimated_list_price_cny": 1.8232728,
+      "prompt_tokens": 2660784,
+      "completion_tokens": 1613895,
+      "usage_missing_calls": 8,
+      "request_states": {
+        "known": 3212,
+        "reserved": 7,
+        "unknown": 1
+      },
+      "price_source": "https://help.aliyun.com/zh/model-studio/qwen3-7-flash",
+      "note": "Known usage at Beijing list price; unknown calls retain full conservative allowance; not an invoice"
+    }
+  },
+  "total_accounted_upper_cny": 1.8560407999999997,
+  "max_cny": 15,
+  "price_checked": "2026-10-22",
+  "note": "Beijing list-price usage estimate; not an invoice"
+}
