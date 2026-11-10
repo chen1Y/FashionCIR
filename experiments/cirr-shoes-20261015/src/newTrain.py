@@ -1,0 +1,630 @@
+"""Train DQU-CIR with an offline Qwen structured-text residual."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import logging
+import os
+import random
+from contextlib import nullcontext
+from pathlib import Path
+
+import numpy as np
+import torch
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+
+import newDataset
+import newModel
+import newTest
+from multi_positive import PositiveIndex
+from benchmark_data import selection_score, selection_name
+from experiment_storage import require_space, atomic_torch_save
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--local-rank", "--local_rank", default=int(os.getenv("LOCAL_RANK", -1)), type=int)
+    parser.add_argument("--dataset", default="dress", choices=("dress", "shirt", "toptee", "cirr", "shoes"))
+    parser.add_argument("--cirr-path", default="../data/CIRR")
+    parser.add_argument("--shoes-path", default="../data/Shoes")
+    parser.add_argument(
+        "--fashioniq-split",
+        "--fashioniq_split",
+        default="original-split",
+        choices=("original-split", "val-split"),
+    )
+    parser.add_argument("--fashioniq-path", "--fashioniq_path", default="../data/FashionIQ")
+    parser.add_argument("--structured-train-path")
+    parser.add_argument("--structured-val-path")
+    parser.add_argument("--structured-only", action="store_true")
+    parser.add_argument("--noise-manifest", help="Dataset-bound train-only noise exclusion policy.")
+    parser.add_argument("--multi-positive", default="off",
+                        choices=("off", "identity", "annotated", "verified"),
+                        help="Train-only labels: same target ID, exact annotated query, or reviewed additions.")
+    parser.add_argument("--positive-manifest", help="Reviewed train-only positive JSON (verified mode).")
+    parser.add_argument("--sample-extra-positive", action=argparse.BooleanOptionalAction,
+                        default=True, help="Append up to one extra positive image per query to the target bank.")
+    parser.add_argument(
+        "--use-written-image",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Keep enabled for DQU-CIR; --no-use-written-image is an ablation.",
+    )
+    parser.add_argument(
+        "--written-keyword-source",
+        choices=("dqu", "qwen-add", "hybrid"),
+        default="dqu",
+        help=(
+            "Text rendered onto the reference image: original DQU keywords, "
+            "positive Qwen add-fields, or their deduplicated union."
+        ),
+    )
+
+    parser.add_argument("--clip-model", default="ViT-H-14")
+    parser.add_argument("--clip-pretrained", default="laion2B-s32B-b79K")
+    parser.add_argument("--clip-checkpoint")
+    parser.add_argument("--clip-cache-dir", default="../model_cache")
+    parser.add_argument(
+        "--freeze-clip",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="DQU-CIR fine-tunes CLIP; freezing is only an ablation.",
+    )
+    parser.add_argument(
+        "--dqu-checkpoint",
+        help="Optionally initialize shared modules from a trained dquTrain.py checkpoint.",
+    )
+    parser.add_argument(
+        "--freeze-dqu-backbone",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Protect the verified DQU checkpoint and optimize only Qwen modules.",
+    )
+    parser.add_argument(
+        "--disable-structured-text",
+        "--disable-target-description",
+        action="store_true",
+        help="Hard-disable the Qwen residual while retaining the DQU-CIR inputs.",
+    )
+
+    parser.add_argument("--hidden-dim", type=int, default=1024)
+    parser.add_argument("--adapter-rank", type=int, default=256)
+    parser.add_argument("--max-structured-weight", type=float, default=0.15)
+    parser.add_argument("--max-residual-norm", type=float, default=1.0)
+    parser.add_argument("--preservation-weight", type=float, default=1.0)
+    parser.add_argument("--effective-residual-weight", type=float, default=1.0)
+    parser.add_argument("--confidence-calibration-weight", type=float, default=0.2)
+    parser.add_argument("--gate-supervision-weight", type=float, default=0.2)
+    parser.add_argument("--gate-teacher-temperature", type=float, default=0.1)
+    parser.add_argument(
+        "--hard-negative-weight",
+        type=float,
+        default=0.2,
+        help="Weight of the residual-only top-k margin improvement loss.",
+    )
+    parser.add_argument(
+        "--hard-negative-k",
+        type=int,
+        default=5,
+        help="Number of hardest frozen-DQU in-batch negatives per query.",
+    )
+    parser.add_argument(
+        "--hard-negative-margin",
+        type=float,
+        default=0.01,
+        help="Required adapted gap improvement over the frozen DQU gap.",
+    )
+    parser.add_argument(
+        "--gate-warmup-epochs",
+        type=int,
+        default=2,
+        help="Train only the supervised gate first, then freeze it and fit the adapter.",
+    )
+    parser.add_argument("--batch-size", type=int, default=16)
+    parser.add_argument("--num-epochs", type=int, default=100)
+    parser.add_argument("--lr", type=float, default=5e-5)
+    parser.add_argument("--clip-lr", type=float, default=1e-6)
+    parser.add_argument("--weight-decay", type=float, default=1e-2)
+    parser.add_argument("--grad-clip-norm", type=float, default=1.0)
+    parser.add_argument("--dropout-rate", type=float, default=0.5)
+    parser.add_argument("--lr-decay", type=int, default=8)
+    parser.add_argument("--lr-div", type=float, default=0.1)
+    parser.add_argument("--max-decay-epoch", type=int, default=10)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--num-workers", type=int, default=4)
+    parser.add_argument("--patience", type=int, default=5)
+    parser.add_argument("--eval-every", type=int, default=1)
+    parser.add_argument("--max-train-batches", type=int, default=0)
+    parser.add_argument("--eval-limit", type=int, default=0)
+    parser.add_argument("--model-dir", default="./checkpoints")
+    parser.add_argument("--min-free-gib", type=float, default=8)
+    parser.add_argument("--run-name", default="dqu_qwen_structured_text")
+    parser.add_argument("--resume")
+    parser.add_argument("--eval-only", action="store_true")
+    parser.add_argument(
+        "--eval-before-train",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Record epoch-0 DQU metrics as the non-degradation checkpoint.",
+    )
+    return parser.parse_args()
+
+
+def set_seed(seed: int) -> None:
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
+
+def autocast_context(device: torch.device):
+    if device.type == "cuda":
+        dtype = (
+            torch.bfloat16
+            if torch.cuda.is_bf16_supported()
+            else torch.float16
+        )
+        return torch.autocast(device_type="cuda", dtype=dtype)
+    return nullcontext()
+
+
+def default_structured_path(args: argparse.Namespace, split: str) -> str:
+    caption_dir = Path(args.fashioniq_path) / "captions"
+    candidates = (
+        caption_dir / f"structured_edits_{args.dataset}_{split}_qwen37flash.json",
+        caption_dir / f"structured_edits_{args.dataset}_{split}.json",
+        caption_dir / f"structured_edits_{args.dataset}_{split}_50.json",
+    )
+    for candidate in candidates:
+        if candidate.exists():
+            return str(candidate)
+    return str(candidates[0])
+
+
+def load_dataset(args: argparse.Namespace, transforms):
+    if args.dataset in ("cirr", "shoes"):
+        return load_benchmark_dataset(args, transforms)
+    train_path = args.structured_train_path or default_structured_path(args, "train")
+    val_path = args.structured_val_path or default_structured_path(args, "val")
+    dataset = newDataset.FashionIQ(
+        path=args.fashioniq_path,
+        category=args.dataset,
+        transform=transforms,
+        split=args.fashioniq_split,
+        structured_train_path=train_path,
+        structured_val_path=val_path,
+        structured_only=args.structured_only,
+        use_written_image=args.use_written_image,
+        written_keyword_source=args.written_keyword_source,
+        noise_manifest=args.noise_manifest,
+    )
+    if args.positive_manifest and args.multi_positive != "verified":
+        raise ValueError("--positive-manifest requires --multi-positive verified")
+    if args.multi_positive != "off":
+        split_path = Path(args.fashioniq_path) / "image_splits" / f"split.{args.dataset}.train.json"
+        manifest = (json.loads(Path(args.positive_manifest).read_text(encoding="utf-8"))
+                    if args.positive_manifest else None)
+        dataset.multi_positive_index = PositiveIndex(
+            dataset.train_data, json.loads(split_path.read_text(encoding="utf-8")),
+            category=args.dataset, mode=args.multi_positive, manifest=manifest,
+        )
+        if any(targets & dataset.noise_excluded_image_ids
+               for targets in dataset.multi_positive_index.positives.values()):
+            raise ValueError("Positive manifest reintroduces an excluded image; rebuild reviewed positives")
+        dataset.sample_extra_positive = args.sample_extra_positive and any(
+            len(targets) > 1 for targets in dataset.multi_positive_index.positives.values()
+        )
+        logging.info("multi_positive=%s summary=%s", args.multi_positive,
+                     dataset.multi_positive_index.summary())
+    logging.info("noise_filter=%s excluded_train_queries=%d excluded_images=%d",
+                 args.noise_manifest, len(dataset.noise_excluded_indices),
+                 len(dataset.noise_excluded_image_ids))
+    logging.info(
+        "FashionIQ train=%d queries=%d gallery=%d train_structured=%.4f "
+        "val_structured=%.4f written_image=%s keyword_source=%s "
+        "train_json=%s val_json=%s",
+        len(dataset),
+        len(dataset.test_queries),
+        len(dataset.test_targets),
+        dataset.train_structured_coverage,
+        dataset.val_structured_coverage,
+        args.use_written_image,
+        args.written_keyword_source,
+        train_path,
+        val_path,
+    )
+    return dataset
+
+
+def load_benchmark_dataset(args, transforms):
+    if args.noise_manifest or args.structured_only or args.written_keyword_source != "dqu":
+        raise ValueError("CIRR/Shoes require full evaluation and original DQU keywords; FashionIQ noise policies are unsupported")
+    if args.positive_manifest and args.multi_positive != "verified":
+        raise ValueError("--positive-manifest requires --multi-positive verified")
+    from benchmarkDataset import CIRBenchmark
+    dataset = CIRBenchmark(getattr(args, args.dataset + "_path"), args.dataset, transforms,
+        structured_train_path=args.structured_train_path, structured_val_path=args.structured_val_path,
+        use_written_image=args.use_written_image)
+    if not args.disable_structured_text and (
+        dataset.train_structured_coverage != 1 or dataset.val_structured_coverage != 1
+    ):
+        raise ValueError("CIRR/Shoes structured comparison requires validated JSON for every train/eval query; use --disable-structured-text for the explicit DQU control")
+    if args.multi_positive != "off":
+        manifest = json.loads(Path(args.positive_manifest).read_text(encoding="utf-8")) if args.positive_manifest else None
+        dataset.multi_positive_index = PositiveIndex(dataset.train_data, dataset.meta.image_ids["train"],
+            category=args.dataset, mode=args.multi_positive, manifest=manifest,
+            allow_self_target=args.dataset == "shoes")
+        dataset.sample_extra_positive = args.sample_extra_positive and any(
+            len(ids) > 1 for ids in dataset.multi_positive_index.positives.values())
+        logging.info("multi_positive=%s summary=%s", args.multi_positive, dataset.multi_positive_index.summary())
+    logging.info("benchmark=%s", dataset.meta.audit())
+    return dataset
+
+
+def create_model(args, device):
+    model = newModel.DQU_CIR(
+        hidden_dim=args.hidden_dim,
+        dropout=args.dropout_rate,
+        clip_model=args.clip_model,
+        clip_pretrained=args.clip_pretrained,
+        clip_checkpoint=args.clip_checkpoint,
+        clip_cache_dir=args.clip_cache_dir,
+        freeze_clip=args.freeze_clip,
+        adapter_rank=args.adapter_rank,
+        max_structured_weight=args.max_structured_weight,
+        max_residual_norm=args.max_residual_norm,
+    ).to(device)
+    return model
+
+
+def create_optimizer(args, model):
+    parameters = list(model.named_parameters())
+    clip_parameters = [
+        parameter
+        for name, parameter in parameters
+        if name.startswith("clip.") and parameter.requires_grad
+    ]
+    other_parameters = [
+        parameter
+        for name, parameter in parameters
+        if not name.startswith("clip.") and parameter.requires_grad
+    ]
+    parameter_groups = []
+    if clip_parameters:
+        parameter_groups.append({"params": clip_parameters, "lr": args.clip_lr})
+    if other_parameters:
+        parameter_groups.append({"params": other_parameters, "lr": args.lr})
+    optimizer = torch.optim.AdamW(
+        parameter_groups,
+        weight_decay=args.weight_decay,
+    )
+    logging.info(
+        "trainable_parameters=%d total_parameters=%d parameter_groups=%d",
+        sum(p.numel() for p in model.parameters() if p.requires_grad),
+        sum(p.numel() for p in model.parameters()),
+        len(parameter_groups),
+    )
+    return optimizer
+
+
+def load_dqu_checkpoint(path, model, expected_dataset=None):
+    checkpoint = torch.load(path, map_location="cpu")
+    if expected_dataset in ("cirr", "shoes") and checkpoint.get("config", {}).get("dataset") != expected_dataset:
+        raise ValueError("CIRR/Shoes must use a DQU checkpoint trained on the same dataset")
+    state = checkpoint.get("model_state", checkpoint)
+    incompatible = model.load_state_dict(state, strict=False)
+    allowed_missing = {
+        name
+        for name in model.state_dict()
+        if name.startswith("structured_")
+    }
+    missing = set(incompatible.missing_keys)
+    if incompatible.unexpected_keys or missing != allowed_missing:
+        raise RuntimeError(
+            "DQU checkpoint mismatch: "
+            f"missing={sorted(missing)}, unexpected={incompatible.unexpected_keys}"
+        )
+    logging.info(
+        "initialized_from_dqu=%s epoch=%s metrics=%s",
+        path,
+        checkpoint.get("epoch"),
+        checkpoint.get("metrics"),
+    )
+
+
+def load_checkpoint(path, model):
+    checkpoint = torch.load(path, map_location="cpu")
+    state = checkpoint.get("model_state", checkpoint)
+    if checkpoint.get("adapter_only", False):
+        incompatible = model.load_state_dict(state, strict=False)
+        unexpected = list(incompatible.unexpected_keys)
+        missing_structured = [
+            name
+            for name in incompatible.missing_keys
+            if name.startswith("structured_")
+        ]
+        if unexpected or missing_structured:
+            raise RuntimeError(
+                f"Adapter checkpoint mismatch: missing={missing_structured}, "
+                f"unexpected={unexpected}"
+            )
+    else:
+        model.load_state_dict(state, strict=True)
+    return checkpoint
+
+
+def train_one_epoch(
+    args, model, optimizer, loader, device, scaler, epoch, phase
+):
+    model.train()
+    for module in model.modules():
+        if isinstance(module, torch.nn.BatchNorm2d):
+            module.eval()
+    running_loss = 0.0
+    running_hard_negative = 0.0
+    running_hard_violation_rate = 0.0
+    positive_query_count = 0
+    query_count = 0
+    target_count = 0
+    steps = 0
+    progress = tqdm(loader, desc=f"DQU+Qwen {phase} epoch {epoch}")
+    for batch_index, data in enumerate(progress):
+        if args.max_train_batches and batch_index >= args.max_train_batches:
+            break
+        target = data["target_img_data"].to(device, non_blocking=True)
+        positives = None
+        if args.multi_positive != "off":
+            target_ids = list(data["target"])
+            if loader.dataset.sample_extra_positive:
+                extra_valid = data["has_extra_target"].bool()
+                extra_images = data["extra_target_img"][extra_valid].to(device, non_blocking=True)
+                if len(extra_images):
+                    target = torch.cat([target, extra_images], dim=0)
+                    target_ids.extend(t for t, keep in zip(data["extra_target_id"], extra_valid.tolist()) if keep)
+            positives = torch.tensor(loader.dataset.multi_positive_index.mask_rows(
+                data["query_index"].tolist(), target_ids), device=device, dtype=torch.bool)
+            # Count distinct IDs, not repeated augmentations of one target.
+            index = loader.dataset.multi_positive_index
+            positive_query_count += sum(len(index.positives[i] & set(target_ids)) > 1
+                                        for i in data["query_index"].tolist())
+            query_count += len(data["target"])
+            target_count += len(target_ids)
+        visual = data["visual_query"].to(device, non_blocking=True)
+        mask = data["has_structured_text"].to(device)
+        confidence = data["structured_confidence"].to(device)
+        if args.disable_structured_text:
+            mask = torch.zeros_like(mask)
+
+        optimizer.zero_grad(set_to_none=True)
+        with autocast_context(device):
+            losses = model.compute_loss(
+                data["textual_query"],
+                data["structured_text"],
+                visual,
+                target,
+                mask,
+                confidence,
+                structured_fields=data["structured_fields"],
+                structured_field_mask=data["structured_field_mask"],
+                structured_quality_features=data["structured_quality_features"],
+                preservation_weight=args.preservation_weight,
+                gate_supervision_weight=args.gate_supervision_weight,
+                gate_teacher_temperature=args.gate_teacher_temperature,
+                effective_residual_weight=args.effective_residual_weight,
+                confidence_calibration_weight=args.confidence_calibration_weight,
+                hard_negative_weight=args.hard_negative_weight,
+                hard_negative_k=args.hard_negative_k,
+                hard_negative_margin=args.hard_negative_margin,
+                positive_targets=positives,
+            )
+            loss = losses["loss"]
+        if not torch.isfinite(loss):
+            raise FloatingPointError(
+                f"Non-finite loss at epoch={epoch} batch={batch_index}"
+            )
+        scaler.scale(loss).backward()
+        scaler.unscale_(optimizer)
+        nonfinite_gradients = []
+        for name, parameter in model.named_parameters():
+            if (
+                parameter.requires_grad
+                and parameter.grad is not None
+                and not torch.isfinite(parameter.grad).all()
+            ):
+                finite = parameter.grad[torch.isfinite(parameter.grad)]
+                finite_max = (
+                    float(finite.abs().max()) if finite.numel() else None
+                )
+                nonfinite_gradients.append(
+                    f"{name}(finite_max={finite_max})"
+                )
+        if nonfinite_gradients:
+            raise FloatingPointError(
+                f"Non-finite gradients at epoch={epoch} batch={batch_index}: "
+                + ", ".join(nonfinite_gradients)
+            )
+        torch.nn.utils.clip_grad_norm_(
+            [p for p in model.parameters() if p.requires_grad],
+            args.grad_clip_norm,
+            error_if_nonfinite=True,
+        )
+        scaler.step(optimizer)
+        scaler.update()
+        running_loss += float(loss.detach())
+        running_hard_negative += float(losses["hard_negative"].detach())
+        running_hard_violation_rate += float(
+            losses["hard_negative_violation_rate"].detach()
+        )
+        steps += 1
+        progress.set_postfix(
+            loss=f"{running_loss / steps:.4f}",
+            rank=f"{float(losses['ranking'].detach()):.4f}",
+            preserve=f"{float(losses['preservation'].detach()):.5f}",
+            gate=f"{float(losses['predicted_structured_gate'].detach()):.3f}",
+            teacher=f"{float(losses['teacher_gate'].detach()):.3f}",
+            residual=f"{float(losses['adapter_residual_norm'].detach()):.4f}",
+            effective=f"{float(losses['effective_residual_norm'].detach()):.4f}",
+            hard=f"{float(losses['hard_negative'].detach()):.4f}",
+            dqu_text=f"{float(losses['dqu_text_weight'].detach()):.3f}",
+        )
+    if not steps:
+        raise RuntimeError("No training batches were processed")
+    if query_count:
+        logging.info("multi_positive_query_coverage=%.6f mean_target_bank_size=%.2f",
+                     positive_query_count / query_count, target_count / steps)
+    logging.info(
+        "epoch=%d phase=%s hard_negative=%.6f "
+        "hard_negative_violation_rate=%.6f",
+        epoch,
+        phase,
+        running_hard_negative / steps,
+        running_hard_violation_rate / steps,
+    )
+    return running_loss / steps
+
+
+def save_checkpoint(args, model, epoch, metrics):
+    model_dir = Path(args.model_dir)
+    model_dir.mkdir(parents=True, exist_ok=True)
+    path = model_dir / f"{args.dataset}_{args.run_name}_seed{args.seed}_best.pt"
+    adapter_only = bool(args.freeze_dqu_backbone and args.dqu_checkpoint)
+    state = model.state_dict()
+    if adapter_only:
+        state = {
+            name: tensor.detach().cpu()
+            for name, tensor in state.items()
+            if name.startswith("structured_")
+        }
+    atomic_torch_save(
+        {
+            "epoch": epoch,
+            "model_state": state,
+            "metrics": dict(metrics),
+            "config": vars(args),
+            "adapter_only": adapter_only,
+            "base_checkpoint": args.dqu_checkpoint,
+        },
+        path,
+    )
+    path.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "epoch": epoch,
+                "selection_metric": selection_name(args.dataset),
+                **dict(metrics),
+            },
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    return path
+
+
+def train_and_evaluate(args, model, optimizer, dataset, device):
+    generator = torch.Generator().manual_seed(args.seed)
+    loader = DataLoader(
+        dataset,
+        batch_size=args.batch_size,
+        shuffle=True,
+        num_workers=args.num_workers,
+        pin_memory=True,
+        generator=generator,
+    )
+    # BF16 has FP32-like exponent range and does not need loss scaling.  Keep
+    # GradScaler only for older CUDA devices that must fall back to FP16.
+    use_fp16_scaling = (
+        device.type == "cuda" and not torch.cuda.is_bf16_supported()
+    )
+    scaler = torch.cuda.amp.GradScaler(enabled=use_fp16_scaling)
+    best_score = float("-inf")
+    stale_epochs = 0
+    if args.eval_before_train:
+        metrics = newTest.test(args, model, dataset, args.dataset)
+        metric_dict = dict(metrics)
+        best_score = selection_score(metric_dict, args.dataset)
+        path = save_checkpoint(args, model, 0, metrics)
+        logging.info(
+            "epoch=0 protected_metrics=%s score=%.6f saved=%s",
+            metric_dict,
+            best_score,
+            path,
+        )
+    for epoch in range(1, args.num_epochs + 1):
+        require_space(args.model_dir, args.min_free_gib)
+        if args.gate_warmup_epochs > 0:
+            phase = "gate" if epoch <= args.gate_warmup_epochs else "adapter"
+        else:
+            phase = "joint"
+        model.set_structured_training_phase(phase)
+        if epoch == args.gate_warmup_epochs + 1 and phase == "adapter":
+            stale_epochs = 0
+            logging.info("phase_transition epoch=%d phase=adapter", epoch)
+        if epoch > 1 and epoch % args.lr_decay == 0 and epoch <= args.max_decay_epoch:
+            for group in optimizer.param_groups:
+                group["lr"] *= args.lr_div
+        loss = train_one_epoch(
+            args, model, optimizer, loader, device, scaler, epoch, phase
+        )
+        logging.info(
+            "epoch=%d phase=%s train_loss=%.6f", epoch, phase, loss
+        )
+        if epoch % args.eval_every:
+            continue
+
+        metrics = newTest.test(args, model, dataset, args.dataset)
+        metric_dict = dict(metrics)
+        score = selection_score(metric_dict, args.dataset)
+        logging.info("epoch=%d metrics=%s score=%.6f", epoch, metric_dict, score)
+        if score > best_score:
+            best_score = score
+            stale_epochs = 0
+            path = save_checkpoint(args, model, epoch, metrics)
+            logging.info("saved_best=%s", path)
+        else:
+            stale_epochs += 1
+            if stale_epochs >= args.patience:
+                logging.info("early_stop epoch=%d best_score=%.6f", epoch, best_score)
+                break
+
+
+def main() -> None:
+    args = parse_args()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(message)s",
+    )
+    if not torch.cuda.is_available():
+        raise RuntimeError("ViT-H/14 training requires a CUDA GPU")
+    set_seed(args.seed)
+    require_space(args.model_dir, args.min_free_gib)
+    device = torch.device("cuda")
+    logging.info("arguments=%s", vars(args))
+    model = create_model(args, device)
+    if args.dqu_checkpoint:
+        load_dqu_checkpoint(args.dqu_checkpoint, model, args.dataset)
+    if args.freeze_dqu_backbone:
+        if not args.dqu_checkpoint:
+            raise ValueError("--freeze-dqu-backbone requires --dqu-checkpoint")
+        model.freeze_dqu_backbone()
+    if args.resume:
+        checkpoint = load_checkpoint(args.resume, model)
+        logging.info(
+            "loaded_checkpoint=%s epoch=%s", args.resume, checkpoint.get("epoch")
+        )
+    optimizer = create_optimizer(args, model)
+    dataset = load_dataset(
+        args, (model.preprocess_train, model.preprocess_val)
+    )
+    if args.eval_only:
+        metrics = newTest.test(args, model, dataset, args.dataset)
+        print(json.dumps(dict(metrics), indent=2))
+        return
+    train_and_evaluate(args, model, optimizer, dataset, device)
+
+
+if __name__ == "__main__":
+    main()

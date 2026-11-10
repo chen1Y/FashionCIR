@@ -14,7 +14,7 @@ def main():
     default_image_path = "../data/FashionIQ/resized_image/B000AN2C1C.jpg"
     
     # 缺省的模型路径
-    # 如果是本地下载，请修改为对应的本地绝对路径，例如: "/root/autodl-tmp/models--Qwen--Qwen3-VL-8B-Instruct"
+    # 如果是本地下载，请修改为对应的本地绝对路径，例如: "/data/8T1/lcy/CIRData/autodl-tmp/models--Qwen--Qwen3-VL-8B-Instruct"
     model_path = "Qwen/Qwen3-VL-8B-Instruct"
     cwd = os.getcwd()
 

@@ -70,7 +70,7 @@ def main():
     parser.add_argument("--manifest", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--model", required=True, help="Complete existing local Qwen3-VL checkpoint")
-    parser.add_argument("--guard-results", default="/root/autodl-tmp/results/cirr_shoes_20261015")
+    parser.add_argument("--guard-results", default="/data/8T1/lcy/CIRData/autodl-tmp/results/cirr_shoes_20261015")
     parser.add_argument("--min-free-gib", type=float, default=8)
     parser.add_argument("--limit", type=int, default=24)
     parser.add_argument("--max-fraction", type=float, default=.1)

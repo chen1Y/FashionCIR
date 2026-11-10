@@ -84,7 +84,7 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     output = args.output.resolve()
-    root = Path("/root/autodl-tmp/data/FashionIQ")
+    root = Path("/data/8T1/lcy/CIRData/autodl-tmp/data/FashionIQ")
     protocol = json.loads((output / "protocol.json").read_text())
     report = json.loads((output / "experiment_report.json").read_text())
     audit = json.loads((output / "pause_audit.json").read_text())
