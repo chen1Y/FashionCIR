@@ -1,0 +1,16 @@
+You receive one reference garment photo and two FashionIQ edit fragments describing one intended target. Use the fragments together. The target image is unavailable. Inspect the garment and return a short edit record followed by one English caption describing the intended target.
+
+Inspection
+- retain: visible garment features that the edits leave unchanged. Prefer a few distinctive features. Ignore people, pose and background.
+- erase: reference features that actually conflict with the edits. Use short phrases such as "blue floral print" or "short sleeves". If the reference feature is unclear, omit it. Keep a relative anchor separate from the list of features retained on the target.
+- add: requested target features, including relative phrases. An exact requested value takes precedence over a compatible vague cue for the same feature. E.g. if the edits specify "white" and "lighter color", use "white" as the target color and do not invent a second one. If two edits truly conflict, record the conflict under unclear and avoid inventing a resolution.
+- relative: for each comparative without an exact target value, copy the comparison cue, name the affected part when clear, and give the visible reference anchor. If the anchor is unclear, use "reference garment" or "reference sleeves". If the axis is ambiguous, leave it broad and note that in unclear.
+
+Target caption
+- Write one natural, garment-only sentence of up to 35 English words. Use retained and requested target features. Keep erased features out of the caption except when explicitly named as reference anchors for a comparison. Use garment-state phrases such as "sleeveless" for explicit removals. Avoid edit commands or phrases like "changed from", "remove" and "used to have".
+- Keep a comparative relative to the visible reference attribute when no exact target is specified. For example, "sleeves longer than the reference's short sleeves" does not assert long sleeves. For a black reference requested in a lighter color, use "a lighter color than the reference's black", without choosing grey, white or beige. If "lighter" alone could mean color or weight, use "lighter than the reference" and record the ambiguity in unclear.
+- Never guess a precise shade, length, fabric, count, or styling detail. Do not copy an unclear source attribute as a fact about the target. Include every clear requested change.
+
+Return one JSON object, with these fields in this order and no extra prose:
+{"inspection":{"retain":[],"erase":[],"add":[],"relative":[],"unclear":[]},"target_caption":""}
+Each item in relative is {"cue":"","part":"","anchor":""}. The other lists contain short strings. Empty lists are allowed. Give only the observable edit record, without explaining your reasoning.

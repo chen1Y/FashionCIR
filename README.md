@@ -11,7 +11,7 @@ FashionCIR 研究组合式图像检索。给定一张参考图和一句修改指
 | [tests/](tests/) | 分割、排名、损失、数据隔离和模型模块的回归测试。 |
 | [DQU_BASELINE.md](DQU_BASELINE.md) | 原生 DQU-CIR 的模型、输入与实验说明。 |
 | [STRUCTURED_EDITS.md](STRUCTURED_EDITS.md) | 结构化文本生成、编辑字段和文本验证。 |
-| [experiments/server_runs/](experiments/server_runs/) | 独立运行目录中与主工作树不同的源码，包括后续 034–038F 的入口和依赖。 |
+| [experiments/server_runs/](experiments/server_runs/) | 独立运行目录中与主工作树不同的源码，包括后续 034–042 的入口和依赖。 |
 | [源码清单](docs/server_source_manifest.json) | 服务器原路径、发布路径和 SHA256。多份相同源码共用发布文件，清单保留每个来源。 |
 
 ## 主要实验路线
@@ -25,6 +25,9 @@ FashionCIR 研究组合式图像检索。给定一张参考图和一句修改指
 | 034–037 | 依次考察 CLIP 全量解冻、负例集合、公开 CLIP 初始化，以及扩大到合规全训练集。 | 用下方恢复工具列出 `fiq-029d-*` 运行版本。 |
 | 038A–D | 依次比较写字图、干净参考图、冲突擦除、视觉代理，另用 D 的同一权重验证图库 Patch 重排。 | 恢复 `fiq-pixel-free-038-full-exclusive`。 |
 | 038E／038F | E 在 038C 上加全合法图库 KL。F 保留 038C 的损失，合并三类查询训练同一模型，分别按官方类别图库评估。 | 恢复 `fiq-pixel-free-038ef-gpu2-capacity`。 |
+| 038G／039 | 联合训练加图库 KL。039A 只在参考图端使用 ViT-LoRA，039B 在参考图与图库共享 LoRA，并定期刷新图库特征。 | [LoRA 模块](src/fiq_vit_lora_039.py)、[039 入口](src/run_fiq_vit_lora_039.py) |
+| 040／041／042 | 对比冲突感知文本、Qwen Flash 全量生成和 BLIP-2 描述输入。040H 记录 Flash 与原版 DQU-CIR 对照。 | [生成提示词](docs/experiments/fiq_context_generation_041_prompt.txt)、[040H 编排](scripts/run_fiq_040h_full_pair.py)、[042 入口](src/run_fiq_blip2_caption_generation_042.py) |
+| 040 消融与重排 | 分别替换 DQU-CIR 的文本端和视觉端。额外验证属性擦除开关，并用 Flash 文本对原版 Top-100 候选做残差重排。 | [文本消融](scripts/run_fiq_040_text_ablation.py)、[图像消融](scripts/run_fiq_040_image_ablation.py)、[属性擦除验证](scripts/run_fiq_image_attribute_erasure.py)、[文本重排](scripts/run_fiq_flash_residual_rerank.py) |
 
 ## 环境与数据
 
@@ -61,6 +64,8 @@ python local-038ef/code/run_fiq_pixel_free_038.py \
 ```
 
 038E 使用相同候选掩码对冻结目标图和组合查询的图库相似度做蒸馏，KL 权重为 0.5、温度为 0.07。038F 使用 16,242 条合规查询，类别内 batch 交错更新同一优化器，每批仍使用本类别负例图库。官方验证按 Dress、Shirt、Toptee 分别计算 R@1、R@10、R@50。运行目录的 `state.json` 记录阶段，`fit_results.json` 记录训练次数与权重校验值，`*_results.json` 保留逐查询排名和对照增损。
+
+040H 的 `code/` 保存 Flash 训练依赖，`dqu_code/` 保存原版对照依赖。复现某次服务器运行时，先用 `--run fiq-040h-flash-full-vs-dqu-20261112` 恢复对应版本，再按入口脚本使用它们。040 文本消融有独立的 DQU 入口快照。图像消融、属性擦除验证和重排脚本接受既有运行目录，需另外准备权重、FashionIQ 图像和对应的文本或特征缓存。
 
 ## 本次源码同步的范围
 

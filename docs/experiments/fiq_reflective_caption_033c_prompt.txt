@@ -1,0 +1,31 @@
+Inspect the reference garment and combine the two FashionIQ edit fragments. Return target attribute decisions only. A separate program writes the caption. Never describe a target image you have not seen.
+
+Return exactly {"item":"top","fields":{}} as a JSON object, with item chosen from dress, top, shirt, T-shirt. Use at most one decision per field. Omit irrelevant fields. Choose the operation:
+- set: a requested concrete target value.
+- keep: a clearly visible source value that remains compatible with the edits. Keep a general print type only, without lettering, logo, exact artwork or number.
+- remove: an explicit absence. Only valid for sleeves, straps, or pattern. Provide no value.
+- relative: a grounded comparative and a concrete visual benchmark. Use {"op":"relative","value":"lighter","benchmark":"black"}. Never use the image or a garment pointer as a benchmark.
+- unknown: an unresolved edit, with a short reason as value. The final caption cannot include this field.
+
+For set or keep use {"op":"set","value":"white"} or {"op":"keep","value":"short"}. Use these exact fields and values:
+color: black, white, navy, blue, red, pink, green, gray, brown, beige, cream, yellow, purple, orange, light blue, dark blue, near-black, solid black
+sleeves: sleeveless, cap, short, elbow-length, three-quarter, long, present
+straps: present, absent
+neckline: crew, scoop, V-neck, collared
+closure: button-front
+pattern: solid, faint print, graphic print, striped, floral print
+length: above-knee, knee-length, midi, maxi
+skirt: full, straight
+bodice: tank-style, strapless
+style: casual, formal
+weight: unknown only
+
+For relative decisions use:
+- color: lighter, darker, brighter; benchmark is one of the color values above, excluding "solid black".
+- sleeves: longer, shorter; benchmark is cap, short, elbow-length, three-quarter, or long.
+- length: longer, shorter; benchmark is a knee-length hem, a calf-length hem, or an ankle-length hem. Do not use a style category such as "mini dress" as a length benchmark.
+- style: more casual, more formal; benchmark is a dress shirt, a formal blouse, or a casual T-shirt, only when that style is identifiable.
+
+A named target value overrides a compatible comparison for the same field. White and lighter color together mean set color to white. If the edit asks for lighter color with no named target and the image is black, use a relative color decision with black as benchmark. Bare "lighter" may mean weight or color. Unless the fragments resolve it, mark color unknown and do not guess a dimension. If there is no identifiable sleeve length but the edits explicitly request sleeves, set sleeves to present and use a top-level "unresolved" list for the unanchored length change. A shirt can change from a strong graphic to a faint print without carrying over the old artwork. If the edit gives a full bottom on a dress, consider a full skirt. Tank straps override a strapless bodice. Keep comparative words only when their relationship can be grounded. A definite state is allowed to be less specific than an unresolved edit.
+
+Example with both an established feature and an unresolved edit: {"item":"top","fields":{"color":{"op":"set","value":"navy"},"sleeves":{"op":"set","value":"present"}},"unresolved":["exact sleeve length"]}. The "unresolved" list is optional. Return JSON only.

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import logging
 import os
@@ -33,6 +34,7 @@ def parse_args():
         choices=("original-split", "val-split"),
     )
     parser.add_argument("--fashioniq-path", default="../data/FashionIQ")
+    parser.add_argument("--flash-text-dir", type=Path, help="Use verified 040 Flash query texts for FashionIQ.")
     parser.add_argument("--noise-manifest", help="Optional train-only exclusion policy; off for official baseline.")
     parser.add_argument("--clip-model", default="ViT-H-14")
     parser.add_argument("--clip-pretrained", default="laion2B-s32B-b79K")
@@ -58,6 +60,10 @@ def parse_args():
     parser.add_argument("--resume")
     parser.add_argument("--eval-only", action="store_true")
     parser.add_argument("--smoke-train-batches", type=int, default=0)
+    parser.add_argument("--validation-metrics-csv", type=Path)
+    parser.add_argument("--gradient-checkpointing", action="store_true")
+    parser.add_argument("--adamw-no-foreach", action="store_true")
+    parser.add_argument("--memory-fraction", type=float)
     return parser.parse_args()
 
 
@@ -98,6 +104,7 @@ def build_model(args, device):
             },
         ],
         weight_decay=args.weight_decay,
+        foreach=False if getattr(args, "adamw_no_foreach", False) else None,
     )
     return model, optimizer
 
@@ -139,7 +146,8 @@ def save_checkpoint(path, args, model, optimizer, epoch, metrics):
             "epoch": epoch,
             "model_state": model.state_dict(),
             "metrics": dict(metrics),
-            "config": vars(args),
+            "config": {name: str(value) if isinstance(value, Path) else value
+                       for name, value in vars(args).items()},
         },
         path,
     )
@@ -147,6 +155,12 @@ def save_checkpoint(path, args, model, optimizer, epoch, metrics):
 
 def main():
     args = parse_args()
+    if args.flash_text_dir and (
+        args.dataset in ("cirr", "shoes")
+        or args.fashioniq_split != "original-split"
+        or args.noise_manifest
+    ):
+        raise ValueError("Flash query texts require the unfiltered original FashionIQ split")
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s",
@@ -156,7 +170,11 @@ def main():
     set_seed(args.seed)
     require_space(args.model_dir, args.min_free_gib)
     device = torch.device("cuda")
+    if args.memory_fraction is not None:
+        torch.cuda.set_per_process_memory_fraction(args.memory_fraction)
     model, optimizer = build_model(args, device)
+    if args.gradient_checkpointing:
+        model.clip.set_grad_checkpointing(True)
     if args.dataset in ("cirr", "shoes"):
         if args.noise_manifest:
             raise ValueError("FashionIQ noise policies cannot be applied to CIRR/Shoes")
@@ -164,12 +182,20 @@ def main():
         dataset = CIRBenchmark(getattr(args, args.dataset + "_path"), args.dataset,
                                (model.preprocess_train, model.preprocess_val))
     else:
-        dataset = dquDataset.FashionIQ(
+        dataset_class = dquDataset.FashionIQ
+        text_options = {}
+        if args.flash_text_dir:
+            from dqu_flash_text_040 import FlashFashionIQ
+
+            dataset_class = FlashFashionIQ
+            text_options["flash_text_dir"] = args.flash_text_dir
+        dataset = dataset_class(
             path=args.fashioniq_path,
             category=args.dataset,
             transform=(model.preprocess_train, model.preprocess_val),
             split=args.fashioniq_split,
             noise_manifest=args.noise_manifest,
+            **text_options,
         )
     logging.info("noise_filter=%s excluded_train_queries=%d excluded_images=%d",
                  args.noise_manifest, len(dataset.noise_excluded_indices),
@@ -212,6 +238,7 @@ def main():
     scaler = torch.cuda.amp.GradScaler()
     best_score = float("-inf")
     stale_epochs = 0
+    validation_rows = []
 
     for epoch in range(start_epoch, args.num_epochs + 1):
         require_space(args.model_dir, args.min_free_gib)
@@ -227,6 +254,21 @@ def main():
         metric_dict = dict(metrics)
         score = selection_score(metric_dict, args.dataset)
         logging.info("epoch=%d metrics=%s score=%.6f", epoch, metric_dict, score)
+        if args.validation_metrics_csv:
+            validation_rows.append(dict(
+                epoch=epoch, category=args.dataset, queries=len(dataset.test_queries),
+                gallery=len(dataset.test_targets),
+                **{f"r{k}": metric_dict[f"{args.dataset}_r{k}"] for k in (1, 10, 50)},
+                selection_score=score, best=score > best_score,
+            ))
+            path = args.validation_metrics_csv
+            path.parent.mkdir(parents=True, exist_ok=True)
+            temporary = path.with_suffix(".tmp")
+            with temporary.open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=tuple(validation_rows[0]))
+                writer.writeheader()
+                writer.writerows(validation_rows)
+            temporary.replace(path)
         if score > best_score:
             best_score = score
             stale_epochs = 0

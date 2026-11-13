@@ -1160,6 +1160,2229 @@
     },
     {
       "scope": "run",
+      "path": "fiq-040-image-ablation-20261113/run_fiq_040_image_ablation.py",
+      "sha256": "89bf0f0f0503730ca5c17f83c9910382cc3293224d5598f71b008a9d8c3b74ea",
+      "bytes": 20822,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040_image_ablation.py",
+      "published_sha256": "89bf0f0f0503730ca5c17f83c9910382cc3293224d5598f71b008a9d8c3b74ea"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/benchmark_data.py",
+      "sha256": "fa483fdc0b719ac3b7efb25c8ccc28e14fd4757db446e66a4583aef2a16ab50a",
+      "bytes": 9322,
+      "executable": false,
+      "published_path": "src/benchmark_data.py",
+      "published_sha256": "5a23f2e1bc7cb22212854116c42be005087867ca2e61f7d1a0248edd25b9f03d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/dquDataset.py",
+      "sha256": "0747dc893ea46c5a8f75cc99834b0e069ca97ac72fa988effd75686d4113cac8",
+      "bytes": 8743,
+      "executable": false,
+      "published_path": "src/dquDataset.py",
+      "published_sha256": "2a2fdd79c87dd1476773de9ea9db78f7b6000efb92e34215a4c8442ce2d94d77"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/dquModel.py",
+      "sha256": "30ae8dc4db4d2eeddf0720286feb58f869af038b7b89c8d3d6d501beb86399f1",
+      "bytes": 4148,
+      "executable": false,
+      "published_path": "src/dquModel.py",
+      "published_sha256": "2e4b7e3dd2b7dc3c3eb57c08e36578a0ab0db77601d41955c5b91e680b6712b6"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/dquTest.py",
+      "sha256": "698999cf7c5fea6733f9d2622a08bd004b0bd81edfd00468cebe7f8e8c4d8ff2",
+      "bytes": 3531,
+      "executable": false,
+      "published_path": "src/dquTest.py",
+      "published_sha256": "ab3baad49f91f1acaa0fd11bb9da90b3013681a881277df9ce1ed73105430cb4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/dquTrain.py",
+      "sha256": "c17436c3cda343cea4306ba628ee85cef3b3ab80eb00cfbe8c1aee1023b2102a",
+      "bytes": 12080,
+      "executable": false,
+      "published_path": "src/dquTrain.py",
+      "published_sha256": "06f26d3a09cb3701258e2ba4fe28e700298a8ac3d306b2c195b6039a3e3d5af0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/dqu_flash_text_040.py",
+      "sha256": "0798b394a6e855e66fc170f7e4ad4fbe01439fd3e42c92cbf9a1f04f78e5ddfd",
+      "bytes": 3627,
+      "executable": false,
+      "published_path": "src/dqu_flash_text_040.py",
+      "published_sha256": "0798b394a6e855e66fc170f7e4ad4fbe01439fd3e42c92cbf9a1f04f78e5ddfd"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/experiment_storage.py",
+      "sha256": "b841f1ecec02f9c122baa1029e59c903cf622d5ae233b56ccb5472d308b59c2d",
+      "bytes": 804,
+      "executable": false,
+      "published_path": "src/experiment_storage.py",
+      "published_sha256": "1be1ff9d6dbb53a8a429e61f127140e9db5e436a1bcf27f529ceacdad6ee9372"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/fashioniq_noise.py",
+      "sha256": "31e39cc00b1b980c7c52ae892155ef23a97dcda93f4237022fade2fe331e592b",
+      "bytes": 15580,
+      "executable": false,
+      "published_path": "src/fashioniq_noise.py",
+      "published_sha256": "f2a3554894658abeb9004889c3e30b23707c5fbdad3113801bfdb1c4443b410e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "sha256": "70bee70fdc19e8824849333ec53ba2c971f015013381a1f045234606b53b6519",
+      "bytes": 13752,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040-text-ablation-dqu-flash-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "published_sha256": "70bee70fdc19e8824849333ec53ba2c971f015013381a1f045234606b53b6519"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040-text-ablation-dqu-flash-20261112/run_fiq_040_text_ablation.py",
+      "sha256": "54a805dddec557352d84397c71026e1b715e69edf81b4b47b5463ab1c7e8a73f",
+      "bytes": 10607,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040_text_ablation.py",
+      "published_sha256": "54a805dddec557352d84397c71026e1b715e69edf81b4b47b5463ab1c7e8a73f"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_generated_text_only_040de.py",
+      "sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d",
+      "bytes": 2969,
+      "executable": false,
+      "published_path": "src/fiq_generated_text_only_040de.py",
+      "published_sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8",
+      "bytes": 21344,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "published_sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_040e_flash.py",
+      "sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0",
+      "bytes": 9912,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash.py",
+      "published_sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_040e_flash_full.py",
+      "sha256": "9fdeda962b2a7aec0c5e5d891e3e19538f5b313804db407b5e9d4c042c0e83ee",
+      "bytes": 6594,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash_full.py",
+      "published_sha256": "9fdeda962b2a7aec0c5e5d891e3e19538f5b313804db407b5e9d4c042c0e83ee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_040g_dress_pair.py",
+      "sha256": "52781ab9306eda5dcadd2c185a93e58ee043024cc1498ecd991135ceea7e6f71",
+      "bytes": 9009,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040g_dress_pair.py",
+      "published_sha256": "52781ab9306eda5dcadd2c185a93e58ee043024cc1498ecd991135ceea7e6f71"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.py",
+      "sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063",
+      "bytes": 5934,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040c.py",
+      "published_sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040e_full.py",
+      "sha256": "a753e293aea4c20d2d08c571557b26802aaeae095c5136dd72a84dde9b521f48",
+      "bytes": 23212,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040e_full.py",
+      "published_sha256": "a753e293aea4c20d2d08c571557b26802aaeae095c5136dd72a84dde9b521f48"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "sha256": "05f266eca2b051746205ed766589cc29208d0c11a34f728e59ce273e2b2c715d",
+      "bytes": 23131,
+      "executable": false,
+      "published_path": "src/run_fiq_vit_lora_039.py",
+      "published_sha256": "05f266eca2b051746205ed766589cc29208d0c11a34f728e59ce273e2b2c715d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "c8419eac0b92093ed86c65a8561776b0a300674373c84885c78f4b87ef89a45d",
+      "bytes": 15810,
+      "executable": false,
+      "published_path": "src/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "c8419eac0b92093ed86c65a8561776b0a300674373c84885c78f4b87ef89a45d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/benchmark_data.py",
+      "sha256": "fa483fdc0b719ac3b7efb25c8ccc28e14fd4757db446e66a4583aef2a16ab50a",
+      "bytes": 9322,
+      "executable": false,
+      "published_path": "src/benchmark_data.py",
+      "published_sha256": "5a23f2e1bc7cb22212854116c42be005087867ca2e61f7d1a0248edd25b9f03d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/dquDataset.py",
+      "sha256": "0747dc893ea46c5a8f75cc99834b0e069ca97ac72fa988effd75686d4113cac8",
+      "bytes": 8743,
+      "executable": false,
+      "published_path": "src/dquDataset.py",
+      "published_sha256": "2a2fdd79c87dd1476773de9ea9db78f7b6000efb92e34215a4c8442ce2d94d77"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/dquModel.py",
+      "sha256": "30ae8dc4db4d2eeddf0720286feb58f869af038b7b89c8d3d6d501beb86399f1",
+      "bytes": 4148,
+      "executable": false,
+      "published_path": "src/dquModel.py",
+      "published_sha256": "2e4b7e3dd2b7dc3c3eb57c08e36578a0ab0db77601d41955c5b91e680b6712b6"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/dquTest.py",
+      "sha256": "698999cf7c5fea6733f9d2622a08bd004b0bd81edfd00468cebe7f8e8c4d8ff2",
+      "bytes": 3531,
+      "executable": false,
+      "published_path": "src/dquTest.py",
+      "published_sha256": "ab3baad49f91f1acaa0fd11bb9da90b3013681a881277df9ce1ed73105430cb4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/dquTrain.py",
+      "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
+      "bytes": 9870,
+      "executable": false,
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
+      "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/experiment_storage.py",
+      "sha256": "b841f1ecec02f9c122baa1029e59c903cf622d5ae233b56ccb5472d308b59c2d",
+      "bytes": 804,
+      "executable": false,
+      "published_path": "src/experiment_storage.py",
+      "published_sha256": "1be1ff9d6dbb53a8a429e61f127140e9db5e436a1bcf27f529ceacdad6ee9372"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/fashioniq_noise.py",
+      "sha256": "31e39cc00b1b980c7c52ae892155ef23a97dcda93f4237022fade2fe331e592b",
+      "bytes": 15580,
+      "executable": false,
+      "published_path": "src/fashioniq_noise.py",
+      "published_sha256": "f2a3554894658abeb9004889c3e30b23707c5fbdad3113801bfdb1c4443b410e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "sha256": "3307c55da3ffe9db3504a079e60d431138cfd4a52c19011940f95a738ab96cda",
+      "bytes": 14325,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "published_sha256": "3307c55da3ffe9db3504a079e60d431138cfd4a52c19011940f95a738ab96cda"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_generated_text_only_040de.py",
+      "sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d",
+      "bytes": 2969,
+      "executable": false,
+      "published_path": "src/fiq_generated_text_only_040de.py",
+      "published_sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8",
+      "bytes": 21344,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "published_sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_040e_flash.py",
+      "sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0",
+      "bytes": 9912,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash.py",
+      "published_sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_040e_flash_full.py",
+      "sha256": "9fdeda962b2a7aec0c5e5d891e3e19538f5b313804db407b5e9d4c042c0e83ee",
+      "bytes": 6594,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash_full.py",
+      "published_sha256": "9fdeda962b2a7aec0c5e5d891e3e19538f5b313804db407b5e9d4c042c0e83ee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_040h_full_pair.py",
+      "sha256": "055792007f280a236bc4e9b5925b7b296512e016d45d36431117b4dba2ead4f0",
+      "bytes": 11721,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040h_full_pair.py",
+      "published_sha256": "055792007f280a236bc4e9b5925b7b296512e016d45d36431117b4dba2ead4f0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_context_generation_040c.py",
+      "sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063",
+      "bytes": 5934,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040c.py",
+      "published_sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_context_generation_040e_full.py",
+      "sha256": "a753e293aea4c20d2d08c571557b26802aaeae095c5136dd72a84dde9b521f48",
+      "bytes": 23212,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040e_full.py",
+      "published_sha256": "a753e293aea4c20d2d08c571557b26802aaeae095c5136dd72a84dde9b521f48"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc",
+      "bytes": 23133,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "90982711d84f409a6fdcf9a8860f8019e0ff1d63a775495436f8c36b7c25cafc",
+      "bytes": 15427,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "90982711d84f409a6fdcf9a8860f8019e0ff1d63a775495436f8c36b7c25cafc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/benchmark_data.py",
+      "sha256": "fa483fdc0b719ac3b7efb25c8ccc28e14fd4757db446e66a4583aef2a16ab50a",
+      "bytes": 9322,
+      "executable": false,
+      "published_path": "src/benchmark_data.py",
+      "published_sha256": "5a23f2e1bc7cb22212854116c42be005087867ca2e61f7d1a0248edd25b9f03d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/dquDataset.py",
+      "sha256": "0747dc893ea46c5a8f75cc99834b0e069ca97ac72fa988effd75686d4113cac8",
+      "bytes": 8743,
+      "executable": false,
+      "published_path": "src/dquDataset.py",
+      "published_sha256": "2a2fdd79c87dd1476773de9ea9db78f7b6000efb92e34215a4c8442ce2d94d77"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/dquModel.py",
+      "sha256": "30ae8dc4db4d2eeddf0720286feb58f869af038b7b89c8d3d6d501beb86399f1",
+      "bytes": 4148,
+      "executable": false,
+      "published_path": "src/dquModel.py",
+      "published_sha256": "2e4b7e3dd2b7dc3c3eb57c08e36578a0ab0db77601d41955c5b91e680b6712b6"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/dquTest.py",
+      "sha256": "698999cf7c5fea6733f9d2622a08bd004b0bd81edfd00468cebe7f8e8c4d8ff2",
+      "bytes": 3531,
+      "executable": false,
+      "published_path": "src/dquTest.py",
+      "published_sha256": "ab3baad49f91f1acaa0fd11bb9da90b3013681a881277df9ce1ed73105430cb4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/dquTrain.py",
+      "sha256": "d9bc458fa57dec2bc37a646bb47b9276bf4b37aefcaa7350d5a7d00b719d25d8",
+      "bytes": 11402,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/dqu_code/dquTrain.py",
+      "published_sha256": "7ea7dfffb2ee4372333f5a17f83a8fcde21fb875ee9f934b55aaa230289a6aa5"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/experiment_storage.py",
+      "sha256": "b841f1ecec02f9c122baa1029e59c903cf622d5ae233b56ccb5472d308b59c2d",
+      "bytes": 804,
+      "executable": false,
+      "published_path": "src/experiment_storage.py",
+      "published_sha256": "1be1ff9d6dbb53a8a429e61f127140e9db5e436a1bcf27f529ceacdad6ee9372"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/fashioniq_noise.py",
+      "sha256": "31e39cc00b1b980c7c52ae892155ef23a97dcda93f4237022fade2fe331e592b",
+      "bytes": 15580,
+      "executable": false,
+      "published_path": "src/fashioniq_noise.py",
+      "published_sha256": "f2a3554894658abeb9004889c3e30b23707c5fbdad3113801bfdb1c4443b410e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-040h-flash-full-vs-dqu-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "sha256": "70bee70fdc19e8824849333ec53ba2c971f015013381a1f045234606b53b6519",
+      "bytes": 13752,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040-text-ablation-dqu-flash-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "published_sha256": "70bee70fdc19e8824849333ec53ba2c971f015013381a1f045234606b53b6519"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_attr_transfer_029d.py",
+      "sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229",
+      "bytes": 21302,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_attr_transfer_029d.py",
+      "published_sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_fiq_conflict_context_040.py",
+      "sha256": "b46463b1b0d704a1641a0fce83b33cd4687d33f788110a02837d6a56ca475495",
+      "bytes": 10762,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_fiq_conflict_context_040.py",
+      "published_sha256": "b46463b1b0d704a1641a0fce83b33cd4687d33f788110a02837d6a56ca475495"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/code/run_fiq_vit_lora_039.py",
+      "sha256": "0119ff427d8dab99215118873839f51c3f44dced5a5d8d9ba7cede47fa9e6bcc",
+      "bytes": 22478,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "0119ff427d8dab99215118873839f51c3f44dced5a5d8d9ba7cede47fa9e6bcc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040-gpu0/queue.sh",
+      "sha256": "94f270cf7370ac7d346731a02b14fd4a68085d4ef9cfa966308465bba82ad127",
+      "bytes": 558,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/queue.sh",
+      "published_sha256": "94f270cf7370ac7d346731a02b14fd4a68085d4ef9cfa966308465bba82ad127"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_attr_transfer_029d.py",
+      "sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229",
+      "bytes": 21302,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_attr_transfer_029d.py",
+      "published_sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_fiq_context_generation_040c.py",
+      "sha256": "d4dd24c08be87b177771ae44a61405029ca9b2d8417330239ac608c4250145cb",
+      "bytes": 5805,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040c-partial-gpu0/code/run_fiq_context_generation_040c.py",
+      "published_sha256": "d4dd24c08be87b177771ae44a61405029ca9b2d8417330239ac608c4250145cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/code/run_fiq_vit_lora_039.py",
+      "sha256": "0119ff427d8dab99215118873839f51c3f44dced5a5d8d9ba7cede47fa9e6bcc",
+      "bytes": 22478,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "0119ff427d8dab99215118873839f51c3f44dced5a5d8d9ba7cede47fa9e6bcc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/launch040c.sh",
+      "sha256": "7c95c77c72c5959ab58ec61e5cb121a0e8083afd87c12d361da163ea112d41db",
+      "bytes": 1022,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040c-partial-gpu0/launch040c.sh",
+      "published_sha256": "7c95c77c72c5959ab58ec61e5cb121a0e8083afd87c12d361da163ea112d41db"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040c-partial-gpu0/queue.sh",
+      "sha256": "f64c65618feabd91e5c1907ae5c7c99f60379c093ee7c27d4bfb2efaccf2beb3",
+      "bytes": 567,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040c-partial-gpu0/queue.sh",
+      "published_sha256": "f64c65618feabd91e5c1907ae5c7c99f60379c093ee7c27d4bfb2efaccf2beb3"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_generated_text_only_040de.py",
+      "sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d",
+      "bytes": 2969,
+      "executable": false,
+      "published_path": "src/fiq_generated_text_only_040de.py",
+      "published_sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_attr_transfer_029d.py",
+      "sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8",
+      "bytes": 21344,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "published_sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_context_generation_040c.py",
+      "sha256": "d4dd24c08be87b177771ae44a61405029ca9b2d8417330239ac608c4250145cb",
+      "bytes": 5805,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040c-partial-gpu0/code/run_fiq_context_generation_040c.py",
+      "published_sha256": "d4dd24c08be87b177771ae44a61405029ca9b2d8417330239ac608c4250145cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_vit_lora_039.py",
+      "sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc",
+      "bytes": 23133,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "4efe1ee81e6c32773b3fa86a9be9c14e32d6a76315f64ac63b226f88e5a0c4ff",
+      "bytes": 12568,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "4efe1ee81e6c32773b3fa86a9be9c14e32d6a76315f64ac63b226f88e5a0c4ff"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040d-caption-only-gpu1/queue.sh",
+      "sha256": "61c0b20b0511e9acf62ba788257caea23ccff9a16763250d8e5e1eee9190aed7",
+      "bytes": 542,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040d-caption-only-gpu1/queue.sh",
+      "published_sha256": "61c0b20b0511e9acf62ba788257caea23ccff9a16763250d8e5e1eee9190aed7"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_generated_text_only_040de.py",
+      "sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d",
+      "bytes": 2969,
+      "executable": false,
+      "published_path": "src/fiq_generated_text_only_040de.py",
+      "published_sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_attr_transfer_029d.py",
+      "sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8",
+      "bytes": 21344,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "published_sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_040e_flash.py",
+      "sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0",
+      "bytes": 9912,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash.py",
+      "published_sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_040e_flash_full.py",
+      "sha256": "9fdeda962b2a7aec0c5e5d891e3e19538f5b313804db407b5e9d4c042c0e83ee",
+      "bytes": 6594,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash_full.py",
+      "published_sha256": "9fdeda962b2a7aec0c5e5d891e3e19538f5b313804db407b5e9d4c042c0e83ee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_context_generation_040c.py",
+      "sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063",
+      "bytes": 5934,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040c.py",
+      "published_sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_context_generation_040e_full.py",
+      "sha256": "a753e293aea4c20d2d08c571557b26802aaeae095c5136dd72a84dde9b521f48",
+      "bytes": 23212,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040e_full.py",
+      "published_sha256": "a753e293aea4c20d2d08c571557b26802aaeae095c5136dd72a84dde9b521f48"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_vit_lora_039.py",
+      "sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc",
+      "bytes": 23133,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-full-20261112/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "90982711d84f409a6fdcf9a8860f8019e0ff1d63a775495436f8c36b7c25cafc",
+      "bytes": 15427,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "90982711d84f409a6fdcf9a8860f8019e0ff1d63a775495436f8c36b7c25cafc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_generated_text_only_040de.py",
+      "sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d",
+      "bytes": 2969,
+      "executable": false,
+      "published_path": "src/fiq_generated_text_only_040de.py",
+      "published_sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_attr_transfer_029d.py",
+      "sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8",
+      "bytes": 21344,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "published_sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_040e_flash.py",
+      "sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0",
+      "bytes": 9912,
+      "executable": false,
+      "published_path": "scripts/run_fiq_040e_flash.py",
+      "published_sha256": "9a7ffea1cd4c0af263c98f46ec03bbdc31a41ee760f6ffd29a40c51c75dcd9e0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_context_generation_040c.py",
+      "sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063",
+      "bytes": 5934,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_040c.py",
+      "published_sha256": "82a81c2b5f40b47c2d5101d8e2b09222aaeabd7de982e0e7a29da539c1dd2063"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_vit_lora_039.py",
+      "sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc",
+      "bytes": 23133,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-flash-paired-20261112/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "4efe1ee81e6c32773b3fa86a9be9c14e32d6a76315f64ac63b226f88e5a0c4ff",
+      "bytes": 12568,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "4efe1ee81e6c32773b3fa86a9be9c14e32d6a76315f64ac63b226f88e5a0c4ff"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/benchmark_data.py",
+      "sha256": "fa483fdc0b719ac3b7efb25c8ccc28e14fd4757db446e66a4583aef2a16ab50a",
+      "bytes": 9322,
+      "executable": false,
+      "published_path": "src/benchmark_data.py",
+      "published_sha256": "5a23f2e1bc7cb22212854116c42be005087867ca2e61f7d1a0248edd25b9f03d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/experiment_storage.py",
+      "sha256": "b841f1ecec02f9c122baa1029e59c903cf622d5ae233b56ccb5472d308b59c2d",
+      "bytes": 804,
+      "executable": false,
+      "published_path": "src/experiment_storage.py",
+      "published_sha256": "1be1ff9d6dbb53a8a429e61f127140e9db5e436a1bcf27f529ceacdad6ee9372"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/fiq_text_branch_math_027.py",
+      "sha256": "bcd98e48a7c938adb3d3a262651ed52ee5e6ffdeaae73d3efe4564055823b428",
+      "bytes": 1679,
+      "executable": false,
+      "published_path": "src/fiq_text_branch_math_027.py",
+      "published_sha256": "bcd98e48a7c938adb3d3a262651ed52ee5e6ffdeaae73d3efe4564055823b428"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/generate_benchmark_edits.py",
+      "sha256": "a59786daf42b07eae0dd04902d8b44bd6c98b2822cd98b59fcc29f895d44f648",
+      "bytes": 9133,
+      "executable": false,
+      "published_path": "src/generate_benchmark_edits.py",
+      "published_sha256": "86a562f28e72c7b31063679c3e77da860390cc86037ee0d61266421bd238497e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/generate_structured_edits.py",
+      "sha256": "2900503cba85a386743be6fe00a427c7cddd82a1bad827c11ba3671beaf531f0",
+      "bytes": 44132,
+      "executable": false,
+      "published_path": "src/generate_structured_edits.py",
+      "published_sha256": "8df1d6b59c5e8a83a236777ec37151b8784cf8eb2b36390edfe56c45779da5bf"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/run_fiq_context_generation_040e_full.py",
+      "sha256": "71feea560779e807d3f48f1f6c982872ea97f0a3f96c5298d45d955b3b283355",
+      "bytes": 21852,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040e-full-text-generation-20261112/code/run_fiq_context_generation_040e_full.py",
+      "published_sha256": "71feea560779e807d3f48f1f6c982872ea97f0a3f96c5298d45d955b3b283355"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/run_fiq_context_generation_041.py",
+      "sha256": "f2985d6a2e9533cfa8d4a8b8833e18f1ab43da7a47cfb723419346faf21bb981",
+      "bytes": 8328,
+      "executable": false,
+      "published_path": "src/run_fiq_context_generation_041.py",
+      "published_sha256": "f2985d6a2e9533cfa8d4a8b8833e18f1ab43da7a47cfb723419346faf21bb981"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-generation-20261112/code/shoes_online_pilot.py",
+      "sha256": "57c80600aa1bfd5e9aa1bbcf567367e52cd5a83c1a604ca1daaf67d3516c38ad",
+      "bytes": 18561,
+      "executable": false,
+      "published_path": "src/shoes_online_pilot.py",
+      "published_sha256": "767fce7ae11e42f11c970d4588921a189bb940e2095302c5e11530faf0955f12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/build_040_conflict_free_text.py",
+      "sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684",
+      "bytes": 14557,
+      "executable": false,
+      "published_path": "scripts/build_040_conflict_free_text.py",
+      "published_sha256": "45a2ddad3ee076b611452468f45e82d8c953f50368bdc8fe14e5e9d6be546684"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_conflict_context_040.py",
+      "sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14",
+      "bytes": 3656,
+      "executable": false,
+      "published_path": "src/fiq_conflict_context_040.py",
+      "published_sha256": "c3bb12492e1e5c644a7a77e7a4e5c7b15933814391095a86ce7e5ecca8afdf14"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_context_generation_041_prompt.txt",
+      "sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752",
+      "bytes": 3146,
+      "executable": false,
+      "published_path": "docs/experiments/fiq_context_generation_041_prompt.txt",
+      "published_sha256": "e9bc76969c7e1a98cde88fd3ff0ee847096797d9f43616809a9392038f5bc752"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_context_subset_040c.py",
+      "sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90",
+      "bytes": 3252,
+      "executable": false,
+      "published_path": "src/fiq_context_subset_040c.py",
+      "published_sha256": "7b3d5ba7467255c9ed058046aeaeec925063a743fb8b8ae6643750e057e67f90"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_generated_text_only_040de.py",
+      "sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d",
+      "bytes": 2969,
+      "executable": false,
+      "published_path": "src/fiq_generated_text_only_040de.py",
+      "published_sha256": "44203e00bf7452abf57f474f9f2bc501b8fd0cee4fc2a7f87a2571981040877d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_attr_transfer_029d.py",
+      "sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8",
+      "bytes": 21344,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_attr_transfer_029d.py",
+      "published_sha256": "6eeffae01e2e088b805a1bbf228e459fbbc333eeb6eafd930f8d17402fbde6a8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_conflict_context_040.py",
+      "sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12",
+      "bytes": 12927,
+      "executable": false,
+      "published_path": "src/run_fiq_conflict_context_040.py",
+      "published_sha256": "a25281c34a1fcc03fc40e961ce395783146aa99ac753c91ce8ddcb043fe1ea12"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_context_generation_040c.pre-resume.py",
+      "sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee",
+      "bytes": 3426,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_040c.pre-resume.py",
+      "published_sha256": "7530fe2ac20784571c401996a81afd6f844fa0a9e6fb4cf45f73b96600406dee"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_context_generation_040c.py",
+      "sha256": "d4dd24c08be87b177771ae44a61405029ca9b2d8417330239ac608c4250145cb",
+      "bytes": 5805,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040c-partial-gpu0/code/run_fiq_context_generation_040c.py",
+      "published_sha256": "d4dd24c08be87b177771ae44a61405029ca9b2d8417330239ac608c4250145cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_context_generation_041.py",
+      "sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2",
+      "bytes": 8222,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_context_generation_041.py",
+      "published_sha256": "912c4b8ac146c4fa4192b9cf69d209704a8647358230a07845a7bd4a1d187ee2"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_vit_lora_039.py",
+      "sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc",
+      "bytes": 23133,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040h-flash-full-vs-dqu-20261112/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "b8ecf3e8ec450b393c4873f09631ced5046b9fa06160a1fefee8d977ced0c7dc"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "4efe1ee81e6c32773b3fa86a9be9c14e32d6a76315f64ac63b226f88e5a0c4ff",
+      "bytes": 12568,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040d-caption-only-gpu1/code/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "4efe1ee81e6c32773b3fa86a9be9c14e32d6a76315f64ac63b226f88e5a0c4ff"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-conflict-context-040e-full-text-gpu2/queue.sh",
+      "sha256": "61c0b20b0511e9acf62ba788257caea23ccff9a16763250d8e5e1eee9190aed7",
+      "bytes": 542,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040d-caption-only-gpu1/queue.sh",
+      "published_sha256": "61c0b20b0511e9acf62ba788257caea23ccff9a16763250d8e5e1eee9190aed7"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/benchmark_data.py",
+      "sha256": "fa483fdc0b719ac3b7efb25c8ccc28e14fd4757db446e66a4583aef2a16ab50a",
+      "bytes": 9322,
+      "executable": false,
+      "published_path": "src/benchmark_data.py",
+      "published_sha256": "5a23f2e1bc7cb22212854116c42be005087867ca2e61f7d1a0248edd25b9f03d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/dquDataset.py",
+      "sha256": "0747dc893ea46c5a8f75cc99834b0e069ca97ac72fa988effd75686d4113cac8",
+      "bytes": 8743,
+      "executable": false,
+      "published_path": "src/dquDataset.py",
+      "published_sha256": "2a2fdd79c87dd1476773de9ea9db78f7b6000efb92e34215a4c8442ce2d94d77"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/dquModel.py",
+      "sha256": "30ae8dc4db4d2eeddf0720286feb58f869af038b7b89c8d3d6d501beb86399f1",
+      "bytes": 4148,
+      "executable": false,
+      "published_path": "src/dquModel.py",
+      "published_sha256": "2e4b7e3dd2b7dc3c3eb57c08e36578a0ab0db77601d41955c5b91e680b6712b6"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/dquTest.py",
+      "sha256": "698999cf7c5fea6733f9d2622a08bd004b0bd81edfd00468cebe7f8e8c4d8ff2",
+      "bytes": 3531,
+      "executable": false,
+      "published_path": "src/dquTest.py",
+      "published_sha256": "ab3baad49f91f1acaa0fd11bb9da90b3013681a881277df9ce1ed73105430cb4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/dquTrain.py",
+      "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
+      "bytes": 9870,
+      "executable": false,
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
+      "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/experiment_storage.py",
+      "sha256": "b841f1ecec02f9c122baa1029e59c903cf622d5ae233b56ccb5472d308b59c2d",
+      "bytes": 804,
+      "executable": false,
+      "published_path": "src/experiment_storage.py",
+      "published_sha256": "1be1ff9d6dbb53a8a429e61f127140e9db5e436a1bcf27f529ceacdad6ee9372"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/fashioniq_noise.py",
+      "sha256": "31e39cc00b1b980c7c52ae892155ef23a97dcda93f4237022fade2fe331e592b",
+      "bytes": 15580,
+      "executable": false,
+      "published_path": "src/fashioniq_noise.py",
+      "published_sha256": "f2a3554894658abeb9004889c3e30b23707c5fbdad3113801bfdb1c4443b410e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-dqu-matched-040f-gpu1/code/run_fiq_dqu_matched_040f.py",
+      "sha256": "70bee70fdc19e8824849333ec53ba2c971f015013381a1f045234606b53b6519",
+      "bytes": 13752,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040-text-ablation-dqu-flash-20261112/dqu_code/run_fiq_dqu_matched_040f.py",
+      "published_sha256": "70bee70fdc19e8824849333ec53ba2c971f015013381a1f045234606b53b6519"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-flash-residual-rerank-20261113/run_fiq_flash_residual_rerank.py",
+      "sha256": "bcb7f86b49dc764906db0e12906d30d831b5f94543d0b0ff45c5f7d435a632da",
+      "bytes": 21159,
+      "executable": false,
+      "published_path": "scripts/run_fiq_flash_residual_rerank.py",
+      "published_sha256": "bcb7f86b49dc764906db0e12906d30d831b5f94543d0b0ff45c5f7d435a632da"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-image-attribute-erasure-validation/run_fiq_image_attribute_erasure.py",
+      "sha256": "bebb0e04fa0b7276105ce9843f5a615637dbfcf3162d504fd263d8f7c6e28051",
+      "bytes": 21594,
+      "executable": false,
+      "published_path": "scripts/run_fiq_image_attribute_erasure.py",
+      "published_sha256": "bebb0e04fa0b7276105ce9843f5a615637dbfcf3162d504fd263d8f7c6e28051"
+    },
+    {
+      "scope": "run",
       "path": "fiq-pixel-free-038-full-exclusive/code/fiq_029d_slot_refresh.py",
       "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
       "bytes": 2335,
@@ -1421,6 +3644,123 @@
     },
     {
       "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_attr_transfer_029d.py",
+      "sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06",
+      "bytes": 20436,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_attr_transfer_029d.py",
+      "published_sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/code/run_fiq_pixel_free_038.py",
+      "sha256": "04da562747cf9a2ade27d91122eac933e452e220cab8b1c9de2c54249a609dd3",
+      "bytes": 22054,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu0-resume03/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "04da562747cf9a2ade27d91122eac933e452e220cab8b1c9de2c54249a609dd3"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu0-resume03/queue.sh",
+      "sha256": "b2dd4225a2dc7d7ebe8234339fa4cdf4f38b06b78c17a2468ea2b9984ba8cc60",
+      "bytes": 658,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu0-resume03/queue.sh",
+      "published_sha256": "b2dd4225a2dc7d7ebe8234339fa4cdf4f38b06b78c17a2468ea2b9984ba8cc60"
+    },
+    {
+      "scope": "run",
       "path": "fiq-pixel-free-038ef-gpu2-capacity/capacity_gate.py",
       "sha256": "3e4c8984dd60b1ac773d0ee1a0257ef655b1bf15b7639fa2db040fc4d86d28ff",
       "bytes": 3223,
@@ -1547,6 +3887,240 @@
     },
     {
       "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_attr_transfer_029d.py",
+      "sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06",
+      "bytes": 20436,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_attr_transfer_029d.py",
+      "published_sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/code/run_fiq_pixel_free_038.py",
+      "sha256": "23941f67b7b0b9823b8ebc2c9845209ffaea38545345f2b9d19a3fcff7969d91",
+      "bytes": 21488,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-resume01/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "23941f67b7b0b9823b8ebc2c9845209ffaea38545345f2b9d19a3fcff7969d91"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume01/queue.sh",
+      "sha256": "a8cbdc4bf8ed035f6b76b8c8e5e33de058e98056e2e54683f34d597ac49a7a02",
+      "bytes": 1989,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-resume01/queue.sh",
+      "published_sha256": "a8cbdc4bf8ed035f6b76b8c8e5e33de058e98056e2e54683f34d597ac49a7a02"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_attr_transfer_029d.py",
+      "sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06",
+      "bytes": 20436,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_attr_transfer_029d.py",
+      "published_sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/code/run_fiq_pixel_free_038.py",
+      "sha256": "04da562747cf9a2ade27d91122eac933e452e220cab8b1c9de2c54249a609dd3",
+      "bytes": 22054,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu0-resume03/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "04da562747cf9a2ade27d91122eac933e452e220cab8b1c9de2c54249a609dd3"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038ef-gpu2-resume02/queue.sh",
+      "sha256": "3a77a52a3ace416482dc0b0185cdd21b15bb23aaadd8d7d25c205269fbf6214c",
+      "bytes": 658,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-resume02/queue.sh",
+      "published_sha256": "3a77a52a3ace416482dc0b0185cdd21b15bb23aaadd8d7d25c205269fbf6214c"
+    },
+    {
+      "scope": "run",
       "path": "fiq-pixel-free-038ef-gpu2/code/fiq_029d_slot_refresh.py",
       "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
       "bytes": 2335,
@@ -1670,6 +4244,537 @@
       "executable": false,
       "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2/tests/test_fiq_pixel_free_038.py",
       "published_sha256": "889c8ce95db9e57157bb1c2c958cefa94a131c9d6a380a28328f4c3bf9db4799"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_attr_transfer_029d.py",
+      "sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06",
+      "bytes": 20436,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_attr_transfer_029d.py",
+      "published_sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-pixel-free-038g-gpu0/queue.sh",
+      "sha256": "7843845c066504f80cc072938b9679fcea76b15c9a30f960a288652d8e0355d3",
+      "bytes": 710,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038g-gpu0/queue.sh",
+      "published_sha256": "7843845c066504f80cc072938b9679fcea76b15c9a30f960a288652d8e0355d3"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_attr_transfer_029d.py",
+      "sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229",
+      "bytes": 21302,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_attr_transfer_029d.py",
+      "published_sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/code/run_fiq_vit_lora_039.py",
+      "sha256": "412f026eb591e751afbb03575aa064351d2f5a90551938831c9a3e6f47363e3a",
+      "bytes": 21573,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039-gpu0-restart01/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "412f026eb591e751afbb03575aa064351d2f5a90551938831c9a3e6f47363e3a"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0-restart01/queue.sh",
+      "sha256": "14240754d4ba93bb0883d0df53252dc5108cd76f121f64d5fb515abb21e27aa8",
+      "bytes": 565,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039-gpu0-restart01/queue.sh",
+      "published_sha256": "14240754d4ba93bb0883d0df53252dc5108cd76f121f64d5fb515abb21e27aa8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/fiq_vit_lora_039.py",
+      "sha256": "b8ee027c85a56f1a732b6a2339609c96e5cf131dfab40cf413ead1a8a3c917da",
+      "bytes": 3868,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039-gpu0/code/fiq_vit_lora_039.py",
+      "published_sha256": "b8ee027c85a56f1a732b6a2339609c96e5cf131dfab40cf413ead1a8a3c917da"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_attr_transfer_029d.py",
+      "sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06",
+      "bytes": 20436,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_attr_transfer_029d.py",
+      "published_sha256": "3319403e238ef335e93336220f6e2bd671ff46d3d773f9d28d1562273ed87d06"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/code/run_fiq_vit_lora_039.py",
+      "sha256": "65da87a920234aa3271bbd94a0875a623598fa078fe80c017dca1bb00ac9f11d",
+      "bytes": 19225,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039-gpu0/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "65da87a920234aa3271bbd94a0875a623598fa078fe80c017dca1bb00ac9f11d"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039-gpu0/queue.sh",
+      "sha256": "81b74a5718c06d894656c1452dfb5c78c95f04196cb86bca5f12799feedf3bcd",
+      "bytes": 556,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039-gpu0/queue.sh",
+      "published_sha256": "81b74a5718c06d894656c1452dfb5c78c95f04196cb86bca5f12799feedf3bcd"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/fiq_029d_slot_refresh.py",
+      "sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e",
+      "bytes": 2335,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_029d_slot_refresh.py",
+      "published_sha256": "e4d03df07351befe7c90b5548efb4e5ee9f05ea1a3c2334f8168decda2592e0e"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/fiq_fusion_029.py",
+      "sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016",
+      "bytes": 5651,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_fusion_029.py",
+      "published_sha256": "1ec8817a7b97066d12dd258b4f3e74864cdbd8c9cce202d6dc0bd3d514ddd016"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/fiq_pixel_free_038.py",
+      "sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692",
+      "bytes": 4531,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/fiq_pixel_free_038.py",
+      "published_sha256": "1aa8d5f5743bb5caa6046b0db202b86a9b939f2ddf70dd6d3e9979642ad0c692"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/fiq_vit_lora_039.py",
+      "sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c",
+      "bytes": 4048,
+      "executable": false,
+      "published_path": "src/fiq_vit_lora_039.py",
+      "published_sha256": "8e566fc26e9e004046bf4a26725e4add36b81b2c035d1314757146f2ee71d18c"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_freeze_patch.py",
+      "sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8",
+      "bytes": 11476,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_freeze_patch.py",
+      "published_sha256": "58f190200b455c0646f94a5d7e293eabd1ea8d14dd55e634adc0cc03565055f8"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_full_clip_034.py",
+      "sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64",
+      "bytes": 19033,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_clip_034.py",
+      "published_sha256": "15205538f21d783584769ce1d6890ca4a2695f3a540d8a32561ac1958578ad64"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_full_train_037.py",
+      "sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0",
+      "bytes": 16933,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_full_train_037.py",
+      "published_sha256": "f924cc3aea7bc0e0cad21d76d0ee85e804d6044b6918fc084c9cc545a522dfc0"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_gate_refresh.py",
+      "sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944",
+      "bytes": 18964,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_gate_refresh.py",
+      "published_sha256": "94f32d49315c1ab61efbb49427157b35a24c09f8dd3c7aa5fa81c8de25091944"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_inbatch_035.py",
+      "sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b",
+      "bytes": 10775,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_inbatch_035.py",
+      "published_sha256": "ac9cbe2d96ab65f7ae3be8279014fe822d6e7849b51ef7c7e0c322f995673b4b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_openclip_036.py",
+      "sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b",
+      "bytes": 9149,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_openclip_036.py",
+      "published_sha256": "7eb0ed5ea2bfe076c25f1dbf31544145485d82c5183b6fd7f41c59f40051a63b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_029d_spelling_pair.py",
+      "sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb",
+      "bytes": 10948,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-pixel-free-038ef-gpu2-capacity/code/run_029d_spelling_pair.py",
+      "published_sha256": "247d145a54ccbc7e2bb7dd3ec9d568ab052b94c9b4722303dc9119513d37c8cb"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_attr_transfer_029d.py",
+      "sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229",
+      "bytes": 21302,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-conflict-context-040-gpu0/code/run_attr_transfer_029d.py",
+      "published_sha256": "93b796001cab42276b65eeb2fadf29f3b012aab504af0d97e4bc0384f6458229"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_fiq_pixel_free_038.py",
+      "sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4",
+      "bytes": 23725,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-040g-dress-flash-vs-dqu-20261112/code/run_fiq_pixel_free_038.py",
+      "published_sha256": "a8aa13b45cc9ec45657746980d2dd1c07b51c77ef473a4ec5394492df2d6cdf4"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_fiq_vit_lora_039.py",
+      "sha256": "ffd2157eef2d390c73358bcc8f52dd98b29cbddfb710131fbbe014f651fcf30b",
+      "bytes": 22690,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039a-val-patience3-gpu3/code/run_fiq_vit_lora_039.py",
+      "published_sha256": "ffd2157eef2d390c73358bcc8f52dd98b29cbddfb710131fbbe014f651fcf30b"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/code/run_fiq_vit_lora_039a_earlystop.py",
+      "sha256": "5dba759804d4594c1b2f976b2f66bf42ff9f1dbdb1feb8ba7485e579c519b484",
+      "bytes": 10210,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039a-val-patience3-gpu3/code/run_fiq_vit_lora_039a_earlystop.py",
+      "published_sha256": "5dba759804d4594c1b2f976b2f66bf42ff9f1dbdb1feb8ba7485e579c519b484"
+    },
+    {
+      "scope": "run",
+      "path": "fiq-vit-lora-039a-val-patience3-gpu3/queue.sh",
+      "sha256": "4ba9c7ee6a24758674ba6f1027dbb8dae6411072dea8e8944ab1b733cb1734c6",
+      "bytes": 593,
+      "executable": false,
+      "published_path": "experiments/server_runs/fiq-vit-lora-039a-val-patience3-gpu3/queue.sh",
+      "published_sha256": "4ba9c7ee6a24758674ba6f1027dbb8dae6411072dea8e8944ab1b733cb1734c6"
     },
     {
       "scope": "run",
@@ -1812,7 +4917,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -2235,7 +5340,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -2667,7 +5772,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -3117,7 +6222,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -3576,7 +6681,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -4098,7 +7203,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -4674,7 +7779,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -5277,7 +8382,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -5982,7 +9087,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -6639,7 +9744,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -7614,7 +10719,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -9900,7 +13005,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -10431,7 +13536,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -11316,7 +14421,7 @@
       "sha256": "aa7f1bc875e12903fb9791e39ca193acbcc70495cd1e39dc1eaadc26d374710a",
       "bytes": 9870,
       "executable": false,
-      "published_path": "src/dquTrain.py",
+      "published_path": "experiments/server_runs/native-dqu-workspace-before-040/dquTrain.py",
       "published_sha256": "c37442da51d89305063f1d6e9a76d5437ecdf2219e4c1c6d445c4175c45be776"
     },
     {
@@ -12877,5 +15982,6 @@
       "published_path": "tests/test_shoes_online_refine.py",
       "published_sha256": "2cfc01c8d16ecf093eae43f02c5452f9748878b782a141cbc27080d864539089"
     }
-  ]
+  ],
+  "server_followup_source_archive_sha256": "25fd0adb5a24fc2ef9342497a4b4ef1ff70db9b1c4fae8a8b1261e96756994f8"
 }

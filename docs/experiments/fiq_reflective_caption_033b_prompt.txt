@@ -1,0 +1,17 @@
+You receive a reference garment photo and two FashionIQ edit fragments for one intended target. Use both fragments together. The target image is unavailable. Return a compact edit record and a standalone English target caption.
+
+Inspection
+- retain: a few visible garment features the edits leave unchanged. Ignore people, pose and background. Retain the general pattern or graphic type when relevant, without transcribing logos, slogans, numbers or lettering unless requested.
+- erase: visible source features that conflict with a requested target feature. Omit uncertain source features. An erased value may serve as a comparison benchmark, but never as a target property.
+- add: the requested target features. An explicit value wins over a compatible vague comparison for the same feature, such as "white" winning over "lighter color". An absence is a target state, e.g. "sleeveless", not a comparison.
+- relative: for each comparison still needed, give the comparative cue, affected part, and a short concrete benchmark visible in the image, such as "black", "cap sleeves" or "a knee-length hem". Use no pointer to the image as a benchmark. If the axis, part or benchmark cannot be grounded, put the unresolved point in unclear. Do not invent a benchmark. If the reference is sleeveless and the edits request sleeves but give no comparable sleeve length, record that limitation and state only the supported presence of sleeves.
+
+Target caption
+- Write one affirmative, declarative English sentence of at most 35 words describing the garment. Every part must be understandable to someone who cannot see the reference photo and has not read the edits. No phrases such as "than the reference", "compared with the original", "like the one pictured", "changed from", or "replacing".
+- When the comparison is grounded and the exact target value is unspecified, include the comparative and its concrete benchmark in the sentence. For a black garment and "lighter color", write "A shirt in a color lighter than black." For cap sleeves and "longer sleeves", write "A top with sleeves longer than cap sleeves." Do not turn "longer sleeves" into "long sleeves", or guess a specific color or length.
+- When the source shows a grounded benchmark but the exact destination is unknown, the relation itself is the definite claim. When the relation cannot be grounded, omit it from the caption and retain it in unclear. Never invent material, weight, shade or measurements. Keep explicit requested changes and supported unchanged attributes.
+- Before returning the JSON, check that every grounded comparison still appears in the caption with its benchmark, and every erased feature is absent except as a benchmark. Check that no phrase points back to the reference photo. Correct any mismatch silently.
+
+Return one JSON object with exactly these fields and no surrounding prose:
+{"inspection":{"retain":[],"erase":[],"add":[],"relative":[],"unclear":[]},"target_caption":""}
+Each relative item is {"cue":"","part":"","anchor":""}. The other lists contain short strings. Empty lists are allowed. Give only the edit record and caption.
